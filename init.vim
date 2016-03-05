@@ -202,8 +202,11 @@ map <leader>ss :setlocal spell!<cr>
 " Different settings for different filetypes
 if has("autocmd")
 
-    " Restrict syntax for text, tex files
-    autocmd fileType tex,plaintex,xml,txt,text setlocal synmaxcol=200
+    " Restrict syntax for all files
+    autocmd fileType * setlocal synmaxcol=200
+
+    " Restrict textwidth for tex files
+    autocmd fileType tex,plaintex,bib setlocal textwidth=79
     " autocmd fileType tex,plaintex source ~/.vim/abbr.vim
 
     autocmd fileType html,xhtml,htm,xml,php,ruby setlocal shiftwidth=2 tabstop=2 softtabstop=2
@@ -214,11 +217,9 @@ if has("autocmd")
     autocmd fileType c nnoremap <F5> :w <bar> exec 'Dispatch gcc '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
 
     " compiling cpp code
-    " autocmd fileType C,cc,cpp nnoremap <F5> :w <bar> exec '!g++ -g -Wall'.shellescape('%').' -o '.shellescape('%:r').'    && ./'.shellescape('%:r')<CR>
     autocmd fileType C,cc,cpp nnoremap <F5> :w <bar> exec 'Dispatch g++ -g -Wall -std=c++14 '.shellescape('%').' -o '.shellescape('%:r').'  && ./'.shellescape('%:r')<CR>
 
     " compiling opencv cpp scripts
-    " autocmd fileType C,cc,cpp nnoremap <F9> :w <bar> exec '!g++ -g -Wall'.shellescape('%').' -o '.shellescape('%:r').' `pkg-config opencv --cflags --libs` && ./'.shellescape('%:r')<CR>
     autocmd fileType C,cc,cpp nnoremap <F9> :w <bar> exec 'Dispatch g++ -g -Wall -std=c++14 '.shellescape('%').' -o '.shellescape('%:r').' `pkg-config opencv --cflags --libs` && ./'.shellescape('%:r')<CR>
 
     " Java compile and run
@@ -228,8 +229,6 @@ if has("autocmd")
     " map <F10> :cnext<Return>
 
     autocmd BufRead,BufNewFile *.go set fileType=go
-
-    " autocmd fileType text setlocal textwidth=78
 endif
 " }}}
 " => Status line ---------------------- {{{
