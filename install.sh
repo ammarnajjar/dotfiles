@@ -11,7 +11,7 @@ then
 	sudo dnf update -y
 	sudo dnf -y install vim vim-X11 git libtool autoconf automake cmake gcc gcc-c++ \
 		make pkgconfig unzip python-pip redhat-rpm-config clang \
-		powerline kernel-devel python-devel
+		powerline kernel-devel python-devel the_silver_searcher
 	sudo pip install neovim
 	echo "source '/usr/share/tmux/powerline.conf'" > $HOME/.tmux.conf
 elif [[ "$id" == *"debian"* ]]
