@@ -56,7 +56,7 @@ cd $vim_dir
 
 # install bash-sensible (myfork)
 # git clone https://github.com/mrzool/bash-sensible.git
-git clone https://github.com/ammarnajjar/bash-sensible.git
+git clone -b 'ignored-in-history' https://github.com/ammarnajjar/bash-sensible.git
 if [ -f $HOME/.bashrc ]
 then
 	echo 'source ~/.vim/bash-sensible/sensible.bash' >> ~/.bashrc
