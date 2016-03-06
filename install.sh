@@ -54,6 +54,14 @@ cd $vim_dir
 # git clone https://github.com/powerline/fonts fonts
 # sh fonts/install.sh
 
+# install bash-sensible (myfork)
+# git clone https://github.com/mrzool/bash-sensible.git
+git clone https://github.com/ammarnajjar/bash-sensible.git
+if [ -f $HOME/.bashrc ]
+then
+	echo 'source ~/.vim/bash-sensible/sensible.bash' >> ~/.bashrc
+fi
+
 # install liquid prompt
 # git clone https://github.com/nojhan/liquidprompt.git liquidprompt
 git clone -b twolinedprompt https://github.com/ammarnajjar/liquidprompt.git liquidprompt
