@@ -97,11 +97,12 @@ git config --global alias.lol 'log --graph --decorate --pretty=oneline --abbrev-
 # curl -fLo $HOME/.config/nvim/autoload/plug.vim --create-dirs \
 # 	https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
+git clone https://github.com/ammarnajjar/wombat256mod.git $HOME/.vim/bundle/wombat256mod
+# vim +PlugInstall +qall
+
 # Install vundle
 git clone https://github.com/VundleVim/Vundle.vim.git $HOME/.vim/bundle/Vundle.vim
-git clone https://github.com/ammarnajjar/wombat256mod.git $HOME/.vim/bundle/wombat256mod
-
-vim +PlugInstall +qall
+vim +PluginInstall +qall
 
 echo "Installation Complete"
 # vim: set ft=sh ts=4 sw=4 noet ai :
