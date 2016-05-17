@@ -12,7 +12,7 @@ then
 	sudo dnf -y install vim vim-X11 git libtool autoconf automake cmake gcc gcc-c++ \
 		make pkgconfig unzip python-pip redhat-rpm-config clang \
 		powerline kernel-devel python-devel the_silver_searcher
-	sudo pip install neovim
+	# sudo pip install neovim
 	echo "source '/usr/share/tmux/powerline.conf'" > $HOME/.tmux.conf
 elif [[ "$id" == *"debian"* ]]
 then
@@ -20,7 +20,7 @@ then
 	sudo apt-get update && sudo apt-get install -y \
 	vim vim-gtk git silversearcher-ag exuberant-ctags clang	powerline \
 	build-essential libtool
-	sudo pip install neovim
+	# sudo pip install neovim
 	echo "source '/usr/share/powerline/bindings/tmux/powerline.conf'" > $HOME/.tmux.conf
 elif [[ "$id" == *"ubuntu"* ]]
 then
@@ -28,7 +28,7 @@ then
 	sudo apt-get update && sudo apt-get install -y \
 	vim vim-gtk git silversearcher-ag exuberant-ctags clang build-essential \
 	automake python-dev python-pip python3-dev python3-pip libtool
-	sudo pip install neovim
+	# sudo pip install neovim
 fi
 
 current_dir=$(pwd)
@@ -43,11 +43,14 @@ mkdir -p $vim_dir
 
 cd $vim_dir
 git clone https://github.com/ammarnajjar/dotfiles.git .
-git clone https://github.com/neovim/neovim.git $source_dir
 
-cd $source_dir
-make CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX:PATH=$bin_dir"
-make install
+# # install neovim
+# git clone https://github.com/neovim/neovim.git $source_dir
+# cd $source_dir
+# make CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX:PATH=$bin_dir"
+# make install
+# ln -s $vim_dir $HOME/.config/nvim
+# sudo ln -s "$bin_dir/bin/nvim" /usr/local/bin/nvim
 
 cd $vim_dir
 # # install powerline fonts
@@ -83,17 +86,22 @@ rm $HOME/.Xresources
 
 # create symlinks
 ln -s $vim_dir $HOME/.vim
-ln -s $vim_dir $HOME/.config/nvim
 ln -s $vim_dir/init.vim $HOME/.vimrc
 ln -s $vim_dir/Xresources $HOME/.Xresources
-sudo ln -s "$bin_dir/bin/nvim" /usr/local/bin/nvim
+
+# git config
 git config --global alias.lol 'log --graph --decorate --pretty=oneline --abbrev-commit --all'
 
-# Install plugins
-mkdir -p $vim_dir/plugged $vim_dir/undo
-curl -fLo $HOME/.config/nvim/autoload/plug.vim --create-dirs \
-	https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-nvim +PlugInstall +qall
+# # Install vim-plug
+# mkdir -p $vim_dir/plugged $vim_dir/undo
+# curl -fLo $HOME/.config/nvim/autoload/plug.vim --create-dirs \
+# 	https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+# Install vundle
+git clone https://github.com/VundleVim/Vundle.vim.git $HOME/.vim/bundle/Vundle.vim
+git clone https://github.com/ammarnajjar/wombat256mod.git $HOME/.vim/bundle/wombat256mod
+
+vim +PlugInstall +qall
 
 echo "Installation Complete"
 # vim: set ft=sh ts=4 sw=4 noet ai :

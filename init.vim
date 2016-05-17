@@ -108,15 +108,220 @@ endif
 " To install vim-plug
 " curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
 "     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+" call plug#begin(s:editor_root . '/plugged')
+" call plug#end()
 
-call plug#begin(s:editor_root . '/plugged')
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'VundleVim/Vundle.vim'
 
-Plug 'ammarnajjar/wombat256mod'         " Dark Colorscheme
+" => General Plugins ---------------------- {{{
+Plugin 'tpope/vim-sensible'               " General settings
+Plugin 'ctrlpvim/ctrlp.vim'               " Ctrlp
+Plugin 'easymotion/vim-easymotion'        " Multiline Search and Move
+Plugin 'rking/ag.vim'                     " Fast in project search
+Plugin 'simnalamburt/vim-mundo'           " Undo Tree fork from gundo
+Plugin 'tomtom/tcomment_vim'              " Fast comment
+Plugin 'tpope/vim-fugitive'               " Git
+Plugin 'airblade/vim-gitgutter'           " Git Diff viewer
+Plugin 'gregsexton/gitv'                  " Git Browser
+Plugin 'vim-voom/VOoM'                    " Two Pane Outliner
+Plugin 'mattn/webapi-vim'                 " needed for gist
+Plugin 'mattn/gist-vim'                   " gist.github.com
+Plugin 'vim-scripts/VisIncr'              " Increase/Decrease visual selection
+Plugin 'scrooloose/nerdtree'              " NERDTree
+Plugin 'jeetsukumaran/vim-buffergator'    " Buffer Explorer
+" Plugin 'xolox/vim-misc'                   " Misc tools for session
+" Plugin 'xolox/vim-session'                " Session control
+" Plugin 'tpope/vim-surround'               " Surround
+" Plugin 'jistr/vim-nerdtree-tabs'          " NERDTree Tabs
+" }}}
+" => Programming Plugins ---------------------- {{{
+Plugin 'godlygeek/tabular'                " Tanularize
+Plugin 'SirVer/ultisnips'                 " Ultisnips
+Plugin 'honza/vim-snippets'               " Snippets
+Plugin 'rstacruz/sparkup'                 " XML, HTML sparkup
+Plugin 'tpope/vim-dispatch'               " Compile/make in the background
+Plugin 'scrooloose/syntastic'             " Syntax Checking
+Plugin 'sukima/xmledit'                   " XML edit
+Plugin 'Townk/vim-autoclose'              " Autoclose pracets
+Plugin 'vim-scripts/DoxygenToolkit.vim'   " Doxygen generator
+Plugin 'majutsushi/tagbar'                " Class Explorer
+" Plugin 'vim-scripts/a.vim'                " Switch between header and source c++
+" Plugin 'sigidagi/vim-cmake-project'       " CMake
+" Plugin 'vim-scripts/Conque-GDB'           " gdp
+" Plugin 'justmao945/vim-clang'             " C++ Bundle
+" Plugin 'terryma/vim-multiple-cursors'     " Multi-Cursors
+" Plugin 'rdallman/openrefactory-vim'       " Easier Refactoring
+" Plugin 'kovisoft/slimv'                   " LISP SLIME for vim
+" Plugin 'vim-scripts/paredit.vim'          " LISP paredit
+" Plugin 'Yggdroot/indentLine'              " Draw line for each indentation level (spaces)
+" Plugin 'klen/python-mode'                 " Python IDE
+" Plugin 'jmcomets/vim-pony'                " Django jump commands
+" Plugin 'MarcWeber/vim-addon-mw-utils'     " Utils
+" Plugin 'tomtom/tlib_vim'                  " Utils
+" Plugin 'gi1242/vim-tex-autoclose'         " Latex autoclose
+" Plugin 'Valloric/YouCompleteMe'           " YouCompleteMe
+" Plugin 'pangloss/vim-javascript'          " javascript
+" Plugin 'vim-pandoc/vim-pandoc'            " Markdown pandoc
+" Plugin 'vim-pandoc/vim-pandoc-syntax'     " Markdown syntax
+" Plugin 'sheerun/vim-polyglot'             " language pack
+" Plugin 'plasticboy/vim-markdown'          " Markdown syntax
+" Plugin 'LucHermitte/lh-vim-lib'           " dep plugin
+" Plugin 'LucHermitte/lh-tags'              " dep Plugin
+" Plugin 'LucHermitte/lh-dev'               " dep plugin
+" Plugin 'LucHermitte/lh-brackets'          " dep plugin
+" Plugin 'LucHermitte/vim-refactor'         " C++ refactoring
+" Plugin 'lervag/vimtex'                    " Latex
+" Plugin 'vim-scripts/AutomaticLaTexPlugin' " Latex
+" Plugin 'LaTeX-Box-Team/LaTeX-Box'         " Latex
+" }}}
+" => Colorschemes Plugins ---------------------- {{{
+Plugin 'ap/vim-css-color'                 " CSS colors review
+Plugin 'ammarnajjar/wombat256mod'         " My prefered Dark Colorscheme
+" Plugin 'tomasr/molokai'                   " Dark Colorscheme
+" Plugin 'vim-scripts/Spacegray.vim'        " Dark Colorscheme
+" Plugin 'nanotech/jellybeans.vim'          " Dark Colorscheme
+" Plugin 'altercation/vim-colors-solarized' " Solarized Colorscheme
+Plugin 'bling/vim-airline'                " Statusline (viml)
+" }}}
 
-call plug#end()
+call vundle#end()
 
 filetype plugin indent on
 syntax on
+" }}}
+" => Plugins Config ---------------------- {{{
+
+" => YouCompleteMe
+let g:ycm_collect_identifiers_from_tags_files = 1 " Let YCM read tags from Ctags file
+let g:ycm_use_ultisnips_completer = 1 " Default 1, just ensure
+let g:ycm_seed_identifiers_with_syntax = 1 " Completion for programming language's keyword
+let g:ycm_complete_in_comments = 1 " Completion in comments
+let g:ycm_complete_in_strings = 1 " Completion in string
+
+" Resolve conflict between YouCompleteMe and UltiSnips TAB key
+function! g:UltiSnips_Complete()
+    call UltiSnips#ExpandSnippet()
+    if g:ulti_expand_res == 0
+        if pumvisible()
+            return "\<C-n>"
+        else
+            call UltiSnips#JumpForwards()
+            if g:ulti_jump_forwards_res == 0
+               return "\<TAB>"
+            endif
+        endif
+    endif
+    return ""
+endfunction
+
+au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsListSnippets="<c-e>"
+" this mapping Enter key to <C-y> to chose the current highlight item
+" and close the selection list, same as other IDEs.
+" CONFLICT with some plugins like tpope/Endwise
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" => Sessions Management
+let g:session_autosave = 'no'
+let g:session_autoload = 'no'
+
+" view hidden characters like spaces and tabs
+nnoremap <F2> :<C-U>setlocal lcs=tab:>-,trail:-,eol:$ list! list? <CR>
+
+" => Tagbar Toggle
+nmap <F3> :TagbarToggle<CR>
+
+" Allow Toggle between tabs - spaces
+nmap <F6> :call TabToggle()<cr>
+
+" => NERDTree toggle
+map <F4> <plug>NERDTreeTabsToggle<CR>
+let NERDTreeIgnore=['\.pyc$','\.aux$', '\.o$', '\~$']
+let g:nerdtree_tabs_open_on_gui_startup = 0 " Default 1
+let g:nerdtree_tabs_autofind = 1 " Default 0
+
+" Indent Lines toggle
+map <F7> :IndentLinesToggle<CR>
+
+" => Fugitive
+" Auto-clean fugitive buffers
+if has("autocmd")
+    autocmd BufReadPost fugitive://* set bufhidden=delete
+endif
+
+" => GitGutter
+let g:gitgutter_max_signs = 5000
+let g:gitgutter_realtime = 0
+let g:gitgutter_eager = 0
+
+" " => powerline
+" set showtabline=2 " Always display the tabline, even if there is only one tab
+" set noshowmode " Hide the default mode text
+" python from powerline.vim import setup as powerline_setup
+" python powerline_setup()
+" python del powerline_setup
+" set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 10
+" let g:Powerline_symbols = 'fancy'
+
+" => Ag , Ctrlp
+if executable("ag")
+  let g:ackprg = "ag --nogroup --column"
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+endif
+let g:ctrlp_use_caching = 1
+let g:ctrlp_clear_cache_on_exit = 0
+let g:ctrlp_cache_dir = $HOME.'/.vim/cache/ctrlp'
+let g:ctrlp_show_hidden = 1
+let g:ctrlp_max_depth = 40
+let g:ctrlp_mruf_max = 250
+nnoremap <C-x><C-p> :CtrlPMixed<CR>
+nnoremap <C-x><C-l> :CtrlPLine<CR>
+nnoremap <C-x><C-b> :CtrlPBuffer<CR>
+nnoremap <C-x><C-r> :CtrlPMRU<CR>
+
+" => syntastic
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_check_on_open = 1
+
+" => Clang
+let g:syntastic_cpp_compiler = 'clang++'
+let g:clang_c_options = '-std=c++14'
+let g:syntastic_cpp_compiler_options = ' -std=c++14 -std=libc++'
+
+" => GDB
+let g:ConqueTerm_Color = 2         " 1: strip color after 200 lines, 2: always with color
+let g:ConqueTerm_CloseOnEnd = 1    " close conque when program ends running
+let g:ConqueTerm_StartMessages = 0 " display warning messages if conqueTerm is configured incorrectly
+
+" => slimv
+let g:lisp_rainbow=1
+let g:paredit_electric_return=1
+
+" => airline
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#branch#empty_message = 'no .git'
+let g:airline#extensions#tagbar#enabled = 1
+let g:airline#extensions#tabline#enabled = 0
+let g:airline#extensions#tabline#show_close_button = 0
+let g:airline_right_sep=''
+let g:airline_left_sep=''
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline_detect_modified=1
+let g:airline_detect_paste=1
+let g:airline#extensions#syntastic#enabled = 1
+" let g:airline_powerline_fonts = 1
+
+" => Pymode
+let g:pymode_lint_options_pylint = {'max-line-length': 200, 'indent-string':"t"}
+let g:pymode_lint_options_pep8 = {'max_line_length': 200, 'ignore': "E501,W191"}
+let g:pymode_options_colorcolumn = 0
+let g:pymode_rope = 0
 " }}}
 " => Mappings ---------------------- {{{
 
@@ -151,12 +356,6 @@ if !exists(":Diff")
     command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
                 \ | wincmd p | diffthis
 endif
-
-" view hidden characters like spaces and tabs
-nnoremap <F2> :<C-U>setlocal lcs=tab:>-,trail:-,eol:$ list! list? <CR>
-
-" Allow Toggle between tabs - spaces
-nmap <F6> :call TabToggle()<cr>
 
 " Visual mode pressing * or # searches for the current selection
 vnoremap <silent> * :call VisualSelection('f')<CR>
@@ -241,7 +440,7 @@ set statusline +=%<%.99f                      " File name, F for full path
 set statusline +=%m%r%h%w                     " status flags
 set statusline +=%{fugitive#statusline()}     " Fugitive
 set statusline +=%=                           " right align remainder
-" set statusline +=%{SyntasticStatuslineFlag()} " Syntastic
+set statusline +=%{SyntasticStatuslineFlag()} " Syntastic
 set statusline +=%y                           " buffer file type
 set statusline +=\[%{&ff}]\                   " file type
 set statusline +=%c%V,%l/                     " column and row Number
@@ -508,9 +707,9 @@ execute WatchForChanges("*",{'autoread':1})
 " Dark Themes
 set background=dark
 colorscheme wombat256mod
-highlight CursorLineNr term=bold ctermfg=Yellow ctermbg=Black gui=bold guifg=Yellow guibg=Black
-autocmd InsertEnter * highlight CursorLineNr term=bold ctermfg=Black ctermbg=74 gui=bold guifg=Black guibg=SkyBlue1
-autocmd InsertLeave * highlight CursorLineNr term=bold ctermfg=Yellow ctermbg=Black gui=bold guifg=Yellow guibg=Black
+" highlight CursorLineNr term=bold ctermfg=Yellow ctermbg=Black gui=bold guifg=Yellow guibg=Black
+" autocmd InsertEnter * highlight CursorLineNr term=bold ctermfg=Black ctermbg=74 gui=bold guifg=Black guibg=SkyBlue1
+" autocmd InsertLeave * highlight CursorLineNr term=bold ctermfg=Yellow ctermbg=Black gui=bold guifg=Yellow guibg=Black
 
 " Set extra options when running in GUI mode
 if has("gui_running")
@@ -523,12 +722,12 @@ if has("gui_running")
     " Light Theme
     set background=light
     colorscheme default
-    highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=254
-    highlight CursorLineNr term=bold ctermfg=Black ctermbg=Grey gui=bold guifg=White guibg=Grey
-    autocmd InsertEnter * highlight CursorLineNr term=bold ctermfg=Black ctermbg=117 gui=bold guifg=White guibg=SkyBlue1
-    autocmd InsertEnter * highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=NONE
-    autocmd InsertLeave * highlight CursorLineNr term=bold ctermfg=Black ctermbg=Grey gui=bold guifg=White guibg=Grey
-    autocmd InsertLeave * highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=254
+    " highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=254
+    " highlight CursorLineNr term=bold ctermfg=Black ctermbg=Grey gui=bold guifg=White guibg=Grey
+    " autocmd InsertEnter * highlight CursorLineNr term=bold ctermfg=Black ctermbg=117 gui=bold guifg=White guibg=SkyBlue1
+    " autocmd InsertEnter * highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=NONE
+    " autocmd InsertLeave * highlight CursorLineNr term=bold ctermfg=Black ctermbg=Grey gui=bold guifg=White guibg=Grey
+    " autocmd InsertLeave * highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=254
 else
 endif
 " }}}
