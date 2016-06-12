@@ -2,7 +2,7 @@
 " File: init.vim
 " Author: Ammar Najjar <najjarammar@gmail.com>
 " Description: My vim/neovim configurations file
-" Last Modified: May 27, 2016
+" Last Modified: June 12, 2016
 " }}}
 " => General ---------------------- {{{
 
@@ -18,12 +18,13 @@ set nocompatible
 set backspace=2
 set smarttab
 set autoindent
-set laststatus=2
 
 let mapleader=","   " Change leader key to ,
+
 set mouse=          " Disable mouse usage (all modes)
 set showcmd         " Show (partial) command in status line.
 set showmatch       " Show matching brackets.
+set matchtime=1     " for 1/10th of a second
 set ignorecase      " Do case insensitive matching
 set smartcase       " Do smart case matching
 set autowrite       " Automatically save before commands like :next and :make
@@ -42,6 +43,9 @@ set shell=/bin/bash
 " Ignore compiled files
 set wildignore=*.o,*~,*.pyc,*.class
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*        " Linux/MacOSX
+
+" when joining lines, don't insert two spaces after punctuation
+set nojoinspaces
 
 " Don't redraw while executing macros (good performance config)
 set lazyredraw
@@ -301,16 +305,25 @@ endif
 """"""""""""""""""""""""""""""
 " Format the status line
 set statusline =
-set statusline =[%n]\                         " buffer number
-set statusline +=%<%.99f                      " File name, F for full path
-set statusline +=%m%r%h%w                     " status flags
-set statusline +=%{fugitive#statusline()}     " Fugitive
-set statusline +=%=                           " right align remainder
-set statusline +=%{SyntasticStatuslineFlag()} " Syntastic
-set statusline +=%y                           " buffer file type
-set statusline +=\[%{&ff}]\                   " file type
-set statusline +=%c%V,%l/                     " column and row Number
-set statusline +=%L\ %P                       " total lines , percent position in file
+set statusline =[%n]\                                           " buffer number
+set statusline +=%<%.99f                                        " File name, F for full path
+set statusline +=%m%r%h%w                                       " status flags
+set statusline+=%#question#                                     " Display a warning if
+set statusline+=%{(&fenc!='utf-8'&&&fenc!='')?'['.&fenc.']':''} " file encoding isnt
+set statusline+=%*                                              " utf-8
+set statusline+=%#warningmsg#                                   " display a warning if
+set statusline+=%{StatuslineTabWarning()}                       " files contains
+set statusline+=%*                                              " tab chars
+set statusline +=%{fugitive#statusline()}                       " Fugitive
+set statusline +=%=                                             " right align remainder
+set statusline +=%{SyntasticStatuslineFlag()}                   " Syntastic
+set statusline +=%y                                             " buffer file type
+set statusline+=%#directory#                                    " display a warning if
+set statusline+=%{&ff!='unix'?'['.&ff.']':''}                   " fileformat isnt
+set statusline+=%*                                              " unix
+set statusline +=%c%V,%l/                                       " column and row Number
+set statusline +=%L\ %P                                         " total lines, position in file
+set laststatus=2
 " }}}
 " => Helper functions ---------------------- {{{
 function! CmdLine(str)
@@ -557,6 +570,22 @@ function! WatchForChanges(bufname, ...)
   let @"=reg_saved
 endfunction
 execute WatchForChanges("*",{'autoread':1})
+
+" return '[tabs]' if tab chars in file, or empty string
+function! StatuslineTabWarning()
+    if !exists("b:statusline_tab_warning")
+        let tabs = search('^\t', 'nw') != 0
+        if tabs
+            let b:statusline_tab_warning = '[tabs]'
+        else
+            let b:statusline_tab_warning = ''
+        endif
+    endif
+    return b:statusline_tab_warning
+endfunction
+"recalculate the tab warning flag when idle and after writing
+autocmd cursorhold,bufwritepost * unlet! b:statusline_tab_warning
+
 " }}}
 " => Colorscheme ---------------------- {{{
 
