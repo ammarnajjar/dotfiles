@@ -214,6 +214,10 @@ nmap <leader>h xhhp
 
 " Delete trailing white space on save
 func! DeleteTrailingWS()
+    " Don't strip on these filetypes
+    if &ft =~ 'markdown'
+        return
+    endif
     exe "normal mz"
     %s/\s\+$//ge
     exe "normal `z"
