@@ -43,7 +43,7 @@ git clone https://github.com/ammarnajjar/dotfiles.git .
 git clone -b 'ignored-in-history' https://github.com/ammarnajjar/bash-sensible.git
 git clone -b twolinedprompt https://github.com/ammarnajjar/liquidprompt.git liquidprompt
 
-echo 'function mkcd() { mkdir $1; cd $1; }'
+echo 'function mkcd() { mkdir $1; cd $1; }' >> ~/.bashrc
 echo 'alias ctagsit="ctags --append=no --recurse --totals --exclude=blib --exclude=.svn --exclude=.get --exclude='@.gitignore' --extra=q"' >> ~/.bashrc
 echo 'alias g="git status"' >> ~/.bashrc
 echo 'source ~/.vim/bash-sensible/sensible.bash' >> ~/.bashrc
