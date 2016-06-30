@@ -1,14 +1,13 @@
 # Dotfiles Configurations
 
-My own vim/neovim configurations for fedora/debian, Tmux and urxvt.
+My own vim configurations for fedora/debian, Tmux and urxvt.  
+It will be installed in the current directory with symlinks to the correct paths.  
+Because the plugins are always changing and depend on the current projects I am working on, I put them in `plugins` branch`.`  
 
-It will be installed in the current directory with symlinks to the correct paths.
-
-Because the plugins are always changing and depend on the current projects I am working on, I put them in `plugins` branch`.`
-
-## Install using:
+## Install using: 
 
 Make a backup for your settings then:
+
 ```bash
 wget https://raw.githubusercontent.com/ammarnajjar/dotfiles/master/install.sh && sh install.sh
 ```
@@ -17,7 +16,7 @@ wget https://raw.githubusercontent.com/ammarnajjar/dotfiles/master/install.sh &&
 
 	.
 	├── .gitignore
-	├── init.vim
+	├── vimrc.vim
 	├── install.sh
 	├── LICENSE
 	├── README.md
