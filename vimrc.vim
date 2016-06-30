@@ -1,8 +1,8 @@
 " => Header ---------------------- {{{
-" File: init.vim
+" File: vimrc.vim
 " Author: Ammar Najjar <najjarammar@gmail.com>
-" Description: My vim/neovim configurations file
-" Last Modified: June 12, 2016
+" Description: My vim configurations file
+" Last Modified: June 30, 2016
 " }}}
 " => General ---------------------- {{{
 
