@@ -138,6 +138,7 @@ function build_nvim_from_source() {
 
 function update_bashrc() {
     blue "** Bashrc update"
+    echo "export PATH=\"$vim_dir/neobin/bin:$PATH\"" >> $HOME/.bashrc
     echo "source $(echo $vim_dir)/bashrc" >> $HOME/.bashrc
 }
 
@@ -169,7 +170,6 @@ function nvim_symlinks() {
     mkdir -p ${XDG_CONFIG_HOME:=$HOME/.config}
     ln -s $vim_dir $XDG_CONFIG_HOME/nvim
     ln -s "$vim_dir/vimrc.vim" $XDG_CONFIG_HOME/nvim/init.vim
-    echo "export PATH=\"$vim_dir/neobin/bin:$PATH\"" >> $vim_dir/bashrc
     # get_sudo
     # $SU rm /usr/local/bin/nvim
     # $SU ln -s "$vim_dir/neobin/bin/nvim" /usr/local/bin/nvim
@@ -218,13 +218,12 @@ function install_plugins() {
 
 function main(){
     create_symlinks
+    install_plugins
 
     update_tmux_conf
     update_git_conf
     update_bashrc
     source $HOME/.bashrc
-
-    install_plugins
     blue "** Installation Complete **"
 }
 
