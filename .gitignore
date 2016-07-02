@@ -13,3 +13,5 @@ sessions/*
 syntax/*
 undo/*
 abbr.*
+neobin/*
+init.vim
