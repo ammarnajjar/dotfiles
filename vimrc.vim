@@ -131,6 +131,7 @@ Plug 'airblade/vim-gitgutter'           " Git Diff viewer
 Plug 'gregsexton/gitv'                  " Git Browser
 Plug 'mattn/webapi-vim'                 " needed for gist
 Plug 'mattn/gist-vim'                   " gist.github.com
+Plug 'tpope/vim-surround'               " Surround
 Plug 'scrooloose/nerdtree'              " NERDTree
 Plug 'jistr/vim-nerdtree-tabs'          " NERDTree Tabs
 " Plug 'jeetsukumaran/vim-buffergator'    " Buffer Explorer
@@ -138,7 +139,6 @@ Plug 'jistr/vim-nerdtree-tabs'          " NERDTree Tabs
 " Plug 'vim-scripts/VisIncr'              " Increase/Decrease visual selection
 " Plug 'xolox/vim-misc'                   " Misc tools for session
 " Plug 'xolox/vim-session'                " Session control
-" Plug 'tpope/vim-surround'               " Surround
 " }}}
 " => Programming Plugs ---------------------- {{{
 Plug 'scrooloose/syntastic'             " Syntax Checking
@@ -178,7 +178,6 @@ Plug 'Townk/vim-autoclose'              " Autoclose pracets
 " Plug 'LucHermitte/vim-refactor'         " C++ refactoring
 " Plug 'gi1242/vim-tex-autoclose'         " Latex autoclose
 " Plug 'lervag/vimtex'                    " Latex
-" Plug 'vim-scripts/AutomaticLaTexPlug'   " Latex
 " Plug 'LaTeX-Box-Team/LaTeX-Box'         " Latex
 " }}}
 " => Colorschemes Plugs ---------------------- {{{
@@ -305,10 +304,7 @@ let g:airline#extensions#syntastic#enabled = 1
 " let g:airline_powerline_fonts = 1
 
 " => Pymode
-let g:pymode_lint_options_pylint = {'max-line-length': 200, 'indent-string':"t"}
-let g:pymode_lint_options_pep8 = {'max_line_length': 200, 'ignore': "E501,W191"}
-let g:pymode_options_colorcolumn = 0
-let g:pymode_rope = 0
+let g:pymode_lint_ignore = "E501,W191,E302"
 " }}}
 " => Mappings ---------------------- {{{
 
