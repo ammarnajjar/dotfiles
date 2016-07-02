@@ -1,8 +1,8 @@
 " => Header ---------------------- {{{
 " File: vimrc.vim
 " Author: Ammar Najjar <najjarammar@gmail.com>
-" Description: My vim configurations file
-" Last Modified: June 30, 2016
+" Description: My vim/neovim configurations file
+" Last Modified: July 02, 2016
 " }}}
 " => General ---------------------- {{{
 
@@ -117,39 +117,103 @@ if has("unix")
     endif
 endif
 
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-Plugin 'VundleVim/Vundle.vim'
+call plug#begin(s:editor_root."/plugged/")
 
 " => General Plugins ---------------------- {{{
-Plugin 'tpope/vim-sensible'               " General settings
-Plugin 'ctrlpvim/ctrlp.vim'               " Ctrlp
-Plugin 'easymotion/vim-easymotion'        " Multiline Search and Move
-Plugin 'rking/ag.vim'                     " Fast in project search
-Plugin 'simnalamburt/vim-mundo'           " Undo Tree fork from gundo
-Plugin 'tomtom/tcomment_vim'              " Fast comment
-Plugin 'tpope/vim-fugitive'               " Git
-Plugin 'airblade/vim-gitgutter'           " Git Diff viewer
-Plugin 'gregsexton/gitv'                  " Git Browser
-Plugin 'mattn/webapi-vim'                 " needed for gist
-Plugin 'mattn/gist-vim'                   " gist.github.com
-Plugin 'scrooloose/nerdtree'              " NERDTree
-Plugin 'jistr/vim-nerdtree-tabs'          " NERDTree Tabs
+Plug 'tpope/vim-sensible'               " General settings
+Plug 'ctrlpvim/ctrlp.vim'               " Ctrlp
+Plug 'easymotion/vim-easymotion'        " Multiline Search and Move
+Plug 'rking/ag.vim'                     " Fast in project search
+Plug 'simnalamburt/vim-mundo'           " Undo Tree fork from gundo
+Plug 'tomtom/tcomment_vim'              " Fast comment
+Plug 'tpope/vim-fugitive'               " Git
+Plug 'airblade/vim-gitgutter'           " Git Diff viewer
+Plug 'gregsexton/gitv'                  " Git Browser
+Plug 'mattn/webapi-vim'                 " needed for gist
+Plug 'mattn/gist-vim'                   " gist.github.com
+Plug 'scrooloose/nerdtree'              " NERDTree
+Plug 'jistr/vim-nerdtree-tabs'          " NERDTree Tabs
+" Plug 'jeetsukumaran/vim-buffergator'    " Buffer Explorer
+" Plug 'vim-voom/VOoM'                    " Two Pane Outliner
+" Plug 'vim-scripts/VisIncr'              " Increase/Decrease visual selection
+" Plug 'xolox/vim-misc'                   " Misc tools for session
+" Plug 'xolox/vim-session'                " Session control
+" Plug 'tpope/vim-surround'               " Surround
 " }}}
-" => Programming Plugins ---------------------- {{{
-Plugin 'scrooloose/syntastic'             " Syntax Checking
-Plugin 'majutsushi/tagbar'                " Class Explorer
+" => Programming Plugs ---------------------- {{{
+Plug 'scrooloose/syntastic'             " Syntax Checking
+Plug 'majutsushi/tagbar'                " Class Explorer
+Plug 'Valloric/YouCompleteMe'           " YouCompleteMe
+Plug 'klen/python-mode'                 " Python IDE
+Plug 'vim-scripts/django.vim'           " Django templates Syntax
+Plug 'godlygeek/tabular'                " Tanularize
+Plug 'SirVer/ultisnips'                 " Ultisnips
+Plug 'honza/vim-snippets'               " Snippets
+Plug 'rstacruz/sparkup'                 " XML, HTML sparkup
+Plug 'tpope/vim-dispatch'               " Compile/make in the background
+Plug 'sukima/xmledit'                   " XML edit
+Plug 'Townk/vim-autoclose'              " Autoclose pracets
+" Plug 'vim-scripts/DoxygenToolkit.vim'   " Doxygen generator
+" Plug 'vim-scripts/a.vim'                " Switch between header and source c++
+" Plug 'sigidagi/vim-cmake-project'       " CMake
+" Plug 'vim-scripts/Conque-GDB'           " gdp
+" Plug 'justmao945/vim-clang'             " C++ Bundle
+" Plug 'terryma/vim-multiple-cursors'     " Multi-Cursors
+" Plug 'rdallman/openrefactory-vim'       " Easier Refactoring
+" Plug 'kovisoft/slimv'                   " LISP SLIME for vim
+" Plug 'vim-scripts/paredit.vim'          " LISP paredit
+" Plug 'Yggdroot/indentLine'              " Draw line for each indentation level (spaces)
+" Plug 'jmcomets/vim-pony'                " Django jump commands
+" Plug 'MarcWeber/vim-addon-mw-utils'     " Utils
+" Plug 'tomtom/tlib_vim'                  " Utils
+" Plug 'pangloss/vim-javascript'          " javascript
+" Plug 'vim-pandoc/vim-pandoc'            " Markdown pandoc
+" Plug 'vim-pandoc/vim-pandoc-syntax'     " Markdown syntax
+" Plug 'sheerun/vim-polyglot'             " language pack
+" Plug 'plasticboy/vim-markdown'          " Markdown syntax
+" Plug 'LucHermitte/lh-vim-lib'           " dep plugin
+" Plug 'LucHermitte/lh-tags'              " dep Plug
+" Plug 'LucHermitte/lh-dev'               " dep plugin
+" Plug 'LucHermitte/lh-brackets'          " dep plugin
+" Plug 'LucHermitte/vim-refactor'         " C++ refactoring
+" Plug 'gi1242/vim-tex-autoclose'         " Latex autoclose
+" Plug 'lervag/vimtex'                    " Latex
+" Plug 'vim-scripts/AutomaticLaTexPlug'   " Latex
+" Plug 'LaTeX-Box-Team/LaTeX-Box'         " Latex
 " }}}
-" => Colorschemes Plugins ---------------------- {{{
-Plugin 'ammarnajjar/wombat256mod'         " My prefered Dark Colorscheme
+" => Colorschemes Plugs ---------------------- {{{
+Plug 'ammarnajjar/wombat256mod'         " My prefered Dark Colorscheme
+Plug 'ap/vim-css-color'                 " CSS colors review
+" Plug 'tomasr/molokai'                   " Dark Colorscheme
+" Plug 'vim-scripts/Spacegray.vim'        " Dark Colorscheme
+" Plug 'nanotech/jellybeans.vim'          " Dark Colorscheme
+" Plug 'altercation/vim-colors-solarized' " Solarized Colorscheme
+" Plug 'bling/vim-airline'                " Statusline (viml)
 " }}}
 
-call vundle#end()
+call plug#end()
 
 filetype plugin indent on
 syntax on
 " }}}
 " => Plugins Config ---------------------- {{{
+
+" view hidden characters like spaces and tabs
+nnoremap <F2> :<C-U>setlocal lcs=tab:>-,trail:-,eol:$ list! list? <CR>
+
+" => YouCompleteMe
+let g:ycm_collect_identifiers_from_tags_files = 1 " Let YCM read tags from Ctags file
+let g:ycm_use_ultisnips_completer = 1 " Default 1, just ensure
+let g:ycm_seed_identifiers_with_syntax = 1 " Completion for programming language's keyword
+let g:ycm_complete_in_comments = 1 " Completion in comments
+let g:ycm_complete_in_strings = 1 " Completion in string
+
+" Resolve conflict between YouCompleteMe and UltiSnips TAB key
+let g:UltiSnipsExpandTrigger="<c-j>"
+
+" => Sessions Management
+let g:session_autosave = 'no'
+let g:session_autoload = 'no'
 
 " view hidden characters like spaces and tabs
 nnoremap <F2> :<C-U>setlocal lcs=tab:>-,trail:-,eol:$ list! list? <CR>
@@ -180,6 +244,15 @@ let g:gitgutter_max_signs = 5000
 let g:gitgutter_realtime = 0
 let g:gitgutter_eager = 0
 
+" " => powerline
+" set showtabline=2 " Always display the tabline, even if there is only one tab
+" set noshowmode " Hide the default mode text
+" python from powerline.vim import setup as powerline_setup
+" python powerline_setup()
+" python del powerline_setup
+" set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 10
+" let g:Powerline_symbols = 'fancy'
+
 " => Ag , Ctrlp
 if executable("ag")
   let g:ackprg = "ag --nogroup --column"
@@ -202,6 +275,40 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_check_on_open = 1
 
+" => Clang
+let g:syntastic_cpp_compiler = 'clang++'
+let g:clang_c_options = '-std=c++14'
+let g:syntastic_cpp_compiler_options = ' -std=c++14 -std=libc++'
+
+" => GDB
+let g:ConqueTerm_Color = 2         " 1: strip color after 200 lines, 2: always with color
+let g:ConqueTerm_CloseOnEnd = 1    " close conque when program ends running
+let g:ConqueTerm_StartMessages = 0 " display warning messages if conqueTerm is configured incorrectly
+
+" => slimv
+let g:lisp_rainbow=1
+let g:paredit_electric_return=1
+
+" => airline
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#branch#empty_message = 'no .git'
+let g:airline#extensions#tagbar#enabled = 1
+let g:airline#extensions#tabline#enabled = 0
+let g:airline#extensions#tabline#show_close_button = 0
+let g:airline_right_sep=''
+let g:airline_left_sep=''
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline_detect_modified=1
+let g:airline_detect_paste=1
+let g:airline#extensions#syntastic#enabled = 1
+" let g:airline_powerline_fonts = 1
+
+" => Pymode
+let g:pymode_lint_options_pylint = {'max-line-length': 200, 'indent-string':"t"}
+let g:pymode_lint_options_pep8 = {'max_line_length': 200, 'ignore': "E501,W191"}
+let g:pymode_options_colorcolumn = 0
+let g:pymode_rope = 0
 " }}}
 " => Mappings ---------------------- {{{
 
@@ -321,22 +428,22 @@ set statusline =
 set statusline =[%n]\                                           " buffer number
 set statusline +=%<%.99f                                        " File name, F for full path
 set statusline +=%m%r%h%w                                       " status flags
-set statusline+=%#question#                                     " Display a warning if
-set statusline+=%{(&fenc!='utf-8'&&&fenc!='')?'['.&fenc.']':''} " file encoding isnt
-set statusline+=%*                                              " utf-8
-set statusline+=%#warningmsg#                                   " display a warning if
-set statusline+=%{StatuslineTabWarning()}                       " files contains
-set statusline+=%*                                              " tab chars
+set statusline +=%#question#                                     " Display a warning if
+set statusline +=%{(&fenc!='utf-8'&&&fenc!='')?'['.&fenc.']':''} " file encoding isnt
+set statusline +=%*                                              " utf-8
+set statusline +=%#warningmsg#                                   " display a warning if
+set statusline +=%{StatuslineTabWarning()}                       " files contains
+set statusline +=%*                                              " tab chars
 set statusline +=%{fugitive#statusline()}                       " Fugitive
 set statusline +=%=                                             " right align remainder
 set statusline +=%{SyntasticStatuslineFlag()}                   " Syntastic
 set statusline +=%y                                             " buffer file type
-set statusline+=%#directory#                                    " display a warning if
-set statusline+=%{&ff!='unix'?'['.&ff.']':''}                   " fileformat isnt
-set statusline+=%*                                              " unix
+set statusline +=%#directory#                                    " display a warning if
+set statusline +=%{&ff!='unix'?'['.&ff.']':''}                   " fileformat isnt
+set statusline +=%*                                              " unix
 set statusline +=%c%V,%l/                                       " column and row Number
 set statusline +=%L\ %P                                         " total lines, position in file
-set laststatus=2
+set laststatus =2
 " }}}
 " => Helper functions ---------------------- {{{
 function! CmdLine(str)
@@ -602,23 +709,6 @@ autocmd cursorhold,bufwritepost * unlet! b:statusline_tab_warning
 " }}}
 " => Colorscheme ---------------------- {{{
 
-" " Light Themes
-" set background=light
-" colorscheme default
-" highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=254
-" highlight CursorLineNr term=bold ctermfg=Black ctermbg=Grey gui=bold guifg=White guibg=Grey
-" autocmd InsertEnter * highlight CursorLineNr term=bold ctermfg=Black ctermbg=117 gui=bold guifg=White guibg=SkyBlue1
-" autocmd InsertEnter * highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=NONE
-" autocmd InsertLeave * highlight CursorLineNr term=bold ctermfg=Black ctermbg=Grey gui=bold guifg=White guibg=Grey
-" autocmd InsertLeave * highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=254
-
-" Dark Themes
-set background=dark
-colorscheme wombat256mod
-" highlight CursorLineNr term=bold ctermfg=Yellow ctermbg=Black gui=bold guifg=Yellow guibg=Black
-" autocmd InsertEnter * highlight CursorLineNr term=bold ctermfg=Black ctermbg=74 gui=bold guifg=Black guibg=SkyBlue1
-" autocmd InsertLeave * highlight CursorLineNr term=bold ctermfg=Yellow ctermbg=Black gui=bold guifg=Yellow guibg=Black
-
 " Set extra options when running in GUI mode
 if has("gui_running")
     set guioptions-=T
@@ -630,13 +720,29 @@ if has("gui_running")
     " Light Theme
     set background=light
     colorscheme default
+    highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=254
+    highlight CursorLineNr term=bold ctermfg=Black ctermbg=Grey gui=bold guifg=White guibg=Grey
+    autocmd InsertEnter * highlight CursorLineNr term=bold ctermfg=Black ctermbg=117 gui=bold guifg=White guibg=SkyBlue1
+    autocmd InsertEnter * highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=NONE
+    autocmd InsertLeave * highlight CursorLineNr term=bold ctermfg=Black ctermbg=Grey gui=bold guifg=White guibg=Grey
+    autocmd InsertLeave * highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=254
+else
+    " " Light Themes
+    " set background=light
+    " colorscheme default
     " highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=254
     " highlight CursorLineNr term=bold ctermfg=Black ctermbg=Grey gui=bold guifg=White guibg=Grey
     " autocmd InsertEnter * highlight CursorLineNr term=bold ctermfg=Black ctermbg=117 gui=bold guifg=White guibg=SkyBlue1
     " autocmd InsertEnter * highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=NONE
     " autocmd InsertLeave * highlight CursorLineNr term=bold ctermfg=Black ctermbg=Grey gui=bold guifg=White guibg=Grey
     " autocmd InsertLeave * highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=254
-else
+
+    " Dark Themes
+    set background=dark
+    colorscheme wombat256mod
+    highlight CursorLineNr term=bold ctermfg=Yellow ctermbg=Black gui=bold guifg=Yellow guibg=Black
+    autocmd InsertEnter * highlight CursorLineNr term=bold ctermfg=Black ctermbg=74 gui=bold guifg=Black guibg=SkyBlue1
+    autocmd InsertLeave * highlight CursorLineNr term=bold ctermfg=Yellow ctermbg=Black gui=bold guifg=Yellow guibg=Black
 endif
 " }}}
 " vim: ft=vim:ts=4:sw=4:et:fdm=marker
