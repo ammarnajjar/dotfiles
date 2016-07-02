@@ -183,10 +183,9 @@ function vim_symlinks() {
 }
 
 function create_symlinks() {
-    if [[ $neo -eq 0 ]]
+    vim_symlinks
+    if [[ $neo -eq 1 ]]
     then
-        vim_symlinks
-    else
         nvim_symlinks
     fi
     rm $HOME/.Xresources
@@ -218,12 +217,13 @@ function install_plugins() {
 
 function main(){
     create_symlinks
-    install_plugins
 
     update_tmux_conf
     update_git_conf
     update_bashrc
     source $HOME/.bashrc
+
+    install_plugins
     blue "** Installation Complete **"
 }
 
