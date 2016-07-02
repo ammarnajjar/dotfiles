@@ -94,7 +94,7 @@ set smartindent
 " create undo file to keep history after closing the file
 set undofile
 set undolevels=100
-set undodir=s:editor_root.'/undo/'
+set undodir=s:editor_root."/undo/"
 
 " Remember info about open buffers on close
 set viminfo^=%
@@ -260,7 +260,7 @@ if executable("ag")
 endif
 let g:ctrlp_use_caching = 1
 let g:ctrlp_clear_cache_on_exit = 0
-let g:ctrlp_cache_dir = s:editor_root.'/cache/ctrlp'
+let g:ctrlp_cache_dir = s:editor_root."/cache/ctrlp"
 let g:ctrlp_show_hidden = 1
 let g:ctrlp_max_depth = 40
 let g:ctrlp_mruf_max = 250
