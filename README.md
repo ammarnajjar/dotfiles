@@ -1,6 +1,6 @@
 # Dotfiles Configurations
 
-My own vim configurations for fedora/debian, Tmux and urxvt.  
+My own vim/neovim configurations for fedora/debian, Tmux and urxvt.  
 It will be installed in the current directory with symlinks to the correct paths.  
 Because the plugins are always changing and depend on the current projects I am working on, I put them in `plugins` branch.
 
@@ -11,14 +11,15 @@ Make a backup for your settings then:
 ```bash
 wget https://raw.githubusercontent.com/ammarnajjar/dotfiles/master/install.sh && bash install.sh
 ```
-This script gives the possibility to build vim from source as well using the "-b" option:
+This script gives the possibility to build vim from source as well using the `-b` option, or neovim using the `-n` option:
 
 ```bash
 Usage:
     bash install.sh [option]
     Options:
-        -b --build-from-source: Build vim from source.
-        -h --help             : Show this help messaage.
+        -h --help                 : Show this help messaage.
+        -b --build-from-source    : Build vim from source.
+        -n --neovim               : Build neovim from source.
 ```
 
 ## Files in repo:
