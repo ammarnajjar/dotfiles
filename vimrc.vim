@@ -19,6 +19,26 @@ set backspace=2
 set smarttab
 set autoindent
 
+if has('nvim')
+    let s:editor_root=expand("~/.config/nvim/")
+    " terminal mode mappings
+    tnoremap <Esc> <C-\><C-n>
+    tnoremap <C-h> <C-\><C-n><C-w>h
+    tnoremap <C-j> <C-\><C-n><C-w>j
+    tnoremap <C-k> <C-\><C-n><C-w>k
+    tnoremap <C-l> <C-\><C-n><C-w>l
+else
+    let s:editor_root=expand("~/.vim")
+endif
+
+if has("unix")
+    let s:uname = system("uname")
+    let g:python_host_prog='/usr/bin/python'
+    if s:uname == "Darwin\n"
+        let g:python_host_prog='/usr/bin/python'
+    endif
+endif
+
 let mapleader=","   " Change leader key to ,
 
 set mouse=          " Disable mouse usage (all modes)
@@ -74,7 +94,7 @@ set smartindent
 " create undo file to keep history after closing the file
 set undofile
 set undolevels=100
-set undodir=~/.vim/undo//
+set undodir=s:editor_root.'/undo/'
 
 " Remember info about open buffers on close
 set viminfo^=%
@@ -96,26 +116,6 @@ set omnifunc=syntaxcomplete#Complete
 " }}}
 " => Enable vim-plug Plugins ---------------------- {{{
 filetype off
-
-if has('nvim')
-    let s:editor_root=expand("~/.config/nvim/")
-    " terminal mode mappings
-    tnoremap <Esc> <C-\><C-n>
-    tnoremap <C-h> <C-\><C-n><C-w>h
-    tnoremap <C-j> <C-\><C-n><C-w>j
-    tnoremap <C-k> <C-\><C-n><C-w>k
-    tnoremap <C-l> <C-\><C-n><C-w>l
-else
-    let s:editor_root=expand("~/.vim")
-endif
-
-if has("unix")
-    let s:uname = system("uname")
-    let g:python_host_prog='/usr/bin/python'
-    if s:uname == "Darwin\n"
-        let g:python_host_prog='/usr/bin/python'
-    endif
-endif
 
 call plug#begin(s:editor_root."/plugged/")
 
@@ -260,7 +260,7 @@ if executable("ag")
 endif
 let g:ctrlp_use_caching = 1
 let g:ctrlp_clear_cache_on_exit = 0
-let g:ctrlp_cache_dir = $HOME.'/.vim/cache/ctrlp'
+let g:ctrlp_cache_dir = s:editor_root.'/cache/ctrlp'
 let g:ctrlp_show_hidden = 1
 let g:ctrlp_max_depth = 40
 let g:ctrlp_mruf_max = 250
