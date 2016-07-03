@@ -112,13 +112,13 @@ function build_vim_from_source() {
     CFLAGS+="-O -fPIC -Wformat" ./configure --with-features=huge \
         --enable-multibyte                                       \
         --enable-rubyinterp                                      \
-        --enable-python3interp                                   \
-        --with-python3-config-dir=/usr/lib/python3.5/config      \
+        --enable-pythoninterp                                    \
+        --with-python-config-dir=/usr/lib/python2.7/config       \
         --enable-perlinterp                                      \
         --enable-luainterp                                       \
         --enable-gui=auto                                        \
         --enable-cscope                                          \
-        --prefix=/usr/local                                      \
+        --prefix=/usr/local
         make VIMRUNTIMEDIR="/usr/local/share/vim/vim74"
     $SU make install
 }
