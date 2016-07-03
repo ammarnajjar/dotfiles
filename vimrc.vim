@@ -2,12 +2,12 @@
 " File: vimrc.vim
 " Author: Ammar Najjar <najjarammar@gmail.com>
 " Description: My vim/neovim configurations file
-" Last Modified: July 02, 2016
+" Last Modified: July 03, 2016
 " }}}
 " => General ---------------------- {{{
 
 " set by default in neovim
-set incsearch       " Incremental search
+set incsearch
 set ttyfast
 set autoread
 set wildmenu
@@ -82,9 +82,6 @@ set nobackup
 set nowritebackup
 set noswapfile
 
-" virtual tabstops using spaces
-" set expandtab
-
 " Default 1 tab == 4 spaces
 set shiftwidth=4
 set tabstop=4
@@ -94,7 +91,7 @@ set smartindent
 " create undo file to keep history after closing the file
 set undofile
 set undolevels=100
-set undodir=~/.vim/undo//
+execute 'set undodir='.fnameescape(s:editor_root."/undo/")
 
 " Remember info about open buffers on close
 set viminfo^=%
@@ -114,199 +111,26 @@ endif
 " Enable Omni completion
 set omnifunc=syntaxcomplete#Complete
 " }}}
-" => Enable vim-plug Plugins ---------------------- {{{
-filetype off
-
+" => Plugins ---------------------- {{{
+if empty(glob(fnameescape(s:editor_root."/autoload/plug.vim")))
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall | source $MYVIMRC
+endif
 call plug#begin(s:editor_root."/plugged/")
 
-" => General Plugins ---------------------- {{{
-Plug 'tpope/vim-sensible'               " General settings
-Plug 'ctrlpvim/ctrlp.vim'               " Ctrlp
-Plug 'easymotion/vim-easymotion'        " Multiline Search and Move
-Plug 'rking/ag.vim'                     " Fast in project search
-Plug 'simnalamburt/vim-mundo'           " Undo Tree fork from gundo
-Plug 'tomtom/tcomment_vim'              " Fast comment
-Plug 'tpope/vim-fugitive'               " Git
-Plug 'airblade/vim-gitgutter'           " Git Diff viewer
-Plug 'gregsexton/gitv'                  " Git Browser
-Plug 'mattn/webapi-vim'                 " needed for gist
-Plug 'mattn/gist-vim'                   " gist.github.com
-Plug 'tpope/vim-surround'               " Surround
-Plug 'scrooloose/nerdtree'              " NERDTree
-Plug 'jistr/vim-nerdtree-tabs'          " NERDTree Tabs
-" Plug 'jeetsukumaran/vim-buffergator'    " Buffer Explorer
-" Plug 'vim-voom/VOoM'                    " Two Pane Outliner
-" Plug 'vim-scripts/VisIncr'              " Increase/Decrease visual selection
-" Plug 'xolox/vim-misc'                   " Misc tools for session
-" Plug 'xolox/vim-session'                " Session control
-" }}}
-" => Programming Plugs ---------------------- {{{
-Plug 'scrooloose/syntastic'             " Syntax Checking
-Plug 'majutsushi/tagbar'                " Class Explorer
-Plug 'Valloric/YouCompleteMe'           " YouCompleteMe
-Plug 'klen/python-mode'                 " Python IDE
-Plug 'vim-scripts/django.vim'           " Django templates Syntax
-Plug 'godlygeek/tabular'                " Tanularize
-Plug 'SirVer/ultisnips'                 " Ultisnips
-Plug 'honza/vim-snippets'               " Snippets
-Plug 'rstacruz/sparkup'                 " XML, HTML sparkup
-Plug 'tpope/vim-dispatch'               " Compile/make in the background
-Plug 'sukima/xmledit'                   " XML edit
-Plug 'Townk/vim-autoclose'              " Autoclose pracets
-" Plug 'vim-scripts/DoxygenToolkit.vim'   " Doxygen generator
-" Plug 'vim-scripts/a.vim'                " Switch between header and source c++
-" Plug 'sigidagi/vim-cmake-project'       " CMake
-" Plug 'vim-scripts/Conque-GDB'           " gdp
-" Plug 'justmao945/vim-clang'             " C++ Bundle
-" Plug 'terryma/vim-multiple-cursors'     " Multi-Cursors
-" Plug 'rdallman/openrefactory-vim'       " Easier Refactoring
-" Plug 'kovisoft/slimv'                   " LISP SLIME for vim
-" Plug 'vim-scripts/paredit.vim'          " LISP paredit
-" Plug 'Yggdroot/indentLine'              " Draw line for each indentation level (spaces)
-" Plug 'jmcomets/vim-pony'                " Django jump commands
-" Plug 'MarcWeber/vim-addon-mw-utils'     " Utils
-" Plug 'tomtom/tlib_vim'                  " Utils
-" Plug 'pangloss/vim-javascript'          " javascript
-" Plug 'vim-pandoc/vim-pandoc'            " Markdown pandoc
-" Plug 'vim-pandoc/vim-pandoc-syntax'     " Markdown syntax
-" Plug 'sheerun/vim-polyglot'             " language pack
-" Plug 'plasticboy/vim-markdown'          " Markdown syntax
-" Plug 'LucHermitte/lh-vim-lib'           " dep plugin
-" Plug 'LucHermitte/lh-tags'              " dep Plug
-" Plug 'LucHermitte/lh-dev'               " dep plugin
-" Plug 'LucHermitte/lh-brackets'          " dep plugin
-" Plug 'LucHermitte/vim-refactor'         " C++ refactoring
-" Plug 'gi1242/vim-tex-autoclose'         " Latex autoclose
-" Plug 'lervag/vimtex'                    " Latex
-" Plug 'LaTeX-Box-Team/LaTeX-Box'         " Latex
-" }}}
-" => Colorschemes Plugs ---------------------- {{{
-Plug 'ammarnajjar/wombat256mod'         " My prefered Dark Colorscheme
-Plug 'ap/vim-css-color'                 " CSS colors review
-" Plug 'tomasr/molokai'                   " Dark Colorscheme
-" Plug 'vim-scripts/Spacegray.vim'        " Dark Colorscheme
-" Plug 'nanotech/jellybeans.vim'          " Dark Colorscheme
-" Plug 'altercation/vim-colors-solarized' " Solarized Colorscheme
-" Plug 'bling/vim-airline'                " Statusline (viml)
-" }}}
+if filereadable(s:editor_root."/plugs.vim")
+    execute 'source '.fnameescape(s:editor_root."/plugs.vim")
+endif
 
 call plug#end()
-
-filetype plugin indent on
-syntax on
-" }}}
-" => Plugins Config ---------------------- {{{
-
-" view hidden characters like spaces and tabs
-nnoremap <F2> :<C-U>setlocal lcs=tab:>-,trail:-,eol:$ list! list? <CR>
-
-" => YouCompleteMe
-let g:ycm_collect_identifiers_from_tags_files = 1 " Let YCM read tags from Ctags file
-let g:ycm_use_ultisnips_completer = 1 " Default 1, just ensure
-let g:ycm_seed_identifiers_with_syntax = 1 " Completion for programming language's keyword
-let g:ycm_complete_in_comments = 1 " Completion in comments
-let g:ycm_complete_in_strings = 1 " Completion in string
-
-" Resolve conflict between YouCompleteMe and UltiSnips TAB key
-let g:UltiSnipsExpandTrigger="<c-j>"
-
-" => Sessions Management
-let g:session_autosave = 'no'
-let g:session_autoload = 'no'
-
-" view hidden characters like spaces and tabs
-nnoremap <F2> :<C-U>setlocal lcs=tab:>-,trail:-,eol:$ list! list? <CR>
-
-" => Tagbar Toggle
-nmap <F3> :TagbarToggle<CR>
-
-" Allow Toggle between tabs - spaces
-nmap <F6> :call TabToggle()<cr>
-
-" => NERDTree toggle
-map <F4> <plug>NERDTreeTabsToggle<CR>
-let NERDTreeIgnore=['\.pyc$','\.aux$', '\.o$', '\~$']
-let g:nerdtree_tabs_open_on_gui_startup = 0 " Default 1
-let g:nerdtree_tabs_autofind = 1 " Default 0
-
-" Indent Lines toggle
-map <F7> :IndentLinesToggle<CR>
-
-" => Fugitive
-" Auto-clean fugitive buffers
-if has("autocmd")
-    autocmd BufReadPost fugitive://* set bufhidden=delete
-endif
-
-" => GitGutter
-let g:gitgutter_max_signs = 5000
-let g:gitgutter_realtime = 0
-let g:gitgutter_eager = 0
-
-" " => powerline
-" set showtabline=2 " Always display the tabline, even if there is only one tab
-" set noshowmode " Hide the default mode text
-" python from powerline.vim import setup as powerline_setup
-" python powerline_setup()
-" python del powerline_setup
-" set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 10
-" let g:Powerline_symbols = 'fancy'
-
-" => Ag , Ctrlp
-if executable("ag")
-  let g:ackprg = "ag --nogroup --column"
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-endif
-let g:ctrlp_use_caching = 1
-let g:ctrlp_clear_cache_on_exit = 0
-let g:ctrlp_cache_dir = $HOME.'/.vim/cache/ctrlp'
-let g:ctrlp_show_hidden = 1
-let g:ctrlp_max_depth = 40
-let g:ctrlp_mruf_max = 250
-nnoremap <C-x><C-p> :CtrlPMixed<CR>
-nnoremap <C-x><C-l> :CtrlPLine<CR>
-nnoremap <C-x><C-b> :CtrlPBuffer<CR>
-nnoremap <C-x><C-r> :CtrlPMRU<CR>
-
-" => syntastic
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_check_on_open = 1
-
-" => Clang
-let g:syntastic_cpp_compiler = 'clang++'
-let g:clang_c_options = '-std=c++14'
-let g:syntastic_cpp_compiler_options = ' -std=c++14 -std=libc++'
-
-" => GDB
-let g:ConqueTerm_Color = 2         " 1: strip color after 200 lines, 2: always with color
-let g:ConqueTerm_CloseOnEnd = 1    " close conque when program ends running
-let g:ConqueTerm_StartMessages = 0 " display warning messages if conqueTerm is configured incorrectly
-
-" => slimv
-let g:lisp_rainbow=1
-let g:paredit_electric_return=1
-
-" => airline
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#branch#empty_message = 'no .git'
-let g:airline#extensions#tagbar#enabled = 1
-let g:airline#extensions#tabline#enabled = 0
-let g:airline#extensions#tabline#show_close_button = 0
-let g:airline_right_sep=''
-let g:airline_left_sep=''
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '|'
-let g:airline_detect_modified=1
-let g:airline_detect_paste=1
-let g:airline#extensions#syntastic#enabled = 1
-" let g:airline_powerline_fonts = 1
-
-" => Pymode
-let g:pymode_lint_ignore = "E501,W191,E302"
 " }}}
 " => Mappings ---------------------- {{{
+
+" view hidden characters like spaces and tabs
+nnoremap <F2> :<C-U>setlocal lcs=tab:>-,trail:-,eol:$ list! list? <CR>
+" Allow Toggle between tabs - spaces
+nmap <F6> :call TabToggle()<cr>
 
 " visual shifting (does not exit Visual mode)
 nnoremap <F12> :setlocal relativenumber!<cr>
@@ -324,7 +148,7 @@ vmap <leader>k :m'<-2<cr>`>my`<mzgv`yo`z
 nmap <leader>l xp
 nmap <leader>h xhhp
 
-" Delete trailing white space on save
+" Strip trailing white space on save
 func! DeleteTrailingWS()
     " Don't strip on these filetypes
     if &ft =~ 'markdown'
@@ -393,7 +217,9 @@ if has("autocmd")
 
     " Restrict textwidth for tex files
     autocmd fileType tex,plaintex,bib setlocal textwidth=79
-    " autocmd fileType tex,plaintex source ~/.vim/abbr.vim
+    if filereadable(s:editor_root."/abbr.vim")
+        execute 'source '.fnameescape(s:editor_root."/abbr.vim")
+    endif
 
     autocmd fileType html,xhtml,htm,xml,php,ruby setlocal shiftwidth=2 tabstop=2 softtabstop=2
     autocmd fileType python setlocal shiftwidth=4 tabstop=4 softtabstop=4
@@ -421,24 +247,30 @@ endif
 """"""""""""""""""""""""""""""
 " Format the status line
 set statusline =
-set statusline =[%n]\                                           " buffer number
-set statusline +=%<%.99f                                        " File name, F for full path
-set statusline +=%m%r%h%w                                       " status flags
+set statusline =[%n]\                                            " buffer number
+set statusline +=%<%.99f                                         " File name, F for full path
+set statusline +=%m%r%h%w                                        " status flags
 set statusline +=%#question#                                     " Display a warning if
 set statusline +=%{(&fenc!='utf-8'&&&fenc!='')?'['.&fenc.']':''} " file encoding isnt
 set statusline +=%*                                              " utf-8
 set statusline +=%#warningmsg#                                   " display a warning if
-set statusline +=%{StatuslineTabWarning()}                       " files contains
+if exists("*StatuslineTabWarning")
+    set statusline +=%{StatuslineTabWarning()}                   " files contains
+endif
 set statusline +=%*                                              " tab chars
-set statusline +=%{fugitive#statusline()}                       " Fugitive
-set statusline +=%=                                             " right align remainder
-set statusline +=%{SyntasticStatuslineFlag()}                   " Syntastic
-set statusline +=%y                                             " buffer file type
+if exists("*fugitive#statusline")
+    set statusline +=%{fugitive#statusline()}                    " Fugitive
+endif
+set statusline +=%=                                              " right align remainder
+if exists("*SyntasticStatuslineFlag")
+    set statusline +=%{SyntasticStatuslineFlag()}                " Syntastic
+endif
+set statusline +=%y                                              " buffer file type
 set statusline +=%#directory#                                    " display a warning if
 set statusline +=%{&ff!='unix'?'['.&ff.']':''}                   " fileformat isnt
 set statusline +=%*                                              " unix
-set statusline +=%c%V,%l/                                       " column and row Number
-set statusline +=%L\ %P                                         " total lines, position in file
+set statusline +=%c%V,%l/                                        " column and row Number
+set statusline +=%L\ %P                                          " total lines, position in file
 set laststatus =2
 " }}}
 " => Helper functions ---------------------- {{{
