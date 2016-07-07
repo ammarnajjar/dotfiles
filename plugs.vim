@@ -6,6 +6,14 @@ else
 endif
 "}}}
 
+" => Enable Plugins  ---------------------- {{{
+if empty(glob(fnameescape(s:editor_root."/autoload/plug.vim")))
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall | source $MYVIMRC
+endif
+call plug#begin(s:editor_root."/plugged/")
+
 " => Basic Plugins (master) ---------------- {{{
 Plug 'tpope/vim-sensible'               " General settings
 Plug 'tpope/vim-fugitive'               " Git
@@ -81,6 +89,9 @@ Plug 'ap/vim-css-color'                 " CSS colors review
 " Plug 'altercation/vim-colors-solarized' " Solarized Colorscheme
 " Plug 'bling/vim-airline'                " Statusline (viml)
 " " }}}
+
+call plug#end()
+"}}}
 
 " => Plugins Config ---------------------- {{{
 
@@ -174,5 +185,17 @@ let g:airline#extensions#syntastic#enabled = 1
 
 " => Pymode
 let g:pymode_lint_ignore = "E501,W191,E302"
+
+
+" => Theme
+
+" Enable CursorLine
+set cursorline
+
+"Colorscheme
+colorscheme wombat256mod
+highlight CursorLineNr term=bold ctermfg=Yellow ctermbg=Black gui=bold guifg=Yellow guibg=Black
+autocmd InsertEnter * highlight CursorLineNr term=bold ctermfg=Black ctermbg=74 gui=bold guifg=Black guibg=SkyBlue1
+autocmd InsertLeave * highlight CursorLineNr term=bold ctermfg=Yellow ctermbg=Black gui=bold guifg=Yellow guibg=Black
 " }}}
 " vim: ft=vim:ts=4:sw=4:et:fdm=marker

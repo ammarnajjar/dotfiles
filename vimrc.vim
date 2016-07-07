@@ -2,7 +2,7 @@
 " File: vimrc.vim
 " Author: Ammar Najjar <najjarammar@gmail.com>
 " Description: My vim/neovim configurations file
-" Last Modified: July 03, 2016
+" Last Modified: July 07, 2016
 " }}}
 " => General ---------------------- {{{
 
@@ -96,8 +96,6 @@ execute 'set undodir='.fnameescape(s:editor_root."/undo/")
 " Remember info about open buffers on close
 set viminfo^=%
 
-" Enable CursorLine
-set cursorline
 " change cursor for KDE konsole
 if exists('$TMUX')
     let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1;BlinkingCursorEnabled=1\x7\<Esc>\\"
@@ -110,20 +108,6 @@ endif
 
 " Enable Omni completion
 set omnifunc=syntaxcomplete#Complete
-" }}}
-" => Plugins ---------------------- {{{
-if empty(glob(fnameescape(s:editor_root."/autoload/plug.vim")))
-    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    autocmd VimEnter * PlugInstall | source $MYVIMRC
-endif
-call plug#begin(s:editor_root."/plugged/")
-
-if filereadable(s:editor_root."/plugs.vim")
-    execute 'source '.fnameescape(s:editor_root."/plugs.vim")
-endif
-
-call plug#end()
 " }}}
 " => Mappings ---------------------- {{{
 
@@ -241,6 +225,47 @@ if has("autocmd")
     " map <F10> :cnext<Return>
 
     autocmd BufRead,BufNewFile *.go set fileType=go
+endif
+" }}}
+" => Colorscheme ---------------------- {{{
+
+" Set extra options when running in GUI mode
+if has("gui_running")
+    set guioptions-=T
+    set guioptions+=e
+    set guitablabel=%M\ %t
+    set lines=39
+    set columns=83
+    set guioptions=bgmrL
+    " Light Theme
+    set background=light
+    colorscheme default
+    highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=254
+    highlight CursorLineNr term=bold ctermfg=Black ctermbg=Grey gui=bold guifg=White guibg=Grey
+    autocmd InsertEnter * highlight CursorLineNr term=bold ctermfg=Black ctermbg=117 gui=bold guifg=White guibg=SkyBlue1
+    autocmd InsertEnter * highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=NONE
+    autocmd InsertLeave * highlight CursorLineNr term=bold ctermfg=Black ctermbg=Grey gui=bold guifg=White guibg=Grey
+    autocmd InsertLeave * highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=254
+else
+
+    " " Light Themes
+    " set background=light
+    " colorscheme default
+    " highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=254
+    " highlight CursorLineNr term=bold ctermfg=Black ctermbg=Grey gui=bold guifg=White guibg=Grey
+    " autocmd InsertEnter * highlight CursorLineNr term=bold ctermfg=Black ctermbg=117 gui=bold guifg=White guibg=SkyBlue1
+    " autocmd InsertEnter * highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=NONE
+    " autocmd InsertLeave * highlight CursorLineNr term=bold ctermfg=Black ctermbg=Grey gui=bold guifg=White guibg=Grey
+    " autocmd InsertLeave * highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=254
+
+    " Dark Themes
+    set background=dark
+
+endif
+" }}}
+" => Plugins ---------------------- {{{
+if filereadable(s:editor_root."/plugs.vim")
+    execute 'source '.fnameescape(s:editor_root."/plugs.vim")
 endif
 " }}}
 " => Status line ---------------------- {{{
@@ -534,43 +559,5 @@ endfunction
 "recalculate the tab warning flag when idle and after writing
 autocmd cursorhold,bufwritepost * unlet! b:statusline_tab_warning
 
-" }}}
-" => Colorscheme ---------------------- {{{
-
-" Set extra options when running in GUI mode
-if has("gui_running")
-    set guioptions-=T
-    set guioptions+=e
-    set guitablabel=%M\ %t
-    set lines=39
-    set columns=83
-    set guioptions=bgmrL
-    " Light Theme
-    set background=light
-    colorscheme default
-    highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=254
-    highlight CursorLineNr term=bold ctermfg=Black ctermbg=Grey gui=bold guifg=White guibg=Grey
-    autocmd InsertEnter * highlight CursorLineNr term=bold ctermfg=Black ctermbg=117 gui=bold guifg=White guibg=SkyBlue1
-    autocmd InsertEnter * highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=NONE
-    autocmd InsertLeave * highlight CursorLineNr term=bold ctermfg=Black ctermbg=Grey gui=bold guifg=White guibg=Grey
-    autocmd InsertLeave * highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=254
-else
-    " " Light Themes
-    " set background=light
-    " colorscheme default
-    " highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=254
-    " highlight CursorLineNr term=bold ctermfg=Black ctermbg=Grey gui=bold guifg=White guibg=Grey
-    " autocmd InsertEnter * highlight CursorLineNr term=bold ctermfg=Black ctermbg=117 gui=bold guifg=White guibg=SkyBlue1
-    " autocmd InsertEnter * highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=NONE
-    " autocmd InsertLeave * highlight CursorLineNr term=bold ctermfg=Black ctermbg=Grey gui=bold guifg=White guibg=Grey
-    " autocmd InsertLeave * highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=254
-
-    " Dark Themes
-    set background=dark
-    colorscheme wombat256mod
-    highlight CursorLineNr term=bold ctermfg=Yellow ctermbg=Black gui=bold guifg=Yellow guibg=Black
-    autocmd InsertEnter * highlight CursorLineNr term=bold ctermfg=Black ctermbg=74 gui=bold guifg=Black guibg=SkyBlue1
-    autocmd InsertLeave * highlight CursorLineNr term=bold ctermfg=Yellow ctermbg=Black gui=bold guifg=Yellow guibg=Black
-endif
 " }}}
 " vim: ft=vim:ts=4:sw=4:et:fdm=marker
