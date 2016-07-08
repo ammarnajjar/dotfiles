@@ -144,8 +144,7 @@ function update_bashrc() {
 
 function update_tmux_conf() {
     blue "** Tmux config"
-    echo "set -g history-limit 1000000" >> $HOME/.tmux.conf
-    echo "set -s escape-time 0" >> $HOME/.tmux.conf
+    echo "source $(echo $vim_dir)/tmux.conf" >> $HOME/.tmux.conf
 }
 
 function update_git_conf() {
