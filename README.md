@@ -29,12 +29,13 @@ Usage:
 	├── vimrc.vim
 	├── plugs.vim
 	├── bashrc
+	├── tmux.conf
 	├── install.sh
 	├── LICENSE
 	├── README.md
 	└── Xresources
 
-	0 directories, 7 files
+	0 directories, 9 files
 
 ##License:
 
