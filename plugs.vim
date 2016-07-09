@@ -95,6 +95,26 @@ call plug#end()
 
 " => Plugins Config ---------------------- {{{
 
+<<<<<<< Updated upstream
+=======
+" => Theme
+set cursorline
+" Colorscheme
+" Enable CursorLine
+if ! has("gui_running")
+    colorscheme wombat256mod
+    highlight CursorLineNr term=bold ctermfg=Yellow ctermbg=Black gui=bold guifg=Yellow guibg=Black
+    autocmd InsertEnter * highlight CursorLineNr term=bold ctermfg=Black ctermbg=74 gui=bold guifg=Black guibg=SkyBlue1
+    autocmd InsertLeave * highlight CursorLineNr term=bold ctermfg=Yellow ctermbg=Black gui=bold guifg=Yellow guibg=Black
+endif
+
+" => Autosave
+let g:auto_save = 0  " enable AutoSave on Vim startup
+let g:auto_save_no_updatetime = 1  " do not change the 'updatetime' option
+let g:auto_save_in_insert_mode = 0  " do not save while in insert mode
+let g:auto_save_events = ["InsertLeave", "TextChanged"] " save on every change in normal mode.
+
+>>>>>>> Stashed changes
 " => YouCompleteMe
 let g:ycm_collect_identifiers_from_tags_files = 1 " Let YCM read tags from Ctags file
 let g:ycm_use_ultisnips_completer = 1 " Default 1, just ensure
