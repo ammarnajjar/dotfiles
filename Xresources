@@ -11,41 +11,47 @@ URxvt.secondaryScroll: 0
 
 URxvt.depth: 32
 
-URxvt*background:                     #101218
-URxvt*foreground:                     #d1d4e0
-URxvt*cursorColor:                    #d1d4e0
-URxvt*scrollColor:                    #d1d4e0
-URxvt*highlightColor:                 #252936
-URxvt*highlightTextColor:             #C0C5CE
+URxvt*background:         #000000
+URxvt*foreground:         #d1d4e0
+URxvt*cursorColor:        #d1d4e0
+URxvt*scrollColor:        #d1d4e0
+URxvt*highlightColor:     #252936
+URxvt*highlightTextColor: #C0C5CE
 
-URxvt*color0:                         #101218
-URxvt*color1:                         #ee829f
-URxvt*color2:                         #a5ffe1
-URxvt*color3:                         #ffefcc
-URxvt*color4:                         #97bbf7
-URxvt*color5:                         #c0b7f9
-URxvt*color6:                         #97e0ff
-URxvt*color7:                         #d1d4e0
-URxvt*color8:                         #7780a1
-URxvt*color9:                         #ee829f
-URxvt*color10:                        #a5ffe1
-URxvt*color11:                        #ffefcc
-URxvt*color12:                        #97bbf7
-URxvt*color13:                        #c0b7f9
-URxvt*color14:                        #97e0ff
-URxvt*color15:                        #ffffff
+! NetHack4 libUnCursed, Linux console
+! https://bilious.alt.org/~paxed/wintermcolors.php
+Rxvt*color0:              #000000
+Rxvt*color1:              #b21818
+Rxvt*color2:              #18b218
+Rxvt*color3:              #b26818
+Rxvt*color4:              #1818b2
+Rxvt*color5:              #b218b2
+Rxvt*color6:              #18b2b2
+Rxvt*color7:              #b2b2b2
+Rxvt*color8:              #686868
+Rxvt*color9:              #ff5454
+Rxvt*color10:             #54ff54
+Rxvt*color11:             #ffff54
+Rxvt*color12:             #5454ff
+Rxvt*color13:             #ff54ff
+Rxvt*color14:             #54ffff
+Rxvt*color15:             #ffffff
 
-URxvt*color16:                        #f99170
-URxvt*color17:                        #fcc09e
-URxvt*color18:                        #1f222d
-URxvt*color19:                        #252936
-URxvt*color20:                        #C0C5CE
-URxvt*color21:                        #C9CCDB
+URxvt*color16:            #f99170
+URxvt*color17:            #fcc09e
+URxvt*color18:            #1f222d
+URxvt*color19:            #252936
+URxvt*color20:            #C0C5CE
+URxvt*color21:            #C9CCDB
 
+URxvt.perl-lib: /usr/lib64/urxvt/perl/
+! For the Ctrl+Shift bindings to work
+URxvt.iso14755: false
+URxvt.iso14755_52: false
+URxvt.perl-ext-common: default,resize-font
+URxvt.resize-font.smaller: C-minus
+URxvt.resize-font.bigger: C-plus
+URxvt.resize-font.reset: C-equal
+URxvt.resize-font.show: C-question
 
-URxvt.perl-ext-common: default,clipboard
-URxvt.iso14755: False
-URxvt.keysym.Shift-Control-C: perl:clipboard:copy
-URxvt.keysym.Shift-Control-V: perl:clipboard:paste
-URxvt.clipboard.copycmd:  xsel -ib
-URxvt.clipboard.pastecmd: xsel -ob
+! to activate changes: xrdb .Xresource
