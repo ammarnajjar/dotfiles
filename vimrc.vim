@@ -2,7 +2,7 @@
 " File: vimrc.vim
 " Author: Ammar Najjar <najjarammar@gmail.com>
 " Description: My vim/neovim configurations file
-" Last Modified: July 07, 2016
+" Last Modified: July 15, 2016
 " }}}
 " => General ---------------------- {{{
 
@@ -96,14 +96,27 @@ execute 'set undodir='.fnameescape(s:editor_root."/undo/")
 " Remember info about open buffers on close
 set viminfo^=%
 
-" change cursor for KDE konsole
-if exists('$TMUX')
-    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1;BlinkingCursorEnabled=1\x7\<Esc>\\"
-    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0;BlinkingCursorEnabled=0\x7\<Esc>\\"
+" " change cursor for KDE konsole &term =~ 'xterm-256color'
+" if &term =~ "screen-256color"
+"     let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1;BlinkingCursorEnabled=1\x7\<Esc>\\"
+"     let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0;BlinkingCursorEnabled=0\x7\<Esc>\\"
+" else
+"     let &t_SI = "\<Esc>]50;CursorShape=1;BlinkingCursorEnabled=1\x7"
+"     let &t_SR = "\<Esc>]50;CursorShape=2;BlinkingCursorEnabled=1\x7"
+"     let &t_EI = "\<Esc>]50;CursorShape=0;BlinkingCursorEnabled=0\x7"
+" endif
+
+" change cursor &term =~ 'rxvt-unicode-256color'
+if &term =~ "screen-256color"
+    let &t_SI .= "\<Esc>Ptmux;\<Esc>\<Esc>[3 q\<Esc>\\"
+    let &t_EI .= "\<Esc>Ptmux;\<Esc>\<Esc>[2 q\<Esc>\\"
 else
-    let &t_SI = "\<Esc>]50;CursorShape=1;BlinkingCursorEnabled=1\x7"
-    let &t_SR = "\<Esc>]50;CursorShape=2;BlinkingCursorEnabled=1\x7"
-    let &t_EI = "\<Esc>]50;CursorShape=0;BlinkingCursorEnabled=0\x7"
+    " blinking underscore
+    let &t_SI .= "\<Esc>[3 q"
+    " solid block
+    let &t_EI .= "\<Esc>[2 q"
+    " 1 or 0 -> blinking block
+    " 4 -> solid underscore
 endif
 
 " Enable Omni completion
