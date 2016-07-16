@@ -202,17 +202,5 @@ let g:airline#extensions#syntastic#enabled = 1
 
 " => Pymode
 let g:pymode_lint_ignore = "E501,W191,E302"
-
-
-" => Theme
-
-" Enable CursorLine
-set cursorline
-
-"Colorscheme
-colorscheme wombat256mod
-highlight CursorLineNr term=bold ctermfg=Yellow ctermbg=Black gui=bold guifg=Yellow guibg=Black
-autocmd InsertEnter * highlight CursorLineNr term=bold ctermfg=Black ctermbg=74 gui=bold guifg=Black guibg=SkyBlue1
-autocmd InsertLeave * highlight CursorLineNr term=bold ctermfg=Yellow ctermbg=Black gui=bold guifg=Yellow guibg=Black
 " }}}
 " vim: ft=vim:ts=4:sw=4:et:fdm=marker
