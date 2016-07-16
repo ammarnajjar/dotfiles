@@ -26,22 +26,18 @@ Plug 'easymotion/vim-easymotion'        " Multiline Search and Move
 Plug 'rking/ag.vim'                     " Fast in project search
 Plug 'tomtom/tcomment_vim'              " Fast comment
 Plug 'tpope/vim-surround'               " Surround
-Plug 'scrooloose/nerdtree'              " NERDTree
-Plug 'jistr/vim-nerdtree-tabs'          " NERDTree Tabs
 Plug 'simnalamburt/vim-mundo'           " Undo Tree fork from gundo
 Plug 'scrooloose/syntastic'             " Syntax Checking
 Plug 'majutsushi/tagbar'                " Class Explorer
-Plug 'Valloric/YouCompleteMe'           " YouCompleteMe
-Plug 'godlygeek/tabular'                " Tanularize
-Plug 'vim-voom/VOoM'                    " Two Pane Outliner
 Plug 'SirVer/ultisnips'                 " Ultisnips
 Plug 'honza/vim-snippets'               " Snippets
 Plug 'Townk/vim-autoclose'              " Autoclose pracets
 Plug 'ammarnajjar/wombat256mod'         " My Dark Colorscheme
-Plug 'ap/vim-css-color'                 " CSS colors review
 "}}}
 
 " " => General Plugins ---------------------- {{{
+" Plug 'scrooloose/nerdtree'              " NERDTree
+" Plug 'jistr/vim-nerdtree-tabs'          " NERDTree Tabs
 " Plug 'jeetsukumaran/vim-buffergator'    " Buffer Explorer
 " Plug 'vim-scripts/VisIncr'              " Increase/Decrease visual selection
 " Plug 'xolox/vim-misc'                   " Misc tools for session
@@ -49,6 +45,10 @@ Plug 'ap/vim-css-color'                 " CSS colors review
 " " }}}
 
 " " => Programming Plugs ---------------------- {{{
+" Plug 'ap/vim-css-color'                 " CSS colors review
+" Plug 'Valloric/YouCompleteMe'           " YouCompleteMe
+" Plug 'godlygeek/tabular'                " Tanularize
+" Plug 'vim-voom/VOoM'                    " Two Pane Outliner
 " Plug 'klen/python-mode'                 " Python IDE
 " Plug 'rstacruz/sparkup'                 " XML, HTML sparkup
 " Plug 'sukima/xmledit'                   " XML edit
@@ -95,8 +95,6 @@ call plug#end()
 
 " => Plugins Config ---------------------- {{{
 
-<<<<<<< Updated upstream
-=======
 " => Theme
 set cursorline
 " Colorscheme
@@ -114,7 +112,6 @@ let g:auto_save_no_updatetime = 1  " do not change the 'updatetime' option
 let g:auto_save_in_insert_mode = 0  " do not save while in insert mode
 let g:auto_save_events = ["InsertLeave", "TextChanged"] " save on every change in normal mode.
 
->>>>>>> Stashed changes
 " => YouCompleteMe
 let g:ycm_collect_identifiers_from_tags_files = 1 " Let YCM read tags from Ctags file
 let g:ycm_use_ultisnips_completer = 1 " Default 1, just ensure
@@ -123,7 +120,7 @@ let g:ycm_complete_in_comments = 1 " Completion in comments
 let g:ycm_complete_in_strings = 1 " Completion in string
 
 " Resolve conflict between YouCompleteMe and UltiSnips TAB key
-let g:UltiSnipsExpandTrigger="<c-j>"
+" let g:UltiSnipsExpandTrigger="<c-j>"
 
 " => Sessions Management
 let g:session_autosave = 'no'
