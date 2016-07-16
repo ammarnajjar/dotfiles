@@ -21,7 +21,6 @@ Plug 'airblade/vim-gitgutter'           " Git Diff viewer
 Plug 'gregsexton/gitv'                  " Git Browser
 Plug 'mattn/webapi-vim'                 " needed for gist
 Plug 'mattn/gist-vim'                   " gist.github.com
-Plug 'ctrlpvim/ctrlp.vim'               " Ctrlp
 Plug 'easymotion/vim-easymotion'        " Multiline Search and Move
 Plug 'rking/ag.vim'                     " Fast in project search
 Plug 'tomtom/tcomment_vim'              " Fast comment
@@ -33,9 +32,12 @@ Plug 'SirVer/ultisnips'                 " Ultisnips
 Plug 'honza/vim-snippets'               " Snippets
 Plug 'Townk/vim-autoclose'              " Autoclose pracets
 Plug 'ammarnajjar/wombat256mod'         " My Dark Colorscheme
+Plug 'junegunn/fzf', { 'dir': '~/.vim/cache/fzf', 'do': './install --bin' }
+Plug 'junegunn/fzf.vim'                 " FZF fuzzy file finder
 "}}}
 
 " " => General Plugins ---------------------- {{{
+" Plug 'ctrlpvim/ctrlp.vim'               " Ctrlp
 " Plug 'scrooloose/nerdtree'              " NERDTree
 " Plug 'jistr/vim-nerdtree-tabs'          " NERDTree Tabs
 " Plug 'jeetsukumaran/vim-buffergator'    " Buffer Explorer
@@ -149,11 +151,13 @@ let g:gitgutter_max_signs = 5000
 let g:gitgutter_realtime = 0
 let g:gitgutter_eager = 0
 
-" => Ag , Ctrlp
+" => Ag
 if executable("ag")
   let g:ackprg = "ag --nogroup --column"
   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 endif
+
+" => Ctrlp
 let g:ctrlp_use_caching = 1
 let g:ctrlp_clear_cache_on_exit = 0
 execute 'let g:ctrlp_cache_dir=fnameescape(s:editor_root."/cache/ctrlp")'
@@ -164,6 +168,70 @@ nnoremap <C-x><C-p> :CtrlPMixed<CR>
 nnoremap <C-x><C-l> :CtrlPLine<CR>
 nnoremap <C-x><C-b> :CtrlPBuffer<CR>
 nnoremap <C-x><C-r> :CtrlPMRU<CR>
+
+" => fzf
+" This is the deault extra key bindings
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
+" Default fzf layout
+" - down / up / left / right
+let g:fzf_layout = { 'down': '~40%' }
+
+" In Neovim, you can set up fzf window using a Vim command
+let g:fzf_layout = { 'window': 'enew' }
+let g:fzf_layout = { 'window': '-tabnew' }
+
+" Customize fzf colors to match your color scheme
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
+
+" [Buffers] Jump to the existing window if possible
+let g:fzf_buffers_jump = 1
+
+" [[B]Commits] Customize the options used by 'git log':
+let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
+
+" [Tags] Command to generate tags file
+let g:fzf_tags_command = 'ctags --append=no --recurse --totals --exclude=blib --exclude=.svn --exclude=.get --exclude="@.gitignore" --extra=q'
+
+autocmd VimEnter * command! Colors
+  \ call fzf#vim#colors({'left': '15%', 'options': '--reverse --margin 30%,0'})
+
+" Mapping selecting mappings
+nmap <leader><tab> <plug>(fzf-maps-n)
+xmap <leader><tab> <plug>(fzf-maps-x)
+omap <leader><tab> <plug>(fzf-maps-o)
+
+" Insert mode completion
+imap <c-x><c-k> <plug>(fzf-complete-word)
+imap <c-x><c-f> <plug>(fzf-complete-path)
+imap <c-x><c-j> <plug>(fzf-complete-file-ag)
+imap <c-x><c-l> <plug>(fzf-complete-line)
+
+if has('nvim')
+  let $FZF_DEFAULT_OPTS .= ' --inline-info'
+endif
+
+nnoremap <silent> <expr> <C-p> (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" : '').":FZF\<cr>"
+nnoremap <silent> <Leader>C  :Colors<CR>
+nnoremap <silent> <Leader>B  :Buffers<CR>
+nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
+nnoremap <silent> <Leader>AG :Ag <C-R><C-A><CR>
+nnoremap <silent> <Leader>`  :Marks<CR>
 
 " => syntastic
 let g:syntastic_always_populate_loc_list = 1
