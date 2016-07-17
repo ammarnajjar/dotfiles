@@ -37,6 +37,7 @@ Plug 'junegunn/fzf.vim'                 " FZF fuzzy file finder
 "}}}
 
 " " => General Plugins ---------------------- {{{
+" Plug 'vim-scripts/AutoComplPop'         " Auto popup complete
 " Plug 'ctrlpvim/ctrlp.vim'               " Ctrlp
 " Plug 'scrooloose/nerdtree'              " NERDTree
 " Plug 'jistr/vim-nerdtree-tabs'          " NERDTree Tabs
