@@ -2,7 +2,7 @@
 
 My own vim/neovim configurations for fedora/debian, Tmux and urxvt.  
 It will be installed in the current directory with symlinks to the correct paths.  
-Because the plugins are always changing and depend on the current projects I am working on, I put them in another file `plugs.vim` and source them to my `vimrc.vim`. They are also treated on another branch, usually `plugins`.
+Because the plugins are always changing and depend on the current projects I am working on, I put them in another file `plugs.vim` and source them to my `vimrc.vim`. They are also treated on another branch locally.
 
 ## Install using: 
 
@@ -24,18 +24,22 @@ Usage:
 
 ## Files in repo:
 
-	.
-	├── .gitignore
-	├── vimrc.vim
-	├── plugs.vim
-	├── bashrc
-	├── tmux.conf
-	├── install.sh
-	├── LICENSE
-	├── README.md
-	└── Xresources
+```bash
+.
+├── bashrc
+├── install.sh
+├── LICENSE
+├── plugs.vim
+├── README.md
+├── tmux.conf
+├── urxvt
+│   ├── fullscreen
+│   ├── resize-font
+│   └── Xresources
+└── vimrc.vim
 
-	0 directories, 9 files
+1 directory, 10 files
+```
 
 ##License:
 
