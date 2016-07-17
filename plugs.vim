@@ -34,10 +34,12 @@ Plug 'Townk/vim-autoclose'              " Autoclose pracets
 Plug 'ammarnajjar/wombat256mod'         " My Dark Colorscheme
 Plug 'junegunn/fzf', { 'dir': '~/.vim/cache/fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'                 " FZF fuzzy file finder
+Plug '907th/vim-auto-save'              " Autosave
+Plug 'godlygeek/tabular'                " Tanularize
+Plug 'vim-scripts/AutoComplPop'         " Auto popup complete
 "}}}
 
 " " => General Plugins ---------------------- {{{
-" Plug 'vim-scripts/AutoComplPop'         " Auto popup complete
 " Plug 'ctrlpvim/ctrlp.vim'               " Ctrlp
 " Plug 'scrooloose/nerdtree'              " NERDTree
 " Plug 'jistr/vim-nerdtree-tabs'          " NERDTree Tabs
@@ -50,7 +52,6 @@ Plug 'junegunn/fzf.vim'                 " FZF fuzzy file finder
 " " => Programming Plugs ---------------------- {{{
 " Plug 'ap/vim-css-color'                 " CSS colors review
 " Plug 'Valloric/YouCompleteMe'           " YouCompleteMe
-" Plug 'godlygeek/tabular'                " Tanularize
 " Plug 'vim-voom/VOoM'                    " Two Pane Outliner
 " Plug 'klen/python-mode'                 " Python IDE
 " Plug 'rstacruz/sparkup'                 " XML, HTML sparkup
@@ -111,8 +112,6 @@ endif
 
 " => Autosave
 let g:auto_save = 0  " enable AutoSave on Vim startup
-let g:auto_save_no_updatetime = 1  " do not change the 'updatetime' option
-let g:auto_save_in_insert_mode = 0  " do not save while in insert mode
 let g:auto_save_events = ["InsertLeave", "TextChanged"] " save on every change in normal mode.
 
 " => YouCompleteMe
