@@ -48,10 +48,11 @@ URxvt.perl-lib: /usr/lib64/urxvt/perl/
 ! For the Ctrl+Shift bindings to work
 URxvt.iso14755: false
 URxvt.iso14755_52: false
-URxvt.perl-ext-common: default,resize-font
+URxvt.perl-ext-common: default,resize-font,fullscreen
 URxvt.resize-font.smaller: C-minus
 URxvt.resize-font.bigger: C-plus
 URxvt.resize-font.reset: C-equal
 URxvt.resize-font.show: C-question
+URxvt.keysym.F11: perl:fullscreen:switch
 
 ! to activate changes: xrdb .Xresource

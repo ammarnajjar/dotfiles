@@ -57,7 +57,7 @@ function install_vim() {
     fi
 }
 
-function install_buil_dep(){
+function install_build_dep(){
     get_current_distro
     if [[ $distro == "fedora" ]]
     then
@@ -88,24 +88,27 @@ function install_dep(){
     then
         $SU dnf install -y git libtool autoconf automake cmake gcc gcc-c++ \
             make pkgconfig unzip python-pip redhat-rpm-config clang hostname \
-            powerline kernel-devel python-devel the_silver_searcher ctags curl
+            powerline kernel-devel python-devel the_silver_searcher ctags curl \
+            wmctrl rxvt-unicode
         echo "source '/usr/share/tmux/powerline.conf'" >> $HOME/.tmux.conf
     elif [[ $distro == "debian" ]]
     then
         $SU apt-get update && $SU apt-get install -y curl \
             git silversearcher-ag exuberant-ctags clang powerline \
-            build-essential libtool liblua5.1-dev luajit lua5.1
+            build-essential libtool liblua5.1-dev luajit lua5.1 \
+            wmctrl rxvt-unicode
         echo "source '/usr/share/powerline/bindings/tmux/powerline.conf'" >> $HOME/.tmux.conf
     elif [[ $distro == "ubuntu" ]]
     then
         $SU apt-get update && $SU apt-get install -y curl \
             git silversearcher-ag exuberant-ctags clang build-essential \
-            automake python-dev python-pip python3-dev python3-pip libtool
+            automake python-dev python-pip python3-dev python3-pip libtool \
+            wmctrl rxvt-unicode
     fi
 }
 
 function build_vim_from_source() {
-    install_buil_dep
+    install_build_dep
     blue "** Build vim from source in: $(pwd)"
     git clone https://github.com/vim/vim.git /tmp/vimsrc
     cd /tmp/vimsrc
@@ -188,7 +191,9 @@ function create_symlinks() {
         nvim_symlinks
     fi
     rm $HOME/.Xresources
-    ln -s $vim_dir/Xresources $HOME/.Xresources
+    ln -s $vim_dir/urxvt/Xresources $HOME/.Xresources
+    $SUDO ln -s $vimdir/urxvt/fullscreen /usr/lib64/urxvt/perl/fullscreen
+    $SUDO ln -s $vimdir/urxvt/resize-font /usr/lib64/urxvt/perl/resize-font
 }
 
 function prepare_vimdir() {
