@@ -37,6 +37,7 @@ Plug 'junegunn/fzf.vim'                 " FZF fuzzy file finder
 Plug '907th/vim-auto-save'              " Autosave
 Plug 'godlygeek/tabular'                " Tanularize
 Plug 'vim-scripts/AutoComplPop'         " Auto popup complete
+Plug 'sheerun/vim-polyglot'             " language pack
 "}}}
 
 " " => General Plugins ---------------------- {{{
@@ -74,7 +75,6 @@ Plug 'vim-scripts/AutoComplPop'         " Auto popup complete
 " Plug 'pangloss/vim-javascript'          " javascript
 " Plug 'vim-pandoc/vim-pandoc'            " Markdown pandoc
 " Plug 'vim-pandoc/vim-pandoc-syntax'     " Markdown syntax
-" Plug 'sheerun/vim-polyglot'             " language pack
 " Plug 'plasticboy/vim-markdown'          " Markdown syntax
 " Plug 'LucHermitte/lh-vim-lib'           " dep plugin
 " Plug 'LucHermitte/lh-tags'              " dep Plug
@@ -236,7 +236,7 @@ nnoremap <silent> <Leader>`  :Marks<CR>
 " => syntastic
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_wq = 0
+let g:syntastic_check_on_wq = 1
 let g:syntastic_check_on_open = 1
 
 " => Clang
@@ -270,5 +270,6 @@ let g:airline#extensions#syntastic#enabled = 1
 
 " => Pymode
 let g:pymode_lint_ignore = "E501,W191,E302"
+let g:pymode_lint_on_write = 0
 " }}}
 " vim: ft=vim:ts=4:sw=4:et:fdm=marker
