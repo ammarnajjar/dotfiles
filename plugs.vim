@@ -32,7 +32,7 @@ Plug 'SirVer/ultisnips'                 " Ultisnips
 Plug 'honza/vim-snippets'               " Snippets
 Plug 'Townk/vim-autoclose'              " Autoclose pracets
 Plug 'ammarnajjar/wombat256mod'         " My Dark Colorscheme
-Plug 'junegunn/fzf', { 'dir': '~/.vim/cache/fzf', 'do': './install --bin' }
+Plug 'junegunn/fzf', { 'dir': '~/.vim/cache/fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'                 " FZF fuzzy file finder
 Plug '907th/vim-auto-save'              " Autosave
 Plug 'godlygeek/tabular'                " Tanularize
