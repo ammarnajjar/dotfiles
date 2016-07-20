@@ -89,21 +89,21 @@ function install_dep(){
         $SU dnf install -y git libtool autoconf automake cmake gcc gcc-c++ \
             make pkgconfig unzip python-pip redhat-rpm-config clang hostname \
             powerline kernel-devel python-devel the_silver_searcher ctags curl \
-            wmctrl rxvt-unicode
+            wmctrl rxvt-unicode-256color
         echo "source '/usr/share/tmux/powerline.conf'" >> $HOME/.tmux.conf
     elif [[ $distro == "debian" ]]
     then
         $SU apt-get update && $SU apt-get install -y curl \
             git silversearcher-ag exuberant-ctags clang powerline \
             build-essential libtool liblua5.1-dev luajit lua5.1 \
-            wmctrl rxvt-unicode
+            wmctrl rxvt-unicode-256color
         echo "source '/usr/share/powerline/bindings/tmux/powerline.conf'" >> $HOME/.tmux.conf
     elif [[ $distro == "ubuntu" ]]
     then
         $SU apt-get update && $SU apt-get install -y curl \
             git silversearcher-ag exuberant-ctags clang build-essential \
             automake python-dev python-pip python3-dev python3-pip libtool \
-            wmctrl rxvt-unicode
+            wmctrl rxvt-unicode-256color
     fi
 }
 
@@ -191,9 +191,17 @@ function create_symlinks() {
         nvim_symlinks
     fi
     rm $HOME/.Xresources
-    ln -s $vim_dir/urxvt/Xresources $HOME/.Xresources
-    $SUDO ln -s $vimdir/urxvt/fullscreen /usr/lib64/urxvt/perl/fullscreen
-    $SUDO ln -s $vimdir/urxvt/resize-font /usr/lib64/urxvt/perl/resize-font
+    uname=$(uname -m)
+    if [[ uname == "x86_64" ]]
+    then
+        ln -s $vim_dir/urxvt/Xresources $HOME/.Xresources
+        $SUDO ln -s $vimdir/urxvt/fullscreen /usr/lib64/urxvt/perl/fullscreen
+        $SUDO ln -s $vimdir/urxvt/resize-font /usr/lib64/urxvt/perl/resize-font
+    else
+        ln -s $vim_dir/urxvt/Xresources_i686 $HOME/.Xresources
+        $SUDO ln -s $vimdir/urxvt/fullscreen /usr/lib/urxvt/perl/fullscreen
+        $SUDO ln -s $vimdir/urxvt/resize-font /usr/lib/urxvt/perl/resize-font
+    fi
 }
 
 function prepare_vimdir() {
