@@ -249,6 +249,7 @@ function build_from_source() {
 neo=0
 if [[ $# -eq 0 ]]
 then
+    current_dir=$(pwd)
     get_sudo
     install_dep
     install_vim
