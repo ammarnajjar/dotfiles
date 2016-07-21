@@ -48,11 +48,17 @@ URxvt.perl-lib: /usr/lib64/urxvt/perl/
 ! For the Ctrl+Shift bindings to work
 URxvt.iso14755: false
 URxvt.iso14755_52: false
-URxvt.perl-ext-common: default,resize-font,fullscreen
+URxvt.perl-ext-common: default,resize-font,fullscreen,selection_to_clipboard,pasta,matcher,keyboard-select
 URxvt.resize-font.smaller: C-minus
 URxvt.resize-font.bigger: C-plus
 URxvt.resize-font.reset: C-equal
 URxvt.resize-font.show: C-question
 URxvt.keysym.F11: perl:fullscreen:switch
+URxvt.keysym.M-u: perl:url-select:select_next
+URxvt.underlineURLs: True
+URxvt.matcher.button: 1
+URxvt.keysym.M-Escape: perl:keyboard-select:activate
+URxvt.keysym.Control-Shift-V: perl:pasta:paste
+URxvt.clipboard.autocopy: true
 
 ! to activate changes: xrdb .Xresource

@@ -197,10 +197,12 @@ function create_symlinks() {
         ln -s $vim_dir/urxvt/Xresources $HOME/.Xresources
         $SUDO ln -s $vimdir/urxvt/fullscreen /usr/lib64/urxvt/perl/fullscreen
         $SUDO ln -s $vimdir/urxvt/resize-font /usr/lib64/urxvt/perl/resize-font
+        $SUDO ln -s $vimdir/urxvt/pasta /usr/lib64/urxvt/perl/pasta
     else
         ln -s $vim_dir/urxvt/Xresources_i686 $HOME/.Xresources
         $SUDO ln -s $vimdir/urxvt/fullscreen /usr/lib/urxvt/perl/fullscreen
         $SUDO ln -s $vimdir/urxvt/resize-font /usr/lib/urxvt/perl/resize-font
+        $SUDO ln -s $vimdir/urxvt/pasta /usr/lib/urxvt/perl/pasta
     fi
 }
 
