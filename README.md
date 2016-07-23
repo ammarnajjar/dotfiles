@@ -1,6 +1,6 @@
 # Dotfiles Configurations
 
-My own vim/neovim configurations for fedora/debian, Tmux and urxvt.  
+My own vim/neovim configurations for fedora/debian, git, Tmux and urxvt.  
 It will be installed in the current directory with symlinks to the correct paths.  
 Because the plugins are always changing and depend on the current projects I am working on, I put them in another file `plugs.vim` and source them to my `vimrc.vim`. They are also treated on another branch locally.
 
@@ -27,6 +27,11 @@ Usage:
 ```bash
 .
 ├── bashrc
+├── git
+│   ├── gitconfig
+│   └── templates
+│       └── hooks
+│           └── pre-commit
 ├── install.sh
 ├── LICENSE
 ├── plugs.vim
@@ -34,11 +39,13 @@ Usage:
 ├── tmux.conf
 ├── urxvt
 │   ├── fullscreen
+│   ├── pasta
 │   ├── resize-font
-│   └── Xresources
+│   ├── Xresources
+│   └── Xresources_i686
 └── vimrc.vim
 
-1 directory, 10 files
+4 directories, 14 files
 ```
 
 ##License:

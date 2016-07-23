@@ -1,0 +1,15 @@
+#!/bin/bash
+#
+# A git hook to make sure user.email is valid before committing
+
+EMAIL=$(git config user.email)
+
+# Validate user.email 
+if [[ -z "$EMAIL" || "$EMAIL" != *".com" ]] ; then
+    # user.email is not valid
+    echo -ne "ERROR: [pre-commit hook]\nAborting commit because user.email is missing.\nConfigure user.email for this repository by running:\n\tgit config --local user.email name@example.com\n"
+    exit 1
+else
+    # user.email is valid
+    exit 0
+fi

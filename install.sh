@@ -152,8 +152,7 @@ function update_tmux_conf() {
 
 function update_git_conf() {
     blue "** Git config"
-    git config --global alias.lol 'log --graph --decorate --pretty=oneline --abbrev-commit --all'
-    git config --global alias.st 'status'
+    ln -s $vim_dir/git/gitconfig $HOME/.gitconfig
 }
 
 function clone_repos() {
