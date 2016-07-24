@@ -26,7 +26,8 @@ Usage:
 
 ```bash
 .
-├── bashrc
+├── bash
+│   └── bashrc
 ├── git
 │   ├── gitconfig
 │   └── templates
@@ -36,7 +37,8 @@ Usage:
 ├── LICENSE
 ├── plugs.vim
 ├── README.md
-├── tmux.conf
+├── tmux
+│   └── tmux.conf
 ├── urxvt
 │   ├── fullscreen
 │   ├── pasta
@@ -45,7 +47,7 @@ Usage:
 │   └── Xresources_i686
 └── vimrc.vim
 
-4 directories, 14 files
+6 directories, 14 files
 ```
 
 I have full explanation to my `vimrc` configurations [here](https://ammarnajjar.github.io/editors/2016/06/19/Vimrc-Adventure/).  

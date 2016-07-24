@@ -90,14 +90,14 @@ function install_dep(){
             make pkgconfig unzip python-pip redhat-rpm-config clang hostname \
             powerline kernel-devel python-devel the_silver_searcher ctags curl \
             wmctrl rxvt-unicode-256color
-        echo "source '/usr/share/tmux/powerline.conf'" >> $HOME/.tmux.conf
+        # echo "source '/usr/share/tmux/powerline.conf'" >> $HOME/.tmux.conf
     elif [[ $distro == "debian" ]]
     then
         $SU apt-get update && $SU apt-get install -y curl \
             git silversearcher-ag exuberant-ctags clang powerline \
             build-essential libtool liblua5.1-dev luajit lua5.1 \
             wmctrl rxvt-unicode-256color
-        echo "source '/usr/share/powerline/bindings/tmux/powerline.conf'" >> $HOME/.tmux.conf
+        # echo "source '/usr/share/powerline/bindings/tmux/powerline.conf'" >> $HOME/.tmux.conf
     elif [[ $distro == "ubuntu" ]]
     then
         $SU apt-get update && $SU apt-get install -y curl \
@@ -142,12 +142,12 @@ function build_nvim_from_source() {
 function update_bashrc() {
     blue "** Bashrc update"
     echo "export PATH=\"$vim_dir/neobin/bin:$PATH\"" >> $HOME/.bashrc
-    echo "source $(echo $vim_dir)/bashrc" >> $HOME/.bashrc
+    echo "source $(echo $vim_dir)/bash/bashrc" >> $HOME/.bashrc
 }
 
 function update_tmux_conf() {
     blue "** Tmux config"
-    echo "source $(echo $vim_dir)/tmux.conf" >> $HOME/.tmux.conf
+    echo "source $(echo $vim_dir)/tmux/tmux.conf" >> $HOME/.tmux.conf
 }
 
 function update_git_conf() {
