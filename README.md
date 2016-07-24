@@ -48,6 +48,8 @@ Usage:
 4 directories, 14 files
 ```
 
+I have full explanation to my `vimrc` configurations [here](https://ammarnajjar.github.io/editors/2016/06/19/Vimrc-Adventure/).  
+
 ##License:
 
 GNU GENERAL PUBLIC LICENSE, see LICENSE file for details.
