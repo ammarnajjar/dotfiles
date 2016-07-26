@@ -116,10 +116,11 @@ let g:auto_save_events = ["InsertLeave", "TextChanged"] " save on every change i
 
 " => YouCompleteMe
 let g:ycm_collect_identifiers_from_tags_files = 1 " Let YCM read tags from Ctags file
-let g:ycm_use_ultisnips_completer = 1             " Default 1, just ensure
 let g:ycm_seed_identifiers_with_syntax = 1        " Completion for programming language's keyword
 let g:ycm_complete_in_comments = 1                " Completion in comments
-let g:ycm_complete_in_strings = 1                 " Completion in string
+let g:ycm_show_diagnostics_ui = 1  " turn on YCM's diagnostic display features
+let g:ycm_autoclose_preview_window_after_insertion = 1
+let g:ycm_global_ycm_extra_conf = fnameescape(s:editor_root."/.ycm_extra_conf.py")
 
 " Resolve conflict between YouCompleteMe and UltiSnips TAB key
 let g:UltiSnipsExpandTrigger="<c-j>"
@@ -164,10 +165,10 @@ execute 'let g:ctrlp_cache_dir=fnameescape(s:editor_root."/cache/ctrlp")'
 let g:ctrlp_show_hidden = 1
 let g:ctrlp_max_depth = 40
 let g:ctrlp_mruf_max = 250
-nnoremap <C-x><C-p> :CtrlPMixed<CR>
-nnoremap <C-x><C-l> :CtrlPLine<CR>
-nnoremap <C-x><C-b> :CtrlPBuffer<CR>
-nnoremap <C-x><C-r> :CtrlPMRU<CR>
+nmap <C-x><C-p> :CtrlPMixed<CR>
+nmap <C-x><C-l> :CtrlPLine<CR>
+nmap <C-x><C-b> :CtrlPBuffer<CR>
+nmap <C-x><C-r> :CtrlPMRU<CR>
 
 " => fzf
 " This is the deault extra key bindings
