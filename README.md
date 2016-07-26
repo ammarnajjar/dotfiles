@@ -33,6 +33,7 @@ Usage:
 │   └── templates
 │       └── hooks
 │           └── pre-commit
+├── .gitignore
 ├── install.sh
 ├── LICENSE
 ├── plugs.vim
@@ -45,9 +46,10 @@ Usage:
 │   ├── resize-font
 │   ├── Xresources
 │   └── Xresources_i686
-└── vimrc.vim
+├── vimrc.vim
+└── .ycm_extra_conf.py
 
-6 directories, 14 files
+6 directories, 16 files
 ```
 
 I have full explanation to my `vimrc` configurations [here](https://ammarnajjar.github.io/editors/2016/06/19/Vimrc-Adventure/).  
