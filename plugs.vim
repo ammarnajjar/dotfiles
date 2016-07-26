@@ -30,7 +30,7 @@ Plug 'scrooloose/syntastic'             " Syntax Checking
 Plug 'majutsushi/tagbar'                " Class Explorer
 Plug 'SirVer/ultisnips'                 " Ultisnips
 Plug 'honza/vim-snippets'               " Snippets
-Plug 'Townk/vim-autoclose'              " Autoclose pracets
+Plug 'Raimondi/delimitMate'             " Autoclose pracets
 Plug 'ammarnajjar/wombat256mod'         " My Dark Colorscheme
 Plug 'junegunn/fzf', { 'dir': '~/.vim/cache/fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'                 " FZF fuzzy file finder
