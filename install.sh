@@ -112,17 +112,22 @@ function build_vim_from_source() {
     blue "** Build vim from source in: $(pwd)"
     git clone https://github.com/vim/vim.git /tmp/vimsrc
     cd /tmp/vimsrc
-    CFLAGS+="-O -fPIC -Wformat" ./configure --with-features=huge \
-        --enable-multibyte                                       \
-        --enable-rubyinterp                                      \
-        --enable-pythoninterp                                    \
-        --with-python-config-dir=/usr/lib/python2.7/config       \
-        --enable-perlinterp                                      \
-        --enable-luainterp                                       \
-        --enable-gui=auto                                        \
-        --enable-cscope                                          \
+    CFLAGS="-fPIC -g -Wall" ./configure \
+        --with-features=huge            \
+        --with-x=yes                    \
+        --enable-acl                    \
+        --enable-multibyte              \
+        --enable-rubyinterp             \
+        --enable-luainterp              \
+        --enable-perlinterp             \
+        --enable-pythoninterp           \
+        --enable-tclinterp              \
+        --enable-fontset                \
+        --with-tlib=ncurses             \
+        --enable-gui=auto               \
+        --enable-cscope                 \
         --prefix=/usr/local
-        make VIMRUNTIMEDIR="/usr/local/share/vim/vim74"
+    make VIMRUNTIMEDIR="/usr/local/share/vim/vim74"
     $SU make install
 }
 
