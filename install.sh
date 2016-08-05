@@ -234,6 +234,7 @@ function install_plugins() {
 }
 
 function main(){
+    clone_repos
     create_symlinks
 
     update_tmux_conf
