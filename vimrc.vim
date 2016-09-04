@@ -2,7 +2,7 @@
 " File: vimrc.vim
 " Author: Ammar Najjar <najjarammar@gmail.com>
 " Description: My vim/neovim configurations file
-" Last Modified: July 20, 2016
+" Last Modified: September 04, 2016
 " }}}
 " => General ---------------------- {{{
 " set by default in neovim
@@ -96,18 +96,18 @@ set viminfo^=%
 "     let &t_EI = "\<Esc>]50;CursorShape=0;BlinkingCursorEnabled=0\x7"
 " endif
 
-" change cursor &term =~ 'rxvt-unicode-256color'
-if &term =~ "screen-256color"
-    let &t_SI .= "\<Esc>Ptmux;\<Esc>\<Esc>[3 q\<Esc>\\"
-    let &t_EI .= "\<Esc>Ptmux;\<Esc>\<Esc>[2 q\<Esc>\\"
-else
-    " blinking underscore
-    let &t_SI .= "\<Esc>[3 q"
-    " solid block
-    let &t_EI .= "\<Esc>[2 q"
-    " 1 or 0 -> blinking block
-    " 4 -> solid underscore
-endif
+" " change cursor &term =~ 'rxvt-unicode-256color'
+" if &term =~ "screen-256color"
+"     let &t_SI .= "\<Esc>Ptmux;\<Esc>\<Esc>[3 q\<Esc>\\"
+"     let &t_EI .= "\<Esc>Ptmux;\<Esc>\<Esc>[2 q\<Esc>\\"
+" else
+"     " blinking underscore
+"     let &t_SI .= "\<Esc>[3 q"
+"     " solid block
+"     let &t_EI .= "\<Esc>[2 q"
+"     " 1 or 0 -> blinking block
+"     " 4 -> solid underscore
+" endif
 
 " Enable Omni completion
 set omnifunc=syntaxcomplete#Complete
