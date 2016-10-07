@@ -1,7 +1,7 @@
-URxvt.scrollBar:      false
-URxvt.font: xft:Source Code Pro:size=10, xft:DejaVu Sans Mono:size=9
-URxvt.url-launcher:   /usr/bin/firefox
-URxvt*loginShell:     true
+URxvt.scrollBar: false
+URxvt.font: xft:DejaVu Sans Mono:size=9
+URxvt.url-launcher: /usr/bin/firefox
+URxvt*loginShell: true
 URxvt.internalBorder: 0
 URxvt.externalBorder: 0
 
