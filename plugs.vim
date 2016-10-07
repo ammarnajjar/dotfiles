@@ -38,12 +38,13 @@ Plug '907th/vim-auto-save'              " Autosave
 Plug 'godlygeek/tabular'                " Tanularize
 Plug 'sheerun/vim-polyglot'             " language pack
 Plug 'Valloric/YouCompleteMe'           " YouCompleteMe
+Plug 'scrooloose/nerdtree'              " NERDTree
+Plug 'jistr/vim-nerdtree-tabs'          " NERDTree Tabs
+Plug 'ap/vim-css-color'                 " CSS colors review
 "}}}
 
 " " => General Plugins ---------------------- {{{
 " Plug 'ctrlpvim/ctrlp.vim'               " Ctrlp
-" Plug 'scrooloose/nerdtree'              " NERDTree
-" Plug 'jistr/vim-nerdtree-tabs'          " NERDTree Tabs
 " Plug 'jeetsukumaran/vim-buffergator'    " Buffer Explorer
 " Plug 'vim-scripts/VisIncr'              " Increase/Decrease visual selection
 " Plug 'xolox/vim-misc'                   " Misc tools for session
@@ -51,7 +52,6 @@ Plug 'Valloric/YouCompleteMe'           " YouCompleteMe
 " " }}}
 
 " " => Programming Plugs ---------------------- {{{
-" Plug 'ap/vim-css-color'                 " CSS colors review
 " Plug 'vim-scripts/AutoComplPop'         " Auto popup complete
 " Plug 'vim-voom/VOoM'                    " Two Pane Outliner
 " Plug 'klen/python-mode'                 " Python IDE
