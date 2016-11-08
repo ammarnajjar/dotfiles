@@ -1,6 +1,6 @@
 Status line for urxvt (rxvt-unicode) based on tabbed and tabbedex.
 
-The sole purpose of this extension is to make it easy for you to keep track of things that you are interested to monitor while hacking something in the terminal.
+The sole purpose of this extension is to make it easy for you to keep track of things that you are interested to monitor while hacking your way something in the terminal.
 
 Shoutout to the tabbed authors, and the tabbedex fork.
 

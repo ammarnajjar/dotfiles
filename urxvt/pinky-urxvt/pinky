@@ -53,25 +53,7 @@ sub new_pinky_status_line {
   push @urxvt::TERM_INIT, sub {
     my ($term) = @_;
     $term->{parent} = $self;
-
-    for (0 .. urxvt::NUM_RESOURCES - 1) {
-      my $value = $self->{resource}[$_];
-      if (defined $value) {
-        $term->resource ("+$_" => $value);
-      }
-    }
-
-    foreach my $opt (keys %urxvt::OPTION) {
-      my $value = $self->{option}{$opt};
-      $term->option($urxvt::OPTION{$opt}, $value);
-    }
-
-    $term->resource (perl_ext_2 =>
-      $term->resource ('perl_ext_2') .
-      $self->{perl_ext_blacklist}
-    );
   };
-
   push @urxvt::TERM_EXT, urxvt::ext::pinky::pinky_status::;
 
   new urxvt::term $self->env, $urxvt::RXVTNAME,
@@ -90,6 +72,7 @@ sub rs_text {
 
 sub rs_color($$$$) {
   my ($self, $prefix, $def_fg, $def_bg) = @_;
+
   my $fg = $self->rs_text ($prefix . '-fg') // $def_fg;
   my $bg = $self->rs_text ($prefix . '-bg') // $def_bg;
 
@@ -133,23 +116,18 @@ sub on_tt_write {
 sub on_init {
   my ($self) = @_;
 
-  $self->{resource} = [map $self->resource ("+$_"), 0 .. urxvt::NUM_RESOURCES - 1];
   $self->resource (int_bwidth => 0);
   $self->resource (pty_fd => -1);
+  $self->resource (perl_ext_2 =>
+    $self->resource ('perl_ext_2') . ',-pinky'
+  );
 
   $self->{rs_prefix} = 'pinky';
   $self->{rs_prefix} = $self->rs_text ('pinky-rs-prefix', 'pinky');
 
-  $self->{option} = {};
-  for my $key (keys %urxvt::OPTION) {
-    $self->{option}{$key} = $self->option($urxvt::OPTION{$key});
-  }
-
   # order is important
   $self->option ($urxvt::OPTION{scrollBar}, 0);
   $self->{rs_pinky} = $self->rs_color ('pinky', 3, 0);
-  $self->{perl_ext_blacklist} = join (',-', ',-pinky');
-
   return;
 }
 

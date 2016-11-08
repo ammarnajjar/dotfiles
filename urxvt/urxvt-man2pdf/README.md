@@ -16,7 +16,7 @@ URxvt.perl-lib: /home/user/your/folder/
 # extension to activate
 URxvt.perl-ext-common           : man
 
-# keyboard shortcut to trigger the lib
+# keyboard shortcut to trigger the extension
 URxvt.keysym.Control-Shift-X    : perl:man:topdf
 ```
 
@@ -37,5 +37,5 @@ URxvt.man2pdf.button: 3
 
 # Requirements
 
-* libnotify (to let you know when convesion begins)
 * ghostscript
+* urxvt (rxvt-unicode) compiled with support for perl
