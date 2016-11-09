@@ -53,6 +53,18 @@ sub new_pinky_status_line {
   push @urxvt::TERM_INIT, sub {
     my ($term) = @_;
     $term->{parent} = $self;
+
+    for (0 .. urxvt::NUM_RESOURCES - 1) {
+      my $value = $self->{resource}[$_];
+
+      if (defined $value) {
+        $term->resource ("+$_" => $value);
+      }
+    }
+
+    $term->resource (perl_ext_2 =>
+      $term->resource ('perl_ext_2') . ',-pinky'
+    );
   };
   push @urxvt::TERM_EXT, urxvt::ext::pinky::pinky_status::;
 
@@ -116,11 +128,9 @@ sub on_tt_write {
 sub on_init {
   my ($self) = @_;
 
+  $self->{resource} = [map $self->resource ("+$_"), 0 .. urxvt::NUM_RESOURCES - 1];
   $self->resource (int_bwidth => 0);
   $self->resource (pty_fd => -1);
-  $self->resource (perl_ext_2 =>
-    $self->resource ('perl_ext_2') . ',-pinky'
-  );
 
   $self->{rs_prefix} = 'pinky';
   $self->{rs_prefix} = $self->rs_text ('pinky-rs-prefix', 'pinky');
@@ -128,6 +138,15 @@ sub on_init {
   # order is important
   $self->option ($urxvt::OPTION{scrollBar}, 0);
   $self->{rs_pinky} = $self->rs_color ('pinky', 3, 0);
+  return;
+}
+
+
+sub on_configure_notify {
+  my ($self, $event) = @_;
+
+  $self->make_pinky_window ($self->{cur});
+  $self->refresh;
   return;
 }
 
