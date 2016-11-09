@@ -109,6 +109,21 @@ sub make_pinky_window {
 }
 
 
+sub check_atom_str {
+  my ($self) = @_;
+
+  my $statusLine = $self->{term};
+  my $atom = $statusLine->XInternAtom("_PINKY_NAME", 1);
+  my @ztr = $statusLine->XGetWindowProperty($statusLine->parent, $atom);
+
+  if ($ztr[2]) {
+    $self->{cur}->{name} = $ztr[2];
+    $self->refresh;
+  }
+  return;
+}
+
+
 sub on_focus_in {
   my ($self, $event) = @_;
 
@@ -175,6 +190,11 @@ sub pinky_status_start {
 
   push @{$self->{pinky_line}}, $statusLine;
   $self->make_pinky_window ($statusLine);
+
+  $self->{taimer} = urxvt::timer->new->interval (2)->cb (
+    sub {
+      $self->check_atom_str;
+  });
   return;
 }
 
