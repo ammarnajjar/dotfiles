@@ -90,14 +90,16 @@ function install_dep(){
             make pkgconfig unzip python-pip redhat-rpm-config clang hostname \
             powerline kernel-devel python-devel the_silver_searcher ctags curl \
             wmctrl rxvt-unicode-256color
-        # echo "source '/usr/share/tmux/powerline.conf'" >> $HOME/.tmux.conf
     elif [[ $distro == "debian" ]]
     then
         $SU apt-get update && $SU apt-get install -y curl \
-            git silversearcher-ag exuberant-ctags clang powerline \
+            git libncurses5-dev libgnome2-dev libgnomeui-dev \
+            libgtk2.0-dev libatk1.0-dev libbonoboui2-dev \
+            libcairo2-dev libx11-dev libxpm-dev libxt-dev python-dev \
+            python3-dev ruby-dev lua5.1 lua5.1-dev libperl-dev \
+            silversearcher-ag exuberant-ctags clang powerline \
             build-essential libtool liblua5.1-dev luajit lua5.1 \
             wmctrl rxvt-unicode-256color
-        # echo "source '/usr/share/powerline/bindings/tmux/powerline.conf'" >> $HOME/.tmux.conf
     elif [[ $distro == "ubuntu" ]]
     then
         $SU apt-get update && $SU apt-get install -y curl \
