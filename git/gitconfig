@@ -4,7 +4,7 @@
 [core]
 	editor = vim
 [alias]
-	lol = log --graph --decorate --pretty=oneline --abbrev-commit --all
+	lol = log --graph --decorate --pretty=oneline --abbrev-commit --all -n 30
 	st = status
 [color]
 	ui = true
