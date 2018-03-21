@@ -169,7 +169,7 @@ function clone_repos() {
     curl -fLo $vim_dir/autoload/plug.vim --create-dirs "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
     git clone https://github.com/ammarnajjar/wombat256mod.git plugged/wombat256mod
     git clone -b 'ignored-in-history' https://github.com/ammarnajjar/bash-sensible.git
-    git clone -b twolinedprompt https://github.com/ammarnajjar/liquidprompt.git liquidprompt
+    git clone https://github.com/ammarnajjar/liquidprompt.git liquidprompt
 }
 
 function nvim_symlinks() {

@@ -1,5 +1,5 @@
-alias up='sudo dnf update'
 export TERM=xterm-256color
+export EDITOR=vim
 alias ll='ls -lh'
 alias la='ls -aAh'
 alias l='ls -CF'
@@ -15,7 +15,7 @@ alias g="git status"
 alias vi="vi -u NONE"
 source $vim_dir/bash-sensible/sensible.bash
 [[ $- = *i* ]] && source $vim_dir/liquidprompt/liquidprompt
-[[ $- = *i* ]] && source $vim_dir/liquidprompt/liquid.theme
+
 # useful functions stolen from https://github.com/Bash-it/bash-it
 function mkcd() {
     mkdir -p -- "$*"
