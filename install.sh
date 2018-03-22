@@ -62,8 +62,9 @@ function clone_repos() {
     blue "** Clone github repos -- $(pwd)"
     git clone -b 'neovim' https://github.com/ammarnajjar/dotfiles.git .
     git clone https://github.com/ammarnajjar/wombat256mod.git plugged/wombat256mod
-    git clone -b 'ignored-in-history' https://github.com/ammarnajjar/bash-sensible.git
-    git clone https://github.com/ammarnajjar/liquidprompt.git liquidprompt
+    git clone -b 'ignored-in-history' https://github.com/ammarnajjar/bash-sensible.git bash/bash-sensible
+    # git clone https://github.com/ammarnajjar/liquidprompt.git bash/liquidprompt
+    git clone https://github.com/ammarnajjar/bash-git-prompt.git bash/bash-git-prompt
 }
 
 function nvim_symlinks() {
