@@ -169,8 +169,9 @@ function clone_repos() {
     git clone https://github.com/ammarnajjar/dotfiles.git .
     curl -fLo $vim_dir/autoload/plug.vim --create-dirs "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
     git clone https://github.com/ammarnajjar/wombat256mod.git plugged/wombat256mod
-    git clone -b 'ignored-in-history' https://github.com/ammarnajjar/bash-sensible.git
+    git clone -b 'ignored-in-history' https://github.com/ammarnajjar/bash-sensible.git bash/bash-sensible
     git clone https://github.com/ammarnajjar/liquidprompt.git liquidprompt
+    git clone https://github.com/ammarnajjar/bash-git-prompt.git bash/bash-git-prompt
 }
 
 function nvim_symlinks() {

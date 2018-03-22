@@ -1,4 +1,5 @@
-bash-sensible/*
+*/bash-sensible/*
+*/bash-git-prompt/*
 spell/*
 bundle/*
 neovim*/*
