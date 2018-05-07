@@ -29,10 +29,8 @@ Usage:
 ├── bash
 │   └── bashrc
 ├── git
-│   ├── gitconfig
-│   └── templates
-│       └── hooks
-│           └── pre-commit
+│   ├── git-completion.bash
+│   └── gitconfig
 ├── .gitignore
 ├── install.sh
 ├── LICENSE
@@ -49,11 +47,11 @@ Usage:
 ├── vimrc.vim
 └── .ycm_extra_conf.py
 
-6 directories, 16 files
+4 directories, 16 files
 ```
 
 I have full explanation to my `vimrc` configurations [here](https://ammarnajjar.github.io/editors/2016/06/19/Vimrc-Adventure/).  
 
-##License:
+## License:
 
 GNU GENERAL PUBLIC LICENSE, see LICENSE file for details.
