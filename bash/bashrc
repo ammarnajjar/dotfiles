@@ -15,6 +15,7 @@ alias ctagsit="ctags --append=no --recurse --totals --exclude=blib --exclude=.sv
 alias g="git status"
 alias vi="vi -u NONE"
 source $vim_dir/bash-sensible/sensible.bash
+source $vim_dir/git/git-completion.bash
 [[ $- = *i* ]] && source $vim_dir/liquidprompt/liquidprompt
 
 # useful functions stolen from https://github.com/Bash-it/bash-it
