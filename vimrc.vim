@@ -1,8 +1,36 @@
+"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+"                                                                                                "
+"                                          .::::.                                                "
+"                             ___________ :;;;;:`____________                                    "
+"                             \_________/ ?????L \__________/                                    "
+"                               |.....| ????????> :.......'                                      "
+"                               |:::::| $$$$$$"`.:::::::' ,                                      "
+"                              ,|:::::| $$$$"`.:::::::' .OOS.                                    "
+"                            ,7D|;;;;;| $$"`.;;;;;;;' .OOO888S.                                  "
+"                          .GDDD|;;;;;| ?`.;;;;;;;' .OO8DDDDDNNS.                                "
+"                           'DDO|IIIII| .7IIIII7' .DDDDDDDDNNNF`                                 "
+"                             'D|IIIIII7IIIII7' .DDDDDDDDNNNF`                                   "
+"                               |EEEEEEEEEE7' .DDDDDDDNNNNF`                                     "
+"                               |EEEEEEEEZ' .DDDDDDDDNNNF`                                       "
+"                               |888888Z' .DDDDDDDDNNNF`                                         "
+"                               |8888Z' ,DDDDDDDNNNNF`                                           "
+"                               |88Z'    "DNNNNNNN"                                              "
+"                               '"'        "MMMM"                                                "
+"                                            ""                                                  "
+"                                                                                                "
+"      ___    ____                                            __   _         _    ________  ___  "
+"     /   |  / / /  __  ______  __  __   ____  ___  ___  ____/ /  (_)____   | |  / /  _/  |/  /  "
+"    / /| | / / /  / / / / __ \/ / / /  / __ \/ _ \/ _ \/ __  /  / / ___/   | | / // // /|_/ /   "
+"   / ___ |/ / /  / /_/ / /_/ / /_/ /  / / / /  __/  __/ /_/ /  / (__  )    | |/ // // /  / /    "
+"  /_/  |_/_/_/   \__, /\____/\__,_/  /_/ /_/\___/\___/\__,_/  /_/____/     |___/___/_/  /_/     "
+"                   /_/                                                                          "
+"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+
 " => Header ---------------------- {{{
 " File: vimrc.vim
 " Author: Ammar Najjar <najjarammar@gmail.com>
 " Description: My vim/neovim configurations file
-" Last Modified: September 04, 2016
+" Last Modified: June 12, 2018
 " }}}
 " => General ---------------------- {{{
 " set by default in neovim
@@ -17,6 +45,7 @@ set nocompatible
 set backspace=2
 set smarttab
 set autoindent
+set encoding=UTF-8
 
 if has('nvim')
     let s:editor_root=expand("~/.config/nvim/")
@@ -254,7 +283,7 @@ set statusline+=%#question#                                     " Display a warn
 set statusline+=%{fugitive#statusline()}                        " Fugitive
 set statusline+=%*                                              " tab chars
 set statusline+=%=                                              " right align remainder
-set statusline+=%{SyntasticStatuslineFlag()}                    " Syntastic
+" set statusline+=%{SyntasticStatuslineFlag()}                    " Syntastic
 set statusline+=%y                                              " buffer file type
 set statusline+=%#directory#                                    " display a warning if
 set statusline+=%{&ff!='unix'?'['.&ff.']':''}                   " fileformat isnt
@@ -352,12 +381,12 @@ function! TabToggle()
     endif
 endfunction
 
-" Toggle ColumnColor 80
+" Toggle ColumnColor 119
 function! g:ToggleColorColumn()
   if &colorcolumn != ''
     setlocal colorcolumn&
   else
-    setlocal colorcolumn=80
+    setlocal colorcolumn=119
   endif
 endfunction
 nnoremap <silent> <leader>cc :call g:ToggleColorColumn()<CR>

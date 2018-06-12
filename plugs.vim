@@ -24,55 +24,51 @@ Plug 'mattn/gist-vim'                   " gist.github.com
 Plug 'easymotion/vim-easymotion'        " Multiline Search and Move
 Plug 'rking/ag.vim'                     " Fast in project search
 Plug 'tomtom/tcomment_vim'              " Fast comment
-Plug 'tpope/vim-surround'               " Surround
-Plug 'simnalamburt/vim-mundo'           " Undo Tree fork from gundo
-Plug 'scrooloose/syntastic'             " Syntax Checking
 Plug 'majutsushi/tagbar'                " Class Explorer
-Plug 'SirVer/ultisnips'                 " Ultisnips
-Plug 'honza/vim-snippets'               " Snippets
-Plug 'Raimondi/delimitMate'             " Autoclose pracets
-Plug 'ammarnajjar/wombat256mod'         " My Dark Colorscheme
 Plug 'junegunn/fzf', { 'dir': '~/.vim/cache/fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'                 " FZF fuzzy file finder
-Plug '907th/vim-auto-save'              " Autosave
 Plug 'godlygeek/tabular'                " Tanularize
-Plug 'sheerun/vim-polyglot'             " language pack
-Plug 'Valloric/YouCompleteMe'           " YouCompleteMe
 Plug 'scrooloose/nerdtree'              " NERDTree
 Plug 'jistr/vim-nerdtree-tabs'          " NERDTree Tabs
 Plug 'ap/vim-css-color'                 " CSS colors review
+Plug 'rstacruz/sparkup'                 " XML, HTML sparkup
+Plug 'ammarnajjar/wombat256mod'         " My Dark Colorscheme
 "}}}
 
 " " => General Plugins ---------------------- {{{
+" Plug '907th/vim-auto-save'              " Autosave
+" Plug 'SirVer/ultisnips'                 " Ultisnips
+" Plug 'honza/vim-snippets'               " Snippets
+" Plug 'Raimondi/delimitMate'             " Autoclose pracets
+" Plug 'tpope/vim-surround'               " Surround
+" Plug 'simnalamburt/vim-mundo'           " Undo Tree fork from gundo
+" Plug 'scrooloose/syntastic'             " Syntax Checking
+" Plug 'sheerun/vim-polyglot'             " language pack
+" Plug 'Valloric/YouCompleteMe'           " YouCompleteMe
 " Plug 'ctrlpvim/ctrlp.vim'               " Ctrlp
 " Plug 'jeetsukumaran/vim-buffergator'    " Buffer Explorer
 " Plug 'vim-scripts/VisIncr'              " Increase/Decrease visual selection
 " Plug 'xolox/vim-misc'                   " Misc tools for session
 " Plug 'xolox/vim-session'                " Session control
+" Plug 'vim-scripts/AutoComplPop'         " Auto popup complete
+" Plug 'terryma/vim-multiple-cursors'     " Multi-Cursors
 " " }}}
 
 " " => Programming Plugs ---------------------- {{{
-" Plug 'vim-scripts/AutoComplPop'         " Auto popup complete
+" Plug 'pangloss/vim-javascript'          " javascript
 " Plug 'vim-voom/VOoM'                    " Two Pane Outliner
-" Plug 'klen/python-mode'                 " Python IDE
-" Plug 'rstacruz/sparkup'                 " XML, HTML sparkup
 " Plug 'sukima/xmledit'                   " XML edit
-" Plug 'vim-scripts/django.vim'           " Django templates Syntax
 " Plug 'tpope/vim-dispatch'               " Compile/make in the background
 " Plug 'vim-scripts/DoxygenToolkit.vim'   " Doxygen generator
 " Plug 'vim-scripts/a.vim'                " Switch between header and source c++
 " Plug 'sigidagi/vim-cmake-project'       " CMake
 " Plug 'vim-scripts/Conque-GDB'           " gdp
 " Plug 'justmao945/vim-clang'             " C++ Bundle
-" Plug 'terryma/vim-multiple-cursors'     " Multi-Cursors
 " Plug 'rdallman/openrefactory-vim'       " Easier Refactoring
 " Plug 'kovisoft/slimv'                   " LISP SLIME for vim
 " Plug 'vim-scripts/paredit.vim'          " LISP paredit
-" Plug 'Yggdroot/indentLine'              " Draw line for each indentation level (spaces)
-" Plug 'jmcomets/vim-pony'                " Django jump commands
 " Plug 'MarcWeber/vim-addon-mw-utils'     " Utils
 " Plug 'tomtom/tlib_vim'                  " Utils
-" Plug 'pangloss/vim-javascript'          " javascript
 " Plug 'vim-pandoc/vim-pandoc'            " Markdown pandoc
 " Plug 'vim-pandoc/vim-pandoc-syntax'     " Markdown syntax
 " Plug 'plasticboy/vim-markdown'          " Markdown syntax
@@ -84,6 +80,17 @@ Plug 'ap/vim-css-color'                 " CSS colors review
 " Plug 'gi1242/vim-tex-autoclose'         " Latex autoclose
 " Plug 'lervag/vimtex'                    " Latex
 " Plug 'LaTeX-Box-Team/LaTeX-Box'         " Latex
+" " }}}
+
+" " => Python Plugs ---------------------- {{{
+" Plug 'nvie/vim-flake8'                   " python-flake8
+" Plug 'klen/python-mode'                 " Python IDE
+" Plug 'hynek/vim-python-pep8-indent'     " PEP8 indentation aware
+" Plug 'jmcantrell/vim-virtualenv'        " Venv aware for auto completion
+" Plug 'vim-scripts/django.vim'           " Django templates Syntax
+" Plug 'mitsuhiko/vim-jinja'              " jinja syntax
+" Plug 'Yggdroot/indentLine'              " Draw line for each indentation level (spaces)
+" Plug 'jmcomets/vim-pony'                " Django jump commands
 " " }}}
 
 " " => Colorschemes Plugs ---------------------- {{{
