@@ -51,6 +51,7 @@ Plug 'ammarnajjar/wombat256mod'         " My Dark Colorscheme
 " " }}}
 
 " " => Programming Plugs ---------------------- {{{
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " Plug 'pangloss/vim-javascript'          " javascript
 " Plug 'vim-voom/VOoM'                    " Two Pane Outliner
 " Plug 'sukima/xmledit'                   " XML edit
@@ -79,6 +80,7 @@ Plug 'ammarnajjar/wombat256mod'         " My Dark Colorscheme
 " " }}}
 
 " " => Python Plugs ---------------------- {{{
+" Plug 'zchee/deoplete-jedi'
 " Plug 'nvie/vim-flake8'                   " python-flake8
 " Plug 'klen/python-mode'                 " Python IDE
 " Plug 'hynek/vim-python-pep8-indent'     " PEP8 indentation aware
@@ -101,6 +103,9 @@ call plug#end()
 "}}}
 
 " => Plugins Config ---------------------- {{{
+
+" => Deoplete
+let g:deoplete#enable_at_startup = 1
 
 " => Theme
 set cursorline
