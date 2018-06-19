@@ -1,3 +1,4 @@
+" => Header ---------------------- {{{
 "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 "                                                                                                "
 "                                          .::::.                                                "
@@ -25,12 +26,10 @@
 "  /_/  |_/_/_/   \__, /\____/\__,_/  /_/ /_/\___/\___/\__,_/  /_/____/     |___/___/_/  /_/     "
 "                   /_/                                                                          "
 "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-
-" => Header ---------------------- {{{
-" File: vimrc.vim
+" File: init.vim
 " Author: Ammar Najjar <najjarammar@gmail.com>
-" Description: My vim/neovim configurations file
-" Last Modified: June 12, 2018
+" Description: My neovim configurations file
+" Last Modified: June 19, 2018
 " }}}
 " => General ---------------------- {{{
 " set by default in neovim
@@ -47,17 +46,13 @@ set smarttab
 set autoindent
 set encoding=UTF-8
 
-if has('nvim')
-    let s:editor_root=expand("~/.config/nvim/")
-    " terminal mode mappings
-    tnoremap <Esc> <C-\><C-n>
-    tnoremap <C-h> <C-\><C-n><C-w>h
-    tnoremap <C-j> <C-\><C-n><C-w>j
-    tnoremap <C-k> <C-\><C-n><C-w>k
-    tnoremap <C-l> <C-\><C-n><C-w>l
-else
-    let s:editor_root=expand("~/.vim")
-endif
+let s:editor_root=expand("~/.config/nvim/")
+" terminal mode mappings
+tnoremap <Esc> <C-\><C-n>
+tnoremap <C-h> <C-\><C-n><C-w>h
+tnoremap <C-j> <C-\><C-n><C-w>j
+tnoremap <C-k> <C-\><C-n><C-w>k
+tnoremap <C-l> <C-\><C-n><C-w>l
 
 let mapleader=","   " Change leader key to ,
 

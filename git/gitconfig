@@ -1,8 +1,8 @@
 [user]
-	# name = Ammar Najjar
-	# email = najjarammar@gmail.com
+	name = Ammar Najjar
+	email = najjarammar@gmail.com
 [core]
-	editor = vim
+	editor = nvim
 [alias]
 	lol = log --graph --decorate --pretty=oneline --abbrev-commit --all
 	lg1 = log --graph --pretty=format:'%C(bold yellow)%h%Creset -%C(bold cyan)%aD%C(reset) %C(bold green)%d%Creset %s %C(bold blue)<%an>%Creset' --abbrev-commit

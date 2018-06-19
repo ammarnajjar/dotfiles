@@ -1,5 +1,6 @@
 export TERM=xterm-256color
 export LANG='en_US.UTF-8'
+alias vim='nvim'
 export EDITOR=vim
 alias ll='ls -lh'
 alias la='ls -aAh'
@@ -15,9 +16,9 @@ export HISTTIMEFORMAT="[%F %T] "
 alias ctagsit="ctags --append=no --recurse --totals --exclude=blib --exclude=.svn --exclude=.get --exclude='@.gitignore' --extra=q"
 alias g="git status"
 alias vi="vi -u NONE"
-source $vim_dir/bash-sensible/sensible.bash
-source $vim_dir/git/git-completion.bash
-[[ $- = *i* ]] && source $vim_dir/liquidprompt/liquidprompt
+source $dotfiles_dir/bash-sensible/sensible.bash
+source $dotfiles_dir/git/git-completion.bash
+[[ $- = *i* ]] && source $dotfiles_dir/liquidprompt/liquidprompt
 
 # useful functions stolen from https://github.com/Bash-it/bash-it
 function mkcd() {

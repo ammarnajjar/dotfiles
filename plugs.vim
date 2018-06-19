@@ -1,14 +1,10 @@
 " => editor_root  ---------------------- {{{
-if has('nvim')
-    let s:editor_root=expand("~/.config/nvim/")
-else
-    let s:editor_root=expand("~/.vim")
-endif
+ let s:editor_root=expand("~/.config/nvim/")
 "}}}
 
 " => Enable Plugins  ---------------------- {{{
 if empty(glob(fnameescape(s:editor_root."/autoload/plug.vim")))
-    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
                 \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     autocmd VimEnter * PlugInstall | source $MYVIMRC
 endif
