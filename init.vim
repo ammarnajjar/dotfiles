@@ -1,4 +1,4 @@
-" => Header ---------------------- {{{
+" => Header ---------------------- {{{1
 "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 "                                                                                                "
 "                                          .::::.                                                "
@@ -31,7 +31,7 @@
 " Description: My neovim configurations file
 " Last Modified: June 19, 2018
 " }}}
-" => General ---------------------- {{{
+" => General ---------------------- {{{1
 " set by default in neovim
 set incsearch
 set ttyfast
@@ -139,7 +139,7 @@ set omnifunc=syntaxcomplete#Complete
 " Restrict syntax for all files
 set synmaxcol=200
 " }}}
-" => Mappings ---------------------- {{{
+" => Mappings ---------------------- {{{1
 
 " view hidden characters like spaces and tabs
 nnoremap <F2> :<C-U>setlocal lcs=tab:>-,trail:-,eol:$ list! list? <CR>
@@ -220,7 +220,7 @@ autocmd BufReadPost *
 " Toggle spell checking
 map <leader>ss :setlocal spell!<cr>
 "}}}
-" => Filetypes specific configs ---------------------- {{{
+" => Filetypes specific configs ---------------------- {{{1
 
 " Different settings for different filetypes
 if has("autocmd")
@@ -235,7 +235,7 @@ if has("autocmd")
     autocmd fileType python setlocal shiftwidth=4 tabstop=4 softtabstop=4
 endif
 " }}}
-" => Colorscheme ---------------------- {{{
+" => Colorscheme ---------------------- {{{1
 " Set extra options when running in GUI mode
 if has("gui_running")
     set guioptions-=T
@@ -255,12 +255,12 @@ if has("gui_running")
     autocmd InsertLeave * highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=254
 endif
 " }}}
-" => Plugins ---------------------- {{{
+" => Plugins ---------------------- {{{1
 if filereadable(s:editor_root."/plugs.vim")
     execute 'source '.fnameescape(s:editor_root."/plugs.vim")
 endif
 " }}}
-" => Status line ---------------------- {{{
+" => Status line ---------------------- {{{1
 set statusline=
 set statusline=[%n]\                                            " buffer number
 set statusline+=%<%.99f                                         " File name, F for full path
@@ -291,7 +291,7 @@ set laststatus=2
 autocmd InsertEnter * highlight StatusLine term=reverse ctermbg=Blue gui=bold guifg=White guibg=Blue
 autocmd InsertLeave * highlight StatusLine term=reverse ctermfg=254 ctermbg=238 gui=bold guifg=White guibg=Black
 " }}}
-" => Helper functions ---------------------- {{{
+" => Helper functions ---------------------- {{{1
 
 " Check if paste mode is enabled
 function! HasPaste()

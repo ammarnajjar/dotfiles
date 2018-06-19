@@ -1,8 +1,8 @@
-" => editor_root  ---------------------- {{{
+" => editor_root  ---------------------- {{{1
  let s:editor_root=expand("~/.config/nvim/")
 "}}}
 
-" => Enable Plugins  ---------------------- {{{
+" => Enable Plugins  ---------------------- {{{1
 if empty(glob(fnameescape(s:editor_root."/autoload/plug.vim")))
     silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
                 \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -10,7 +10,7 @@ if empty(glob(fnameescape(s:editor_root."/autoload/plug.vim")))
 endif
 call plug#begin(s:editor_root."/plugged/")
 
-" => Basic Plugins (master) ---------------- {{{
+" => Basic Plugins (master) ---------------- {{{2
 Plug 'tpope/vim-sensible'               " General settings
 Plug 'tpope/vim-fugitive'               " Git
 Plug 'airblade/vim-gitgutter'           " Git Diff viewer
@@ -31,7 +31,7 @@ Plug 'rstacruz/sparkup'                 " XML, HTML sparkup
 Plug 'ammarnajjar/wombat256mod'         " My Dark Colorscheme
 "}}}
 
-" " => General Plugins ---------------------- {{{
+" " => General Plugins ---------------------- {{{2
 " Plug '907th/vim-auto-save'              " Autosave
 " Plug 'SirVer/ultisnips'                 " Ultisnips
 " Plug 'honza/vim-snippets'               " Snippets
@@ -50,10 +50,11 @@ Plug 'ammarnajjar/wombat256mod'         " My Dark Colorscheme
 " Plug 'terryma/vim-multiple-cursors'     " Multi-Cursors
 " " }}}
 
-" " => Programming Plugs ---------------------- {{{
+" " => Programming Plugs ---------------------- {{{2
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" Plug 'pangloss/vim-javascript'          " javascript
 " Plug 'vim-voom/VOoM'                    " Two Pane Outliner
+" Plug 'metakirby5/codi.vim'
+" Plug 'pangloss/vim-javascript'          " javascript
 " Plug 'sukima/xmledit'                   " XML edit
 " Plug 'tpope/vim-dispatch'               " Compile/make in the background
 " Plug 'vim-scripts/DoxygenToolkit.vim'   " Doxygen generator
@@ -79,19 +80,20 @@ Plug 'ammarnajjar/wombat256mod'         " My Dark Colorscheme
 " Plug 'LaTeX-Box-Team/LaTeX-Box'         " Latex
 " " }}}
 
-" " => Python Plugs ---------------------- {{{
+" " => Python Plugs ---------------------- {{{2
 " Plug 'zchee/deoplete-jedi'
 " Plug 'nvie/vim-flake8'                   " python-flake8
-" Plug 'klen/python-mode'                 " Python IDE
+" Plug 'heavenshell/vim-pydocstring'
 " Plug 'hynek/vim-python-pep8-indent'     " PEP8 indentation aware
 " Plug 'jmcantrell/vim-virtualenv'        " Venv aware for auto completion
 " Plug 'vim-scripts/django.vim'           " Django templates Syntax
 " Plug 'mitsuhiko/vim-jinja'              " jinja syntax
+" Plug 'klen/python-mode'                 " Python IDE
 " Plug 'Yggdroot/indentLine'              " Draw line for each indentation level (spaces)
 " Plug 'jmcomets/vim-pony'                " Django jump commands
 " " }}}
 
-" " => Colorschemes Plugs ---------------------- {{{
+" " => Colorschemes Plugs ---------------------- {{{2
 " Plug 'tomasr/molokai'                   " Dark Colorscheme
 " Plug 'vim-scripts/Spacegray.vim'        " Dark Colorscheme
 " Plug 'nanotech/jellybeans.vim'          " Dark Colorscheme
@@ -102,12 +104,13 @@ Plug 'ammarnajjar/wombat256mod'         " My Dark Colorscheme
 call plug#end()
 "}}}
 
-" => Plugins Config ---------------------- {{{
+" => Plugins Config ---------------------- {{{1
 
-" => Deoplete
+" => Deoplete ---------------- {{{2
 let g:deoplete#enable_at_startup = 1
+"}}}
 
-" => Theme
+" => Theme ---------------- {{{2
 set cursorline
 " Colorscheme
 " Enable CursorLine
@@ -117,12 +120,14 @@ if ! has("gui_running")
     autocmd InsertEnter * highlight CursorLineNr term=bold ctermfg=Black ctermbg=74 gui=bold guifg=Black guibg=SkyBlue1
     autocmd InsertLeave * highlight CursorLineNr term=bold ctermfg=Yellow ctermbg=Black gui=bold guifg=Yellow guibg=Black
 endif
+"}}}
 
-" => Autosave
+" => Autosave ---------------- {{{2
 let g:auto_save = 0  " enable AutoSave on Vim startup
 let g:auto_save_events = ["InsertLeave", "TextChanged"] " save on every change in normal mode.
+"}}}
 
-" => YouCompleteMe
+" => YouCompleteMe ---------------- {{{2
 let g:ycm_collect_identifiers_from_tags_files = 1 " Let YCM read tags from Ctags file
 let g:ycm_seed_identifiers_with_syntax = 1        " Completion for programming language's keyword
 let g:ycm_complete_in_comments = 1                " Completion in comments
@@ -132,15 +137,18 @@ let g:ycm_global_ycm_extra_conf = fnameescape(s:editor_root."/.ycm_extra_conf.py
 
 " Resolve conflict between YouCompleteMe and UltiSnips TAB key
 let g:UltiSnipsExpandTrigger="<c-j>"
+"}}}
 
-" => Sessions Management
+" => Sessions Management ---------------- {{{2
 let g:session_autosave = 'no'
 let g:session_autoload = 'no'
+"}}}
 
-" => Tagbar Toggle
+" => Tagbar Toggle ---------------- {{{2
 nmap <F3> :TagbarToggle<CR>
+"}}}
 
-" => NERDTree toggle
+" => NERDTree toggle ---------------- {{{2
 map <F4> <plug>NERDTreeTabsToggle<CR>
 let NERDTreeIgnore=['\.pyc$','\.aux$', '\.o$', '\~$']
 let g:nerdtree_tabs_open_on_gui_startup = 0 " Default 1
@@ -148,25 +156,29 @@ let g:nerdtree_tabs_autofind = 1 " Default 0
 
 " Indent Lines toggle
 map <F7> :IndentLinesToggle<CR>
+"}}}
 
-" => Fugitive
+" => Fugitive ---------------- {{{2
 " Auto-clean fugitive buffers
 if has("autocmd")
     autocmd BufReadPost fugitive://* set bufhidden=delete
 endif
+"}}}
 
-" => GitGutter
+" => GitGutter ---------------- {{{2
 let g:gitgutter_max_signs = 5000
 let g:gitgutter_realtime = 0
 let g:gitgutter_eager = 0
+"}}}
 
-" => Ag
+" => Ag ---------------- {{{2
 if executable("ag")
   let g:ackprg = "ag --nogroup --column"
   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 endif
+"}}}
 
-" => Ctrlp
+" => Ctrlp ---------------- {{{2
 let g:ctrlp_use_caching = 1
 let g:ctrlp_clear_cache_on_exit = 0
 execute 'let g:ctrlp_cache_dir=fnameescape(s:editor_root."/cache/ctrlp")'
@@ -177,8 +189,9 @@ nmap <C-x><C-p> :CtrlPMixed<CR>
 nmap <C-x><C-l> :CtrlPLine<CR>
 nmap <C-x><C-b> :CtrlPBuffer<CR>
 nmap <C-x><C-r> :CtrlPMRU<CR>
+"}}}
 
-" => fzf
+" => fzf ---------------- {{{2
 " This is the deault extra key bindings
 let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
@@ -241,29 +254,34 @@ nnoremap <silent> <Leader>B  :Buffers<CR>
 nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
 nnoremap <silent> <Leader>AG :Ag <C-R><C-A><CR>
 nnoremap <silent> <Leader>`  :Marks<CR>
+"}}}
 
-" => syntastic
+" => syntastic ---------------- {{{2
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_wq = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_python_pylint_args = '-d C0301'
+"}}}
 
-" => Clang
+" => Clang ---------------- {{{2
 let g:syntastic_cpp_compiler = 'clang++'
 let g:clang_c_options = '-std=c++14'
 let g:syntastic_cpp_compiler_options = ' -std=c++14 -std=libc++'
+"}}}
 
-" => GDB
+" => GDB ---------------- {{{2
 let g:ConqueTerm_Color = 2         " 1: strip color after 200 lines, 2: always with color
 let g:ConqueTerm_CloseOnEnd = 1    " close conque when program ends running
 let g:ConqueTerm_StartMessages = 0 " display warning messages if conqueTerm is configured incorrectly
+"}}}
 
-" => slimv
+" => slimv ---------------- {{{2
 let g:lisp_rainbow=1
 let g:paredit_electric_return=1
+"}}}
 
-" => airline
+" => airline ---------------- {{{2
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#branch#empty_message = 'no .git'
 let g:airline#extensions#tagbar#enabled = 1
@@ -277,9 +295,12 @@ let g:airline_detect_modified=1
 let g:airline_detect_paste=1
 let g:airline#extensions#syntastic#enabled = 1
 " let g:airline_powerline_fonts = 1
+"}}}
 
-" => Pymode
+" => Pymode ---------------- {{{2
 let g:pymode_lint_ignore = "E501,W191,E302"
 let g:pymode_lint_on_write = 0
+" }}}
+
 " }}}
 " vim: ft=vim:ts=4:sw=4:et:fdm=marker
