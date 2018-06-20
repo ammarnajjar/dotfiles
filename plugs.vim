@@ -32,13 +32,13 @@ Plug 'ammarnajjar/wombat256mod'         " My Dark Colorscheme
 "}}}
 
 " " => General Plugins ---------------------- {{{2
-" Plug '907th/vim-auto-save'              " Autosave
 " Plug 'SirVer/ultisnips'                 " Ultisnips
 " Plug 'honza/vim-snippets'               " Snippets
 " Plug 'Raimondi/delimitMate'             " Autoclose pracets
 " Plug 'tpope/vim-surround'               " Surround
 " Plug 'simnalamburt/vim-mundo'           " Undo Tree fork from gundo
 " Plug 'scrooloose/syntastic'             " Syntax Checking
+" Plug '907th/vim-auto-save'              " Autosave
 " Plug 'sheerun/vim-polyglot'             " language pack
 " Plug 'Valloric/YouCompleteMe'           " YouCompleteMe
 " Plug 'ctrlpvim/ctrlp.vim'               " Ctrlp
@@ -53,7 +53,7 @@ Plug 'ammarnajjar/wombat256mod'         " My Dark Colorscheme
 " " => Programming Plugs ---------------------- {{{2
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " Plug 'vim-voom/VOoM'                    " Two Pane Outliner
-" Plug 'metakirby5/codi.vim'
+" Plug 'metakirby5/codi.vim'              " Evaluate interpreted languages live
 " Plug 'pangloss/vim-javascript'          " javascript
 " Plug 'sukima/xmledit'                   " XML edit
 " Plug 'tpope/vim-dispatch'               " Compile/make in the background
@@ -81,9 +81,10 @@ Plug 'ammarnajjar/wombat256mod'         " My Dark Colorscheme
 " " }}}
 
 " " => Python Plugs ---------------------- {{{2
-" Plug 'zchee/deoplete-jedi'
-" Plug 'nvie/vim-flake8'                   " python-flake8
-" Plug 'heavenshell/vim-pydocstring'
+" Plug 'zchee/deoplete-jedi'              " Auto-complete
+" Plug 'integralist/vim-mypy'             " Static Type checker
+" Plug 'nvie/vim-flake8'                  " python-flake8
+" Plug 'heavenshell/vim-pydocstring'      " Generate docstrings
 " Plug 'hynek/vim-python-pep8-indent'     " PEP8 indentation aware
 " Plug 'jmcantrell/vim-virtualenv'        " Venv aware for auto completion
 " Plug 'vim-scripts/django.vim'           " Django templates Syntax
