@@ -31,33 +31,16 @@
 " Description: My neovim configurations file
 " Last Modified: June 19, 2018
 " }}}
-" => General ---------------------- {{{1
-" set by default in neovim
-set incsearch
-set ttyfast
-set autoread
-set wildmenu
-set wildmode=longest:list,full
-set hlsearch
-set history=1000
-set nocompatible
-set backspace=2
-set smarttab
-set autoindent
-set encoding=UTF-8
 
+" => General ---------------------- {{{1
 let s:editor_root=expand("~/.config/nvim/")
-" terminal mode mappings
-tnoremap <Esc> <C-\><C-n>
-tnoremap <C-h> <C-\><C-n><C-w>h
-tnoremap <C-j> <C-\><C-n><C-w>j
-tnoremap <C-k> <C-\><C-n><C-w>k
-tnoremap <C-l> <C-\><C-n><C-w>l
+"
+" defaults in neovim -> :h vim-diff
+set wildmode=longest:list,full
 
 let mapleader=","   " Change leader key to ,
 
 set mouse=          " Disable mouse usage (all modes)
-set showcmd         " Show (partial) command in status line.
 set showmatch       " Show matching brackets.
 set matchtime=1     " for 1/10th of a second
 set ignorecase      " Do case insensitive matching
@@ -110,29 +93,6 @@ execute 'set undodir='.fnameescape(s:editor_root."/undo/")
 " Remember info about open buffers on close
 set viminfo^=%
 
-" " change cursor for KDE konsole &term =~ 'xterm-256color'
-" if &term =~ "screen-256color"
-"     let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1;BlinkingCursorEnabled=1\x7\<Esc>\\"
-"     let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0;BlinkingCursorEnabled=0\x7\<Esc>\\"
-" else
-"     let &t_SI = "\<Esc>]50;CursorShape=1;BlinkingCursorEnabled=1\x7"
-"     let &t_SR = "\<Esc>]50;CursorShape=2;BlinkingCursorEnabled=1\x7"
-"     let &t_EI = "\<Esc>]50;CursorShape=0;BlinkingCursorEnabled=0\x7"
-" endif
-
-" " change cursor &term =~ 'rxvt-unicode-256color'
-" if &term =~ "screen-256color"
-"     let &t_SI .= "\<Esc>Ptmux;\<Esc>\<Esc>[3 q\<Esc>\\"
-"     let &t_EI .= "\<Esc>Ptmux;\<Esc>\<Esc>[2 q\<Esc>\\"
-" else
-"     " blinking underscore
-"     let &t_SI .= "\<Esc>[3 q"
-"     " solid block
-"     let &t_EI .= "\<Esc>[2 q"
-"     " 1 or 0 -> blinking block
-"     " 4 -> solid underscore
-" endif
-
 " Enable Omni completion
 set omnifunc=syntaxcomplete#Complete
 
@@ -140,6 +100,13 @@ set omnifunc=syntaxcomplete#Complete
 set synmaxcol=200
 " }}}
 " => Mappings ---------------------- {{{1
+
+" terminal mode mappings
+tnoremap <Esc> <C-\><C-n>
+tnoremap <C-h> <C-\><C-n><C-w>h
+tnoremap <C-j> <C-\><C-n><C-w>j
+tnoremap <C-k> <C-\><C-n><C-w>k
+tnoremap <C-l> <C-\><C-n><C-w>l
 
 " view hidden characters like spaces and tabs
 nnoremap <F2> :<C-U>setlocal lcs=tab:>-,trail:-,eol:$ list! list? <CR>
@@ -285,7 +252,6 @@ set statusline+=%{&ff!='unix'?'['.&ff.']':''}                   " fileformat isn
 set statusline+=%*                                              " unix
 set statusline+=%c%V,%l/                                        " column and row Number
 set statusline+=%L\ %P                                          " total lines, position in file
-set laststatus=2
 
 " Change StatusLine colors for insert mode
 autocmd InsertEnter * highlight StatusLine term=reverse ctermbg=Blue gui=bold guifg=White guibg=Blue

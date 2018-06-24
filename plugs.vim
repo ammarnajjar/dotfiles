@@ -28,6 +28,7 @@ Plug 'scrooloose/nerdtree'              " NERDTree
 Plug 'jistr/vim-nerdtree-tabs'          " NERDTree Tabs
 Plug 'ap/vim-css-color'                 " CSS colors review
 Plug 'rstacruz/sparkup'                 " XML, HTML sparkup
+Plug 'vim-voom/VOoM'                    " Two Pane Outliner
 Plug 'ammarnajjar/wombat256mod'         " My Dark Colorscheme
 "}}}
 
@@ -52,7 +53,6 @@ Plug 'ammarnajjar/wombat256mod'         " My Dark Colorscheme
 
 " " => Programming Plugs ---------------------- {{{2
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" Plug 'vim-voom/VOoM'                    " Two Pane Outliner
 " Plug 'metakirby5/codi.vim'              " Evaluate interpreted languages live
 " Plug 'pangloss/vim-javascript'          " javascript
 " Plug 'sukima/xmledit'                   " XML edit
@@ -82,10 +82,12 @@ Plug 'ammarnajjar/wombat256mod'         " My Dark Colorscheme
 
 " " => Python Plugs ---------------------- {{{2
 " Plug 'zchee/deoplete-jedi'              " Auto-complete
+" Plug 'janko-m/vim-test'                 " Run tests within vim
 " Plug 'integralist/vim-mypy'             " Static Type checker
-" Plug 'nvie/vim-flake8'                  " python-flake8
+" Plug 'nvie/vim-flake8'                   " python-flake8
 " Plug 'heavenshell/vim-pydocstring'      " Generate docstrings
 " Plug 'hynek/vim-python-pep8-indent'     " PEP8 indentation aware
+" Plug 'w0rp/ale'                         " Auto linter
 " Plug 'jmcantrell/vim-virtualenv'        " Venv aware for auto completion
 " Plug 'vim-scripts/django.vim'           " Django templates Syntax
 " Plug 'mitsuhiko/vim-jinja'              " jinja syntax
@@ -109,6 +111,11 @@ call plug#end()
 
 " => Deoplete ---------------- {{{2
 let g:deoplete#enable_at_startup = 1
+"}}}
+
+" => vim-test ---------------- {{{2
+let test#python#runner = 'pytest'
+let test#strategy = "neovim"
 "}}}
 
 " => Theme ---------------- {{{2
