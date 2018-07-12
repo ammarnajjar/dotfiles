@@ -52,10 +52,10 @@ Plug 'tpope/vim-surround'               " Surround
 " " }}}
 
 " " => Programming Plugs ---------------------- {{{2
-Plug 'leafgarland/typescript-vim'       " Typescript Syntax
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'metakirby5/codi.vim'              " Evaluate interpreted languages live
-" Plug 'pangloss/vim-javascript'          " javascript
+Plug 'leafgarland/typescript-vim'       " Typescript Syntax
+Plug 'pangloss/vim-javascript'          " javascript
 " Plug 'sukima/xmledit'                   " XML edit
 " Plug 'tpope/vim-dispatch'               " Compile/make in the background
 " Plug 'vim-scripts/DoxygenToolkit.vim'   " Doxygen generator
@@ -98,6 +98,7 @@ Plug 'w0rp/ale'                         " Auto linter
 " " }}}
 
 " " => Colorschemes Plugs ---------------------- {{{2
+Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 " Plug 'tomasr/molokai'                   " Dark Colorscheme
 " Plug 'vim-scripts/Spacegray.vim'        " Dark Colorscheme
 " Plug 'nanotech/jellybeans.vim'          " Dark Colorscheme
