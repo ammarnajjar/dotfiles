@@ -54,6 +54,7 @@ Plug 'ammarnajjar/wombat256mod'         " My Dark Colorscheme
 " " => Programming Plugs ---------------------- {{{2
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " Plug 'metakirby5/codi.vim'              " Evaluate interpreted languages live
+" Plug 'leafgarland/typescript-vim'       " Typescript Syntax
 " Plug 'pangloss/vim-javascript'          " javascript
 " Plug 'sukima/xmledit'                   " XML edit
 " Plug 'tpope/vim-dispatch'               " Compile/make in the background

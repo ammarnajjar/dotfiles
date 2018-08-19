@@ -198,8 +198,9 @@ if has("autocmd")
         execute 'source '.fnameescape(s:editor_root."/abbr.vim")
     endif
 
-    autocmd fileType html,xhtml,htm,xml,php,ruby setlocal shiftwidth=2 tabstop=2 softtabstop=2
-    autocmd fileType python setlocal shiftwidth=4 tabstop=4 softtabstop=4
+    autocmd fileType html,xhtml,htm,xml,css,scss,php,ruby setlocal shiftwidth=2 tabstop=2 softtabstop=2
+    autocmd fileType python setlocal shiftwidth=4 tabstop=4 softtabstop=4 expandtab
+    autocmd fileType typescript,javascript setlocal shiftwidth=2 tabstop=2 softtabstop=2 expandtab
 endif
 " }}}
 " => Colorscheme ---------------------- {{{1
