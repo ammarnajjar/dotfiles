@@ -4,9 +4,17 @@
 [core]
 	editor = vim
 [alias]
-	lol = log --graph --decorate --pretty=oneline --abbrev-commit --all -n 30
+	lol = log --graph --decorate --pretty=oneline --abbrev-commit --all
+	lg1 = log --graph --pretty=format:'%C(bold yellow)%h%Creset -%C(bold cyan)%aD%C(reset) %C(bold green)%d%Creset %s %C(bold blue)<%an>%Creset' --abbrev-commit
+	lg2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold yellow)%h%C(reset) - %C(bold cyan)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold green)%d%C(reset)' --all
+	lg3 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
 	st = status
+	co = checkout
+	br = branch
+	ci = commit
 [color]
 	ui = true
 [init]
 	templatedir = ~/.vim/git/templates
+[changelog]
+	format = * %h %B
