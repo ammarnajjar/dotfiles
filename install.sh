@@ -159,7 +159,8 @@ function update_tmux_conf() {
 
 function update_git_conf() {
     blue "** Git config"
-    ln -s $vim_dir/git/gitconfig $HOME/.gitconfig
+    ln -s $vim_dir/git/gitconfig $HOME/.config/git/config
+    ln -s $vim_dir/git/gitmessage $HOME/.config/git/gitmessage
 }
 
 function clone_repos() {

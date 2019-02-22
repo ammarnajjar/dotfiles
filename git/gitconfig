@@ -14,7 +14,7 @@
 	ci = commit
 [color]
 	ui = true
-[init]
-	templatedir = ~/.vim/git/templates
+[commit]
+	template = ~/.config/git/gitmessage
 [changelog]
 	format = * %h %B
