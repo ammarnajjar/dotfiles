@@ -34,7 +34,14 @@
 
 " => General ---------------------- {{{1
 let s:editor_root=expand("~/.config/nvim/")
-"
+
+" Figure out the system Python for Neovim.
+if exists("$VIRTUAL_ENV")
+    let g:python3_host_prog=substitute(system("which -a python3 | head -n2 | tail -n1"), "\n", '', 'g')
+else
+    let g:python3_host_prog=substitute(system("which python3"), "\n", '', 'g')
+endif
+
 " defaults in neovim -> :h vim-diff
 set wildmode=longest:list,full
 

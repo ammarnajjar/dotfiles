@@ -52,6 +52,9 @@ Plug 'tpope/vim-surround'               " Surround
 " " }}}
 
 " " => Programming Plugs ---------------------- {{{2
+Plug 'rust-lang/rust.vim'               " Rust support
+Plug 'racer-rust/vim-racer'
+Plug 'sebastianmarkow/deoplete-rust'    " autocomplete rust
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'metakirby5/codi.vim'              " Evaluate interpreted languages live
 Plug 'leafgarland/typescript-vim'       " Typescript Syntax
@@ -84,7 +87,7 @@ Plug 'pangloss/vim-javascript'          " javascript
 " " => Python Plugs ---------------------- {{{2
 Plug 'zchee/deoplete-jedi'              " Auto-complete
 Plug 'janko-m/vim-test'                 " Run tests within vim
-Plug 'integralist/vim-mypy'             " Static Type checker
+" Plug 'integralist/vim-mypy'             " Static Type checker
 Plug 'nvie/vim-flake8'                   " python-flake8
 Plug 'heavenshell/vim-pydocstring'      " Generate docstrings
 Plug 'hynek/vim-python-pep8-indent'     " PEP8 indentation aware
@@ -113,6 +116,9 @@ call plug#end()
 
 " => Deoplete ---------------- {{{2
 let g:deoplete#enable_at_startup = 1
+let g:racer_cmd = "/Users/ammarnajjar/.cargo/bin/racer"
+let g:racer_experimental_completer = 1
+let g:racer_insert_paren = 1
 "}}}
 
 " => vim-test ---------------- {{{2
