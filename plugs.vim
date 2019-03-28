@@ -52,6 +52,7 @@ Plug 'tpope/vim-surround'               " Surround
 " " }}}
 
 " " => Programming Plugs ---------------------- {{{2
+Plug 'OmniSharp/omnisharp-vim'          " c# plugin
 Plug 'rust-lang/rust.vim'               " Rust support
 Plug 'racer-rust/vim-racer'
 Plug 'sebastianmarkow/deoplete-rust'    " autocomplete rust
@@ -113,6 +114,29 @@ call plug#end()
 "}}}
 
 " => Plugins Config ---------------------- {{{1
+
+" => OmniSharp ---------------- {{{2
+let g:OmniSharp_server_use_mono = 1
+let g:ale_linters = {
+\ 'cs': ['OmniSharp']
+\}
+let g:OmniSharp_selector_ui = 'fzf'
+let g:OmniSharp_highlight_types = 1
+
+augroup omnisharp_commands
+    autocmd!
+
+    " Show type information automatically when the cursor stops moving
+    autocmd CursorHold *.cs call OmniSharp#TypeLookupWithoutDocumentation()
+
+    " Update the highlighting whenever leaving insert mode
+    autocmd InsertLeave *.cs call OmniSharp#HighlightBuffer()
+augroup END
+
+" Rename with dialog
+nnoremap <Leader>nm :OmniSharpRename<CR><Paste>
+let g:OmniSharp_want_snippet=1
+"}}}
 
 " => Deoplete ---------------- {{{2
 let g:deoplete#enable_at_startup = 1
