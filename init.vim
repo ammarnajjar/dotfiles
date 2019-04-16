@@ -42,6 +42,9 @@ else
     let g:python3_host_prog=substitute(system("which python3"), "\n", '', 'g')
 endif
 
+" Pytho within vim
+vnoremap <silent> <leader>p !python3<CR>
+
 " defaults in neovim -> :h vim-diff
 set wildmode=longest:list,full
 
