@@ -50,7 +50,7 @@ set wildmode=longest:list,full
 
 let mapleader=","   " Change leader key to ,
 
-set mouse=          " Disable mouse usage (all modes)
+set mouse=a         " Enable mouse usage (all modes)
 set showmatch       " Show matching brackets.
 set matchtime=1     " for 1/10th of a second
 set ignorecase      " Do case insensitive matching
@@ -112,6 +112,10 @@ set synmaxcol=200
 " Live substitution (neovim only)
 set inccommand=nosplit
 
+" set vertical Cursor in insert mode
+set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
+  \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
+  \,sm:block-blinkwait175-blinkoff150-blinkon175
 " }}}
 
 " => Mappings ---------------------- {{{1

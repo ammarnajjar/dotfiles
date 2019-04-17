@@ -30,6 +30,7 @@ Plug 'ap/vim-css-color'                 " CSS colors review
 Plug 'rstacruz/sparkup'                 " XML, HTML sparkup
 Plug 'vim-voom/VOoM'                    " Two Pane Outliner
 Plug 'ammarnajjar/wombat256mod'         " My Dark Colorscheme
+Plug 'machakann/vim-highlightedyank'    " Highlight when yanking
 "}}}
 
 " " => General Plugins ---------------------- {{{2
@@ -115,8 +116,12 @@ call plug#end()
 
 " => Plugins Config ---------------------- {{{1
 
+" => highlightedyank ---------------- {{{2
+let g:highlightedyank_highlight_duration = 200
+"}}}
+
 " => OmniSharp ---------------- {{{2
-let g:OmniSharp_server_use_mono = 1
+" let g:OmniSharp_server_use_mono = 1
 let g:ale_linters = {
 \ 'cs': ['OmniSharp']
 \}
