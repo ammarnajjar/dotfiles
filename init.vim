@@ -108,7 +108,12 @@ set omnifunc=syntaxcomplete#Complete
 
 " Restrict syntax for all files
 set synmaxcol=200
+
+" Live substitution (neovim only)
+set inccommand=nosplit
+
 " }}}
+
 " => Mappings ---------------------- {{{1
 
 " terminal mode mappings
