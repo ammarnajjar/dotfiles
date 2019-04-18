@@ -84,7 +84,7 @@ function update_git_conf() {
 function clone_repos() {
     cd $dotfiles_dir
     echo_blue "** Clone github repos -- $(pwd)"
-    git clone -b 'dev' https://github.com/ammarnajjar/dotfiles.git .
+    git clone https://github.com/ammarnajjar/dotfiles.git .
     git clone https://github.com/ammarnajjar/wombat256mod.git plugged/wombat256mod
     git clone -b 'ignored-in-history' https://github.com/ammarnajjar/bash-sensible.git bash/bash-sensible
     git clone https://github.com/ammarnajjar/bash-git-prompt.git bash/bash-git-prompt
