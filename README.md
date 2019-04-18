@@ -1,12 +1,12 @@
 # Dotfiles Configurations
 
-My own neovim configurations for fedora/debian, git, and tmux.
+My dotfiles configurations for neovim, git, bash and tmux.  
 It will be installed in the current directory with symlinks to the correct paths.  
 Because the plugins are always changing and depend on the current projects I am working on, I put them in another file `plugs.vim` and source them to `init.vim`. They are also treated on another branch locally.
 
-## Install using: 
+## Usage:
 
-Make a backup for your settings then:
+Make a **backup** for your settings then:
 
 ```bash
 wget https://raw.githubusercontent.com/ammarnajjar/dotfiles/master/install.sh && bash install.sh
@@ -16,25 +16,22 @@ wget https://raw.githubusercontent.com/ammarnajjar/dotfiles/master/install.sh &&
 
 ```bash
 .
+├── install.sh
 ├── bash
 │   └── bashrc
 ├── git
+│   ├── config
 │   ├── git-completion.bash
-│   └── gitconfig
-├── .gitignore
-├── install.sh
-├── LICENSE
+│   └── gitmessage
+├── init.vim
 ├── plugs.vim
-├── README.md
 ├── tmux
 │   └── tmux.conf
-├── init.vim
-└── .ycm_extra_conf.py
-
-3 directories, 11 files
+├── README.md
+└── LICENSE
 ```
 
-I have full explanation to my configurations [here](https://ammarnajjar.github.io/editors/2016/06/19/Vimrc-Adventure/).  
+I have full explanation to my neovim configurations [here](https://ammarnajjar.github.io/editors/2016/06/19/Vimrc-Adventure/).  
 
 ## License:
 
