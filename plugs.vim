@@ -42,7 +42,6 @@ Plug 'tpope/vim-surround'               " Surround
 " Plug 'scrooloose/syntastic'             " Syntax Checking
 " Plug '907th/vim-auto-save'              " Autosave
 " Plug 'sheerun/vim-polyglot'             " language pack
-" Plug 'Valloric/YouCompleteMe'           " YouCompleteMe
 " Plug 'ctrlpvim/ctrlp.vim'               " Ctrlp
 " Plug 'jeetsukumaran/vim-buffergator'    " Buffer Explorer
 " Plug 'vim-scripts/VisIncr'              " Increase/Decrease visual selection
@@ -172,16 +171,6 @@ let g:auto_save = 0  " enable AutoSave on Vim startup
 let g:auto_save_events = ["InsertLeave", "TextChanged"] " save on every change in normal mode.
 "}}}
 
-" => YouCompleteMe ---------------- {{{2
-let g:ycm_collect_identifiers_from_tags_files = 1 " Let YCM read tags from Ctags file
-let g:ycm_seed_identifiers_with_syntax = 1        " Completion for programming language's keyword
-let g:ycm_complete_in_comments = 1                " Completion in comments
-let g:ycm_show_diagnostics_ui = 1  " turn on YCM's diagnostic display features
-let g:ycm_autoclose_preview_window_after_insertion = 1
-let g:ycm_global_ycm_extra_conf = fnameescape(s:editor_root."/.ycm_extra_conf.py")
-
-" Resolve conflict between YouCompleteMe and UltiSnips TAB key
-let g:UltiSnipsExpandTrigger="<c-j>"
 "}}}
 
 " => Sessions Management ---------------- {{{2
