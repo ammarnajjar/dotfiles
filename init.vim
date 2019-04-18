@@ -1,68 +1,62 @@
-"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-"                                                                                                "
-"                                          .::::.                                                "
-"                             ___________ :;;;;:`____________                                    "
-"                             \_________/ ?????L \__________/                                    "
-"                               |.....| ????????> :.......'                                      "
-"                               |:::::| $$$$$$"`.:::::::' ,                                      "
-"                              ,|:::::| $$$$"`.:::::::' .OOS.                                    "
-"                            ,7D|;;;;;| $$"`.;;;;;;;' .OOO888S.                                  "
-"                          .GDDD|;;;;;| ?`.;;;;;;;' .OO8DDDDDNNS.                                "
-"                           'DDO|IIIII| .7IIIII7' .DDDDDDDDNNNF`                                 "
-"                             'D|IIIIII7IIIII7' .DDDDDDDDNNNF`                                   "
-"                               |EEEEEEEEEE7' .DDDDDDDNNNNF`                                     "
-"                               |EEEEEEEEZ' .DDDDDDDDNNNF`                                       "
-"                               |888888Z' .DDDDDDDDNNNF`                                         "
-"                               |8888Z' ,DDDDDDDNNNNF`                                           "
-"                               |88Z'    "DNNNNNNN"                                              "
-"                               '"'        "MMMM"                                                "
-"                                            ""                                                  "
-"                                                                                                "
-"      ___    ____                                            __   _         _    ________  ___  "
-"     /   |  / / /  __  ______  __  __   ____  ___  ___  ____/ /  (_)____   | |  / /  _/  |/  /  "
-"    / /| | / / /  / / / / __ \/ / / /  / __ \/ _ \/ _ \/ __  /  / / ___/   | | / // // /|_/ /   "
-"   / ___ |/ / /  / /_/ / /_/ / /_/ /  / / / /  __/  __/ /_/ /  / (__  )    | |/ // // /  / /    "
-"  /_/  |_/_/_/   \__, /\____/\__,_/  /_/ /_/\___/\___/\__,_/  /_/____/     |___/___/_/  /_/     "
-"                   /_/                                                                          "
-"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-
-" => Header ---------------------- {{{
-" File: vimrc.vim
+" => Header ---------------------- {{{1
+"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+"      ":       ;                                                                 "
+"     ":,,      ;;                                                                "
+"    "::::      ;;;                                                               "
+"   "::::::     ;;;;                                                              "
+"   ":;::::,    ;;;;                                                              "
+"   "::;::::    ;;;;                                                              "
+"   "::::::::   ;;;;   888b    888                            d8b                 "
+"   ":::.::::,  ;;;;   8888b   888                            Y8P                 "
+"   "::: ;::::  ;;;;   88888b  888                                                "
+"   ":::  ::::; ''''   888Y88b 888  .d88b.   .d88b.  888  888 888 88888b.d88b.    "
+"   ":::  ,::::.''''   888 Y88b888 d8P  Y8b d88''88b 888  888 888 888 '888 '88b   "
+"   ":::   ;::::''''   888  Y88888 88888888 888  888 Y88  88P 888 888  888  888   "
+"   ":::    ::::;'''   888   Y8888 Y8b.     Y88..88P  Y8bd8P  888 888  888  888   "
+"   ":::    ::::;'''   888    Y888  'Y8888   'Y88P'    Y88P   888 888  888  888   "
+"   ":::     ;::''''                                                              "
+"    "::      ;:'''                                                               "
+"     ";      :;''                                                                "
+"      "       ;'                                                                 "
+"          ___    ____                                            __   _          "
+"        /   |  / / /  __  ______  __  __   ____  ___  ___  ____/ /  (_)____      "
+"       / /| | / / /  / / / / __ \/ / / /  / __ \/ _ \/ _ \/ __  /  / / ___/      "
+"      / ___ |/ / /  / /_/ / /_/ / /_/ /  / / / /  __/  __/ /_/ /  / (__  )       "
+"     /_/  |_/_/_/   \__, /\____/\__,_/  /_/ /_/\___/\___/\__,_/  /_/____/        "
+"                       /_/                                                       "
+"                                                                                 "
+"                 ........................................                        "
+"                 "    /\ \ \___  _____   _(_)_ __ ___   "                        "
+"                 "   /  \/ / _ \/ _ \ \ / / | '_ ` _ \  "                        "
+"                 "  / /\  /  __/ (_) \ V /| | | | | | | "                        "
+"                 "  \_\ \/ \___|\___/ \_/ |_|_| |_| |_| "                        "
+"                 ........................................                        "
+"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+" Fie: init.vim
 " Author: Ammar Najjar <najjarammar@gmail.com>
-" Description: My vim/neovim configurations file
-" Last Modified: June 12, 2018
+" Description: My neovim configurations file
+" Last Modified: June 19, 2018
 " }}}
-" => General ---------------------- {{{
-" set by default in neovim
-set incsearch
-set ttyfast
-set autoread
-set wildmenu
-set wildmode=longest:list,full
-set hlsearch
-set history=1000
-set nocompatible
-set backspace=2
-set smarttab
-set autoindent
-set encoding=UTF-8
 
-if has('nvim')
-    let s:editor_root=expand("~/.config/nvim/")
-    " terminal mode mappings
-    tnoremap <Esc> <C-\><C-n>
-    tnoremap <C-h> <C-\><C-n><C-w>h
-    tnoremap <C-j> <C-\><C-n><C-w>j
-    tnoremap <C-k> <C-\><C-n><C-w>k
-    tnoremap <C-l> <C-\><C-n><C-w>l
+" => General ---------------------- {{{1
+let s:editor_root=expand("~/.config/nvim/")
+
+" Figure out the system Python for Neovim.
+if exists("$VIRTUAL_ENV")
+    let g:python3_host_prog=substitute(system("which -a python3 | head -n2 | tail -n1"), "\n", '', 'g')
 else
-    let s:editor_root=expand("~/.vim")
+    let g:python3_host_prog=substitute(system("which python3"), "\n", '', 'g')
 endif
+
+" Pytho within vim
+vnoremap <silent> <leader>p !python3<CR>
+
+" defaults in neovim -> :h vim-diff
+set wildmode=longest:list,full
 
 let mapleader=","   " Change leader key to ,
 
-set mouse=          " Disable mouse usage (all modes)
-set showcmd         " Show (partial) command in status line.
+set mouse=a         " Enable mouse usage (all modes)
 set showmatch       " Show matching brackets.
 set matchtime=1     " for 1/10th of a second
 set ignorecase      " Do case insensitive matching
@@ -115,36 +109,32 @@ execute 'set undodir='.fnameescape(s:editor_root."/undo/")
 " Remember info about open buffers on close
 set viminfo^=%
 
-" " change cursor for KDE konsole &term =~ 'xterm-256color'
-" if &term =~ "screen-256color"
-"     let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1;BlinkingCursorEnabled=1\x7\<Esc>\\"
-"     let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0;BlinkingCursorEnabled=0\x7\<Esc>\\"
-" else
-"     let &t_SI = "\<Esc>]50;CursorShape=1;BlinkingCursorEnabled=1\x7"
-"     let &t_SR = "\<Esc>]50;CursorShape=2;BlinkingCursorEnabled=1\x7"
-"     let &t_EI = "\<Esc>]50;CursorShape=0;BlinkingCursorEnabled=0\x7"
-" endif
-
-" " change cursor &term =~ 'rxvt-unicode-256color'
-" if &term =~ "screen-256color"
-"     let &t_SI .= "\<Esc>Ptmux;\<Esc>\<Esc>[3 q\<Esc>\\"
-"     let &t_EI .= "\<Esc>Ptmux;\<Esc>\<Esc>[2 q\<Esc>\\"
-" else
-"     " blinking underscore
-"     let &t_SI .= "\<Esc>[3 q"
-"     " solid block
-"     let &t_EI .= "\<Esc>[2 q"
-"     " 1 or 0 -> blinking block
-"     " 4 -> solid underscore
-" endif
-
 " Enable Omni completion
 set omnifunc=syntaxcomplete#Complete
 
 " Restrict syntax for all files
 set synmaxcol=200
+
+" Live substitution (neovim only)
+set inccommand=nosplit
+
+" set vertical Cursor in insert mode
+set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
+  \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
+  \,sm:block-blinkwait175-blinkoff150-blinkon175
 " }}}
-" => Mappings ---------------------- {{{
+
+" => Mappings ---------------------- {{{1
+
+" terminal mode mappings
+tnoremap <Esc> <C-\><C-n>
+tnoremap <C-h> <C-\><C-n><C-w>h
+tnoremap <C-j> <C-\><C-n><C-w>j
+tnoremap <C-k> <C-\><C-n><C-w>k
+tnoremap <C-l> <C-\><C-n><C-w>l
+noremap <leader>s :split term://bash<CR><C-w><S-j><S-a>
+noremap <leader>t :edit term://bash<CR><S-a>
+autocmd TermOpen * setlocal statusline=%{b:term_title}
 
 " view hidden characters like spaces and tabs
 nnoremap <F2> :<C-U>setlocal lcs=tab:>-,trail:-,eol:$ list! list? <CR>
@@ -225,7 +215,7 @@ autocmd BufReadPost *
 " Toggle spell checking
 map <leader>ss :setlocal spell!<cr>
 "}}}
-" => Filetypes specific configs ---------------------- {{{
+" => Filetypes specific configs ---------------------- {{{1
 
 " Different settings for different filetypes
 if has("autocmd")
@@ -236,11 +226,12 @@ if has("autocmd")
         execute 'source '.fnameescape(s:editor_root."/abbr.vim")
     endif
 
-    autocmd fileType html,xhtml,htm,xml,php,ruby setlocal shiftwidth=2 tabstop=2 softtabstop=2
-    autocmd fileType python setlocal shiftwidth=4 tabstop=4 softtabstop=4
+    autocmd fileType html,xhtml,htm,xml,css,scss,php,ruby setlocal shiftwidth=2 tabstop=2 softtabstop=2
+    autocmd fileType python setlocal shiftwidth=4 tabstop=4 softtabstop=4 expandtab
+    autocmd fileType typescript,javascript setlocal shiftwidth=2 tabstop=2 softtabstop=2 expandtab
 endif
 " }}}
-" => Colorscheme ---------------------- {{{
+" => Colorscheme ---------------------- {{{1
 " Set extra options when running in GUI mode
 if has("gui_running")
     set guioptions-=T
@@ -260,12 +251,12 @@ if has("gui_running")
     autocmd InsertLeave * highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=254
 endif
 " }}}
-" => Plugins ---------------------- {{{
+" => Plugins ---------------------- {{{1
 if filereadable(s:editor_root."/plugs.vim")
     execute 'source '.fnameescape(s:editor_root."/plugs.vim")
 endif
 " }}}
-" => Status line ---------------------- {{{
+" => Status line ---------------------- {{{1
 set statusline=
 set statusline=[%n]\                                            " buffer number
 set statusline+=%<%.99f                                         " File name, F for full path
@@ -290,13 +281,12 @@ set statusline+=%{&ff!='unix'?'['.&ff.']':''}                   " fileformat isn
 set statusline+=%*                                              " unix
 set statusline+=%c%V,%l/                                        " column and row Number
 set statusline+=%L\ %P                                          " total lines, position in file
-set laststatus=2
 
 " Change StatusLine colors for insert mode
 autocmd InsertEnter * highlight StatusLine term=reverse ctermbg=Blue gui=bold guifg=White guibg=Blue
 autocmd InsertLeave * highlight StatusLine term=reverse ctermfg=254 ctermbg=238 gui=bold guifg=White guibg=Black
 " }}}
-" => Helper functions ---------------------- {{{
+" => Helper functions ---------------------- {{{1
 
 " Check if paste mode is enabled
 function! HasPaste()
