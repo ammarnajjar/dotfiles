@@ -1,11 +1,11 @@
 #!/usr/bin/bash
 
 # File: install.sh
-# Author: Ammar Najjar <najjarammar@gmail.com>
+# Author: Ammar Najjar <najjarammar@protonmail.com>
 # Description: install neovim and other bash, tmux and git condifurations.
-# Last Modified: June 19, 2018
+# Last Modified: April 18, 2019
 
-function blue() {
+function echo_blue() {
     echo -e '\E[37;44m'"\033[1m$1\033[0m"
 }
 
@@ -18,67 +18,50 @@ function get_sudo() {
     fi
 }
 
-function get_current_distro() {
-    sys_id="$(cat /etc/*release | grep ID=)"
-    if [[ "$sys_id" == *"fedora"* ]]
-    then
-        distro="fedora"
-    elif [[ "$sys_id" == *"debian"* ]]
-    then
-        distro="debian"
+function get_system_type() {
+    if [[ "$OSTYPE" == "linux-gnu" ]]; then
+        # Linux
+        sys_id="$(cat /etc/*release | grep ID=)"
+        if [[ "$sys_id" == *"fedora"* ]]
+        then
+            system_type="fedora"
+        elif [[ "$sys_id" == *"debian"* ]]
+        then
+            system_type="debian"
+        fi
+    elif [[ "$OSTYPE" == "darwin"* ]]; then
+        # Mac OSX
+        system_type="macos"
+    elif [[ "$OSTYPE" == "msys" ]]; then
+        # Lightweight shell and GNU utilities compiled for Windows (part of MinGW)
+        echo "OS ("$OSTYPE") is not supported"
+    else
+        # not supported
+        echo "OS ("$OSTYPE") is not supported"
     fi
 }
 
-function install_neovim() {
-    get_current_distro
-    nvim="neovim python3-neovim python-neovim"
-    if [[ $distro = "fedora" ]]
+function install_pkgs() {
+    get_system_type
+    pkgs="git curl wget tmux neovim"
+    if [[ $system_type = "fedora" ]]
     then
-        $SU dnf install -y $nvim
-    elif [[ $distro = "debian" ]]
+        $SU dnf install -y $pkgs
+    elif [[ $system_type = "debian" ]]
     then
-        $SU apt-get install -y $nvim
+        $SU apt-get install -y $pkgs
+    elif [[ $system_type = "macos" ]]
+    then
+        brew install -y $pkgs
     fi
-}
-
-function update_bashrc() {
-    blue "** Bashrc update"
-    echo "source $(echo $dotfiles_dir)/bash/bashrc" >> $HOME/.bashrc
-}
-
-function update_tmux_conf() {
-    blue "** Tmux config"
-    echo "source $(echo $dotfiles_dir)/tmux/tmux.conf" >> $HOME/.tmux.conf
-}
-
-function update_git_conf() {
-    blue "** Git config"
-    ln -s $vim_dir/git/gitconfig $HOME/.config/git/config
-    ln -s $vim_dir/git/gitmessage $HOME/.config/git/gitmessage
-}
-
-function clone_repos() {
-    cd $dotfiles_dir
-    blue "** Clone github repos -- $(pwd)"
-    git clone -b 'neovim' https://github.com/ammarnajjar/dotfiles.git .
-    git clone https://github.com/ammarnajjar/wombat256mod.git plugged/wombat256mod
-    git clone -b 'ignored-in-history' https://github.com/ammarnajjar/bash-sensible.git bash/bash-sensible
-    # git clone https://github.com/ammarnajjar/liquidprompt.git bash/liquidprompt
-    git clone https://github.com/ammarnajjar/bash-git-prompt.git bash/bash-git-prompt
-}
-
-function nvim_symlinks() {
-    blue "** Create Neovim Symlinks"
-    rm -rf $HOME/.config/nvim
-    mkdir -p ${XDG_CONFIG_HOME:=$HOME/.config}
-    ln -s $dotfiles_dir $XDG_CONFIG_HOME/nvim
 }
 
 function prepare_dotfiles_dir() {
     cd $current_dir
-    blue "** Preparing dotfiles dir -- $(pwd)"
+    echo_blue "** Preparing dotfiles dir -- $(pwd)"
     dotfiles_dir="$current_dir/dotfiles"
     echo "export dotfiles_dir=$dotfiles_dir" >> $HOME/.bashrc
+    source $HOME/.bashrc
     if [ -d $dotfiles_dir ]
     then
         rm -rf $dotfiles_dir
@@ -87,8 +70,40 @@ function prepare_dotfiles_dir() {
     cd $dotfiles_dir
 }
 
+function update_bashrc() {
+    echo_blue "** Bashrc update"
+    echo "source $(echo $dotfiles_dir)/bash/bashrc" >> $HOME/.bashrc
+}
+
+function update_tmux_conf() {
+    echo_blue "** Tmux config"
+    echo "source $(echo $dotfiles_dir)/tmux/tmux.conf" >> $HOME/.tmux.conf
+}
+
+function update_git_conf() {
+    echo_blue "** Git config"
+    rm -rf $HOME/.config/git
+    ln -s $vim_dir/git $HOME/.config/git
+}
+
+function clone_repos() {
+    cd $dotfiles_dir
+    echo_blue "** Clone github repos -- $(pwd)"
+    git clone -b 'neovim' https://github.com/ammarnajjar/dotfiles.git .
+    git clone https://github.com/ammarnajjar/wombat256mod.git plugged/wombat256mod
+    git clone -b 'ignored-in-history' https://github.com/ammarnajjar/bash-sensible.git bash/bash-sensible
+    git clone https://github.com/ammarnajjar/bash-git-prompt.git bash/bash-git-prompt
+}
+
+function nvim_symlinks() {
+    echo_blue "** Create Neovim Symlinks"
+    rm -rf $HOME/.config/nvim
+    mkdir -p ${XDG_CONFIG_HOME:=$HOME/.config}
+    ln -s $dotfiles_dir $XDG_CONFIG_HOME/nvim
+}
+
 function install_plugins() {
-    blue "** Install plugins"
+    echo_blue "** Install plugins"
     nvim +PlugInstall +qall
 }
 
@@ -102,12 +117,12 @@ function main(){
     source $HOME/.bashrc
 
     install_plugins
-    blue "** Installation Complete **"
+    echo_blue "** Installation Complete **"
 }
 
 current_dir=$(pwd)
 get_sudo
-install_neovim
+install_pkgs
 prepare_dotfiles_dir
 main
 
