@@ -37,7 +37,6 @@
 " Description: My neovim configurations file
 " Last Modified: June 19, 2018
 " }}}
-
 " => General ---------------------- {{{1
 let s:editor_root=expand("~/.config/nvim/")
 
@@ -123,7 +122,6 @@ set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
   \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
   \,sm:block-blinkwait175-blinkoff150-blinkon175
 " }}}
-
 " => Mappings ---------------------- {{{1
 
 " terminal mode mappings
@@ -216,6 +214,24 @@ autocmd BufReadPost *
 map <leader>ss :setlocal spell!<cr>
 "}}}
 " => Filetypes specific configs ---------------------- {{{1
+
+" Auto add head info
+" .py file into add header
+function HeaderPython()
+    call setline(1, "#!/usr/bin/env python")
+    call append(1, "# -*- coding: utf-8 -*-")
+    normal G
+    normal o
+endf
+autocmd bufnewfile *.py call HeaderPython()
+
+" .sh file
+function HeaderBash()
+    call setline(1, "#!/usr/bin/env bash")
+    normal G
+    normal o
+endf
+autocmd bufnewfile *.sh call HeaderBash()
 
 " Different settings for different filetypes
 if has("autocmd")
