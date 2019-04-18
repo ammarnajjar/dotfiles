@@ -11,27 +11,35 @@ function echo_blue() {
 
 function get_sudo() {
     uid="$(id -u)"
-    SU="sudo"
+    SUDO="sudo"
     if [[ $uid -eq 0 ]]
     then
-        SU=""
+        SUDO=""
     fi
 }
 
-function get_system_type() {
+function install_pkgs() {
     if [[ "$OSTYPE" == "linux-gnu" ]]; then
         # Linux
         sys_id="$(cat /etc/*release | grep ID=)"
-        if [[ "$sys_id" == *"fedora"* ]]
+        if [[ "$sys_id" == *"centos"* ]]
         then
-            system_type="fedora"
+            pkg_manager="$SUDO yum"
+            $pkg_manager install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+            $pkg_manager install -y python36
+        elif [[ "$sys_id" == *"fedora"* ]]
+        then
+            pkg_manager="$SUDO dnf"
+            $pkg_manager install -y python{2,3}-neovim
         elif [[ "$sys_id" == *"debian"* ]]
+
         then
-            system_type="debian"
+            pkg_manager="$SUDO apt-get"
+            $pkg_manager install -y python-neovim python3-neovim
         fi
     elif [[ "$OSTYPE" == "darwin"* ]]; then
         # Mac OSX
-        system_type="macos"
+        pkg_manager="brew"
     elif [[ "$OSTYPE" == "msys" ]]; then
         # Lightweight shell and GNU utilities compiled for Windows (part of MinGW)
         echo "OS ("$OSTYPE") is not supported"
@@ -39,21 +47,8 @@ function get_system_type() {
         # not supported
         echo "OS ("$OSTYPE") is not supported"
     fi
-}
-
-function install_pkgs() {
-    get_system_type
     pkgs="git curl wget tmux neovim"
-    if [[ $system_type = "fedora" ]]
-    then
-        $SU dnf install -y $pkgs
-    elif [[ $system_type = "debian" ]]
-    then
-        $SU apt-get install -y $pkgs
-    elif [[ $system_type = "macos" ]]
-    then
-        brew install -y $pkgs
-    fi
+    $pkg_manager install -y $pkgs
 }
 
 function prepare_dotfiles_dir() {
@@ -83,13 +78,13 @@ function update_tmux_conf() {
 function update_git_conf() {
     echo_blue "** Git config"
     rm -rf $HOME/.config/git
-    ln -s $vim_dir/git $HOME/.config/git
+    ln -s $dotfiles_dir/git $HOME/.config/git
 }
 
 function clone_repos() {
     cd $dotfiles_dir
     echo_blue "** Clone github repos -- $(pwd)"
-    git clone -b 'neovim' https://github.com/ammarnajjar/dotfiles.git .
+    git clone -b 'dev' https://github.com/ammarnajjar/dotfiles.git .
     git clone https://github.com/ammarnajjar/wombat256mod.git plugged/wombat256mod
     git clone -b 'ignored-in-history' https://github.com/ammarnajjar/bash-sensible.git bash/bash-sensible
     git clone https://github.com/ammarnajjar/bash-git-prompt.git bash/bash-git-prompt
@@ -108,6 +103,10 @@ function install_plugins() {
 }
 
 function main(){
+	get_sudo
+	install_pkgs
+	prepare_dotfiles_dir
+
     clone_repos
     nvim_symlinks
 
@@ -121,9 +120,6 @@ function main(){
 }
 
 current_dir=$(pwd)
-get_sudo
-install_pkgs
-prepare_dotfiles_dir
 main
 
 # vim: set ft=sh ts=4 sw=4 et ai :
