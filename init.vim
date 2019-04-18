@@ -126,7 +126,9 @@ tnoremap <C-h> <C-\><C-n><C-w>h
 tnoremap <C-j> <C-\><C-n><C-w>j
 tnoremap <C-k> <C-\><C-n><C-w>k
 tnoremap <C-l> <C-\><C-n><C-w>l
-noremap <leader><space> :split term://bash<CR><C-w><S-j><S-a>
+noremap <leader>s :split term://bash<CR><C-w><S-j><S-a>
+noremap <leader>t :edit term://bash<CR><S-a>
+autocmd TermOpen * setlocal statusline=%{b:term_title}
 
 " view hidden characters like spaces and tabs
 nnoremap <F2> :<C-U>setlocal lcs=tab:>-,trail:-,eol:$ list! list? <CR>
