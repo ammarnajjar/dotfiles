@@ -1,0 +1,9 @@
+---
+# tasks file for fedora
+- name: Install packages
+  become: true
+  become_user: root
+  dnf:
+      pkg: "{{ vars.pkgs }}"
+      state: present
+  when: ansible_distribution == "Fedora"

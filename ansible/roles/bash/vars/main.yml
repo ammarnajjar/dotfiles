@@ -1,0 +1,4 @@
+---
+# vars file for bash
+local_home: "{{ lookup('env','HOME') }}"
+dotfiles_dir: "{{ local_home }}/dotfiles"

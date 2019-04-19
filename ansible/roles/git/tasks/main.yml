@@ -1,0 +1,33 @@
+---
+# tasks file for git
+- name: Cloning repos
+  git:
+    repo: "https://github.com/ammarnajjar/{{ item.repo }}.git"
+    dest: "{{ item.dest }}"
+    version: "{{ item.branch }}"
+    recursive: no
+  with_items:
+    -
+      repo: dotfiles
+      dest: "{{ dotfiles_dir }}"
+      branch: master
+    -
+      repo: wombat256mod
+      dest: "{{ dotfiles_dir }}/plugged/wombat256mod"
+      branch: master
+    -
+      repo: bash-git-prompt
+      dest: "{{ dotfiles_dir }}/bash/bash-git-prompt"
+      branch: master
+    -
+      repo: bash-sensible
+      dest: "{{ dotfiles_dir }}/bash/bash-sensible"
+      branch: ignored-in-history
+
+- name: Symlink git configurations
+  file:
+    path=~/.config/git
+    src={{ dotfiles_dir }}/git
+    state=link
+    force=yes
+

@@ -13,3 +13,4 @@ sessions/*
 syntax/*
 undo/*
 abbr.*
+**/*.retry

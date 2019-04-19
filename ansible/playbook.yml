@@ -1,0 +1,20 @@
+---
+- hosts: localhost
+  connection: local
+
+  roles:
+      - fedora
+      - git
+      - bash
+      - neovim
+
+# ansible_plybook playbook.yml -i hosts.yml --check
+#
+# ansible 2.1.0.0
+#   config file = /etc/ansible/ansible.cfg
+#   configured module search path = Default w/o overrides
+
+# - assert: { that: "{{ item }} >= 1" }
+#   with_items:
+#     - ansible_version.minor
+

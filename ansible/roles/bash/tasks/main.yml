@@ -1,0 +1,10 @@
+---
+# tasks file for bash
+
+# TODO: solve the problem of multiple line appendings
+- name: Add dotfiles_dir variable
+  shell: echo "export dotfiles_dir=\"{{ dotfiles_dir }}\"" >> "{{ local_home }}/.bashrc"
+
+- name: Add custom bashrc
+  shell: echo "source {{ dotfiles_dir }}/bash/bashrc" >> "{{ local_home }}/.bashrc"
+
