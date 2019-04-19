@@ -1,48 +1,61 @@
-" => Header ---------------------- {{{
-" File: vimrc.vim
+" => Header ---------------------- {{{1
+"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+"      ":       ;                                                                 "
+"     ":,,      ;;                                                                "
+"    "::::      ;;;                                                               "
+"   "::::::     ;;;;                                                              "
+"   ":;::::,    ;;;;                                                              "
+"   "::;::::    ;;;;                                                              "
+"   "::::::::   ;;;;   888b    888                            d8b                 "
+"   ":::.::::,  ;;;;   8888b   888                            Y8P                 "
+"   "::: ;::::  ;;;;   88888b  888                                                "
+"   ":::  ::::; ''''   888Y88b 888  .d88b.   .d88b.  888  888 888 88888b.d88b.    "
+"   ":::  ,::::.''''   888 Y88b888 d8P  Y8b d88''88b 888  888 888 888 '888 '88b   "
+"   ":::   ;::::''''   888  Y88888 88888888 888  888 Y88  88P 888 888  888  888   "
+"   ":::    ::::;'''   888   Y8888 Y8b.     Y88..88P  Y8bd8P  888 888  888  888   "
+"   ":::    ::::;'''   888    Y888  'Y8888   'Y88P'    Y88P   888 888  888  888   "
+"   ":::     ;::''''                                                              "
+"    "::      ;:'''                                                               "
+"     ";      :;''                                                                "
+"      "       ;'                                                                 "
+"          ___    ____                                            __   _          "
+"        /   |  / / /  __  ______  __  __   ____  ___  ___  ____/ /  (_)____      "
+"       / /| | / / /  / / / / __ \/ / / /  / __ \/ _ \/ _ \/ __  /  / / ___/      "
+"      / ___ |/ / /  / /_/ / /_/ / /_/ /  / / / /  __/  __/ /_/ /  / (__  )       "
+"     /_/  |_/_/_/   \__, /\____/\__,_/  /_/ /_/\___/\___/\__,_/  /_/____/        "
+"                       /_/                                                       "
+"                                                                                 "
+"                 ........................................                        "
+"                 "    /\ \ \___  _____   _(_)_ __ ___   "                        "
+"                 "   /  \/ / _ \/ _ \ \ / / | '_ ` _ \  "                        "
+"                 "  / /\  /  __/ (_) \ V /| | | | | | | "                        "
+"                 "  \_\ \/ \___|\___/ \_/ |_|_| |_| |_| "                        "
+"                 ........................................                        "
+"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+" Fie: init.vim
 " Author: Ammar Najjar <najjarammar@gmail.com>
-" Description: My vim/neovim configurations file
-" Last Modified: July 15, 2016
+" Description: My neovim configurations file
+" Last Modified: June 19, 2018
 " }}}
-" => General ---------------------- {{{
+" => General ---------------------- {{{1
+let s:editor_root=expand("~/.config/nvim/")
 
-" set by default in neovim
-set incsearch
-set ttyfast
-set autoread
-set wildmenu
-set wildmode=longest:list,full
-set hlsearch
-set history=1000
-set nocompatible
-set backspace=2
-set smarttab
-set autoindent
-
-if has('nvim')
-    let s:editor_root=expand("~/.config/nvim/")
-    " terminal mode mappings
-    tnoremap <Esc> <C-\><C-n>
-    tnoremap <C-h> <C-\><C-n><C-w>h
-    tnoremap <C-j> <C-\><C-n><C-w>j
-    tnoremap <C-k> <C-\><C-n><C-w>k
-    tnoremap <C-l> <C-\><C-n><C-w>l
+" Figure out the system Python for Neovim.
+if exists("$VIRTUAL_ENV")
+    let g:python3_host_prog=substitute(system("which -a python3 | head -n2 | tail -n1"), "\n", '', 'g')
 else
-    let s:editor_root=expand("~/.vim")
+    let g:python3_host_prog=substitute(system("which python3"), "\n", '', 'g')
 endif
 
-if has("unix")
-    let s:uname = system("uname")
-    let g:python_host_prog='/usr/bin/python'
-    if s:uname == "Darwin\n"
-        let g:python_host_prog='/usr/bin/python'
-    endif
-endif
+" Pytho within vim
+vnoremap <silent> <leader>p !python3<CR>
+
+" defaults in neovim -> :h vim-diff
+set wildmode=longest:list,full
 
 let mapleader=","   " Change leader key to ,
 
-set mouse=          " Disable mouse usage (all modes)
-set showcmd         " Show (partial) command in status line.
+set mouse=a         " Enable mouse usage (all modes)
 set showmatch       " Show matching brackets.
 set matchtime=1     " for 1/10th of a second
 set ignorecase      " Do case insensitive matching
@@ -62,7 +75,7 @@ set shell=/bin/bash
 
 " Ignore compiled files
 set wildignore=*.o,*~,*.pyc,*.class
-set wildignore+=*/.git/*,*/.hg/*,*/.svn/*        " Linux/MacOSX
+set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
 
 " when joining lines, don't insert two spaces after punctuation
 set nojoinspaces
@@ -70,14 +83,13 @@ set nojoinspaces
 " Don't redraw while executing macros (good performance config)
 set lazyredraw
 
-" How many tenths of a second to blink when matching brackets
 set mat=3
 set t_vb=
 set tm=500
 set t_Co=256
 set t_ut=
 
-" Turn backup off, since most stuff is in SVN, git et.c anyway...
+" Turn backup off
 set nobackup
 set nowritebackup
 set noswapfile
@@ -96,46 +108,45 @@ execute 'set undodir='.fnameescape(s:editor_root."/undo/")
 " Remember info about open buffers on close
 set viminfo^=%
 
-" " change cursor for KDE konsole &term =~ 'xterm-256color'
-" if &term =~ "screen-256color"
-"     let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1;BlinkingCursorEnabled=1\x7\<Esc>\\"
-"     let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0;BlinkingCursorEnabled=0\x7\<Esc>\\"
-" else
-"     let &t_SI = "\<Esc>]50;CursorShape=1;BlinkingCursorEnabled=1\x7"
-"     let &t_SR = "\<Esc>]50;CursorShape=2;BlinkingCursorEnabled=1\x7"
-"     let &t_EI = "\<Esc>]50;CursorShape=0;BlinkingCursorEnabled=0\x7"
-" endif
-
-" change cursor &term =~ 'rxvt-unicode-256color'
-if &term =~ "screen-256color"
-    let &t_SI .= "\<Esc>Ptmux;\<Esc>\<Esc>[3 q\<Esc>\\"
-    let &t_EI .= "\<Esc>Ptmux;\<Esc>\<Esc>[2 q\<Esc>\\"
-else
-    " blinking underscore
-    let &t_SI .= "\<Esc>[3 q"
-    " solid block
-    let &t_EI .= "\<Esc>[2 q"
-    " 1 or 0 -> blinking block
-    " 4 -> solid underscore
-endif
-
 " Enable Omni completion
 set omnifunc=syntaxcomplete#Complete
+
+" Restrict syntax for all files
+set synmaxcol=200
+
+" Live substitution (neovim only)
+set inccommand=nosplit
+
+" set vertical Cursor in insert mode
+set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
+  \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
+  \,sm:block-blinkwait175-blinkoff150-blinkon175
 " }}}
-" => Mappings ---------------------- {{{
+" => Mappings ---------------------- {{{1
+
+" terminal mode mappings
+tnoremap <Esc> <C-\><C-n>
+tnoremap <C-h> <C-\><C-n><C-w>h
+tnoremap <C-j> <C-\><C-n><C-w>j
+tnoremap <C-k> <C-\><C-n><C-w>k
+tnoremap <C-l> <C-\><C-n><C-w>l
+noremap <leader>s :split term://bash<CR><C-w><S-j><S-a>
+noremap <leader>t :edit term://bash<CR><S-a>
+autocmd TermOpen * setlocal statusline=%{b:term_title}
 
 " view hidden characters like spaces and tabs
 nnoremap <F2> :<C-U>setlocal lcs=tab:>-,trail:-,eol:$ list! list? <CR>
 " Allow Toggle between tabs - spaces
 nmap <F6> :call TabToggle()<cr>
 
-" visual shifting (does not exit Visual mode)
 nnoremap <F12> :setlocal relativenumber!<cr>
 nnoremap <F11> :setlocal number!<cr>
+
+" visual shifting (does not exit Visual mode)
 vnoremap < <gv
 vnoremap > >gv
 
-" Move a line of text using leader+[jk] or Comamnd+[jk] on mac
+" Move a line of text using leader+[jk]
 nmap <leader>j mz:m+<cr>'z
 nmap <leader>k mz:m-2<cr>'z
 vmap <leader>j :m'>+<cr>`<my`>mzgv`yo`z
@@ -159,7 +170,6 @@ autocmd BufWrite *.* :call DeleteTrailingWS()
 
 " Convenient command to see the difference between the current buffer and the
 " file it was loaded from, thus the changes you made.
-" Only define it when not defined already.
 if !exists(":Diff")
     command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
                 \ | wincmd p | diffthis
@@ -179,7 +189,6 @@ map <C-h> <C-W>h
 map <C-l> <C-W>l
 
 " Opens a new tab with the current buffer's path
-" Super useful when editing files in the same directory
 map <leader>te :tabedit <c-r>=expand("%:p:h")<CR>/
 
 " Switch CWD to the directory of the open buffer
@@ -204,13 +213,28 @@ autocmd BufReadPost *
 " Toggle spell checking
 map <leader>ss :setlocal spell!<cr>
 "}}}
-" => Filetypes specific mappings ---------------------- {{{
+" => Filetypes specific configs ---------------------- {{{1
+
+" Auto add head info
+" .py file into add header
+function HeaderPython()
+    call setline(1, "#!/usr/bin/env python")
+    call append(1, "# -*- coding: utf-8 -*-")
+    normal G
+    normal o
+endf
+autocmd bufnewfile *.py call HeaderPython()
+
+" .sh file
+function HeaderBash()
+    call setline(1, "#!/usr/bin/env bash")
+    normal G
+    normal o
+endf
+autocmd bufnewfile *.sh call HeaderBash()
 
 " Different settings for different filetypes
 if has("autocmd")
-
-    " Restrict syntax for all files
-    autocmd fileType * setlocal synmaxcol=200
 
     " Restrict textwidth for tex files
     autocmd fileType tex,plaintex,bib setlocal textwidth=79
@@ -218,30 +242,27 @@ if has("autocmd")
         execute 'source '.fnameescape(s:editor_root."/abbr.vim")
     endif
 
-    autocmd fileType html,xhtml,htm,xml,php,ruby setlocal shiftwidth=2 tabstop=2 softtabstop=2
-    autocmd fileType python setlocal shiftwidth=4 tabstop=4 softtabstop=4
-
-    " Compilation settings
-    autocmd fileType python nnoremap <F5> :w <bar> exec '!python '.shellescape('%')<CR>
-    autocmd fileType c nnoremap <F5> :w <bar> exec 'Dispatch gcc '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
-
-    " compiling cpp code
-    autocmd fileType C,cc,cpp nnoremap <F5> :w <bar> exec 'Dispatch g++ -g -Wall -std=c++14 '.shellescape('%').' -o '.shellescape('%:r').'  && ./'.shellescape('%:r')<CR>
-
-    " compiling opencv cpp scripts
-    autocmd fileType C,cc,cpp nnoremap <F9> :w <bar> exec 'Dispatch g++ -g -Wall -std=c++14 '.shellescape('%').' -o '.shellescape('%:r').' `pkg-config opencv --cflags --libs` && ./'.shellescape('%:r')<CR>
-
-    " Java compile and run
-    " F5 to compile F10/F11 to cycle through errors
-    autocmd fileType java nnoremap <F5> :call CompileAndRunJava()<CR>
-    " map <F10> :cprevious<Return>
-    " map <F10> :cnext<Return>
-
-    autocmd BufRead,BufNewFile *.go set fileType=go
+    autocmd fileType html,xhtml,htm,xml,css,scss,php,ruby setlocal shiftwidth=2 tabstop=2 softtabstop=2
+    autocmd fileType python setlocal shiftwidth=4 tabstop=4 softtabstop=4 expandtab
+    autocmd fileType typescript,javascript setlocal shiftwidth=2 tabstop=2 softtabstop=2 expandtab
 endif
 " }}}
-" => Colorscheme ---------------------- {{{
-
+" => Colorscheme ---------------------- {{{1
+"Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
+"If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
+"(see < http://sunaku.github.io/tmux-24bit-color.html#usage > for more information.)
+if (empty($TMUX))
+  if (has("nvim"))
+  "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
+  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+  endif
+  "For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
+  "Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
+  " < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
+  if (has("termguicolors"))
+    set termguicolors
+  endif
+endif
 " Set extra options when running in GUI mode
 if has("gui_running")
     set guioptions-=T
@@ -259,59 +280,69 @@ if has("gui_running")
     autocmd InsertEnter * highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=NONE
     autocmd InsertLeave * highlight CursorLineNr term=bold ctermfg=Black ctermbg=Grey gui=bold guifg=White guibg=Grey
     autocmd InsertLeave * highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=254
-else
-
-    " " Light Themes
-    " set background=light
-    " colorscheme default
-    " highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=254
-    " highlight CursorLineNr term=bold ctermfg=Black ctermbg=Grey gui=bold guifg=White guibg=Grey
-    " autocmd InsertEnter * highlight CursorLineNr term=bold ctermfg=Black ctermbg=117 gui=bold guifg=White guibg=SkyBlue1
-    " autocmd InsertEnter * highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=NONE
-    " autocmd InsertLeave * highlight CursorLineNr term=bold ctermfg=Black ctermbg=Grey gui=bold guifg=White guibg=Grey
-    " autocmd InsertLeave * highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=254
-
-    " Dark Themes
-    set background=dark
-
 endif
 " }}}
-" => Plugins ---------------------- {{{
+" => Plugins ---------------------- {{{1
 if filereadable(s:editor_root."/plugs.vim")
     execute 'source '.fnameescape(s:editor_root."/plugs.vim")
 endif
 " }}}
-" => Status line ---------------------- {{{
-""""""""""""""""""""""""""""""
-" Format the status line
-set statusline =
-set statusline =[%n]\                                            " buffer number
-set statusline +=%<%.99f                                         " File name, F for full path
-set statusline +=%m%r%h%w                                        " status flags
-set statusline +=%#question#                                     " Display a warning if
-set statusline +=%{(&fenc!='utf-8'&&&fenc!='')?'['.&fenc.']':''} " file encoding isnt
-set statusline +=%*                                              " utf-8
-set statusline +=%#warningmsg#                                   " display a warning if
-if exists("*StatuslineTabWarning")
-    set statusline +=%{StatuslineTabWarning()}                   " files contains
-endif
-set statusline +=%*                                              " tab chars
-if exists("*fugitive#statusline")
-    set statusline +=%{fugitive#statusline()}                    " Fugitive
-endif
-set statusline +=%=                                              " right align remainder
-if exists("*SyntasticStatuslineFlag")
-    set statusline +=%{SyntasticStatuslineFlag()}                " Syntastic
-endif
-set statusline +=%y                                              " buffer file type
-set statusline +=%#directory#                                    " display a warning if
-set statusline +=%{&ff!='unix'?'['.&ff.']':''}                   " fileformat isnt
-set statusline +=%*                                              " unix
-set statusline +=%c%V,%l/                                        " column and row Number
-set statusline +=%L\ %P                                          " total lines, position in file
-set laststatus =2
+" => Status line ---------------------- {{{1
+set statusline=
+set statusline=[%n]\                                            " buffer number
+set statusline+=%<%.99f                                         " File name, F for full path
+set statusline+=%#warningmsg#                                   " display a warning if
+set statusline+=%{HasPaste()}                                   " File name, F for full path
+set statusline+=%*                                              " tab chars
+set statusline+=%m%r%h%w                                        " status flags
+set statusline+=%#question#                                     " Display a warning if
+set statusline+=%{(&fenc!='utf-8'&&&fenc!='')?'['.&fenc.']':''} " file encoding isnt
+set statusline+=%*                                              " utf-8
+set statusline+=%#warningmsg#                                   " display a warning if
+set statusline+=%{StatuslineTabWarning()}                       " files contains
+set statusline+=%*                                              " tab chars
+set statusline+=%#question#                                     " Display a warning if
+set statusline+=%{fugitive#statusline()}                        " Fugitive
+set statusline+=%*                                              " tab chars
+set statusline+=%=                                              " right align remainder
+" set statusline+=%{SyntasticStatuslineFlag()}                    " Syntastic
+set statusline+=%y                                              " buffer file type
+set statusline+=%#directory#                                    " display a warning if
+set statusline+=%{&ff!='unix'?'['.&ff.']':''}                   " fileformat isnt
+set statusline+=%*                                              " unix
+set statusline+=%c%V,%l/                                        " column and row Number
+set statusline+=%L\ %P                                          " total lines, position in file
+
+" Change StatusLine colors for insert mode
+autocmd InsertEnter * highlight StatusLine term=reverse ctermbg=Blue gui=bold guifg=White guibg=Blue
+autocmd InsertLeave * highlight StatusLine term=reverse ctermfg=254 ctermbg=238 gui=bold guifg=White guibg=Black
 " }}}
-" => Helper functions ---------------------- {{{
+" => Helper functions ---------------------- {{{1
+
+" Check if paste mode is enabled
+function! HasPaste()
+    if &paste
+        return '[PASTE]'
+    else
+        return ''
+    endif
+endfunction
+
+" return '[tabs]' if tab chars in file, or empty string
+function! StatuslineTabWarning()
+    if !exists("b:statusline_tab_warning")
+        let tabs = search('^\t', 'nw') != 0
+        if tabs
+            let b:statusline_tab_warning = '[tabs]'
+        else
+            let b:statusline_tab_warning = ''
+        endif
+    endif
+    return b:statusline_tab_warning
+endfunction
+"recalculate the tab warning flag when idle and after writing
+autocmd cursorhold,bufwritepost * unlet! b:statusline_tab_warning
+
 function! CmdLine(str)
     exe "menu Foo.Bar :" . a:str
     emenu Foo.Bar
@@ -337,26 +368,6 @@ function! VisualSelection(direction) range
 
     let @/ = l:pattern
     let @" = l:saved_reg
-endfunction
-
-" Java compile using javac & Run using java
-function! CompileAndRunJava()
-    :w!
-    setlocal makeprg=javac\ %
-    setlocal errorformat=%A%f:%l:\ %m,%-Z%p^,%-C%.%#
-    :make
-    " split source filename by . and pass the first part to java
-    :!i=%; echo ${i//.*/}|xargs java
-    " View Errors in vim -- optional
-    " :copen
-endfunction
-
-" Returns true if paste mode is enabled
-function! HasPaste()
-    if &paste
-        return 'PASTE MODE  '
-    en
-    return ''
 endfunction
 
 " Don't close window, when deleting a buffer
@@ -391,12 +402,12 @@ function! TabToggle()
     endif
 endfunction
 
-" Toggle ColumnColor 80
+" Toggle ColumnColor 119
 function! g:ToggleColorColumn()
   if &colorcolumn != ''
     setlocal colorcolumn&
   else
-    setlocal colorcolumn=80
+    setlocal colorcolumn=119
   endif
 endfunction
 nnoremap <silent> <leader>cc :call g:ToggleColorColumn()<CR>
@@ -422,12 +433,6 @@ function! AppendModeline()
   call append(line("$"), l:modeline)
 endfunction
 nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
-
-" Retab
-function! Retab()
-    :retab
-    :%s/\s\+$//
-endfunction
 
 " Realign buffers when iterm goes fullscreen
 augroup FixProportionsOnResize
@@ -556,21 +561,5 @@ function! WatchForChanges(bufname, ...)
   let @"=reg_saved
 endfunction
 execute WatchForChanges("*",{'autoread':1})
-
-" return '[tabs]' if tab chars in file, or empty string
-function! StatuslineTabWarning()
-    if !exists("b:statusline_tab_warning")
-        let tabs = search('^\t', 'nw') != 0
-        if tabs
-            let b:statusline_tab_warning = '[tabs]'
-        else
-            let b:statusline_tab_warning = ''
-        endif
-    endif
-    return b:statusline_tab_warning
-endfunction
-"recalculate the tab warning flag when idle and after writing
-autocmd cursorhold,bufwritepost * unlet! b:statusline_tab_warning
-
 " }}}
 " vim: ft=vim:ts=4:sw=4:et:fdm=marker

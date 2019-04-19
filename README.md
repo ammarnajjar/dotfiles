@@ -1,42 +1,38 @@
 # Dotfiles Configurations
 
-My own vim/neovim configurations for fedora/debian, Tmux and urxvt.  
+My dotfiles configurations for neovim, git, bash and tmux.  
 It will be installed in the current directory with symlinks to the correct paths.  
-Because the plugins are always changing and depend on the current projects I am working on, I put them in another file `plugs.vim` and source them to my `vimrc.vim`. They are also treated on another branch, usually `plugins`.
+Because the plugins are always changing and depend on the current projects I am working on, I put them in another file `plugs.vim` and source them to `init.vim`. They are also treated on another branch locally.
 
-## Install using: 
+## Usage:
 
-Make a backup for your settings then:
+Make a **backup** for your settings then:
 
 ```bash
 wget https://raw.githubusercontent.com/ammarnajjar/dotfiles/master/install.sh && bash install.sh
 ```
-This script gives the possibility to build vim from source as well using the `-b` option, or neovim using the `-n` option:
-
-```bash
-Usage:
-    bash install.sh [option]
-    Options:
-        -h --help                 : Show this help messaage.
-        -b --build-from-source    : Build vim from source.
-        -n --neovim               : Build neovim from source.
-```
 
 ## Files in repo:
 
-	.
-	├── .gitignore
-	├── vimrc.vim
-	├── plugs.vim
-	├── bashrc
-	├── tmux.conf
-	├── install.sh
-	├── LICENSE
-	├── README.md
-	└── Xresources
+```bash
+.
+├── install.sh
+├── bash
+│   └── bashrc
+├── git
+│   ├── config
+│   ├── git-completion.bash
+│   └── gitmessage
+├── init.vim
+├── plugs.vim
+├── tmux
+│   └── tmux.conf
+├── README.md
+└── LICENSE
+```
 
-	0 directories, 9 files
+I have full explanation to my neovim configurations [here](https://ammarnajjar.github.io/editors/2016/06/19/Vimrc-Adventure/).  
 
-##License:
+## License:
 
 GNU GENERAL PUBLIC LICENSE, see LICENSE file for details.
