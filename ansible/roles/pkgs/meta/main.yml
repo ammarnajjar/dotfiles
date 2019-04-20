@@ -1,9 +1,0 @@
-galaxy_info:
-  author: Ammar Najjar
-  description: Install packages on different platforms
-
-  license: license (GPLv3)
-
-  min_ansible_version: 2.4
-
-dependencies: []

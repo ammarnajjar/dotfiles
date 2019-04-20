@@ -1,8 +1,0 @@
----
-# tasks file for bash
-
-- name: Add custom bashrc
-  template:
-      src: bashrc
-      dest: "{{ local_home }}/.bashrc"
-

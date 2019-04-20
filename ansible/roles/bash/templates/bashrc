@@ -1,2 +1,0 @@
-export dotfiles_dir="{{ dotfiles_dir }}"
-source {{ dotfiles_dir }}/bash/bashrc

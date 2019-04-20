@@ -1,4 +1,0 @@
----
-# defaults file for git
-local_home: "{{ lookup('env','HOME') }}"
-dotfiles_dir: "{{ local_home }}/dotfiles"
