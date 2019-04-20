@@ -1,0 +1,29 @@
+---
+# defaults file for pkgs
+basic_pkgs:
+    - curl
+    - wget
+    - tree
+    - git
+    - tmux
+
+fedora_pkgs:
+    - neovim
+    - the_silver_searcher
+    - ctags
+    - python2-neovim
+    - python3-neovim
+
+centos_dep_pkgs:
+    - centos-release-scl
+    - https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+
+centos_main_pkgs:
+    - neovim
+    - python2-neovim
+    - python34-neovim
+
+debian_pkgs:
+    - neovim
+    - python-neovim
+    - python3-neovim

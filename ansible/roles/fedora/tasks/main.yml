@@ -1,7 +1,0 @@
----
-# tasks file for fedora
-- name: Install packages
-  become: true
-  dnf:
-      pkg: "{{ pkgs }}"
-      state: present
