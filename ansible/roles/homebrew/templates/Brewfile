@@ -1,0 +1,23 @@
+# get with `brew bundle dump`
+
+tap "homebrew/bundle"
+tap "homebrew/cask"
+tap "homebrew/core"
+
+brew "python"
+brew "ansible"
+brew "bash"
+brew "ctags"
+brew "git-extras"
+brew "libuv"
+brew "neovim"
+brew "pandoc"
+brew "pipenv"
+brew "ruby"
+brew "the_silver_searcher"
+brew "tmux"
+brew "tree"
+brew "watch"
+brew "wget"
+
+cask "iterm2"

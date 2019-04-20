@@ -4,8 +4,9 @@
 
   roles:
       - role: pkgs
-      # - role: macos
-      #   when: ansible_facts['distribution'] == "Darwin"
+        when: ansible_facts['distribution'] != "MacOSX"
+      - role: homebrew
+        when: ansible_facts['distribution'] == "MacOSX"
       - role: git
       - role: bash
       - role: tmux

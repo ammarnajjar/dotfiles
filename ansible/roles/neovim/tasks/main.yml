@@ -7,16 +7,5 @@
     state=link
     force=yes
 
-# - name: Install neovim ruby support
-#   gem: name=neovim user_install=yes
-
-- name: Install neovim python2 support
-  become: true
-  pip: executable=pip2 name=neovim
-
-# - name: Install neovim python3 support
-#   become: true
-#   pip: executable=pip3 name=neovim
-
 - name: Install plugins
   command: nvim +PlugInstall +qall

@@ -1,0 +1,3 @@
+---
+# defaults file for homebrew
+local_home: "{{ lookup('env','HOME') }}"
