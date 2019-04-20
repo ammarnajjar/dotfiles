@@ -1,13 +1,2 @@
 ---
 # vars file for fedora
-pkgs:
-    - curl
-    - git
-    - wget
-    - tree
-    - neovim
-    - python2-neovim
-    - python3-neovim
-    - tmux
-    - the_silver_searcher
-    - ctags

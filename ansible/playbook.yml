@@ -3,10 +3,17 @@
   connection: local
 
   roles:
-      - fedora
-      - git
-      - bash
-      - neovim
+      - role: fedora
+        when: ansible_facts['distribution'] == "Fedora"
+      - role: debian
+        when: ansible_facts['distribution'] == "Debian"
+      - role: centos
+        when: ansible_facts['distribution'] == "CentOS"
+      # - role: macos
+      #   when: ansible_facts['distribution'] == "Darwin"
+      - role: git
+      - role: bash
+      - role: neovim
 
 # ansible_plybook playbook.yml -i hosts.yml --check
 #

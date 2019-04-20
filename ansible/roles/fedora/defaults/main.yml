@@ -1,2 +1,13 @@
 ---
 # defaults file for fedora
+pkgs:
+    - curl
+    - wget
+    - tree
+    - the_silver_searcher
+    - ctags
+    - git
+    - tmux
+    - neovim
+    - python2-neovim
+    - python3-neovim

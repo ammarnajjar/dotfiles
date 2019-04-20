@@ -3,20 +3,16 @@
 - name: Install dep packages
   become: true
   yum:
-      pkg: "{{ vars.dep_pkgs }}"
+      pkg: "{{ dep_pkgs }}"
       state: present
-  when: ansible_distribution == "CentOS"
 
 - name: Install following packages
   become: true
   yum:
-      pkg: "{{ vars.following_pkgs }}"
+      pkg: "{{ following_pkgs }}"
       state: present
-  when: ansible_distribution == "CentOS"
-  with_items:
 
 - name: Activate python3
   become: true
   shell: scl enable rh-python36 bash
-  when: ansible_distribution == "CentOS"
 
