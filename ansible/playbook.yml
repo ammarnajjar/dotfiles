@@ -13,15 +13,7 @@
       #   when: ansible_facts['distribution'] == "Darwin"
       - role: git
       - role: bash
+      - role: tmux
       - role: neovim
 
 # ansible_plybook playbook.yml -i hosts.yml --check
-#
-# ansible 2.1.0.0
-#   config file = /etc/ansible/ansible.cfg
-#   configured module search path = Default w/o overrides
-
-# - assert: { that: "{{ item }} >= 1" }
-#   with_items:
-#     - ansible_version.minor
-
