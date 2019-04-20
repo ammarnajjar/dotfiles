@@ -1,21 +1,28 @@
-export TERM=xterm-256color
-export LANG='en_US.UTF-8'
-alias vim='nvim'
-export EDITOR=vim
 alias ll='ls -lh'
 alias la='ls -aAh'
 alias l='ls -CF'
+alias g="git status"
+alias vim='nvim'
+alias vi="vi -u NONE"
+alias ctagsit="ctags --append=no --recurse --totals --exclude=blib --exclude=.svn --exclude=.get --exclude='@.gitignore' --extra=q"
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
 # don't put duplicate lines or lines starting with space in the history.
 # HISTCONTROL=ignoreboth
 # append to the history file, don't overwrite it
 shopt -s histappend
+
+export TERM=xterm-256color
+export LANG='en_US.UTF-8'
+export EDITOR=nvim
+export GIT_EDITOR="nvim"
+
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 export HISTFILESIZE=
 export HISTSIZE=
 export HISTTIMEFORMAT="[%F %T]: "
-alias ctagsit="ctags --append=no --recurse --totals --exclude=blib --exclude=.svn --exclude=.get --exclude='@.gitignore' --extra=q"
-alias g="git status"
-alias vi="vi -u NONE"
+
 source $dotfiles_dir/git/git-completion.bash
 source $dotfiles_dir/bash/bash-sensible/sensible.bash
 # [[ $- = *i* ]] && source $dotfiles_dir/liquidprompt/liquidprompt
