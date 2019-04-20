@@ -6,18 +6,6 @@
     {{ ansible_pkg_mgr }} name={{ fedora_pkgs }} state=present update_cache=yes
   when: ansible_facts['distribution'] == "Fedora"
 
-- name: install centos dep packages
-  become: true
-  action: >
-    {{ ansible_pkg_mgr }} name={{ centos_dep_pkgs }} state=present update_cache=yes
-  when: ansible_facts['distribution'] == "CentOS"
-
-- name: install centos main packages
-  become: true
-  action: >
-    {{ ansible_pkg_mgr }} name={{ centos_main_pkgs }} state=present update_cache=yes
-  when: ansible_facts['distribution'] == "CentOS"
-
 - name: install debian packages
   become: true
   action: >

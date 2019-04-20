@@ -2,28 +2,48 @@
 # defaults file for pkgs
 basic_pkgs:
     - curl
-    - wget
-    - tree
     - git
+    - neovim
+    - python3
+    - python3-neovim
     - tmux
+    - tree
+    - wget
 
 fedora_pkgs:
-    - neovim
-    - the_silver_searcher
+    - bash-completion
     - ctags
+    - firefox
+    - firejail
+    - flatpak
+    - gimp
+    - git-extras
+    - gnupg
+    - gnupg2
+    - nodejs
+    - pandoc
+    - pipenv
+    - python-pip
     - python2-neovim
-    - python3-neovim
-
-centos_dep_pkgs:
-    - centos-release-scl
-    - https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-
-centos_main_pkgs:
-    - neovim
-    - python2-neovim
-    - python34-neovim
+    - python3-devel
+    - python3-pip
+    - rsync
+    - ruby
+    - sed
+    - simple-scan
+    - sudo
+    - tar
+    - the_silver_searcher
+    - unzip
+    - vlc
+    - which
+    - youtube-dl
+    - zip
 
 debian_pkgs:
-    - neovim
+    - build-essential
+    - exuberant-ctags
     - python-neovim
-    - python3-neovim
+    - python3-dev
+    - ruby-dev
+    - silversearcher-ag
