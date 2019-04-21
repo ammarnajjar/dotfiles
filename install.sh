@@ -3,7 +3,8 @@
 # File: install.sh
 # Author: Ammar Najjar <najjarammar@protonmail.com>
 # Description: install neovim and other bash, tmux and git condifurations.
-# Last Modified: April 18, 2019
+# The old configurations if exist will be backed up under /tmp/trash/..
+# Last Modified: April 21, 2019
 
 function echo_blue() {
     echo -e '\E[37;44m'"\033[1m$1\033[0m"
@@ -22,17 +23,11 @@ function install_pkgs() {
     if [[ "$OSTYPE" == "linux-gnu" ]]; then
         # Linux
         sys_id="$(cat /etc/*release | grep ID=)"
-        if [[ "$sys_id" == *"centos"* ]]
-        then
-            pkg_manager="$SUDO yum"
-            $pkg_manager install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-            $pkg_manager install -y python36
-        elif [[ "$sys_id" == *"fedora"* ]]
+        if [[ "$sys_id" == *"fedora"* ]]
         then
             pkg_manager="$SUDO dnf"
             $pkg_manager install -y python{2,3}-neovim
         elif [[ "$sys_id" == *"debian"* ]]
-
         then
             pkg_manager="$SUDO apt-get"
             $pkg_manager install -y python-neovim python3-neovim
@@ -55,30 +50,19 @@ function prepare_dotfiles_dir() {
     cd $current_dir
     echo_blue "** Preparing dotfiles dir -- $(pwd)"
     dotfiles_dir="$current_dir/dotfiles"
-    echo "export dotfiles_dir=$dotfiles_dir" >> $HOME/.bashrc
+    [ -f $HOME/.bashrc ] && mv $HOME/.bashrc /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_bashrc
+    echo "export dotfiles_dir=$dotfiles_dir" > $HOME/.bashrc
+    echo "source $(echo $dotfiles_dir)/bash/bashrc" >> $HOME/.bashrc
     source $HOME/.bashrc
-    if [ -d $dotfiles_dir ]
-    then
-        rm -rf $dotfiles_dir
-    fi
+    [ -d $dotfiles_dir ] && mv $dotfiles_dir /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_dotfiles
     mkdir -p $dotfiles_dir
     cd $dotfiles_dir
 }
 
-function update_bashrc() {
-    echo_blue "** Bashrc update"
-    echo "source $(echo $dotfiles_dir)/bash/bashrc" >> $HOME/.bashrc
-}
-
 function update_tmux_conf() {
     echo_blue "** Tmux config"
-    echo "source $(echo $dotfiles_dir)/tmux/tmux.conf" >> $HOME/.tmux.conf
-}
-
-function update_git_conf() {
-    echo_blue "** Git config"
-    rm -rf $HOME/.config/git
-    ln -s $dotfiles_dir/git $HOME/.config/git
+    [ -L $HOME/.tmux.conf ] && mv $HOME/.tmux.conf /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_tmux.conf
+    ln -s $dotfiles_dir/tmux/tmux.conf $HOME/.tmux.conf
 }
 
 function clone_repos() {
@@ -92,10 +76,18 @@ function clone_repos() {
 
 function nvim_symlinks() {
     echo_blue "** Create Neovim Symlinks"
-    rm -rf $HOME/.config/nvim
     mkdir -p ${XDG_CONFIG_HOME:=$HOME/.config}
+    [ -L $HOME/.config/nvim ] && mv $HOME/.config/nvim /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_nvim
     ln -s $dotfiles_dir $XDG_CONFIG_HOME/nvim
 }
+
+function update_git_conf() {
+    echo_blue "** Git config"
+    mkdir -p ${XDG_CONFIG_HOME:=$HOME/.config}
+    [ -L $XDG_CONFIG_HOME/git ] && mv $HOME/.config/git /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_git
+    ln -s $dotfiles_dir/git $XDG_CONFIG_HOME//git
+}
+
 
 function install_plugins() {
     echo_blue "** Install plugins"
@@ -103,16 +95,16 @@ function install_plugins() {
 }
 
 function main(){
-	get_sudo
-	install_pkgs
-	prepare_dotfiles_dir
+    mkdir -p /tmp/trash
+    get_sudo
+    install_pkgs
+    prepare_dotfiles_dir
 
     clone_repos
     nvim_symlinks
 
     update_tmux_conf
     update_git_conf
-    update_bashrc
     source $HOME/.bashrc
 
     install_plugins
