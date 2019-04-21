@@ -6,7 +6,8 @@ Because the plugins are always changing and depend on the current projects I am 
 
 ## Usage:
 
-Make a **backup** for your settings then:
+Make a **backup** for your settings (or else look for them under /tmp/trash/..).  
+Then:
 
 ```bash
 wget https://raw.githubusercontent.com/ammarnajjar/dotfiles/master/install.sh && bash install.sh
