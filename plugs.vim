@@ -60,6 +60,7 @@ Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'metakirby5/codi.vim'              " Evaluate interpreted languages live
 Plug 'leafgarland/typescript-vim'       " Typescript Syntax
 Plug 'pangloss/vim-javascript'          " javascript
+Plug 'pearofducks/ansible-vim'          " Ansible
 " Plug 'sukima/xmledit'                   " XML edit
 " Plug 'tpope/vim-dispatch'               " Compile/make in the background
 " Plug 'vim-scripts/DoxygenToolkit.vim'   " Doxygen generator
@@ -88,14 +89,15 @@ Plug 'pangloss/vim-javascript'          " javascript
 " " => Python Plugs ---------------------- {{{2
 Plug 'zchee/deoplete-jedi'              " Auto-complete
 Plug 'janko-m/vim-test'                 " Run tests within vim
-" Plug 'integralist/vim-mypy'             " Static Type checker
 Plug 'nvie/vim-flake8'                   " python-flake8
 Plug 'heavenshell/vim-pydocstring'      " Generate docstrings
 Plug 'hynek/vim-python-pep8-indent'     " PEP8 indentation aware
 Plug 'w0rp/ale'                         " Auto linter
+Plug 'Glench/Vim-Jinja2-Syntax'         " jinja syntax
+" Plug 'integralist/vim-mypy'             " Static Type checker
+" Plug 'mitsuhiko/vim-jinja'              " jinja syntax
 " Plug 'jmcantrell/vim-virtualenv'        " Venv aware for auto completion
 " Plug 'vim-scripts/django.vim'           " Django templates Syntax
-" Plug 'mitsuhiko/vim-jinja'              " jinja syntax
 " Plug 'klen/python-mode'                 " Python IDE
 " Plug 'Yggdroot/indentLine'              " Draw line for each indentation level (spaces)
 " Plug 'jmcomets/vim-pony'                " Django jump commands
