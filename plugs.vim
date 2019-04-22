@@ -29,7 +29,6 @@ Plug 'jistr/vim-nerdtree-tabs'          " NERDTree Tabs
 Plug 'ap/vim-css-color'                 " CSS colors review
 Plug 'rstacruz/sparkup'                 " XML, HTML sparkup
 Plug 'vim-voom/VOoM'                    " Two Pane Outliner
-Plug 'ammarnajjar/wombat256mod'         " My Dark Colorscheme
 Plug 'machakann/vim-highlightedyank'    " Highlight when yanking
 "}}}
 
@@ -104,6 +103,8 @@ Plug 'Glench/Vim-Jinja2-Syntax'         " jinja syntax
 " " }}}
 
 " " => Colorschemes Plugs ---------------------- {{{2
+Plug 'ammarnajjar/wombat256mod'           " wombat black Colorscheme
+Plug 'ammarnajjar/vim-code-dark'          " vscode dark+ Colorscheme fork
 Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 " Plug 'tomasr/molokai'                   " Dark Colorscheme
 " Plug 'vim-scripts/Spacegray.vim'        " Dark Colorscheme
@@ -146,7 +147,7 @@ let g:OmniSharp_want_snippet=1
 
 " => Deoplete ---------------- {{{2
 let g:deoplete#enable_at_startup = 1
-let g:racer_cmd = "/Users/ammarnajjar/.cargo/bin/racer"
+execute 'let g:racer_cmd=fnameescape(s:editor_root."/.cargo/bin/racer")'
 let g:racer_experimental_completer = 1
 let g:racer_insert_paren = 1
 "}}}
@@ -161,7 +162,7 @@ set cursorline
 " Colorscheme
 " Enable CursorLine
 if ! has("gui_running")
-    colorscheme wombat256mod
+    colorscheme codedark
     highlight CursorLineNr term=bold ctermfg=Yellow ctermbg=Black gui=bold guifg=Yellow guibg=Black
     autocmd InsertEnter * highlight CursorLineNr term=bold ctermfg=Black ctermbg=74 gui=bold guifg=Black guibg=SkyBlue1
     autocmd InsertLeave * highlight CursorLineNr term=bold ctermfg=Yellow ctermbg=Black gui=bold guifg=Yellow guibg=Black
