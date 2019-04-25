@@ -1,8 +1,6 @@
-" => editor_root  ---------------------- {{{1
- let s:editor_root=expand("~/.config/nvim/")
-"}}}
-
 " => Enable Plugins  ---------------------- {{{1
+let s:editor_root=expand("~/.config/nvim/")
+
 if empty(glob(fnameescape(s:editor_root."/autoload/plug.vim")))
     silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
                 \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -21,8 +19,12 @@ Plug 'easymotion/vim-easymotion'        " Multiline Search and Move
 Plug 'rking/ag.vim'                     " Fast in project search
 Plug 'tomtom/tcomment_vim'              " Fast comment
 Plug 'majutsushi/tagbar'                " Class Explorer
-Plug 'junegunn/fzf', { 'dir': '~/.vim/cache/fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'                 " FZF fuzzy file finder
+if isdirectory('/usr/local/opt/fzf')
+  Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
+else
+  Plug 'junegunn/fzf', { 'dir': '~/.config/.fzf', 'do': './install --all' }
+  Plug 'junegunn/fzf.vim'                 " FZF fuzzy file finder
+endif
 Plug 'godlygeek/tabular'                " Tanularize
 Plug 'scrooloose/nerdtree'              " NERDTree
 Plug 'jistr/vim-nerdtree-tabs'          " NERDTree Tabs
@@ -51,6 +53,11 @@ Plug 'tpope/vim-surround'               " Surround
 " " }}}
 
 " " => Programming Plugs ---------------------- {{{2
+
+Plug 'hail2u/vim-css3-syntax'           " HTML Bundle
+Plug 'gorodinskiy/vim-coloresque'
+Plug 'tpope/vim-haml'
+Plug 'jelera/vim-javascript-syntax'     " Javascript Bundle
 Plug 'sheerun/vim-polyglot'             " syntax & indentation
 Plug 'OmniSharp/omnisharp-vim'          " c# plugin
 Plug 'rust-lang/rust.vim'               " Rust support
@@ -58,9 +65,11 @@ Plug 'racer-rust/vim-racer'
 Plug 'sebastianmarkow/deoplete-rust'    " autocomplete rust
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'metakirby5/codi.vim'              " Evaluate interpreted languages live
-" Plug 'leafgarland/typescript-vim'       " Typescript Syntax
 Plug 'pangloss/vim-javascript'          " javascript
 Plug 'pearofducks/ansible-vim'          " Ansible
+Plug 'leafgarland/typescript-vim'       " typescript
+Plug 'HerringtonDarkholme/yats.vim'     " typescript
+" Plug 'mattn/emmet-vim'
 " Plug 'sukima/xmledit'                   " XML edit
 " Plug 'tpope/vim-dispatch'               " Compile/make in the background
 " Plug 'vim-scripts/DoxygenToolkit.vim'   " Doxygen generator
@@ -104,10 +113,10 @@ Plug 'Glench/Vim-Jinja2-Syntax'         " jinja syntax
 " " }}}
 
 " " => Colorschemes Plugs ---------------------- {{{2
+Plug 'ammarnajjar/onedark.vim'            " Atom one dark theme
+Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 Plug 'ammarnajjar/wombat256mod'           " wombat black Colorscheme
 Plug 'ammarnajjar/vim-code-dark'          " vscode dark+ Colorscheme fork
-Plug 'joshdick/onedark.vim'
-Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 " Plug 'tomasr/molokai'                   " Dark Colorscheme
 " Plug 'vim-scripts/Spacegray.vim'        " Dark Colorscheme
 " Plug 'nanotech/jellybeans.vim'          " Dark Colorscheme
@@ -119,6 +128,18 @@ call plug#end()
 "}}}
 
 " => Plugins Config ---------------------- {{{1
+
+" javascript
+let g:javascript_enable_domhtmlcss = 1
+
+" Syntax highlight
+" Default highlight is better than polyglot
+let g:polyglot_disabled = ['python']
+let python_highlight_all = 1
+
+
+" typescript
+let g:yats_host_keyword = 1
 
 " => highlightedyank ---------------- {{{2
 highlight HighlightedyankRegion cterm=reverse gui=reverse
@@ -162,6 +183,13 @@ autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 execute 'let g:racer_cmd=fnameescape(s:editor_root."/.cargo/bin/racer")'
 let g:racer_experimental_completer = 1
 let g:racer_insert_paren = 1
+"}}}
+
+" => snippets ---------------- {{{2
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<c-b>"
+let g:UltiSnipsEditSplit="vertical"
 "}}}
 
 " => vim-test ---------------- {{{2
@@ -299,6 +327,14 @@ imap <c-x><c-l> <plug>(fzf-complete-line)
 if has('nvim')
   let $FZF_DEFAULT_OPTS .= ' --inline-info'
 endif
+"
+let $FZF_DEFAULT_COMMAND =  "find * -path '*/\.*' -prune -o -path 'node_modules/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"
+
+" The Silver Searcher
+if executable('ag')
+  let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
+  set grepprg=ag\ --nogroup\ --nocolor
+endif
 
 nnoremap <silent> <expr> <C-p> (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" : '').":FZF\<cr>"
 nnoremap <silent> <Leader>C  :Colors<CR>
@@ -306,14 +342,6 @@ nnoremap <silent> <Leader>B  :Buffers<CR>
 nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
 nnoremap <silent> <Leader>AG :Ag <C-R><C-A><CR>
 nnoremap <silent> <Leader>`  :Marks<CR>
-"}}}
-
-" => syntastic ---------------- {{{2
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_wq = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_python_pylint_args = '-d C0301'
 "}}}
 
 " => Clang ---------------- {{{2

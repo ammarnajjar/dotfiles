@@ -51,7 +51,7 @@ endif
 vnoremap <silent> <leader>p !python3<CR>
 
 " defaults in neovim -> :h vim-diff
-set wildmode=longest:list,full
+set wildmode=list:longest,list:full
 
 let mapleader=","   " Change leader key to ,
 
@@ -71,10 +71,16 @@ set linebreak
 set title
 set number
 set relativenumber
-set shell=/bin/bash
+
+if exists('$SHELL')
+    set shell=$SHELL
+else
+    set shell=/usr/local/bin/bash
+endif
+
 
 " Ignore compiled files
-set wildignore=*.o,*~,*.pyc,*.class
+set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__,*~,*.class
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
 
 " when joining lines, don't insert two spaces after punctuation
@@ -84,10 +90,9 @@ set nojoinspaces
 set lazyredraw
 
 set mat=3
-set t_vb=
-set tm=500
-set t_Co=256
-set t_ut=
+
+" Time in milliseconds to wait for a mapped sequence to complete
+set timeoutlen=500
 
 " Turn backup off
 set nobackup
@@ -121,8 +126,19 @@ set inccommand=nosplit
 set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
   \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
   \,sm:block-blinkwait175-blinkoff150-blinkon175
+
+"" Encoding
+set encoding=utf-8
+set fileencoding=utf-8
+set fileencodings=utf-8
 " }}}
 " => Mappings ---------------------- {{{1
+
+if has('macunix')
+  " pbcopy for OSX copy/paste
+  vmap <C-x> :!pbcopy<CR>
+  vmap <C-c> :w !pbcopy<CR><CR>
+endif
 
 " terminal mode mappings
 tnoremap <Esc> <C-\><C-n>
@@ -243,7 +259,14 @@ if has("autocmd")
     endif
 
     autocmd fileType html,xhtml,htm,xml,css,scss,php,ruby setlocal shiftwidth=2 tabstop=2 softtabstop=2
-    autocmd fileType python setlocal shiftwidth=4 tabstop=4 softtabstop=4 expandtab
+
+    augroup nvim_python
+      autocmd!
+      autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=4 colorcolumn=120
+          \ formatoptions+=croq softtabstop=4
+          \ cinwords=if,elif,else,for,while,try,except,finally,def,class,with
+    augroup END
+
     autocmd fileType typescript,javascript setlocal shiftwidth=2 tabstop=2 softtabstop=2 expandtab
 endif
 " }}}
@@ -561,5 +584,11 @@ function! WatchForChanges(bufname, ...)
   let @"=reg_saved
 endfunction
 execute WatchForChanges("*",{'autoread':1})
+" }}}
+" => local init.vim ---------------------- {{{1
+"" Include user's local vim config if exists
+if filereadable(s:editor_root."/local_init.vim")
+    execute 'source '.fnameescape(s:editor_root."/local_init.vim")
+endif
 " }}}
 " vim: ft=vim:ts=4:sw=4:et:fdm=marker
