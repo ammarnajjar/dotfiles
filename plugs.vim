@@ -51,13 +51,14 @@ Plug 'tpope/vim-surround'               " Surround
 " " }}}
 
 " " => Programming Plugs ---------------------- {{{2
+Plug 'sheerun/vim-polyglot'             " syntax & indentation
 Plug 'OmniSharp/omnisharp-vim'          " c# plugin
 Plug 'rust-lang/rust.vim'               " Rust support
 Plug 'racer-rust/vim-racer'
 Plug 'sebastianmarkow/deoplete-rust'    " autocomplete rust
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'metakirby5/codi.vim'              " Evaluate interpreted languages live
-Plug 'leafgarland/typescript-vim'       " Typescript Syntax
+" Plug 'leafgarland/typescript-vim'       " Typescript Syntax
 Plug 'pangloss/vim-javascript'          " javascript
 Plug 'pearofducks/ansible-vim'          " Ansible
 " Plug 'sukima/xmledit'                   " XML edit
@@ -105,6 +106,7 @@ Plug 'Glench/Vim-Jinja2-Syntax'         " jinja syntax
 " " => Colorschemes Plugs ---------------------- {{{2
 Plug 'ammarnajjar/wombat256mod'           " wombat black Colorscheme
 Plug 'ammarnajjar/vim-code-dark'          " vscode dark+ Colorscheme fork
+Plug 'joshdick/onedark.vim'
 Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 " Plug 'tomasr/molokai'                   " Dark Colorscheme
 " Plug 'vim-scripts/Spacegray.vim'        " Dark Colorscheme
@@ -119,14 +121,21 @@ call plug#end()
 " => Plugins Config ---------------------- {{{1
 
 " => highlightedyank ---------------- {{{2
+highlight HighlightedyankRegion cterm=reverse gui=reverse
 let g:highlightedyank_highlight_duration = 1000
 "}}}
 
 " => OmniSharp ---------------- {{{2
 " let g:OmniSharp_server_use_mono = 1
+let g:ale_lint_on_enter = 0
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 let g:ale_linters = {
-\ 'cs': ['OmniSharp']
-\}
+            \'python': ['flake8'],
+            \ 'cs': ['OmniSharp']
+            \}
 let g:OmniSharp_selector_ui = 'fzf'
 let g:OmniSharp_highlight_types = 1
 
@@ -147,6 +156,9 @@ let g:OmniSharp_want_snippet=1
 
 " => Deoplete ---------------- {{{2
 let g:deoplete#enable_at_startup = 1
+" close the preview window automatically
+autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+
 execute 'let g:racer_cmd=fnameescape(s:editor_root."/.cargo/bin/racer")'
 let g:racer_experimental_completer = 1
 let g:racer_insert_paren = 1
@@ -158,11 +170,14 @@ let test#strategy = "neovim"
 "}}}
 
 " => Theme ---------------- {{{2
-set cursorline
 " Colorscheme
+let g:onedark_color_overrides = {
+\ "black": {"gui": "#000000", "cterm": "0", "cterm16": "0" }
+\}
 " Enable CursorLine
+set cursorline
 if ! has("gui_running")
-    colorscheme codedark
+    colorscheme onedark
     highlight CursorLineNr term=bold ctermfg=Yellow ctermbg=Black gui=bold guifg=Yellow guibg=Black
     autocmd InsertEnter * highlight CursorLineNr term=bold ctermfg=Black ctermbg=74 gui=bold guifg=Black guibg=SkyBlue1
     autocmd InsertLeave * highlight CursorLineNr term=bold ctermfg=Yellow ctermbg=Black gui=bold guifg=Yellow guibg=Black
