@@ -119,7 +119,7 @@ call plug#end()
 " => Plugins Config ---------------------- {{{1
 
 " => highlightedyank ---------------- {{{2
-let g:highlightedyank_highlight_duration = 200
+let g:highlightedyank_highlight_duration = 1000
 "}}}
 
 " => OmniSharp ---------------- {{{2
