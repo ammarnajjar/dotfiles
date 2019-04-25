@@ -54,6 +54,7 @@ Plug 'tpope/vim-surround'               " Surround
 
 " " => Programming Plugs ---------------------- {{{2
 
+Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 Plug 'hail2u/vim-css3-syntax'           " HTML Bundle
 Plug 'gorodinskiy/vim-coloresque'
 Plug 'tpope/vim-haml'
@@ -64,11 +65,11 @@ Plug 'rust-lang/rust.vim'               " Rust support
 Plug 'racer-rust/vim-racer'
 Plug 'sebastianmarkow/deoplete-rust'    " autocomplete rust
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'metakirby5/codi.vim'              " Evaluate interpreted languages live
-Plug 'pangloss/vim-javascript'          " javascript
 Plug 'pearofducks/ansible-vim'          " Ansible
-Plug 'leafgarland/typescript-vim'       " typescript
-Plug 'HerringtonDarkholme/yats.vim'     " typescript
+" Plug 'metakirby5/codi.vim'              " Evaluate interpreted languages live
+" Plug 'pangloss/vim-javascript'          " javascript
+" Plug 'leafgarland/typescript-vim'       " typescript
+" Plug 'HerringtonDarkholme/yats.vim'     " typescript
 " Plug 'mattn/emmet-vim'
 " Plug 'sukima/xmledit'                   " XML edit
 " Plug 'tpope/vim-dispatch'               " Compile/make in the background
@@ -96,13 +97,13 @@ Plug 'HerringtonDarkholme/yats.vim'     " typescript
 " " }}}
 
 " " => Python Plugs ---------------------- {{{2
-Plug 'zchee/deoplete-jedi'              " Auto-complete
-Plug 'janko-m/vim-test'                 " Run tests within vim
-Plug 'nvie/vim-flake8'                   " python-flake8
-Plug 'heavenshell/vim-pydocstring'      " Generate docstrings
-Plug 'hynek/vim-python-pep8-indent'     " PEP8 indentation aware
 Plug 'w0rp/ale'                         " Auto linter
+Plug 'nvie/vim-flake8'                   " python-flake8
 Plug 'Glench/Vim-Jinja2-Syntax'         " jinja syntax
+" Plug 'zchee/deoplete-jedi'              " Auto-complete
+" Plug 'janko-m/vim-test'                 " Run tests within vim
+" Plug 'heavenshell/vim-pydocstring'      " Generate docstrings
+" Plug 'hynek/vim-python-pep8-indent'     " PEP8 indentation aware
 " Plug 'integralist/vim-mypy'             " Static Type checker
 " Plug 'mitsuhiko/vim-jinja'              " jinja syntax
 " Plug 'jmcantrell/vim-virtualenv'        " Venv aware for auto completion
