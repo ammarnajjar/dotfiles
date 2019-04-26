@@ -92,7 +92,6 @@ function update_git_conf() {
 function install_plugins() {
     echo_blue "** Install plugins"
     nvim +PlugInstall +qall
-    nvim +"CocInstall coc-python coc-tsserver coc-eslint coc-json coc-prettier coc-css coc-emmet coc-highlight coc-html coc-yaml coc-yank coc-tslint coc-tslint-plugin" +PlugUpdate +qall
 }
 
 function main(){

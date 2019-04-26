@@ -328,8 +328,11 @@ set statusline+=%#question#                                     " Display a warn
 set statusline+=%{fugitive#statusline()}                        " Fugitive
 set statusline+=%*                                              " tab chars
 set statusline+=%=                                              " right align remainder
-" set statusline+=%{SyntasticStatuslineFlag()}                    " Syntastic
+" set statusline+=%{SyntasticStatuslineFlag()}                  " Syntastic
 set statusline+=%y                                              " buffer file type
+set statusline+=%#question#                                     " Display
+set statusline+=%{StatusDiagnostic()}                           " coc
+set statusline+=%*                                              " infos
 set statusline+=%#directory#                                    " display a warning if
 set statusline+=%{&ff!='unix'?'['.&ff.']':''}                   " fileformat isnt
 set statusline+=%*                                              " unix
@@ -341,6 +344,20 @@ autocmd InsertEnter * highlight StatusLine term=reverse ctermbg=Blue gui=bold gu
 autocmd InsertLeave * highlight StatusLine term=reverse ctermfg=254 ctermbg=238 gui=bold guifg=White guibg=Black
 " }}}
 " => Helper functions ---------------------- {{{1
+
+" coc-status-manual
+function! StatusDiagnostic() abort
+  let info = get(b:, 'coc_diagnostic_info', {})
+  if empty(info) | return '' | endif
+  let msgs = []
+  if get(info, 'error', 0)
+    call add(msgs, 'E' . info['error'])
+  endif
+  if get(info, 'warning', 0)
+    call add(msgs, 'W' . info['warning'])
+  endif
+  return join(msgs, ' ') . ' ' . get(g:, 'coc_status', '') . ' '
+endfunction
 
 " Check if paste mode is enabled
 function! HasPaste()

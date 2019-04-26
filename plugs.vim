@@ -130,6 +130,25 @@ call plug#end()
 
 " => Plugins Config ---------------------- {{{1
 
+"" coc Global extension names to install when they aren't installed
+let g:coc_global_extensions = [
+            \ "coc-python",
+            \ "coc-angular",
+            \ "coc-tag",
+            \ "coc-tsserver",
+            \ "coc-eslint",
+            \ "coc-json",
+            \ "coc-prettier",
+            \ "coc-css",
+            \ "coc-emmet",
+            \ "coc-highlight",
+            \ "coc-html",
+            \ "coc-yaml",
+            \ "coc-yank",
+            \ "coc-tslint",
+            \ "coc-tslint-plugin"
+            \]
+
 " javascript
 let g:javascript_enable_domhtmlcss = 1
 
