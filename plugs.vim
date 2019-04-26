@@ -60,12 +60,12 @@ Plug 'gorodinskiy/vim-coloresque'
 Plug 'tpope/vim-haml'
 Plug 'jelera/vim-javascript-syntax'     " Javascript Bundle
 Plug 'sheerun/vim-polyglot'             " syntax & indentation
-Plug 'OmniSharp/omnisharp-vim'          " c# plugin
 Plug 'rust-lang/rust.vim'               " Rust support
 Plug 'racer-rust/vim-racer'
 Plug 'sebastianmarkow/deoplete-rust'    " autocomplete rust
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'pearofducks/ansible-vim'          " Ansible
+" Plug 'OmniSharp/omnisharp-vim'          " c# plugin
 " Plug 'metakirby5/codi.vim'              " Evaluate interpreted languages live
 " Plug 'pangloss/vim-javascript'          " javascript
 " Plug 'leafgarland/typescript-vim'       " typescript
@@ -166,8 +166,7 @@ highlight HighlightedyankRegion cterm=reverse gui=reverse
 let g:highlightedyank_highlight_duration = 1000
 "}}}
 
-" => OmniSharp ---------------- {{{2
-" let g:OmniSharp_server_use_mono = 1
+" => ale ---------------- {{{2
 let g:ale_lint_on_enter = 0
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_echo_msg_error_str = 'E'
@@ -177,6 +176,10 @@ let g:ale_linters = {
             \'python': ['flake8'],
             \ 'cs': ['OmniSharp']
             \}
+"}}}
+
+" => OmniSharp ---------------- {{{2
+" let g:OmniSharp_server_use_mono = 1
 let g:OmniSharp_selector_ui = 'fzf'
 let g:OmniSharp_highlight_types = 1
 
