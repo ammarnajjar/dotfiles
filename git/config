@@ -1,6 +1,5 @@
 [user]
 	name = Ammar Najjar
-	email = najjarammar@protonmail.com
 [core]
 	editor = nvim
 [alias]
