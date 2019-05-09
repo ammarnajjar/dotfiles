@@ -11,6 +11,7 @@
 	co = checkout
 	br = branch
 	ci = commit
+	gco = !sh -c \"git branch -a | grep -v remotes | grep -e $1 | xargs git checkout\"
 [color]
 	ui = true
 [commit]
