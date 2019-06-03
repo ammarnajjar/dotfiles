@@ -11,7 +11,7 @@
 	co = checkout
 	br = branch
 	ci = commit
-	gco = !sh -c \"git branch -a | grep -v remotes | grep -e $1 | xargs git checkout\"
+	gco = "!f() { git branch -a | grep -e $1 -m 1 | sed 's/remotes\\/origin\\///' | xargs git checkout; }; f"
 [color]
 	ui = true
 [commit]
