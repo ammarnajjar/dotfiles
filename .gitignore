@@ -14,3 +14,4 @@ syntax/*
 undo/*
 abbr.*
 **/*.retry
+.DS_Store
