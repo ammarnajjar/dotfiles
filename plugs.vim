@@ -200,16 +200,23 @@ let test#strategy = "neovim"
 
 " => Theme ---------------- {{{2
 " Colorscheme
-let g:onedark_color_overrides = {
-\ "black": {"gui": "#000000", "cterm": "0", "cterm16": "0" }
-\}
-" Enable CursorLine
-set cursorline
-if ! has("gui_running")
-    colorscheme onedark
-    highlight CursorLineNr term=bold ctermfg=Yellow ctermbg=Black gui=bold guifg=Yellow guibg=Black
-    autocmd InsertEnter * highlight CursorLineNr term=bold ctermfg=Black ctermbg=74 gui=bold guifg=Black guibg=SkyBlue1
-    autocmd InsertLeave * highlight CursorLineNr term=bold ctermfg=Yellow ctermbg=Black gui=bold guifg=Yellow guibg=Black
+
+" iterm2 specific settings
+if $ITERM_PROFILE =~? 'light'
+    set background=light
+else
+    let g:onedark_color_overrides = {
+                \ "black": {"gui": "#000000", "cterm": "0", "cterm16": "0" }
+                \}
+    " Enable CursorLine
+    set cursorline
+    if ! has("gui_running")
+        set background=dark
+        colorscheme onedark
+        highlight CursorLineNr term=bold ctermfg=Yellow ctermbg=Black gui=bold guifg=Yellow guibg=Black
+        autocmd InsertEnter * highlight CursorLineNr term=bold ctermfg=Black ctermbg=74 gui=bold guifg=Black guibg=SkyBlue1
+        autocmd InsertLeave * highlight CursorLineNr term=bold ctermfg=Yellow ctermbg=Black gui=bold guifg=Yellow guibg=Black
+    endif
 endif
 "}}}
 
