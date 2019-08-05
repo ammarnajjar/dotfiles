@@ -29,14 +29,14 @@ Plug 'godlygeek/tabular'                " Tanularize
 Plug 'scrooloose/nerdtree'              " NERDTree
 Plug 'jistr/vim-nerdtree-tabs'          " NERDTree Tabs
 Plug 'ap/vim-css-color'                 " CSS colors review
-Plug 'rstacruz/sparkup'                 " XML, HTML sparkup
+" Plug 'rstacruz/sparkup'                 " XML, HTML sparkup
 Plug 'vim-voom/VOoM'                    " Two Pane Outliner
 Plug 'machakann/vim-highlightedyank'    " Highlight when yanking
 "}}}
 
 " " => General Plugins ---------------------- {{{2
-Plug 'SirVer/ultisnips'                 " Ultisnips
-Plug 'honza/vim-snippets'               " Snippets
+" Plug 'SirVer/ultisnips'                 " Ultisnips
+" Plug 'honza/vim-snippets'               " Snippets
 Plug 'Raimondi/delimitMate'             " Autoclose pracets
 Plug 'tpope/vim-surround'               " Surround
 " Plug 'simnalamburt/vim-mundo'           " Undo Tree fork from gundo
@@ -96,9 +96,9 @@ Plug 'pearofducks/ansible-vim'          " Ansible
 " " }}}
 
 " " => Python Plugs ---------------------- {{{2
-Plug 'w0rp/ale'                         " Auto linter
-Plug 'nvie/vim-flake8'                   " python-flake8
-Plug 'Glench/Vim-Jinja2-Syntax'         " jinja syntax
+" Plug 'w0rp/ale'                         " Auto linter
+" Plug 'nvie/vim-flake8'                   " python-flake8
+" Plug 'Glench/Vim-Jinja2-Syntax'         " jinja syntax
 " Plug 'zchee/deoplete-jedi'              " Auto-complete
 " Plug 'janko-m/vim-test'                 " Run tests within vim
 " Plug 'heavenshell/vim-pydocstring'      " Generate docstrings
@@ -113,10 +113,10 @@ Plug 'Glench/Vim-Jinja2-Syntax'         " jinja syntax
 " " }}}
 
 " " => Colorschemes Plugs ---------------------- {{{2
-Plug 'ammarnajjar/onedark.vim'            " Atom one dark theme
 Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 Plug 'ammarnajjar/wombat256mod'           " wombat black Colorscheme
-Plug 'ammarnajjar/vim-code-dark'          " vscode dark+ Colorscheme fork
+" Plug 'ammarnajjar/onedark.vim'            " Atom one dark theme
+" Plug 'ammarnajjar/vim-code-dark'          " vscode dark+ Colorscheme fork
 " Plug 'tomasr/molokai'                   " Dark Colorscheme
 " Plug 'vim-scripts/Spacegray.vim'        " Dark Colorscheme
 " Plug 'nanotech/jellybeans.vim'          " Dark Colorscheme
@@ -212,7 +212,7 @@ else
     set cursorline
     if ! has("gui_running")
         set background=dark
-        colorscheme onedark
+        colorscheme wombat256mod
         highlight CursorLineNr term=bold ctermfg=Yellow ctermbg=Black gui=bold guifg=Yellow guibg=Black
         autocmd InsertEnter * highlight CursorLineNr term=bold ctermfg=Black ctermbg=74 gui=bold guifg=Black guibg=SkyBlue1
         autocmd InsertLeave * highlight CursorLineNr term=bold ctermfg=Yellow ctermbg=Black gui=bold guifg=Yellow guibg=Black
