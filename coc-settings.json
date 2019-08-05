@@ -5,5 +5,19 @@
   "prettier.eslintIntegration": true,
   "python.linting.flake8Enabled": true,
   "python.linting.pylintEnabled": false,
-  "coc.preferences.formatOnSaveFiletypes": ["typescript", "html", "yml", "json", "jsonc"]
+  "python.formatting.provider": "black",
+  "python.linting.flake8Args": ["--max-line-length", "119"],
+  "coc.preferences.formatOnSaveFiletypes": [
+    "markdown",
+    "python",
+    "typescript",
+    "javascript",
+    "html",
+    "json",
+    "jsonc",
+    "yaml",
+    "yaml.docker-compose",
+    "Dockerfile",
+    "toml"
+  ]
 }
