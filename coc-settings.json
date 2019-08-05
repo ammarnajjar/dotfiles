@@ -1,0 +1,9 @@
+{
+  "prettier.printWidth": 120,
+  "prettier.singleQuote": true,
+  "prettier.tslintIntegration": true,
+  "prettier.eslintIntegration": true,
+  "python.linting.flake8Enabled": true,
+  "python.linting.pylintEnabled": false,
+  "coc.preferences.formatOnSaveFiletypes": ["typescript", "html", "yml", "json", "jsonc"]
+}
