@@ -65,6 +65,7 @@ Plug 'racer-rust/vim-racer'
 Plug 'sebastianmarkow/deoplete-rust'    " autocomplete rust
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'pearofducks/ansible-vim'          " Ansible
+Plug 'jpalardy/vim-slime'               " send expression to tmux
 " Plug 'metakirby5/codi.vim'              " Evaluate interpreted languages live
 " Plug 'pangloss/vim-javascript'          " javascript
 " Plug 'leafgarland/typescript-vim'       " typescript
@@ -159,6 +160,12 @@ let python_highlight_all = 1
 
 " typescript
 let g:yats_host_keyword = 1
+
+" => vim-slime ---------------- {{{2
+let g:slime_target = "tmux"
+let g:slime_paste_file = "$HOME/tmp/.slime_paste"
+let g:slime_default_config = {"socket_name": "default", "target_pane": "{right-of}"}
+"}}}
 
 " => highlightedyank ---------------- {{{2
 highlight HighlightedyankRegion cterm=reverse gui=reverse
