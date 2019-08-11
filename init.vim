@@ -37,6 +37,24 @@
 " Description: My neovim configurations file
 " Last Modified: June 19, 2018
 " }}}
+" => neovim only ---------------------- {{{1
+
+if (has("nvim"))
+    " Live substitution
+    set inccommand=nosplit
+
+    " terminal mode mappings
+    tnoremap <Esc> <C-\><C-n>
+    tnoremap <C-h> <C-\><C-n><C-w>h
+    tnoremap <C-j> <C-\><C-n><C-w>j
+    tnoremap <C-k> <C-\><C-n><C-w>k
+    tnoremap <C-l> <C-\><C-n><C-w>l
+    noremap <leader>s :split term://bash<CR><C-w><S-j><S-a>
+    noremap <leader>t :tabedit term://bash<CR><S-a>
+    autocmd TermOpen * setlocal statusline=%{b:term_title}
+endif
+
+" }}}
 " => General ---------------------- {{{1
 let s:editor_root=expand("~/.config/nvim/")
 
@@ -119,8 +137,6 @@ set omnifunc=syntaxcomplete#Complete
 " Restrict syntax for all files
 set synmaxcol=200
 
-" Live substitution (neovim only)
-set inccommand=nosplit
 
 " set vertical Cursor in insert mode
 set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
@@ -139,16 +155,6 @@ if has('macunix')
   vmap <C-x> :!pbcopy<CR>
   vmap <C-c> :w !pbcopy<CR><CR>
 endif
-
-" terminal mode mappings
-tnoremap <Esc> <C-\><C-n>
-tnoremap <C-h> <C-\><C-n><C-w>h
-tnoremap <C-j> <C-\><C-n><C-w>j
-tnoremap <C-k> <C-\><C-n><C-w>k
-tnoremap <C-l> <C-\><C-n><C-w>l
-noremap <leader>s :split term://bash<CR><C-w><S-j><S-a>
-noremap <leader>t :tabedit term://bash<CR><S-a>
-autocmd TermOpen * setlocal statusline=%{b:term_title}
 
 " view hidden characters like spaces and tabs
 nnoremap <F2> :<C-U>setlocal lcs=tab:>-,trail:-,eol:$ list! list? <CR>
