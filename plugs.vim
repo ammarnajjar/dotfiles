@@ -55,6 +55,8 @@ Plug 'tpope/vim-surround'               " Surround
 " " => Programming Plugs ---------------------- {{{2
 
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+Plug 'prabirshrestha/async.vim'         " async language server protocol
+Plug 'prabirshrestha/vim-lsp'
 Plug 'hail2u/vim-css3-syntax'           " HTML Bundle
 Plug 'gorodinskiy/vim-coloresque'
 Plug 'tpope/vim-haml'
@@ -130,11 +132,70 @@ call plug#end()
 
 " => Plugins Config ---------------------- {{{1
 
+"" lsp
+
+if executable('typescript-language-server')
+    au User lsp_setup call lsp#register_server({
+                \ 'name': 'javascript support using typescript-language-server',
+                \ 'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
+                \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'package.json'))},
+                \ 'whitelist': ['javascript', 'javascript.jsx'],
+                \ })
+endif
+
+if executable('typescript-language-server')
+    au User lsp_setup call lsp#register_server({
+                \ 'name': 'typescript-language-server',
+                \ 'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
+                \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'tsconfig.json'))},
+                \ 'whitelist': ['typescript', 'typescript.tsx'],
+                \ })
+endif
+
+if executable('flow')
+    au User lsp_setup call lsp#register_server({
+                \ 'name': 'flow',
+                \ 'cmd': {server_info->['flow', 'lsp']},
+                \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), '.flowconfig'))},
+                \ 'whitelist': ['javascript', 'javascript.jsx'],
+                \ })
+endif
+
+if executable('rls')
+    au User lsp_setup call lsp#register_server({
+                \ 'name': 'rls',
+                \ 'cmd': {server_info->['rustup', 'run', 'stable', 'rls']},
+                \ 'workspace_config': {'rust': {'clippy_preference': 'on'}},
+                \ 'whitelist': ['rust'],
+                \ })
+endif
+
+if executable('pyls')
+    au User lsp_setup call lsp#register_server({
+                \ 'name': 'pyls',
+                \ 'cmd': {server_info->['python']},
+                \ 'whitelist': ['python'],
+                \ 'workspace_config': {'python': {'plugins': {'pydocstyle': {'enabled': v:true}}}}
+                \ })
+endif
+
+if executable('docker-langserver')
+    au User lsp_setup call lsp#register_server({
+                \ 'name': 'docker-langserver',
+                \ 'cmd': {server_info->[&shell, &shellcmdflag, 'docker-langserver --stdio']},
+                \ 'whitelist': ['dockerfile'],
+                \ })
+endif
+
 "" coc Global extension names to install when they aren't installed
 let g:coc_global_extensions = [
+            \ "coc-marketplace",
+            \ "coc-sh",
+            \ "coc-docker",
+            \ "coc-rls",
+            \ "coc-tag",
             \ "coc-python",
             \ "coc-angular",
-            \ "coc-tag",
             \ "coc-tsserver",
             \ "coc-eslint",
             \ "coc-json",
@@ -145,6 +206,8 @@ let g:coc_global_extensions = [
             \ "coc-html",
             \ "coc-yaml",
             \ "coc-yank",
+            \ "coc-import-cost",
+            \ "coc-pairs",
             \ "coc-tslint",
             \ "coc-tslint-plugin"
             \]
