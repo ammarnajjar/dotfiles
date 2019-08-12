@@ -26,4 +26,4 @@
 #    Separate subject from body with a blank line
 #    Use the body to explain what and why vs. how
 #    Can use multiple lines with "-" for bullet points in body
-#    Use footer to include the Jira INH number
+#    Use footer to include the Jira number
