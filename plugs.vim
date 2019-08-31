@@ -29,102 +29,40 @@ Plug 'godlygeek/tabular'                " Tanularize
 Plug 'scrooloose/nerdtree'              " NERDTree
 Plug 'jistr/vim-nerdtree-tabs'          " NERDTree Tabs
 Plug 'ap/vim-css-color'                 " CSS colors review
-" Plug 'rstacruz/sparkup'                 " XML, HTML sparkup
 Plug 'vim-voom/VOoM'                    " Two Pane Outliner
 Plug 'machakann/vim-highlightedyank'    " Highlight when yanking
-"}}}
-
-" " => General Plugins ---------------------- {{{2
-" Plug 'SirVer/ultisnips'                 " Ultisnips
-" Plug 'honza/vim-snippets'               " Snippets
+Plug 'SirVer/ultisnips'                 " Ultisnips
+Plug 'honza/vim-snippets'               " Snippets
 Plug 'Raimondi/delimitMate'             " Autoclose pracets
 Plug 'tpope/vim-surround'               " Surround
-" Plug 'simnalamburt/vim-mundo'           " Undo Tree fork from gundo
-" Plug 'scrooloose/syntastic'             " Syntax Checking
-" Plug '907th/vim-auto-save'              " Autosave
-" Plug 'sheerun/vim-polyglot'             " language pack
-" Plug 'ctrlpvim/ctrlp.vim'               " Ctrlp
 " Plug 'jeetsukumaran/vim-buffergator'    " Buffer Explorer
-" Plug 'vim-scripts/VisIncr'              " Increase/Decrease visual selection
-" Plug 'xolox/vim-misc'                   " Misc tools for session
-" Plug 'xolox/vim-session'                " Session control
-" Plug 'vim-scripts/AutoComplPop'         " Auto popup complete
-" Plug 'terryma/vim-multiple-cursors'     " Multi-Cursors
 " " }}}
 
 " " => Programming Plugs ---------------------- {{{2
-
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 Plug 'prabirshrestha/async.vim'         " async language server protocol
 Plug 'prabirshrestha/vim-lsp'
-Plug 'hail2u/vim-css3-syntax'           " HTML Bundle
 Plug 'gorodinskiy/vim-coloresque'
 Plug 'tpope/vim-haml'
-Plug 'jelera/vim-javascript-syntax'     " Javascript Bundle
 Plug 'sheerun/vim-polyglot'             " syntax & indentation
 Plug 'rust-lang/rust.vim'               " Rust support
 Plug 'racer-rust/vim-racer'
 Plug 'sebastianmarkow/deoplete-rust'    " autocomplete rust
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'pearofducks/ansible-vim'          " Ansible
-Plug 'jpalardy/vim-slime'               " send expression to tmux
+Plug 'mattn/emmet-vim'
 " Plug 'metakirby5/codi.vim'              " Evaluate interpreted languages live
-" Plug 'pangloss/vim-javascript'          " javascript
-" Plug 'leafgarland/typescript-vim'       " typescript
-" Plug 'HerringtonDarkholme/yats.vim'     " typescript
-" Plug 'mattn/emmet-vim'
-" Plug 'sukima/xmledit'                   " XML edit
-" Plug 'tpope/vim-dispatch'               " Compile/make in the background
-" Plug 'vim-scripts/DoxygenToolkit.vim'   " Doxygen generator
-" Plug 'vim-scripts/a.vim'                " Switch between header and source c++
-" Plug 'sigidagi/vim-cmake-project'       " CMake
-" Plug 'vim-scripts/Conque-GDB'           " gdp
-" Plug 'justmao945/vim-clang'             " C++ Bundle
-" Plug 'rdallman/openrefactory-vim'       " Easier Refactoring
-" Plug 'kovisoft/slimv'                   " LISP SLIME for vim
-" Plug 'vim-scripts/paredit.vim'          " LISP paredit
-" Plug 'MarcWeber/vim-addon-mw-utils'     " Utils
-" Plug 'tomtom/tlib_vim'                  " Utils
 " Plug 'vim-pandoc/vim-pandoc'            " Markdown pandoc
-" Plug 'vim-pandoc/vim-pandoc-syntax'     " Markdown syntax
-" Plug 'plasticboy/vim-markdown'          " Markdown syntax
-" Plug 'LucHermitte/lh-vim-lib'           " dep plugin
-" Plug 'LucHermitte/lh-tags'              " dep Plug
-" Plug 'LucHermitte/lh-dev'               " dep plugin
-" Plug 'LucHermitte/lh-brackets'          " dep plugin
-" Plug 'LucHermitte/vim-refactor'         " C++ refactoring
 " Plug 'gi1242/vim-tex-autoclose'         " Latex autoclose
 " Plug 'lervag/vimtex'                    " Latex
 " Plug 'LaTeX-Box-Team/LaTeX-Box'         " Latex
 " " }}}
 
-" " => Python Plugs ---------------------- {{{2
-" Plug 'w0rp/ale'                         " Auto linter
-" Plug 'nvie/vim-flake8'                   " python-flake8
-" Plug 'Glench/Vim-Jinja2-Syntax'         " jinja syntax
-" Plug 'zchee/deoplete-jedi'              " Auto-complete
-" Plug 'janko-m/vim-test'                 " Run tests within vim
-" Plug 'heavenshell/vim-pydocstring'      " Generate docstrings
-" Plug 'hynek/vim-python-pep8-indent'     " PEP8 indentation aware
-" Plug 'integralist/vim-mypy'             " Static Type checker
-" Plug 'mitsuhiko/vim-jinja'              " jinja syntax
-" Plug 'jmcantrell/vim-virtualenv'        " Venv aware for auto completion
-" Plug 'vim-scripts/django.vim'           " Django templates Syntax
-" Plug 'klen/python-mode'                 " Python IDE
-" Plug 'Yggdroot/indentLine'              " Draw line for each indentation level (spaces)
-" Plug 'jmcomets/vim-pony'                " Django jump commands
-" " }}}
-
 " " => Colorschemes Plugs ---------------------- {{{2
 Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 Plug 'ammarnajjar/wombat256mod'           " wombat black Colorscheme
-" Plug 'ammarnajjar/onedark.vim'            " Atom one dark theme
-" Plug 'ammarnajjar/vim-code-dark'          " vscode dark+ Colorscheme fork
-" Plug 'tomasr/molokai'                   " Dark Colorscheme
-" Plug 'vim-scripts/Spacegray.vim'        " Dark Colorscheme
-" Plug 'nanotech/jellybeans.vim'          " Dark Colorscheme
-" Plug 'altercation/vim-colors-solarized' " Solarized Colorscheme
-" Plug 'bling/vim-airline'                " Statusline (viml)
+Plug 'ammarnajjar/onedark.vim'            " Atom one dark theme
+Plug 'ammarnajjar/vim-code-dark'          " vscode dark+ Colorscheme fork
 " " }}}
 
 call plug#end()
@@ -282,7 +220,7 @@ else
     set cursorline
     if ! has("gui_running")
         set background=dark
-        colorscheme wombat256mod
+        colorscheme codedark
         highlight CursorLineNr term=bold ctermfg=Yellow ctermbg=Black gui=bold guifg=Yellow guibg=Black
         autocmd InsertEnter * highlight CursorLineNr term=bold ctermfg=Black ctermbg=74 gui=bold guifg=Black guibg=SkyBlue1
         autocmd InsertLeave * highlight CursorLineNr term=bold ctermfg=Yellow ctermbg=Black gui=bold guifg=Yellow guibg=Black
@@ -410,7 +348,7 @@ let $FZF_DEFAULT_COMMAND =  "find * -path '*/\.*' -prune -o -path 'node_modules/
 
 " The Silver Searcher
 if executable('ag')
-  let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
+    let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git --ignore node_modules/ --ignore target/  --ignore dist/ --ignore build/ --ignore .DS_Store  -g ""'
   set grepprg=ag\ --nogroup\ --nocolor
 endif
 
