@@ -132,6 +132,7 @@ let g:coc_global_extensions = [
             \ "coc-docker",
             \ "coc-rls",
             \ "coc-tag",
+            \ "coc-sql",
             \ "coc-python",
             \ "coc-angular",
             \ "coc-tsserver",
