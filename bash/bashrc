@@ -4,6 +4,11 @@ alias l='ls -CF'
 alias g="git status"
 alias vim='nvim'
 alias vi="vi -u NONE"
+
+# typo
+alias gti=git
+alias dokcer=docker
+
 alias ctagsit="ctags --append=no --recurse --totals --exclude=blib --exclude=.svn --exclude=.get --exclude='@.gitignore' --extra=q"
 
 # Source some local bash settings if exist

@@ -7,24 +7,5 @@
   "python.linting.pylintEnabled": false,
   "python.formatting.provider": "black",
   "python.linting.flake8Args": ["--max-line-length", "119"],
-  "coc.preferences.formatOnSaveFiletypes": [
-    "markdown",
-    "python",
-    "typescript",
-    "javascript",
-    "html",
-    "scss",
-    "css",
-    "xml",
-    "sql",
-    "conf",
-    "groovy",
-    "ignore",
-    "json",
-    "jsonc",
-    "yaml",
-    "yaml.docker-compose",
-    "Dockerfile",
-    "toml"
-  ]
+  "coc.preferences.formatOnSaveFiletypes": []
 }

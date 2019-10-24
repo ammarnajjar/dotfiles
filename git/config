@@ -12,6 +12,9 @@
 	br = branch
 	ci = commit
 	gco = "!f() { git branch -a | grep -e $1 -m 1 | sed 's/remotes\\/origin\\///' | xargs git checkout; }; f"
+	dif = diff
+	gerp = grep
+	rs = restore
 [color]
 	ui = true
 [commit]

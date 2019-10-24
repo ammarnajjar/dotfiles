@@ -331,10 +331,8 @@ set statusline+=%#warningmsg#                                   " display a warn
 set statusline+=%{StatuslineTabWarning()}                       " files contains
 set statusline+=%*                                              " tab chars
 set statusline+=%#question#                                     " Display a warning if
-set statusline+=%{fugitive#statusline()}                        " Fugitive
 set statusline+=%*                                              " tab chars
 set statusline+=%=                                              " right align remainder
-" set statusline+=%{SyntasticStatuslineFlag()}                  " Syntastic
 set statusline+=%y                                              " buffer file type
 set statusline+=%#question#                                     " Display
 set statusline+=%{StatusDiagnostic()}                           " coc
