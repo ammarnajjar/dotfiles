@@ -11,10 +11,6 @@ alias dokcer=docker
 
 alias ctagsit="ctags --append=no --recurse --totals --exclude=blib --exclude=.svn --exclude=.get --exclude='@.gitignore' --extra=q"
 
-# Source some local bash settings if exist
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
-[ -f ~/.local_bashrc ] && source ~/.local_bashrc
-
 # don't put duplicate lines or lines starting with space in the history.
 # HISTCONTROL=ignoreboth
 # append to the history file, don't overwrite it
@@ -30,16 +26,6 @@ export HISTFILESIZE=
 export HISTSIZE=
 export HISTTIMEFORMAT="[%F %T]: "
 
-source $dotfiles_dir/git/git-completion.bash
-source $dotfiles_dir/bash/bash-sensible/sensible.bash
-# [[ $- = *i* ]] && source $dotfiles_dir/liquidprompt/liquidprompt
-
-# GIT_PROMPT_ONLY_IN_REPO=1
-GIT_PROMPT_FETCH_REMOTE_STATUS=0   # uncomment to avoid fetching remote status
-GIT_PROMPT_IGNORE_SUBMODULES=1 # uncomment to avoid searching for changed files in submodules
-GIT_PROMPT_SHOW_UNTRACKED_FILES=all # can be no, normal or all; determines counting of untracked files
-source $dotfiles_dir/bash/bash-git-prompt/gitprompt.sh
-
 export GEM_HOME="$HOME/.gem"
 export PATH="/usr/local/opt/ruby/bin:$PATH"
 
@@ -47,6 +33,29 @@ NPM_PACKAGES="${HOME}/.npm-packages"
 export PATH="$NPM_PACKAGES/bin:$PATH"
 unset MANPATH # delete if you already modified MANPATH elsewhere in your config
 export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
+
+# GIT_PROMPT_ONLY_IN_REPO=1
+GIT_PROMPT_FETCH_REMOTE_STATUS=0   # uncomment to avoid fetching remote status
+GIT_PROMPT_IGNORE_SUBMODULES=1 # uncomment to avoid searching for changed files in submodules
+GIT_PROMPT_SHOW_UNTRACKED_FILES=all # can be no, normal or all; determines counting of untracked files
+
+# source stuff
+source_list=(
+    ~/.fzf.bash
+    ~/.local_bashrc
+    $dotfiles_dir/bash/bash-sensible/sensible.bash
+    $dotfiles_dir/bash/bash-git-prompt/gitprompt.sh
+    $dotfiles_dir/git/git-completion.bash
+    /etc/bash_completion
+    /usr/local/git/contrib/completion/git-completion.bash
+    /usr/share/doc/git/contrib/completion/git-completion.bash
+)
+
+for target in "${source_list[@]}"
+do
+    [ -f $target ] && source $target
+done
+
 
 # useful functions stolen from https://github.com/Bash-it/bash-it
 function mkcd() {
