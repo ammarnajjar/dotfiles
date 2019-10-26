@@ -1,44 +1,10 @@
 " => Header ---------------------- {{{1
-"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-"      ":       ;                                                                 "
-"     ":,,      ;;                                                                "
-"    "::::      ;;;                                                               "
-"   "::::::     ;;;;                                                              "
-"   ":;::::,    ;;;;                                                              "
-"   "::;::::    ;;;;                                                              "
-"   "::::::::   ;;;;   888b    888                            d8b                 "
-"   ":::.::::,  ;;;;   8888b   888                            Y8P                 "
-"   "::: ;::::  ;;;;   88888b  888                                                "
-"   ":::  ::::; ''''   888Y88b 888  .d88b.   .d88b.  888  888 888 88888b.d88b.    "
-"   ":::  ,::::.''''   888 Y88b888 d8P  Y8b d88''88b 888  888 888 888 '888 '88b   "
-"   ":::   ;::::''''   888  Y88888 88888888 888  888 Y88  88P 888 888  888  888   "
-"   ":::    ::::;'''   888   Y8888 Y8b.     Y88..88P  Y8bd8P  888 888  888  888   "
-"   ":::    ::::;'''   888    Y888  'Y8888   'Y88P'    Y88P   888 888  888  888   "
-"   ":::     ;::''''                                                              "
-"    "::      ;:'''                                                               "
-"     ";      :;''                                                                "
-"      "       ;'                                                                 "
-"          ___    ____                                            __   _          "
-"        /   |  / / /  __  ______  __  __   ____  ___  ___  ____/ /  (_)____      "
-"       / /| | / / /  / / / / __ \/ / / /  / __ \/ _ \/ _ \/ __  /  / / ___/      "
-"      / ___ |/ / /  / /_/ / /_/ / /_/ /  / / / /  __/  __/ /_/ /  / (__  )       "
-"     /_/  |_/_/_/   \__, /\____/\__,_/  /_/ /_/\___/\___/\__,_/  /_/____/        "
-"                       /_/                                                       "
-"                                                                                 "
-"                 ........................................                        "
-"                 "    /\ \ \___  _____   _(_)_ __ ___   "                        "
-"                 "   /  \/ / _ \/ _ \ \ / / | '_ ` _ \  "                        "
-"                 "  / /\  /  __/ (_) \ V /| | | | | | | "                        "
-"                 "  \_\ \/ \___|\___/ \_/ |_|_| |_| |_| "                        "
-"                 ........................................                        "
-"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 " Fie: init.vim
-" Author: Ammar Najjar <najjarammar@gmail.com>
+" Author: Ammar Najjar <najjarammar@protonmail.com>
 " Description: My neovim configurations file
-" Last Modified: June 19, 2018
+" Last Modified: October 27 2019
 " }}}
 " => neovim only ---------------------- {{{1
-
 if (has("nvim"))
     " Live substitution
     set inccommand=nosplit
@@ -53,7 +19,6 @@ if (has("nvim"))
     noremap <leader>t :tabedit term://bash<CR><S-a>
     autocmd TermOpen * setlocal statusline=%{b:term_title}
 endif
-
 " }}}
 " => General ---------------------- {{{1
 let s:editor_root=expand("~/.config/nvim/")
@@ -64,9 +29,6 @@ if exists("$VIRTUAL_ENV")
 else
     let g:python3_host_prog=substitute(system("which python3"), "\n", '', 'g')
 endif
-
-" Pytho within vim
-vnoremap <silent> <leader>p !python3<CR>
 
 " defaults in neovim -> :h vim-diff
 set wildmode=list:longest,list:full
@@ -96,7 +58,6 @@ else
     set shell=/usr/local/bin/bash
 endif
 
-
 " Ignore compiled files
 set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__,*~,*.class
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
@@ -106,7 +67,6 @@ set nojoinspaces
 
 " Don't redraw while executing macros (good performance config)
 set lazyredraw
-
 set mat=3
 
 " Time in milliseconds to wait for a mapped sequence to complete
@@ -137,7 +97,6 @@ set omnifunc=syntaxcomplete#Complete
 " Restrict syntax for all files
 set synmaxcol=200
 
-
 " set vertical Cursor in insert mode
 set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
   \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
@@ -149,7 +108,6 @@ set fileencoding=utf-8
 set fileencodings=utf-8
 " }}}
 " => Mappings ---------------------- {{{1
-
 if has('macunix')
   " pbcopy for OSX copy/paste
   vmap <C-x> :!pbcopy<CR>
@@ -236,7 +194,6 @@ autocmd BufReadPost *
 map <leader>ss :setlocal spell!<cr>
 "}}}
 " => Filetypes specific configs ---------------------- {{{1
-
 " Auto add head info
 " .py file into add header
 function HeaderPython()
@@ -311,9 +268,7 @@ if has("gui_running")
     autocmd InsertLeave * highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=254
 endif
 " }}}
-
 " => Plugins ---------------------- {{{1
-
 " => Enable Plugins  ---------------------- {{{2
 let s:editor_root=expand("~/.config/nvim/")
 
@@ -323,7 +278,6 @@ if empty(glob(fnameescape(s:editor_root."/autoload/plug.vim")))
     autocmd VimEnter * PlugInstall | source $MYVIMRC
 endif
 call plug#begin(s:editor_root."/plugged/")
-
 " => Plugins ----------------------------- {{{3
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 if isdirectory('/usr/local/opt/fzf')
@@ -337,12 +291,8 @@ Plug 'tomtom/tcomment_vim'              " Fast comment
 Plug 'ammarnajjar/wombat256mod'           " wombat black Colorscheme
 Plug 'ammarnajjar/vim-code-dark'          " vscode dark+ Colorscheme fork
 "}}}
-
 call plug#end()
 "}}}
-
-" => Plugins Config ---------------------- {{{2
-
 " => LSP ----------------------------- {{{3
 if executable('typescript-language-server')
     au User lsp_setup call lsp#register_server({
@@ -429,11 +379,8 @@ let g:coc_global_extensions = [
 highlight HighlightedyankRegion cterm=reverse gui=reverse
 let g:highlightedyank_highlight_duration = 1000
 "}}}
-
-
 " => Theme ---------------- {{{3
 " Colorscheme
-
 " iterm2 specific settings
 if $ITERM_PROFILE =~? 'light'
     set background=light
@@ -452,7 +399,6 @@ else
     endif
 endif
 "}}}
-
 " => fzf ---------------- {{{3
 nnoremap <silent> <C-p> :FZF<CR>
 nnoremap <silent> <Leader>C  :Colors<CR>
@@ -477,7 +423,7 @@ let g:fzf_layout = { 'window': '-tabnew' }
 
 " Customize fzf colors to match your color scheme
 let g:fzf_colors =
-\ { 'fg':      ['fg', 'Normal'],
+  \ { 'fg':      ['fg', 'Normal'],
   \ 'bg':      ['bg', 'Normal'],
   \ 'hl':      ['fg', 'Comment'],
   \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
@@ -516,15 +462,16 @@ imap <c-x><c-l> <plug>(fzf-complete-line)
 if has('nvim')
   let $FZF_DEFAULT_OPTS .= ' --inline-info'
 endif
-"
-let $FZF_DEFAULT_COMMAND =  "find * -path '*/\.*' -prune -o -path 'node_modules/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"
 
+let $FZF_DEFAULT_COMMAND =  "find * -path '*/\.*' -prune -o -path 'venv/**' -prune -o -path 'node_modules/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"
+
+" use the silver searcher if exists
+if executable('ag')
+  let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git --ignore venv/ --ignore node_modules/ --ignore target/  --ignore dist/ --ignore build/ --ignore .DS_Store  -g ""'
+  set grepprg=ag\ --nogroup
+endif
 " }}}
-
 " }}}
-
-" }}}
-
 " => Status line ---------------------- {{{1
 set statusline=
 set statusline=[%n]\                                            " buffer number
@@ -557,7 +504,6 @@ autocmd InsertEnter * highlight StatusLine term=reverse ctermbg=Blue gui=bold gu
 autocmd InsertLeave * highlight StatusLine term=reverse ctermfg=254 ctermbg=238 gui=bold guifg=White guibg=Black
 " }}}
 " => Helper functions ---------------------- {{{1
-
 " coc-status-manual
 function! StatusDiagnostic() abort
   let info = get(b:, 'coc_diagnostic_info', {})
@@ -655,26 +601,15 @@ function! TabToggle()
     endif
 endfunction
 
-" Toggle ColumnColor 119
+" Toggle ColumnColor 80
 function! g:ToggleColorColumn()
   if &colorcolumn != ''
     setlocal colorcolumn&
   else
-    setlocal colorcolumn=119
+    setlocal colorcolumn=80
   endif
 endfunction
 nnoremap <silent> <leader>cc :call g:ToggleColorColumn()<CR>
-
-" :CopyMatches to copy all matches to the clipboard
-" :CopyMatches x where x is any register to hold the result.
-" paste from register x with "xp or "xP
-function! CopyMatches(reg)
-    let hits = []
-    %s//\=len(add(hits, submatch(0))) ? submatch(0) : ''/ge
-    let reg = empty(a:reg) ? '+' : a:reg
-    execute 'let @'.reg.' = join(hits, "\n") . "\n"'
-endfunction
-command! -register CopyMatches call CopyMatches(<q-reg>)
 
 " Append modeline after last line in buffer.
 " Use substitute() instead of printf() to handle '%%s' modeline in LaTeX
@@ -692,128 +627,6 @@ augroup FixProportionsOnResize
   au!
   au VimResized * exe "normal! \<c-w>="
 augroup END
-
-" Highlight all instances of word under cursor, when idle.
-" Useful when studying strange source code.
-" Type z/ to toggle highlighting on/off.
-nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
-function! AutoHighlightToggle()
-  let @/ = ''
-  if exists('#auto_highlight')
-    au! auto_highlight
-    augroup! auto_highlight
-    setl updatetime=100
-    echo 'Highlight current word: off'
-    return 0
-  else
-    augroup auto_highlight
-      au!
-      au CursorHold * let @/ = '\V\<'.escape(expand('<cword>'), '\').'\>'
-    augroup end
-    setl updatetime=100
-    echo 'Highlight current word: ON'
-    return 1
-  endif
-endfunction
-
-command! -bang WatchForChanges                  :call WatchForChanges(@%,  {'toggle': 1, 'autoread': <bang>0})
-command! -bang WatchForChangesWhileInThisBuffer :call WatchForChanges(@%,  {'toggle': 1, 'autoread': <bang>0, 'while_in_this_buffer_only': 1})
-command! -bang WatchForChangesAllFile           :call WatchForChanges('*', {'toggle': 1, 'autoread': <bang>0})
-function! WatchForChanges(bufname, ...)
-  " Figure out which options are in effect
-  if a:bufname == '*'
-    let id = 'WatchForChanges'.'AnyBuffer'
-    " If you try to do checktime *, you'll get E93: More than one match for * is given
-    let bufspec = ''
-  else
-    if bufnr(a:bufname) == -1
-      echoerr "Buffer " . a:bufname . " doesn't exist"
-      return
-    end
-    let id = 'WatchForChanges'.bufnr(a:bufname)
-    let bufspec = a:bufname
-  end
-  if len(a:000) == 0
-    let options = {}
-  else
-    if type(a:1) == type({})
-      let options = a:1
-    else
-      echoerr "Argument must be a Dict"
-    end
-  end
-  let autoread    = has_key(options, 'autoread')    ? options['autoread']    : 0
-  let toggle      = has_key(options, 'toggle')      ? options['toggle']      : 0
-  let disable     = has_key(options, 'disable')     ? options['disable']     : 0
-  let more_events = has_key(options, 'more_events') ? options['more_events'] : 1
-  let while_in_this_buffer_only = has_key(options, 'while_in_this_buffer_only') ? options['while_in_this_buffer_only'] : 0
-  if while_in_this_buffer_only
-    let event_bufspec = a:bufname
-  else
-    let event_bufspec = '*'
-  end
-  let reg_saved = @"
-  "let autoread_saved = &autoread
-  let msg = "\n"
-  " Check to see if the autocommand already exists
-  redir @"
-    silent! exec 'au '.id
-  redir END
-  let l:defined = (@" !~ 'E216: No such group or event:')
-  " If not yet defined...
-  if !l:defined
-    if l:autoread
-      let msg = msg . 'Autoread enabled - '
-      if a:bufname == '*'
-        set autoread
-      else
-        setlocal autoread
-      end
-    end
-    silent! exec 'augroup '.id
-      if a:bufname != '*'
-        "exec "au BufDelete    ".a:bufname . " :silent! au! ".id . " | silent! augroup! ".id
-        "exec "au BufDelete    ".a:bufname . " :echomsg 'Removing autocommands for ".id."' | au! ".id . " | augroup! ".id
-        exec "au BufDelete    ".a:bufname . " execute 'au! ".id."' | execute 'augroup! ".id."'"
-      end
-        exec "au BufEnter     ".event_bufspec . " :checktime ".bufspec
-        exec "au CursorHold   ".event_bufspec . " :checktime ".bufspec
-        exec "au CursorHoldI  ".event_bufspec . " :checktime ".bufspec
-      " The following events might slow things down so we provide a way to disable them...
-      " vim docs warn:
-      "   Careful: Don't do anything that the user does
-      "   not expect or that is slow.
-      if more_events
-        exec "au CursorMoved  ".event_bufspec . " :checktime ".bufspec
-        exec "au CursorMovedI ".event_bufspec . " :checktime ".bufspec
-      end
-    augroup END
-    let msg = msg . 'Now watching ' . bufspec . ' for external updates...'
-  end
-  " If they want to disable it, or it is defined and they want to toggle it,
-  if l:disable || (l:toggle && l:defined)
-    if l:autoread
-      let msg = msg . 'Autoread disabled - '
-      if a:bufname == '*'
-        set noautoread
-      else
-        setlocal noautoread
-      end
-    end
-    " Using an autogroup allows us to remove it easily with the following
-    " command. If we do not use an autogroup, we cannot remove this
-    " single :checktime command
-    " augroup! checkforupdates
-    silent! exec 'au! '.id
-    silent! exec 'augroup! '.id
-    let msg = msg . 'No longer watching ' . bufspec . ' for external updates.'
-  elseif l:defined
-    let msg = msg . 'Already watching ' . bufspec . ' for external updates'
-  end
-  " echo msg
-  let @"=reg_saved
-endfunction
-execute WatchForChanges("*",{'autoread':1})
 " }}}
 " => local init.vim ---------------------- {{{1
 "" Include user's local vim config if exists
