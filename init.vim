@@ -2,7 +2,7 @@
 " Fie: init.vim
 " Author: Ammar Najjar <najjarammar@protonmail.com>
 " Description: My neovim configurations file
-" Last Modified: October 27 2019
+" Last Modified: October 28 2019
 " }}}
 " => neovim only ---------------------- {{{1
 if (has("nvim"))
@@ -115,38 +115,26 @@ if has('macunix')
 endif
 
 " view hidden characters like spaces and tabs
-nnoremap <F2> :<C-U>setlocal lcs=tab:>-,trail:-,eol:$ list! list? <CR>
+nnoremap <F3> :<C-U>setlocal lcs=tab:>-,trail:-,eol:$ list! list? <CR>
 " Allow Toggle between tabs - spaces
-nmap <F6> :call TabToggle()<cr>
+nmap <F4> :call TabToggle()<CR>
 
-nnoremap <F12> :setlocal relativenumber!<cr>
-nnoremap <F11> :setlocal number!<cr>
+nnoremap <F12> :setlocal relativenumber!<CR>
+nnoremap <F11> :setlocal number!<CR>
 
 " visual shifting (does not exit Visual mode)
 vnoremap < <gv
 vnoremap > >gv
 
 " Move a line of text using leader+[jk]
-nmap <leader>j mz:m+<cr>'z
-nmap <leader>k mz:m-2<cr>'z
-vmap <leader>j :m'>+<cr>`<my`>mzgv`yo`z
-vmap <leader>k :m'<-2<cr>`>my`<mzgv`yo`z
+nmap <leader>j mz:m+<CR>'z
+nmap <leader>k mz:m-2<CR>'z
+vmap <leader>j :m'>+<CR>`<my`>mzgv`yo`z
+vmap <leader>k :m'<-2<CR>`>my`<mzgv`yo`z
 
 " switch between characters using leader+[hl]
 nmap <leader>l xp
 nmap <leader>h xhhp
-
-" Strip trailing white space on save
-func! DeleteTrailingWS()
-    " Don't strip on these filetypes
-    if &ft =~ 'markdown'
-        return
-    endif
-    exe "normal mz"
-    %s/\s\+$//ge
-    exe "normal `z"
-endfunc
-autocmd BufWrite *.* :call DeleteTrailingWS()
 
 " Convenient command to see the difference between the current buffer and the
 " file it was loaded from, thus the changes you made.
@@ -194,23 +182,6 @@ autocmd BufReadPost *
 map <leader>ss :setlocal spell!<cr>
 "}}}
 " => Filetypes specific configs ---------------------- {{{1
-" Auto add head info
-" .py file into add header
-function HeaderPython()
-    call setline(1, "#!/usr/bin/env python")
-    call append(1, "# -*- coding: utf-8 -*-")
-    normal G
-    normal o
-endf
-autocmd bufnewfile *.py call HeaderPython()
-
-" .sh file
-function HeaderBash()
-    call setline(1, "#!/usr/bin/env bash")
-    normal G
-    normal o
-endf
-autocmd bufnewfile *.sh call HeaderBash()
 
 " Different settings for different filetypes
 if has("autocmd")
@@ -225,7 +196,7 @@ if has("autocmd")
 
     augroup nvim_python
       autocmd!
-      autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=4 colorcolumn=120
+      autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=4 colorcolumn=80
           \ formatoptions+=croq softtabstop=4
           \ cinwords=if,elif,else,for,while,try,except,finally,def,class,with
     augroup END
@@ -284,12 +255,13 @@ if isdirectory('/usr/local/opt/fzf')
   Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
 else
   Plug 'junegunn/fzf', { 'dir': '~/.config/.fzf', 'do': './install --all' }
-  Plug 'junegunn/fzf.vim'                 " FZF fuzzy file finder
+  Plug 'junegunn/fzf.vim'               " FZF fuzzy file finder
 endif
 Plug 'machakann/vim-highlightedyank'    " Highlight when yanking
+Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 Plug 'tomtom/tcomment_vim'              " Fast comment
-Plug 'ammarnajjar/wombat256mod'           " wombat black Colorscheme
-Plug 'ammarnajjar/vim-code-dark'          " vscode dark+ Colorscheme fork
+Plug 'ammarnajjar/wombat256mod'         " wombat black Colorscheme
+Plug 'ammarnajjar/vim-code-dark'        " vscode dark+ Colorscheme fork
 "}}}
 call plug#end()
 "}}}
@@ -504,6 +476,36 @@ autocmd InsertEnter * highlight StatusLine term=reverse ctermbg=Blue gui=bold gu
 autocmd InsertLeave * highlight StatusLine term=reverse ctermfg=254 ctermbg=238 gui=bold guifg=White guibg=Black
 " }}}
 " => Helper functions ---------------------- {{{1
+
+" Strip trailing white space on save
+function! DeleteTrailingWS()
+    " Don't strip on these filetypes
+    if &ft =~ 'markdown'
+        return
+    endif
+    exe "normal mz"
+    %s/\s\+$//ge
+    exe "normal `z"
+endfunc
+autocmd BufWrite *.* :call DeleteTrailingWS()
+
+" Auto add head info
+" .py file into add header
+function HeaderPython()
+    call setline(1, "#!/usr/bin/env python")
+    call append(1, "# -*- coding: utf-8 -*-")
+    normal G
+    normal o
+endf
+autocmd bufnewfile *.py call HeaderPython()
+
+" .sh file
+function HeaderBash()
+    call setline(1, "#!/usr/bin/env bash")
+    normal G
+    normal o
+endf
+autocmd bufnewfile *.sh call HeaderBash()
 " coc-status-manual
 function! StatusDiagnostic() abort
   let info = get(b:, 'coc_diagnostic_info', {})
