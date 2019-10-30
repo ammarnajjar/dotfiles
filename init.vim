@@ -435,11 +435,11 @@ if has('nvim')
   let $FZF_DEFAULT_OPTS .= ' --inline-info'
 endif
 
-let $FZF_DEFAULT_COMMAND =  "find * -path '*/\.*' -prune -o -path 'venv/**' -prune -o -path 'node_modules/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"
+let $FZF_DEFAULT_COMMAND =  "find * -path '*/\.*' -prune -o -path 'venv/**' -prune -o -path 'node_modules/**' -prune -o -path '__pycache__/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"
 
 " use the silver searcher if exists
 if executable('ag')
-  let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git --ignore venv/ --ignore node_modules/ --ignore target/  --ignore dist/ --ignore build/ --ignore .DS_Store  -g ""'
+  let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git --ignore venv/ --ignore node_modules/ --ignore target/  --ignore __pycache__/ --ignore dist/ --ignore build/ --ignore .DS_Store  -g ""'
   set grepprg=ag\ --nogroup
 endif
 " }}}
@@ -493,9 +493,9 @@ autocmd BufWrite *.* :call DeleteTrailingWS()
 " .py file into add header
 function HeaderPython()
     call setline(1, "#!/usr/bin/env python")
-    call append(1, "# -*- coding: utf-8 -*-")
     normal G
     normal o
+    normal D
 endf
 autocmd bufnewfile *.py call HeaderPython()
 
@@ -504,6 +504,7 @@ function HeaderBash()
     call setline(1, "#!/usr/bin/env bash")
     normal G
     normal o
+    normal D
 endf
 autocmd bufnewfile *.sh call HeaderBash()
 " coc-status-manual
