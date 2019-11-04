@@ -47,6 +47,7 @@ source_list=(
     $dotfiles_dir/bash/bash-git-prompt/gitprompt.sh
     $dotfiles_dir/git/git-completion.bash
     /etc/bash_completion
+    /usr/local/etc/bash_completion.d
     /usr/local/git/contrib/completion/git-completion.bash
     /usr/share/doc/git/contrib/completion/git-completion.bash
 )
