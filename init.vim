@@ -40,17 +40,8 @@ set showmatch       " Show matching brackets.
 set matchtime=1     " for 1/10th of a second
 set ignorecase      " Do case insensitive matching
 set smartcase       " Do smart case matching
-set autowrite       " Automatically save before commands like :next and :make
-set hidden          " Hide buffers when they are abandoned
 setglobal modeline
 set modelines=3
-set scrolloff=3
-set showmode
-set wrap
-set linebreak
-set title
-set number
-set relativenumber
 
 if exists('$SHELL')
     set shell=$SHELL
@@ -67,10 +58,6 @@ set nojoinspaces
 
 " Don't redraw while executing macros (good performance config)
 set lazyredraw
-set mat=3
-
-" Time in milliseconds to wait for a mapped sequence to complete
-set timeoutlen=500
 
 " Turn backup off
 set nobackup
@@ -91,16 +78,8 @@ execute 'set undodir='.fnameescape(s:editor_root."/undo/")
 " Remember info about open buffers on close
 set viminfo^=%
 
-" Enable Omni completion
-set omnifunc=syntaxcomplete#Complete
-
 " Restrict syntax for all files
 set synmaxcol=200
-
-" set vertical Cursor in insert mode
-set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
-  \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
-  \,sm:block-blinkwait175-blinkoff150-blinkon175
 
 "" Encoding
 set encoding=utf-8
@@ -108,53 +87,19 @@ set fileencoding=utf-8
 set fileencodings=utf-8
 " }}}
 " => Mappings ---------------------- {{{1
-if has('macunix')
-  " pbcopy for OSX copy/paste
-  vmap <C-x> :!pbcopy<CR>
-  vmap <C-c> :w !pbcopy<CR><CR>
-endif
 
 " view hidden characters like spaces and tabs
 nnoremap <F3> :<C-U>setlocal lcs=tab:>-,trail:-,eol:$ list! list? <CR>
 " Allow Toggle between tabs - spaces
 nmap <F4> :call TabToggle()<CR>
 
-nnoremap <F12> :setlocal relativenumber!<CR>
-nnoremap <F11> :setlocal number!<CR>
-
 " visual shifting (does not exit Visual mode)
 vnoremap < <gv
 vnoremap > >gv
 
-" Move a line of text using leader+[jk]
-nmap <leader>j mz:m+<CR>'z
-nmap <leader>k mz:m-2<CR>'z
-vmap <leader>j :m'>+<CR>`<my`>mzgv`yo`z
-vmap <leader>k :m'<-2<CR>`>my`<mzgv`yo`z
-
-" switch between characters using leader+[hl]
-nmap <leader>l xp
-nmap <leader>h xhhp
-
-" Convenient command to see the difference between the current buffer and the
-" file it was loaded from, thus the changes you made.
-if !exists(":Diff")
-    command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
-                \ | wincmd p | diffthis
-endif
-
 " Visual mode pressing * or # searches for the current selection
 vnoremap <silent> * :call VisualSelection('f')<CR>
 vnoremap <silent> # :call VisualSelection('b')<CR>
-
-" Disable highlight when <leader><CR> is pressed
-map <silent> <leader><CR> :noh<CR>
-
-" Smart way to move between windows
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
 
 " Opens a new tab with the current buffer's path
 map <leader>te :tabedit <c-r>=expand("%:p:h")<CR>/
@@ -164,13 +109,6 @@ map <leader>cd :cd %:p:h<CR>:pwd<CR>
 
 " Edit the vimrc file
 nmap <leader>ev :tabe $MYVIMRC<CR>
-
-" Specify the behavior when switching between buffers
-try
-    set switchbuf=useopen,usetab,newtab
-    set stal=2
-catch
-endtry
 
 " Return to last edit position when opening files (You want this!)
 autocmd BufReadPost *
@@ -395,7 +333,7 @@ let g:fzf_layout = { 'window': '-tabnew' }
 
 " Customize fzf colors to match your color scheme
 let g:fzf_colors =
-  \ { 'fg':      ['fg', 'Normal'],
+\ { 'fg':      ['fg', 'Normal'],
   \ 'bg':      ['bg', 'Normal'],
   \ 'hl':      ['fg', 'Comment'],
   \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
