@@ -489,24 +489,6 @@ function! DeleteTrailingWS()
 endfunc
 autocmd BufWrite *.* :call DeleteTrailingWS()
 
-" Auto add head info
-" .py file into add header
-function HeaderPython()
-    call setline(1, "#!/usr/bin/env python")
-    normal G
-    normal o
-    normal D
-endf
-autocmd bufnewfile *.py call HeaderPython()
-
-" .sh file
-function HeaderBash()
-    call setline(1, "#!/usr/bin/env bash")
-    normal G
-    normal o
-    normal D
-endf
-autocmd bufnewfile *.sh call HeaderBash()
 " coc-status-manual
 function! StatusDiagnostic() abort
   let info = get(b:, 'coc_diagnostic_info', {})
