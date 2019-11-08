@@ -554,27 +554,6 @@ function! VisualSelection(direction) range
     let @" = l:saved_reg
 endfunction
 
-" Don't close window, when deleting a buffer
-command! Bclose call <SID>BufcloseCloseIt()
-function! <SID>BufcloseCloseIt()
-    let l:currentBufNum = bufnr("%")
-    let l:alternateBufNum = bufnr("#")
-
-    if buflisted(l:alternateBufNum)
-        buffer #
-    else
-        bnext
-    endif
-
-    if bufnr("%") == l:currentBufNum
-        new
-    endif
-
-    if buflisted(l:currentBufNum)
-        execute("bdelete! ".l:currentBufNum)
-    endif
-endfunction
-
 " Allow toggling between tabs and spaces
 function! TabToggle()
     if &expandtab
@@ -607,12 +586,6 @@ function! AppendModeline()
 endfunction
 nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
 
-" Realign buffers when iterm goes fullscreen
-augroup FixProportionsOnResize
-  au!
-  au VimResized * exe "normal! \<c-w>="
-augroup END
-" }}}
 " => local init.vim ---------------------- {{{1
 "" Include user's local vim config if exists
 if filereadable(s:editor_root."/local_init.vim")
