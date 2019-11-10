@@ -124,12 +124,6 @@ map <leader>ss :setlocal spell!<cr>
 " Different settings for different filetypes
 if has("autocmd")
 
-    " Restrict textwidth for tex files
-    autocmd fileType tex,plaintex,bib setlocal textwidth=79
-    if filereadable(s:editor_root."/abbr.vim")
-        execute 'source '.fnameescape(s:editor_root."/abbr.vim")
-    endif
-
     autocmd fileType html,xhtml,htm,xml,css,scss,php,ruby setlocal shiftwidth=2 tabstop=2 softtabstop=2
 
     augroup nvim_python
@@ -137,6 +131,7 @@ if has("autocmd")
       autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=4 colorcolumn=80
           \ formatoptions+=croq softtabstop=4
           \ cinwords=if,elif,else,for,while,try,except,finally,def,class,with
+	  autocmd FileType python hi ColorColumn ctermbg=darkgrey guibg=lightgrey
     augroup END
 
     autocmd fileType typescript,javascript setlocal shiftwidth=2 tabstop=2 softtabstop=2 expandtab
@@ -159,23 +154,6 @@ if (empty($TMUX))
   endif
 endif
 " Set extra options when running in GUI mode
-if has("gui_running")
-    set guioptions-=T
-    set guioptions+=e
-    set guitablabel=%M\ %t
-    set lines=39
-    set columns=83
-    set guioptions=bgmrL
-    " Light Theme
-    set background=light
-    colorscheme default
-    highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=254
-    highlight CursorLineNr term=bold ctermfg=Black ctermbg=Grey gui=bold guifg=White guibg=Grey
-    autocmd InsertEnter * highlight CursorLineNr term=bold ctermfg=Black ctermbg=117 gui=bold guifg=White guibg=SkyBlue1
-    autocmd InsertEnter * highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=NONE
-    autocmd InsertLeave * highlight CursorLineNr term=bold ctermfg=Black ctermbg=Grey gui=bold guifg=White guibg=Grey
-    autocmd InsertLeave * highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=254
-endif
 " }}}
 " => Plugins ---------------------- {{{1
 " => Enable Plugins  ---------------------- {{{2
@@ -199,7 +177,6 @@ Plug 'machakann/vim-highlightedyank'    " Highlight when yanking
 Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 Plug 'tomtom/tcomment_vim'              " Fast comment
 Plug 'ammarnajjar/wombat256mod'         " wombat black Colorscheme
-Plug 'ammarnajjar/vim-code-dark'        " vscode dark+ Colorscheme fork
 "}}}
 call plug#end()
 "}}}
@@ -292,21 +269,41 @@ let g:highlightedyank_highlight_duration = 1000
 " => Theme ---------------- {{{3
 " Colorscheme
 " iterm2 specific settings
-if $KONSOLE_PROFILE_NAME =~? 'light' || $ITERM_PROFILE =~? 'light'
+set cursorline
+function! LightTheme()
     set background=light
-else
+    highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=254
+    highlight CursorLineNr term=bold ctermfg=Black ctermbg=Grey gui=bold guifg=White guibg=Grey
+    autocmd InsertEnter * highlight CursorLineNr term=bold ctermfg=Black ctermbg=117 gui=bold guifg=White guibg=SkyBlue1
+    autocmd InsertEnter * highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=NONE
+    autocmd InsertLeave * highlight CursorLineNr term=bold ctermfg=Black ctermbg=Grey gui=bold guifg=White guibg=Grey
+    autocmd InsertLeave * highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=254
+endfunc
+function! DarkTheme()
+    set background=dark
     let g:onedark_color_overrides = {
                 \ "black": {"gui": "#000000", "cterm": "0", "cterm16": "0" }
                 \}
-    " Enable CursorLine
-    set cursorline
-    if ! has("gui_running")
-        set background=dark
-        colorscheme codedark
-        highlight CursorLineNr term=bold ctermfg=Yellow ctermbg=Black gui=bold guifg=Yellow guibg=Black
-        autocmd InsertEnter * highlight CursorLineNr term=bold ctermfg=Black ctermbg=74 gui=bold guifg=Black guibg=SkyBlue1
-        autocmd InsertLeave * highlight CursorLineNr term=bold ctermfg=Yellow ctermbg=Black gui=bold guifg=Yellow guibg=Black
-    endif
+    colorscheme wombat256mod
+    highlight CursorLineNr term=bold ctermfg=Yellow ctermbg=Black gui=bold guifg=Yellow guibg=Black
+    autocmd InsertEnter * highlight CursorLineNr term=bold ctermfg=Black ctermbg=74 gui=bold guifg=Black guibg=SkyBlue1
+    autocmd InsertLeave * highlight CursorLineNr term=bold ctermfg=Yellow ctermbg=Black gui=bold guifg=Yellow guibg=Black
+endfunc
+
+if $KONSOLE_PROFILE_NAME =~? 'light' || $ITERM_PROFILE =~? 'light'
+    call LightTheme()
+else
+    call DarkTheme()
+endif
+
+if has("gui_running")
+    call LightTheme()
+    set guioptions-=T
+    set guioptions+=e
+    set guitablabel=%M\ %t
+    set lines=39
+    set columns=83
+    set guioptions=bgmrL
 endif
 "}}}
 " => fzf ---------------- {{{3
