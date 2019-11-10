@@ -292,7 +292,7 @@ let g:highlightedyank_highlight_duration = 1000
 " => Theme ---------------- {{{3
 " Colorscheme
 " iterm2 specific settings
-if $ITERM_PROFILE =~? 'light'
+if $KONSOLE_PROFILE_NAME =~? 'light' || $ITERM_PROFILE =~? 'light'
     set background=light
 else
     let g:onedark_color_overrides = {
