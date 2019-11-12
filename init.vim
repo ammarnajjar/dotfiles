@@ -255,7 +255,6 @@ let g:coc_global_extensions = [
             \ "coc-yaml",
             \ "coc-yank",
             \ "coc-import-cost",
-            \ "coc-pairs",
             \ "coc-tslint",
             \ "coc-tslint-plugin",
             \ "coc-omnisharp"
@@ -308,8 +307,8 @@ endif
 "}}}
 " => fzf ---------------- {{{3
 nnoremap <silent> <C-p> :FZF<CR>
-nnoremap <silent> <Leader>C  :Colors<CR>
-nnoremap <silent> <Leader>B  :Buffers<CR>
+nnoremap <silent> <Leader>c  :Colors<CR>
+nnoremap <silent> <Leader>b  :Buffers<CR>
 nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
 nnoremap <silent> <Leader>AG :Ag <C-R><C-A><CR>
 nnoremap <silent> <Leader>'  :Marks<CR>
