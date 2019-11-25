@@ -134,7 +134,9 @@ if has("autocmd")
 	  autocmd FileType python hi ColorColumn ctermbg=darkgrey guibg=lightgrey
     augroup END
 
-    autocmd fileType typescript,javascript setlocal shiftwidth=2 tabstop=2 softtabstop=2 expandtab
+    autocmd BufNewFile,BufRead *.ts setlocal filetype=typescript
+    autocmd BufNewFile,BufRead *.tsx setlocal filetype=typescript.tsx
+    autocmd fileType typescript,typescript.tsx,javascript setlocal shiftwidth=2 tabstop=2 softtabstop=2 expandtab
 endif
 " }}}
 " => Colorscheme ---------------------- {{{1
@@ -174,6 +176,8 @@ else
   Plug 'junegunn/fzf.vim'               " FZF fuzzy file finder
 endif
 Plug 'machakann/vim-highlightedyank'    " Highlight when yanking
+Plug 'maxmellon/vim-jsx-pretty'         " tsx highlighting
+Plug 'leafgarland/typescript-vim'       " ts highlighting
 Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 Plug 'tomtom/tcomment_vim'              " Fast comment
 Plug 'ammarnajjar/wombat256mod'         " wombat black Colorscheme
@@ -255,7 +259,6 @@ let g:coc_global_extensions = [
             \ "coc-yaml",
             \ "coc-yank",
             \ "coc-import-cost",
-            \ "coc-tslint",
             \ "coc-tslint-plugin",
             \ "coc-omnisharp"
             \]
