@@ -2,7 +2,7 @@
 " Fie: init.vim
 " Author: Ammar Najjar <najjarammar@protonmail.com>
 " Description: My neovim configurations file
-" Last Modified: October 28 2019
+" Last Modified: December 02 2019
 " }}}
 " => neovim only ---------------------- {{{1
 if (has("nvim"))
@@ -89,7 +89,7 @@ set fileencodings=utf-8
 " => Mappings ---------------------- {{{1
 
 " view hidden characters like spaces and tabs
-nnoremap <F3> :<C-U>setlocal lcs=tab:>-,trail:-,eol:$ list! list? <CR>
+nnoremap <F3> :<C-U>setlocal listchars=tab:>\-,space:·,nbsp:␣,trail:•,eol:¶,precedes:«,extends:» list! list? <CR>
 " Allow Toggle between tabs - spaces
 nmap <F4> :call TabToggle()<CR>
 
@@ -131,7 +131,7 @@ if has("autocmd")
       autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=4 colorcolumn=80
           \ formatoptions+=croq softtabstop=4
           \ cinwords=if,elif,else,for,while,try,except,finally,def,class,with
-	  autocmd FileType python hi ColorColumn ctermbg=darkgrey guibg=lightgrey
+      autocmd FileType python hi ColorColumn ctermbg=darkgrey guibg=lightgrey
     augroup END
 
     autocmd BufNewFile,BufRead *.ts setlocal filetype=typescript
