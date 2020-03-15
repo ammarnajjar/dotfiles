@@ -1,5 +1,3 @@
-*/bash-sensible/*
-*/bash-git-prompt/*
 spell/*
 bundle/*
 autoload/*
@@ -15,3 +13,6 @@ undo/*
 abbr.*
 **/*.retry
 .DS_Store
+bash/bash-git-prompt
+bash/bash-sensible
+.netrwhist

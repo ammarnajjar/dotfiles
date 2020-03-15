@@ -2,7 +2,6 @@
 
 My dotfiles configurations for neovim, git, bash and tmux.  
 It will be installed in the current directory with symlinks to the correct paths.  
-Because the plugins are always changing and depend on the current projects I am working on, I put them in another file `plugs.vim` and source them to `init.vim`. They are also treated on another branch locally.
 
 ## Usage:
 
@@ -25,7 +24,6 @@ wget https://raw.githubusercontent.com/ammarnajjar/dotfiles/master/install.sh &&
 │   ├── git-completion.bash
 │   └── gitmessage
 ├── init.vim
-├── plugs.vim
 ├── tmux
 │   └── tmux.conf
 ├── README.md

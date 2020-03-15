@@ -1,44 +1,10 @@
 " => Header ---------------------- {{{1
-"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-"      ":       ;                                                                 "
-"     ":,,      ;;                                                                "
-"    "::::      ;;;                                                               "
-"   "::::::     ;;;;                                                              "
-"   ":;::::,    ;;;;                                                              "
-"   "::;::::    ;;;;                                                              "
-"   "::::::::   ;;;;   888b    888                            d8b                 "
-"   ":::.::::,  ;;;;   8888b   888                            Y8P                 "
-"   "::: ;::::  ;;;;   88888b  888                                                "
-"   ":::  ::::; ''''   888Y88b 888  .d88b.   .d88b.  888  888 888 88888b.d88b.    "
-"   ":::  ,::::.''''   888 Y88b888 d8P  Y8b d88''88b 888  888 888 888 '888 '88b   "
-"   ":::   ;::::''''   888  Y88888 88888888 888  888 Y88  88P 888 888  888  888   "
-"   ":::    ::::;'''   888   Y8888 Y8b.     Y88..88P  Y8bd8P  888 888  888  888   "
-"   ":::    ::::;'''   888    Y888  'Y8888   'Y88P'    Y88P   888 888  888  888   "
-"   ":::     ;::''''                                                              "
-"    "::      ;:'''                                                               "
-"     ";      :;''                                                                "
-"      "       ;'                                                                 "
-"          ___    ____                                            __   _          "
-"        /   |  / / /  __  ______  __  __   ____  ___  ___  ____/ /  (_)____      "
-"       / /| | / / /  / / / / __ \/ / / /  / __ \/ _ \/ _ \/ __  /  / / ___/      "
-"      / ___ |/ / /  / /_/ / /_/ / /_/ /  / / / /  __/  __/ /_/ /  / (__  )       "
-"     /_/  |_/_/_/   \__, /\____/\__,_/  /_/ /_/\___/\___/\__,_/  /_/____/        "
-"                       /_/                                                       "
-"                                                                                 "
-"                 ........................................                        "
-"                 "    /\ \ \___  _____   _(_)_ __ ___   "                        "
-"                 "   /  \/ / _ \/ _ \ \ / / | '_ ` _ \  "                        "
-"                 "  / /\  /  __/ (_) \ V /| | | | | | | "                        "
-"                 "  \_\ \/ \___|\___/ \_/ |_|_| |_| |_| "                        "
-"                 ........................................                        "
-"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 " Fie: init.vim
-" Author: Ammar Najjar <najjarammar@gmail.com>
+" Author: Ammar Najjar <najjarammar@protonmail.com>
 " Description: My neovim configurations file
-" Last Modified: June 19, 2018
+" Last Modified: December 02 2019
 " }}}
 " => neovim only ---------------------- {{{1
-
 if (has("nvim"))
     " Live substitution
     set inccommand=nosplit
@@ -53,7 +19,6 @@ if (has("nvim"))
     noremap <leader>t :tabedit term://bash<CR><S-a>
     autocmd TermOpen * setlocal statusline=%{b:term_title}
 endif
-
 " }}}
 " => General ---------------------- {{{1
 let s:editor_root=expand("~/.config/nvim/")
@@ -65,9 +30,6 @@ else
     let g:python3_host_prog=substitute(system("which python3"), "\n", '', 'g')
 endif
 
-" Pytho within vim
-vnoremap <silent> <leader>p !python3<CR>
-
 " defaults in neovim -> :h vim-diff
 set wildmode=list:longest,list:full
 
@@ -78,24 +40,14 @@ set showmatch       " Show matching brackets.
 set matchtime=1     " for 1/10th of a second
 set ignorecase      " Do case insensitive matching
 set smartcase       " Do smart case matching
-set autowrite       " Automatically save before commands like :next and :make
-set hidden          " Hide buffers when they are abandoned
 setglobal modeline
 set modelines=3
-set scrolloff=3
-set showmode
-set wrap
-set linebreak
-set title
-set number
-set relativenumber
 
 if exists('$SHELL')
     set shell=$SHELL
 else
     set shell=/usr/local/bin/bash
 endif
-
 
 " Ignore compiled files
 set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__,*~,*.class
@@ -106,11 +58,6 @@ set nojoinspaces
 
 " Don't redraw while executing macros (good performance config)
 set lazyredraw
-
-set mat=3
-
-" Time in milliseconds to wait for a mapped sequence to complete
-set timeoutlen=500
 
 " Turn backup off
 set nobackup
@@ -131,17 +78,8 @@ execute 'set undodir='.fnameescape(s:editor_root."/undo/")
 " Remember info about open buffers on close
 set viminfo^=%
 
-" Enable Omni completion
-set omnifunc=syntaxcomplete#Complete
-
 " Restrict syntax for all files
 set synmaxcol=200
-
-
-" set vertical Cursor in insert mode
-set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
-  \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
-  \,sm:block-blinkwait175-blinkoff150-blinkon175
 
 "" Encoding
 set encoding=utf-8
@@ -150,65 +88,18 @@ set fileencodings=utf-8
 " }}}
 " => Mappings ---------------------- {{{1
 
-if has('macunix')
-  " pbcopy for OSX copy/paste
-  vmap <C-x> :!pbcopy<CR>
-  vmap <C-c> :w !pbcopy<CR><CR>
-endif
-
 " view hidden characters like spaces and tabs
-nnoremap <F2> :<C-U>setlocal lcs=tab:>-,trail:-,eol:$ list! list? <CR>
+nnoremap <F3> :<C-U>setlocal listchars=tab:>\-,space:·,nbsp:␣,trail:•,eol:¶,precedes:«,extends:» list! list? <CR>
 " Allow Toggle between tabs - spaces
-nmap <F6> :call TabToggle()<cr>
-
-nnoremap <F12> :setlocal relativenumber!<cr>
-nnoremap <F11> :setlocal number!<cr>
+nmap <F4> :call TabToggle()<CR>
 
 " visual shifting (does not exit Visual mode)
 vnoremap < <gv
 vnoremap > >gv
 
-" Move a line of text using leader+[jk]
-nmap <leader>j mz:m+<cr>'z
-nmap <leader>k mz:m-2<cr>'z
-vmap <leader>j :m'>+<cr>`<my`>mzgv`yo`z
-vmap <leader>k :m'<-2<cr>`>my`<mzgv`yo`z
-
-" switch between characters using leader+[hl]
-nmap <leader>l xp
-nmap <leader>h xhhp
-
-" Strip trailing white space on save
-func! DeleteTrailingWS()
-    " Don't strip on these filetypes
-    if &ft =~ 'markdown'
-        return
-    endif
-    exe "normal mz"
-    %s/\s\+$//ge
-    exe "normal `z"
-endfunc
-autocmd BufWrite *.* :call DeleteTrailingWS()
-
-" Convenient command to see the difference between the current buffer and the
-" file it was loaded from, thus the changes you made.
-if !exists(":Diff")
-    command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
-                \ | wincmd p | diffthis
-endif
-
 " Visual mode pressing * or # searches for the current selection
 vnoremap <silent> * :call VisualSelection('f')<CR>
 vnoremap <silent> # :call VisualSelection('b')<CR>
-
-" Disable highlight when <leader><CR> is pressed
-map <silent> <leader><CR> :noh<CR>
-
-" Smart way to move between windows
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
 
 " Opens a new tab with the current buffer's path
 map <leader>te :tabedit <c-r>=expand("%:p:h")<CR>/
@@ -218,13 +109,6 @@ map <leader>cd :cd %:p:h<CR>:pwd<CR>
 
 " Edit the vimrc file
 nmap <leader>ev :tabe $MYVIMRC<CR>
-
-" Specify the behavior when switching between buffers
-try
-    set switchbuf=useopen,usetab,newtab
-    set stal=2
-catch
-endtry
 
 " Return to last edit position when opening files (You want this!)
 autocmd BufReadPost *
@@ -237,43 +121,22 @@ map <leader>ss :setlocal spell!<cr>
 "}}}
 " => Filetypes specific configs ---------------------- {{{1
 
-" Auto add head info
-" .py file into add header
-function HeaderPython()
-    call setline(1, "#!/usr/bin/env python")
-    call append(1, "# -*- coding: utf-8 -*-")
-    normal G
-    normal o
-endf
-autocmd bufnewfile *.py call HeaderPython()
-
-" .sh file
-function HeaderBash()
-    call setline(1, "#!/usr/bin/env bash")
-    normal G
-    normal o
-endf
-autocmd bufnewfile *.sh call HeaderBash()
-
 " Different settings for different filetypes
 if has("autocmd")
-
-    " Restrict textwidth for tex files
-    autocmd fileType tex,plaintex,bib setlocal textwidth=79
-    if filereadable(s:editor_root."/abbr.vim")
-        execute 'source '.fnameescape(s:editor_root."/abbr.vim")
-    endif
 
     autocmd fileType html,xhtml,htm,xml,css,scss,php,ruby setlocal shiftwidth=2 tabstop=2 softtabstop=2
 
     augroup nvim_python
       autocmd!
-      autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=4 colorcolumn=120
+      autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=4 colorcolumn=80
           \ formatoptions+=croq softtabstop=4
           \ cinwords=if,elif,else,for,while,try,except,finally,def,class,with
+      autocmd FileType python hi ColorColumn ctermbg=darkgrey guibg=lightgrey
     augroup END
 
-    autocmd fileType typescript,javascript setlocal shiftwidth=2 tabstop=2 softtabstop=2 expandtab
+    autocmd BufNewFile,BufRead *.ts setlocal filetype=typescript
+    autocmd BufNewFile,BufRead *.tsx setlocal filetype=typescript.tsx
+    autocmd fileType typescript,typescript.tsx,javascript setlocal shiftwidth=2 tabstop=2 softtabstop=2 expandtab
 endif
 " }}}
 " => Colorscheme ---------------------- {{{1
@@ -293,28 +156,230 @@ if (empty($TMUX))
   endif
 endif
 " Set extra options when running in GUI mode
-if has("gui_running")
-    set guioptions-=T
-    set guioptions+=e
-    set guitablabel=%M\ %t
-    set lines=39
-    set columns=83
-    set guioptions=bgmrL
-    " Light Theme
+" }}}
+" => Plugins ---------------------- {{{1
+" => Enable Plugins  ---------------------- {{{2
+let s:editor_root=expand("~/.config/nvim/")
+
+if empty(glob(fnameescape(s:editor_root."/autoload/plug.vim")))
+    silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
+                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall | source $MYVIMRC
+endif
+call plug#begin(s:editor_root."/plugged/")
+" => Plugins ----------------------------- {{{3
+Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+if isdirectory('/usr/local/opt/fzf')
+  Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
+else
+  Plug 'junegunn/fzf', { 'dir': '~/.config/.fzf', 'do': './install --all' }
+  Plug 'junegunn/fzf.vim'               " FZF fuzzy file finder
+endif
+Plug 'machakann/vim-highlightedyank'    " Highlight when yanking
+Plug 'maxmellon/vim-jsx-pretty'         " tsx highlighting
+Plug 'leafgarland/typescript-vim'       " ts highlighting
+Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
+Plug 'tomtom/tcomment_vim'              " Fast comment
+Plug 'ammarnajjar/wombat256mod'         " wombat black Colorscheme
+"}}}
+call plug#end()
+"}}}
+" => LSP ----------------------------- {{{3
+if executable('typescript-language-server')
+    au User lsp_setup call lsp#register_server({
+                \ 'name': 'javascript support using typescript-language-server',
+                \ 'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
+                \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'package.json'))},
+                \ 'whitelist': ['javascript', 'javascript.jsx'],
+                \ })
+endif
+
+if executable('typescript-language-server')
+    au User lsp_setup call lsp#register_server({
+                \ 'name': 'typescript-language-server',
+                \ 'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
+                \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'tsconfig.json'))},
+                \ 'whitelist': ['typescript', 'typescript.tsx'],
+                \ })
+endif
+
+if executable('flow')
+    au User lsp_setup call lsp#register_server({
+                \ 'name': 'flow',
+                \ 'cmd': {server_info->['flow', 'lsp']},
+                \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), '.flowconfig'))},
+                \ 'whitelist': ['javascript', 'javascript.jsx'],
+                \ })
+endif
+
+if executable('rls')
+    au User lsp_setup call lsp#register_server({
+                \ 'name': 'rls',
+                \ 'cmd': {server_info->['rustup', 'run', 'stable', 'rls']},
+                \ 'workspace_config': {'rust': {'clippy_preference': 'on'}},
+                \ 'whitelist': ['rust'],
+                \ })
+endif
+
+if executable('pyls')
+    au User lsp_setup call lsp#register_server({
+                \ 'name': 'pyls',
+                \ 'cmd': {server_info->['python']},
+                \ 'whitelist': ['python'],
+                \ 'workspace_config': {'python': {'plugins': {'pydocstyle': {'enabled': v:true}}}}
+                \ })
+endif
+
+if executable('docker-langserver')
+    au User lsp_setup call lsp#register_server({
+                \ 'name': 'docker-langserver',
+                \ 'cmd': {server_info->[&shell, &shellcmdflag, 'docker-langserver --stdio']},
+                \ 'whitelist': ['dockerfile'],
+                \ })
+endif
+
+"" coc Global extension names to install when they aren't installed
+let g:coc_global_extensions = [
+            \ "coc-marketplace",
+            \ "coc-sh",
+            \ "coc-docker",
+            \ "coc-rls",
+            \ "coc-tag",
+            \ "coc-sql",
+            \ "coc-python",
+            \ "coc-angular",
+            \ "coc-tsserver",
+            \ "coc-eslint",
+            \ "coc-json",
+            \ "coc-prettier",
+            \ "coc-css",
+            \ "coc-emmet",
+            \ "coc-highlight",
+            \ "coc-html",
+            \ "coc-yaml",
+            \ "coc-yank",
+            \ "coc-import-cost",
+            \ "coc-tslint-plugin",
+            \ "coc-omnisharp"
+            \]
+"}}}
+
+" => highlightedyank ---------------- {{{3
+highlight HighlightedyankRegion cterm=reverse gui=reverse
+let g:highlightedyank_highlight_duration = 1000
+"}}}
+" => Theme ---------------- {{{3
+" Colorscheme
+" iterm2 specific settings
+set cursorline
+function! LightTheme()
     set background=light
-    colorscheme default
     highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=254
     highlight CursorLineNr term=bold ctermfg=Black ctermbg=Grey gui=bold guifg=White guibg=Grey
     autocmd InsertEnter * highlight CursorLineNr term=bold ctermfg=Black ctermbg=117 gui=bold guifg=White guibg=SkyBlue1
     autocmd InsertEnter * highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=NONE
     autocmd InsertLeave * highlight CursorLineNr term=bold ctermfg=Black ctermbg=Grey gui=bold guifg=White guibg=Grey
     autocmd InsertLeave * highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=254
+endfunc
+function! DarkTheme()
+    set background=dark
+    let g:onedark_color_overrides = {
+                \ "black": {"gui": "#000000", "cterm": "0", "cterm16": "0" }
+                \}
+    colorscheme wombat256mod
+    highlight CursorLineNr term=bold ctermfg=Yellow ctermbg=Black gui=bold guifg=Yellow guibg=Black
+    autocmd InsertEnter * highlight CursorLineNr term=bold ctermfg=Black ctermbg=74 gui=bold guifg=Black guibg=SkyBlue1
+    autocmd InsertLeave * highlight CursorLineNr term=bold ctermfg=Yellow ctermbg=Black gui=bold guifg=Yellow guibg=Black
+endfunc
+
+if $KONSOLE_PROFILE_NAME =~? 'light' || $ITERM_PROFILE =~? 'light'
+    call LightTheme()
+else
+    call DarkTheme()
+endif
+
+if has("gui_running")
+    call LightTheme()
+    set guioptions-=T
+    set guioptions+=e
+    set guitablabel=%M\ %t
+    set lines=39
+    set columns=83
+    set guioptions=bgmrL
+endif
+"}}}
+" => fzf ---------------- {{{3
+nnoremap <silent> <C-p> :FZF<CR>
+nnoremap <silent> <Leader>c  :Colors<CR>
+nnoremap <silent> <Leader>b  :Buffers<CR>
+nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
+nnoremap <silent> <Leader>AG :Ag <C-R><C-A><CR>
+nnoremap <silent> <Leader>'  :Marks<CR>
+
+" This is the deault extra key bindings
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
+" Default fzf layout
+" - down / up / left / right
+let g:fzf_layout = { 'down': '~40%' }
+
+" In Neovim, you can set up fzf window using a Vim command
+let g:fzf_layout = { 'window': 'enew' }
+let g:fzf_layout = { 'window': '-tabnew' }
+
+" Customize fzf colors to match your color scheme
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
+
+" [Buffers] Jump to the existing window if possible
+let g:fzf_buffers_jump = 1
+
+" [[B]Commits] Customize the options used by 'git log':
+let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
+
+" [Tags] Command to generate tags file
+let g:fzf_tags_command = 'ctags --append=no --recurse --totals --exclude=blib --exclude=.svn --exclude=.get --exclude="@.gitignore" --extra=q'
+
+autocmd VimEnter * command! Colors
+  \ call fzf#vim#colors({'left': '15%', 'options': '--reverse --margin 30%,0'})
+
+" Mapping selecting mappings
+nmap <leader><tab> <plug>(fzf-maps-n)
+xmap <leader><tab> <plug>(fzf-maps-x)
+omap <leader><tab> <plug>(fzf-maps-o)
+
+" Insert mode completion
+imap <c-x><c-k> <plug>(fzf-complete-word)
+imap <c-x><c-f> <plug>(fzf-complete-path)
+imap <c-x><c-j> <plug>(fzf-complete-file-ag)
+imap <c-x><c-l> <plug>(fzf-complete-line)
+
+if has('nvim')
+  let $FZF_DEFAULT_OPTS .= ' --inline-info'
+endif
+
+let $FZF_DEFAULT_COMMAND =  "find * -path '*/\.*' -prune -o -path 'venv/**' -prune -o -path 'node_modules/**' -prune -o -path '__pycache__/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"
+
+" use the silver searcher if exists
+if executable('ag')
+  let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git --ignore venv/ --ignore node_modules/ --ignore target/  --ignore __pycache__/ --ignore dist/ --ignore build/ --ignore .DS_Store  -g ""'
+  set grepprg=ag\ --nogroup
 endif
 " }}}
-" => Plugins ---------------------- {{{1
-if filereadable(s:editor_root."/plugs.vim")
-    execute 'source '.fnameescape(s:editor_root."/plugs.vim")
-endif
 " }}}
 " => Status line ---------------------- {{{1
 set statusline=
@@ -331,10 +396,8 @@ set statusline+=%#warningmsg#                                   " display a warn
 set statusline+=%{StatuslineTabWarning()}                       " files contains
 set statusline+=%*                                              " tab chars
 set statusline+=%#question#                                     " Display a warning if
-set statusline+=%{fugitive#statusline()}                        " Fugitive
 set statusline+=%*                                              " tab chars
 set statusline+=%=                                              " right align remainder
-" set statusline+=%{SyntasticStatuslineFlag()}                  " Syntastic
 set statusline+=%y                                              " buffer file type
 set statusline+=%#question#                                     " Display
 set statusline+=%{StatusDiagnostic()}                           " coc
@@ -350,6 +413,18 @@ autocmd InsertEnter * highlight StatusLine term=reverse ctermbg=Blue gui=bold gu
 autocmd InsertLeave * highlight StatusLine term=reverse ctermfg=254 ctermbg=238 gui=bold guifg=White guibg=Black
 " }}}
 " => Helper functions ---------------------- {{{1
+
+" Strip trailing white space on save
+function! DeleteTrailingWS()
+    " Don't strip on these filetypes
+    if &ft =~ 'markdown'
+        return
+    endif
+    exe "normal mz"
+    %s/\s\+$//ge
+    exe "normal `z"
+endfunc
+autocmd BufWrite *.* :call DeleteTrailingWS()
 
 " coc-status-manual
 function! StatusDiagnostic() abort
@@ -416,27 +491,6 @@ function! VisualSelection(direction) range
     let @" = l:saved_reg
 endfunction
 
-" Don't close window, when deleting a buffer
-command! Bclose call <SID>BufcloseCloseIt()
-function! <SID>BufcloseCloseIt()
-    let l:currentBufNum = bufnr("%")
-    let l:alternateBufNum = bufnr("#")
-
-    if buflisted(l:alternateBufNum)
-        buffer #
-    else
-        bnext
-    endif
-
-    if bufnr("%") == l:currentBufNum
-        new
-    endif
-
-    if buflisted(l:currentBufNum)
-        execute("bdelete! ".l:currentBufNum)
-    endif
-endfunction
-
 " Allow toggling between tabs and spaces
 function! TabToggle()
     if &expandtab
@@ -448,26 +502,15 @@ function! TabToggle()
     endif
 endfunction
 
-" Toggle ColumnColor 119
+" Toggle ColumnColor 80
 function! g:ToggleColorColumn()
   if &colorcolumn != ''
     setlocal colorcolumn&
   else
-    setlocal colorcolumn=119
+    setlocal colorcolumn=80
   endif
 endfunction
 nnoremap <silent> <leader>cc :call g:ToggleColorColumn()<CR>
-
-" :CopyMatches to copy all matches to the clipboard
-" :CopyMatches x where x is any register to hold the result.
-" paste from register x with "xp or "xP
-function! CopyMatches(reg)
-    let hits = []
-    %s//\=len(add(hits, submatch(0))) ? submatch(0) : ''/ge
-    let reg = empty(a:reg) ? '+' : a:reg
-    execute 'let @'.reg.' = join(hits, "\n") . "\n"'
-endfunction
-command! -register CopyMatches call CopyMatches(<q-reg>)
 
 " Append modeline after last line in buffer.
 " Use substitute() instead of printf() to handle '%%s' modeline in LaTeX
@@ -480,134 +523,6 @@ function! AppendModeline()
 endfunction
 nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
 
-" Realign buffers when iterm goes fullscreen
-augroup FixProportionsOnResize
-  au!
-  au VimResized * exe "normal! \<c-w>="
-augroup END
-
-" Highlight all instances of word under cursor, when idle.
-" Useful when studying strange source code.
-" Type z/ to toggle highlighting on/off.
-nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
-function! AutoHighlightToggle()
-  let @/ = ''
-  if exists('#auto_highlight')
-    au! auto_highlight
-    augroup! auto_highlight
-    setl updatetime=100
-    echo 'Highlight current word: off'
-    return 0
-  else
-    augroup auto_highlight
-      au!
-      au CursorHold * let @/ = '\V\<'.escape(expand('<cword>'), '\').'\>'
-    augroup end
-    setl updatetime=100
-    echo 'Highlight current word: ON'
-    return 1
-  endif
-endfunction
-
-command! -bang WatchForChanges                  :call WatchForChanges(@%,  {'toggle': 1, 'autoread': <bang>0})
-command! -bang WatchForChangesWhileInThisBuffer :call WatchForChanges(@%,  {'toggle': 1, 'autoread': <bang>0, 'while_in_this_buffer_only': 1})
-command! -bang WatchForChangesAllFile           :call WatchForChanges('*', {'toggle': 1, 'autoread': <bang>0})
-function! WatchForChanges(bufname, ...)
-  " Figure out which options are in effect
-  if a:bufname == '*'
-    let id = 'WatchForChanges'.'AnyBuffer'
-    " If you try to do checktime *, you'll get E93: More than one match for * is given
-    let bufspec = ''
-  else
-    if bufnr(a:bufname) == -1
-      echoerr "Buffer " . a:bufname . " doesn't exist"
-      return
-    end
-    let id = 'WatchForChanges'.bufnr(a:bufname)
-    let bufspec = a:bufname
-  end
-  if len(a:000) == 0
-    let options = {}
-  else
-    if type(a:1) == type({})
-      let options = a:1
-    else
-      echoerr "Argument must be a Dict"
-    end
-  end
-  let autoread    = has_key(options, 'autoread')    ? options['autoread']    : 0
-  let toggle      = has_key(options, 'toggle')      ? options['toggle']      : 0
-  let disable     = has_key(options, 'disable')     ? options['disable']     : 0
-  let more_events = has_key(options, 'more_events') ? options['more_events'] : 1
-  let while_in_this_buffer_only = has_key(options, 'while_in_this_buffer_only') ? options['while_in_this_buffer_only'] : 0
-  if while_in_this_buffer_only
-    let event_bufspec = a:bufname
-  else
-    let event_bufspec = '*'
-  end
-  let reg_saved = @"
-  "let autoread_saved = &autoread
-  let msg = "\n"
-  " Check to see if the autocommand already exists
-  redir @"
-    silent! exec 'au '.id
-  redir END
-  let l:defined = (@" !~ 'E216: No such group or event:')
-  " If not yet defined...
-  if !l:defined
-    if l:autoread
-      let msg = msg . 'Autoread enabled - '
-      if a:bufname == '*'
-        set autoread
-      else
-        setlocal autoread
-      end
-    end
-    silent! exec 'augroup '.id
-      if a:bufname != '*'
-        "exec "au BufDelete    ".a:bufname . " :silent! au! ".id . " | silent! augroup! ".id
-        "exec "au BufDelete    ".a:bufname . " :echomsg 'Removing autocommands for ".id."' | au! ".id . " | augroup! ".id
-        exec "au BufDelete    ".a:bufname . " execute 'au! ".id."' | execute 'augroup! ".id."'"
-      end
-        exec "au BufEnter     ".event_bufspec . " :checktime ".bufspec
-        exec "au CursorHold   ".event_bufspec . " :checktime ".bufspec
-        exec "au CursorHoldI  ".event_bufspec . " :checktime ".bufspec
-      " The following events might slow things down so we provide a way to disable them...
-      " vim docs warn:
-      "   Careful: Don't do anything that the user does
-      "   not expect or that is slow.
-      if more_events
-        exec "au CursorMoved  ".event_bufspec . " :checktime ".bufspec
-        exec "au CursorMovedI ".event_bufspec . " :checktime ".bufspec
-      end
-    augroup END
-    let msg = msg . 'Now watching ' . bufspec . ' for external updates...'
-  end
-  " If they want to disable it, or it is defined and they want to toggle it,
-  if l:disable || (l:toggle && l:defined)
-    if l:autoread
-      let msg = msg . 'Autoread disabled - '
-      if a:bufname == '*'
-        set noautoread
-      else
-        setlocal noautoread
-      end
-    end
-    " Using an autogroup allows us to remove it easily with the following
-    " command. If we do not use an autogroup, we cannot remove this
-    " single :checktime command
-    " augroup! checkforupdates
-    silent! exec 'au! '.id
-    silent! exec 'augroup! '.id
-    let msg = msg . 'No longer watching ' . bufspec . ' for external updates.'
-  elseif l:defined
-    let msg = msg . 'Already watching ' . bufspec . ' for external updates'
-  end
-  " echo msg
-  let @"=reg_saved
-endfunction
-execute WatchForChanges("*",{'autoread':1})
-" }}}
 " => local init.vim ---------------------- {{{1
 "" Include user's local vim config if exists
 if filereadable(s:editor_root."/local_init.vim")
