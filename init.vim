@@ -399,13 +399,14 @@ set statusline+=%#question#                                     " Display a warn
 set statusline+=%*                                              " tab chars
 set statusline+=%=                                              " right align remainder
 set statusline+=%y                                              " buffer file type
+set statusline+=(%{strftime(\"%d.%m.%Y\ %H:%M\",getftime(expand(\"%:p\")))})  " last modified
 set statusline+=%#question#                                     " Display
 set statusline+=%{StatusDiagnostic()}                           " coc
 set statusline+=%*                                              " infos
 set statusline+=%#directory#                                    " display a warning if
 set statusline+=%{&ff!='unix'?'['.&ff.']':''}                   " fileformat isnt
 set statusline+=%*                                              " unix
-set statusline+=%c%V,%l/                                        " column and row Number
+set statusline+=\ %c%V,%l/                                      " column and row Number
 set statusline+=%L\ %P                                          " total lines, position in file
 
 " Change StatusLine colors for insert mode
