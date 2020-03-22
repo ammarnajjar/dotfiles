@@ -128,10 +128,10 @@ if has("autocmd")
 
     augroup nvim_python
       autocmd!
-      autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=4 colorcolumn=80
+      autocmd fileType python setlocal expandtab shiftwidth=4 tabstop=4 colorcolumn=80
           \ formatoptions+=croq softtabstop=4
           \ cinwords=if,elif,else,for,while,try,except,finally,def,class,with
-      autocmd FileType python hi ColorColumn ctermbg=darkgrey guibg=lightgrey
+      autocmd fileType python hi ColorColumn ctermbg=darkgrey guibg=lightgrey
     augroup END
 
     autocmd BufNewFile,BufRead *.ts setlocal filetype=typescript
@@ -185,6 +185,13 @@ Plug 'ammarnajjar/wombat256mod'         " wombat black Colorscheme
 call plug#end()
 "}}}
 " => LSP ----------------------------- {{{3
+
+" Remap keys for gotos
+autocmd fileType typescript,typescript.tsx,javascript nmap <silent> gd <Plug>(coc-definition)
+autocmd fileType typescript,typescript.tsx,javascript nmap <silent> gy <Plug>(coc-type-definition)
+autocmd fileType typescript,typescript.tsx,javascript nmap <silent> gi <Plug>(coc-implementation)
+autocmd fileType typescript,typescript.tsx,javascript nmap <silent> gr <Plug>(coc-references)
+
 if executable('typescript-language-server')
     au User lsp_setup call lsp#register_server({
                 \ 'name': 'javascript support using typescript-language-server',
