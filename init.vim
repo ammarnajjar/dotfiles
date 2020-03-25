@@ -317,7 +317,7 @@ endif
 "}}}
 " => fzf ---------------- {{{3
 nnoremap <silent> <C-p> :FZF<CR>
-nnoremap <silent> <Leader>c  :Colors<CR>
+nnoremap <silent> <Leader>c  :Commits<CR>
 nnoremap <silent> <Leader>b  :Buffers<CR>
 nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
 nnoremap <silent> <Leader>AG :Ag <C-R><C-A><CR>
