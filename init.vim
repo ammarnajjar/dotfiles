@@ -168,6 +168,7 @@ if empty(glob(fnameescape(s:editor_root."/autoload/plug.vim")))
 endif
 call plug#begin(s:editor_root."/plugged/")
 " => Plugins ----------------------------- {{{3
+Plug 'tpope/vim-fugitive'
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 if isdirectory('/usr/local/opt/fzf')
   Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
@@ -175,6 +176,7 @@ else
   Plug 'junegunn/fzf', { 'dir': '~/.config/.fzf', 'do': './install --all' }
   Plug 'junegunn/fzf.vim'               " FZF fuzzy file finder
 endif
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  } " Markdown review
 Plug 'machakann/vim-highlightedyank'    " Highlight when yanking
 Plug 'maxmellon/vim-jsx-pretty'         " tsx highlighting
 Plug 'leafgarland/typescript-vim'       " ts highlighting
@@ -402,6 +404,7 @@ set statusline+=%*                                              " utf-8
 set statusline+=%#warningmsg#                                   " display a warning if
 set statusline+=%{StatuslineTabWarning()}                       " files contains
 set statusline+=%*                                              " tab chars
+set statusline+=%{fugitive#statusline()}                        " Fugitive
 set statusline+=%#question#                                     " Display a warning if
 set statusline+=%*                                              " tab chars
 set statusline+=%=                                              " right align remainder
