@@ -187,10 +187,10 @@ call plug#end()
 " => LSP ----------------------------- {{{3
 
 " Remap keys for gotos
-autocmd fileType typescript,typescript.tsx,javascript nmap <silent> gd <Plug>(coc-definition)
-autocmd fileType typescript,typescript.tsx,javascript nmap <silent> gy <Plug>(coc-type-definition)
-autocmd fileType typescript,typescript.tsx,javascript nmap <silent> gi <Plug>(coc-implementation)
-autocmd fileType typescript,typescript.tsx,javascript nmap <silent> gr <Plug>(coc-references)
+autocmd fileType typescript,typescript.tsx,javascript,python nmap <silent> gd <Plug>(coc-definition)
+autocmd fileType typescript,typescript.tsx,javascript,python nmap <silent> gy <Plug>(coc-type-definition)
+autocmd fileType typescript,typescript.tsx,javascript,python nmap <silent> gi <Plug>(coc-implementation)
+autocmd fileType typescript,typescript.tsx,javascript,python nmap <silent> gr <Plug>(coc-references)
 
 if executable('typescript-language-server')
     au User lsp_setup call lsp#register_server({
