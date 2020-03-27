@@ -39,6 +39,8 @@ GIT_PROMPT_FETCH_REMOTE_STATUS=0   # uncomment to avoid fetching remote status
 GIT_PROMPT_IGNORE_SUBMODULES=1 # uncomment to avoid searching for changed files in submodules
 GIT_PROMPT_SHOW_UNTRACKED_FILES=all # can be no, normal or all; determines counting of untracked files
 
+export FZF_DEFAULT_OPTS='--height 60% --border'
+
 # source stuff
 source_list=(
     ~/.fzf.bash
