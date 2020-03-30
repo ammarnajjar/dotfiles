@@ -182,7 +182,7 @@ Plug 'maxmellon/vim-jsx-pretty'         " tsx highlighting
 Plug 'leafgarland/typescript-vim'       " ts highlighting
 Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 Plug 'tomtom/tcomment_vim'              " Fast comment
-Plug 'ammarnajjar/wombat256mod'         " wombat black Colorscheme
+Plug 'ammarnajjar/vim-code-dark'        " vscode similar Colorscheme
 "}}}
 call plug#end()
 "}}}
@@ -295,7 +295,7 @@ function! DarkTheme()
     let g:onedark_color_overrides = {
                 \ "black": {"gui": "#000000", "cterm": "0", "cterm16": "0" }
                 \}
-    colorscheme wombat256mod
+    colorscheme codedark
     highlight CursorLineNr term=bold ctermfg=Yellow ctermbg=Black gui=bold guifg=Yellow guibg=Black
     autocmd InsertEnter * highlight CursorLineNr term=bold ctermfg=Black ctermbg=74 gui=bold guifg=Black guibg=SkyBlue1
     autocmd InsertLeave * highlight CursorLineNr term=bold ctermfg=Yellow ctermbg=Black gui=bold guifg=Yellow guibg=Black
