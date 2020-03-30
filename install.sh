@@ -69,7 +69,7 @@ function clone_repos() {
     cd $dotfiles_dir
     echo_blue "** Clone github repos -- $(pwd)"
     git clone https://github.com/ammarnajjar/dotfiles.git .
-    git clone https://github.com/ammarnajjar/onedark.vim.git plugged/onedark.vim
+    git clone https://github.com/ammarnajjar/vim-code-dark.git plugged/vim-code-dark.vim
     git clone -b 'ignored-in-history' https://github.com/ammarnajjar/bash-sensible.git bash/bash-sensible
     git clone https://github.com/ammarnajjar/bash-git-prompt.git bash/bash-git-prompt
 }
