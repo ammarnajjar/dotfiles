@@ -2,8 +2,11 @@
 " Fie: init.vim
 " Author: Ammar Najjar <najjarammar@protonmail.com>
 " Description: My neovim configurations file
-" Last Modified: December 02 2019
+" Last Modified: Sat Apr  4 19:00:08 CEST 2020
 " }}}
+
+let mapleader=","   " Change leader key to ,
+
 " => neovim only ---------------------- {{{1
 if (has("nvim"))
     " Live substitution
@@ -32,8 +35,6 @@ endif
 
 " defaults in neovim -> :h vim-diff
 set wildmode=list:longest,list:full
-
-let mapleader=","   " Change leader key to ,
 
 set mouse=a         " Enable mouse usage (all modes)
 set showmatch       " Show matching brackets.
