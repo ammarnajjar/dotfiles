@@ -5,6 +5,11 @@ alias g="git status"
 alias vim='nvim'
 alias vi="vi -u NONE"
 
+# Tell grep to highlight matches
+alias grep="grep --color=auto"
+alias fgrep="fgrep --color=auto"
+alias egrep="egrep --color=auto"
+
 # typo
 alias gti=git
 alias dokcer=docker
