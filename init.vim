@@ -2,11 +2,11 @@
 " Fie: init.vim
 " Author: Ammar Najjar <najjarammar@protonmail.com>
 " Description: My neovim configurations file
-" Last Modified: Sat Apr  4 19:00:08 CEST 2020
+" Last Modified: Sun Apr  5 02:18:24 CEST 2020
 " }}}
-
+" => leader mapping ---------------------- {{{1
 let mapleader=","   " Change leader key to ,
-
+" }}}
 " => neovim only ---------------------- {{{1
 if (has("nvim"))
     " Live substitution
