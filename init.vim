@@ -177,11 +177,6 @@ else
   Plug 'junegunn/fzf', { 'dir': '~/.config/.fzf', 'do': './install --all' }
   Plug 'junegunn/fzf.vim'               " FZF fuzzy file finder
 endif
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  } " Markdown review
-Plug 'machakann/vim-highlightedyank'    " Highlight when yanking
-Plug 'maxmellon/vim-jsx-pretty'         " tsx highlighting
-Plug 'leafgarland/typescript-vim'       " ts highlighting
-Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 Plug 'tomtom/tcomment_vim'              " Fast comment
 Plug 'ammarnajjar/vim-code-dark'        " vscode similar Colorscheme
 "}}}
