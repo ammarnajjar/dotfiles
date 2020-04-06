@@ -26,6 +26,14 @@ export LANG='en_US.UTF-8'
 export EDITOR=nvim
 export GIT_EDITOR="nvim"
 
+# optout
+export DOTNET_CLI_TELEMETRY_OPTOUT=1
+
+# get konsole profile name if possible
+if hash qdbus 2>/dev/null; then
+    export KONSOLE_PROFILE_NAME="$(qdbus $KONSOLE_DBUS_SERVICE $KONSOLE_DBUS_SESSION profile)"
+fi
+
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 export HISTFILESIZE=
 export HISTSIZE=
