@@ -16,22 +16,19 @@ wget https://raw.githubusercontent.com/ammarnajjar/dotfiles/master/install.sh &&
 
 ```bash
 .
-├── install.sh
+├── README.md
 ├── bash
 │   └── bashrc
+├── coc-settings.json
 ├── git
 │   ├── config
 │   ├── git-completion.bash
 │   └── gitmessage
 ├── init.vim
+├── install.sh
 ├── tmux
 │   └── tmux.conf
-├── README.md
 └── LICENSE
 ```
 
 I have full explanation to my neovim configurations [here](https://ammarnajjar.github.io/editors/2016/06/19/Vimrc-Adventure/).  
-
-## License:
-
-GNU GENERAL PUBLIC LICENSE, see LICENSE file for details.
