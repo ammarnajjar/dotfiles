@@ -2,7 +2,7 @@
 " Fie: init.vim
 " Author: Ammar Najjar <najjarammar@protonmail.com>
 " Description: My neovim configurations file
-" Last Modified: Sun Apr  5 02:18:24 CEST 2020
+" Last Modified: Mon Apr  6 04:18:17 CEST 2020
 " }}}
 " => leader mapping ---------------------- {{{1
 let mapleader=","   " Change leader key to ,
@@ -185,90 +185,53 @@ call plug#end()
 " => LSP ----------------------------- {{{3
 
 " Remap keys for gotos
-autocmd fileType typescript,typescript.tsx,javascript,python nmap <silent> gd <Plug>(coc-definition)
-autocmd fileType typescript,typescript.tsx,javascript,python nmap <silent> gy <Plug>(coc-type-definition)
-autocmd fileType typescript,typescript.tsx,javascript,python nmap <silent> gi <Plug>(coc-implementation)
-autocmd fileType typescript,typescript.tsx,javascript,python nmap <silent> gr <Plug>(coc-references)
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
-if executable('typescript-language-server')
-    au User lsp_setup call lsp#register_server({
-                \ 'name': 'javascript support using typescript-language-server',
-                \ 'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
-                \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'package.json'))},
-                \ 'whitelist': ['javascript', 'javascript.jsx'],
-                \ })
-endif
+" Make <tab> used for trigger completion, completion confirm, snippet expand and jump like VSCode.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
 
-if executable('typescript-language-server')
-    au User lsp_setup call lsp#register_server({
-                \ 'name': 'typescript-language-server',
-                \ 'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
-                \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'tsconfig.json'))},
-                \ 'whitelist': ['typescript', 'typescript.tsx'],
-                \ })
-endif
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
 
-if executable('flow')
-    au User lsp_setup call lsp#register_server({
-                \ 'name': 'flow',
-                \ 'cmd': {server_info->['flow', 'lsp']},
-                \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), '.flowconfig'))},
-                \ 'whitelist': ['javascript', 'javascript.jsx'],
-                \ })
-endif
-
-if executable('rls')
-    au User lsp_setup call lsp#register_server({
-                \ 'name': 'rls',
-                \ 'cmd': {server_info->['rustup', 'run', 'stable', 'rls']},
-                \ 'workspace_config': {'rust': {'clippy_preference': 'on'}},
-                \ 'whitelist': ['rust'],
-                \ })
-endif
-
-if executable('pyls')
-    au User lsp_setup call lsp#register_server({
-                \ 'name': 'pyls',
-                \ 'cmd': {server_info->['python']},
-                \ 'whitelist': ['python'],
-                \ 'workspace_config': {'python': {'plugins': {'pydocstyle': {'enabled': v:true}}}}
-                \ })
-endif
-
-if executable('docker-langserver')
-    au User lsp_setup call lsp#register_server({
-                \ 'name': 'docker-langserver',
-                \ 'cmd': {server_info->[&shell, &shellcmdflag, 'docker-langserver --stdio']},
-                \ 'whitelist': ['dockerfile'],
-                \ })
-endif
+let g:coc_snippet_next = '<tab>'
 
 "" coc Global extension names to install when they aren't installed
 let g:coc_global_extensions = [
-            \ "coc-marketplace",
-            \ "coc-sh",
-            \ "coc-docker",
-            \ "coc-rls",
-            \ "coc-tag",
-            \ "coc-sql",
-            \ "coc-python",
             \ "coc-angular",
-            \ "coc-tsserver",
-            \ "coc-eslint",
-            \ "coc-json",
-            \ "coc-prettier",
             \ "coc-css",
+            \ "coc-docker",
             \ "coc-emmet",
+            \ "coc-emoji",
+            \ "coc-eslint",
             \ "coc-highlight",
             \ "coc-html",
+            \ "coc-import-cost",
+            \ "coc-json",
+            \ "coc-marketplace",
+            \ "coc-omnisharp",
+            \ "coc-prettier",
+            \ "coc-python",
+            \ "coc-rls",
+            \ "coc-sh",
+            \ "coc-snippets",
+            \ "coc-sql",
+            \ "coc-syntax",
+            \ "coc-tag",
+            \ "coc-tslint-plugin",
+            \ "coc-tsserver",
             \ "coc-yaml",
             \ "coc-yank",
-            \ "coc-import-cost",
-            \ "coc-tslint-plugin",
-            \ "coc-omnisharp"
             \]
 "}}}
-
 " => highlightedyank ---------------- {{{3
 highlight HighlightedyankRegion cterm=reverse gui=reverse
 let g:highlightedyank_highlight_duration = 1000

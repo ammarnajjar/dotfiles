@@ -1,11 +1,6 @@
 {
   "prettier.printWidth": 120,
   "prettier.singleQuote": true,
-  "prettier.tslintIntegration": true,
-  "prettier.eslintIntegration": true,
   "python.linting.flake8Enabled": true,
-  "python.linting.pylintEnabled": false,
-  "python.formatting.provider": "black",
-  "python.linting.flake8Args": ["--max-line-length", "119"],
-  "coc.preferences.formatOnSaveFiletypes": []
+  "python.linting.pylintEnabled": false
 }
