@@ -204,6 +204,8 @@ endfunction
 
 let g:coc_snippet_next = '<tab>'
 
+nnoremap <silent> <leader>y  :<C-u>CocList -A --normal yank<cr>
+
 "" coc Global extension names to install when they aren't installed
 let g:coc_global_extensions = [
             \ "coc-angular",
@@ -214,8 +216,8 @@ let g:coc_global_extensions = [
             \ "coc-eslint",
             \ "coc-highlight",
             \ "coc-html",
-            \ "coc-import-cost",
             \ "coc-json",
+            \ "coc-lists",
             \ "coc-marketplace",
             \ "coc-omnisharp",
             \ "coc-prettier",
