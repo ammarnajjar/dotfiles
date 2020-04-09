@@ -96,15 +96,6 @@ else
     fi
 fi
 
-if [ -n "$(type -t pyenv)" ] && [ "$(type -t pyenv)" = function ]; then
-    # pyenv is already initialized
-    true
-else
-    if command -v pyenv 1>/dev/null 2>&1; then
-      eval "$(pyenv init -)"
-    fi
-fi
-
 # useful functions stolen from https://github.com/Bash-it/bash-it
 function mkcd() {
     mkdir -p -- "$*"
