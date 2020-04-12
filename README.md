@@ -16,7 +16,9 @@ wget https://raw.githubusercontent.com/ammarnajjar/dotfiles/master/install.sh &&
 
 ```bash
 .
+├── LICENSE
 ├── README.md
+├── addons.vim
 ├── bash
 │   └── bashrc
 ├── coc-settings.json
@@ -26,9 +28,8 @@ wget https://raw.githubusercontent.com/ammarnajjar/dotfiles/master/install.sh &&
 │   └── gitmessage
 ├── init.vim
 ├── install.sh
-├── tmux
-│   └── tmux.conf
-└── LICENSE
+└── tmux
+    └── tmux.conf
 ```
 
 I have full explanation to my neovim configurations [here](https://ammarnajjar.github.io/editors/2016/06/19/Vimrc-Adventure/).  
