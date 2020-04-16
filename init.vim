@@ -12,7 +12,7 @@ let s:editor_root=expand("~/.config/nvim/")
 
 " Figure out the system Python for Neovim.
 if exists("$VIRTUAL_ENV")
-    let g:python3_host_prog=substitute(system("which -a python3 | head -n2 | tail -n1"), "\n", '', 'g')
+    let g:python3_host_prog=substitute(system("which -a python3 | tail -n2 | head -n1"), "\n", '', 'g')
 else
     let g:python3_host_prog=substitute(system("which python3"), "\n", '', 'g')
 endif
@@ -93,7 +93,6 @@ nmap <leader>ev :tabe $MYVIMRC<CR>
 if !exists('g:vscode')
     " => Filetypes specific configs ---------------------- {{{2
     if has("autocmd")
-
         autocmd fileType html,xhtml,htm,xml,css,scss,php,ruby setlocal shiftwidth=2 tabstop=2 softtabstop=2
 
         augroup nvim_python
@@ -110,13 +109,11 @@ if !exists('g:vscode')
     endif
     " }}}
     " => Colors ---------------------------- {{{2
-    if (empty($TMUX))
-      if (has("nvim"))
+    if (has("nvim"))
         let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-      endif
-      if (has("termguicolors"))
+    endif
+    if (has("termguicolors"))
         set termguicolors
-      endif
     endif
     " }}}
     " => highlightedyank ------------------- {{{2

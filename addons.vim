@@ -18,7 +18,6 @@ else
 endif
 Plug 'tomtom/tcomment_vim'              " Fast comment
 Plug 'ammarnajjar/vim-code-dark'        " vscode similar Colorscheme
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 "}}}
 call plug#end()
 " => LSP ----------------------------- {{{2

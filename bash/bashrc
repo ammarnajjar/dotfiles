@@ -21,7 +21,9 @@ alias ctagsit="ctags --append=no --recurse --totals --exclude=blib --exclude=.sv
 # append to the history file, don't overwrite it
 shopt -s histappend
 
-export TERM=xterm-256color
+# not in tmux
+[ -z "${TMUX}" ] && export TERM=xterm-256color
+
 export LANG='en_US.UTF-8'
 export EDITOR=nvim
 export GIT_EDITOR="nvim"
