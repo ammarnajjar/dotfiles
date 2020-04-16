@@ -16,3 +16,4 @@ abbr.*
 bash/bash-git-prompt
 bash/bash-sensible
 .netrwhist
+local_init.vim

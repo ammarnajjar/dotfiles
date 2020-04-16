@@ -48,8 +48,11 @@ export LSCOLORS=Exfxcxdxbxegedabagacad
 
 NPM_PACKAGES="${HOME}/.npm-packages"
 export PATH="$NPM_PACKAGES/bin:$PATH"
-unset MANPATH # delete if you already modified MANPATH elsewhere in your config
-export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
+
+if command -v manpath 1>/dev/null 2>&1; then
+    unset MANPATH # delete if you already modified MANPATH elsewhere in your config
+    export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
+fi
 
 # GIT_PROMPT_ONLY_IN_REPO=1
 GIT_PROMPT_FETCH_REMOTE_STATUS=0   # uncomment to avoid fetching remote status

@@ -20,21 +20,23 @@ function get_sudo() {
 }
 
 function install_pkgs() {
+    pkgs="git curl wget tmux neovim"
     if [[ "$OSTYPE" == "linux-gnu" ]]; then
         # Linux
         sys_id="$(cat /etc/*release | grep ID=)"
         if [[ "$sys_id" == *"fedora"* ]]
         then
             pkg_manager="$SUDO dnf"
-            $pkg_manager install -y python{2,3}-neovim
-        elif [[ "$sys_id" == *"debian"* ]]
+            $pkg_manager install -y $pkgs python3-neovim
+        elif [[ "$sys_id" == *"debian"* ]] || [[ "$sys_id" == *"Ubuntu"* ]]
         then
-            pkg_manager="$SUDO apt-get"
-            $pkg_manager install -y python-neovim python3-neovim
+            pkg_manager="$SUDO apt"
+            $pkg_manager install -y $pkgs python3-neovim
         fi
     elif [[ "$OSTYPE" == "darwin"* ]]; then
         # Mac OSX
         pkg_manager="brew"
+        $pkg_manager install $pkgs
     elif [[ "$OSTYPE" == "msys" ]]; then
         # Lightweight shell and GNU utilities compiled for Windows (part of MinGW)
         echo "OS ("$OSTYPE") is not supported"
@@ -42,8 +44,6 @@ function install_pkgs() {
         # not supported
         echo "OS ("$OSTYPE") is not supported"
     fi
-    pkgs="git curl wget tmux neovim"
-    $pkg_manager install -y $pkgs
 }
 
 function prepare_dotfiles_dir() {
@@ -69,6 +69,7 @@ function clone_repos() {
     cd $dotfiles_dir
     echo_blue "** Clone github repos -- $(pwd)"
     git clone https://github.com/ammarnajjar/dotfiles.git .
+    curl -fLo autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     git clone https://github.com/ammarnajjar/vim-code-dark.git plugged/vim-code-dark.vim
     git clone -b 'ignored-in-history' https://github.com/ammarnajjar/bash-sensible.git bash/bash-sensible
     git clone https://github.com/ammarnajjar/bash-git-prompt.git bash/bash-git-prompt
@@ -77,7 +78,8 @@ function clone_repos() {
 function nvim_symlinks() {
     echo_blue "** Create Neovim Symlinks"
     mkdir -p ${XDG_CONFIG_HOME:=$HOME/.config}
-    [ -L $HOME/.config/nvim ] && mv $HOME/.config/nvim /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_nvim
+    [ -L $dotfiles_dir ] && mv $dotfiles_dir /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_nvim
+    [ -L $HOME/.config/nvim ] && rm $HOME/.config/nvim
     ln -s $dotfiles_dir $XDG_CONFIG_HOME/nvim
 }
 
