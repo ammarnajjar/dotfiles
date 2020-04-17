@@ -76,11 +76,16 @@ function clone_repos() {
 }
 
 function nvim_symlinks() {
-    echo_blue "** Create Neovim Symlinks"
+    echo_blue "** Create Neovim/Vim Symlinks"
     mkdir -p ${XDG_CONFIG_HOME:=$HOME/.config}
     [ -L $dotfiles_dir ] && mv $dotfiles_dir /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_nvim
     [ -L $HOME/.config/nvim ] && rm $HOME/.config/nvim
     ln -s $dotfiles_dir $XDG_CONFIG_HOME/nvim
+    # vim compatible
+    [ -L $HOME/.vim ] && rm $HOME/.vim
+    [ -L $HOME/.vimrc ] && rm $HOME/.vimrc
+    ln -s $dotfiles_dir $HOME/.vim
+    ln -s $dotfiles_dir/init.vim $HOME/.vimrc
 }
 
 function update_git_conf() {

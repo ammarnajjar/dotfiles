@@ -1,14 +1,17 @@
 " => Header ---------------------- {{{1
 " Fie: init.vim
 " Author: Ammar Najjar <najjarammar@protonmail.com>
-" Description: My neovim configurations file
-" Last Modified: Sun 12 Apr 2020 01:49:40 PM CEST
-" }}}
-" => leader mapping ---------------------- {{{1
-let mapleader=","   " Change leader key to ,
+" Description: My neovim/vim configurations file
+" Last Modified: Sat Apr 18 23:01:07 CEST 2020
 " }}}
 " => General ---------------------- {{{1
-let s:editor_root=expand("~/.config/nvim/")
+let mapleader=","   " Change leader key to ,
+
+if (has("nvim"))
+    let s:editor_root=expand("~/.config/nvim/")
+else
+    let s:editor_root=expand("~/.vim/")
+endif
 
 " Figure out the system Python for Neovim.
 if exists("$VIRTUAL_ENV")
@@ -19,12 +22,24 @@ endif
 
 " defaults in neovim -> :h vim-diff
 set wildmode=list:longest,list:full
+set incsearch
+set ttyfast
+set autoread
+set wildmenu
+set hlsearch
+set history=1000
+set nocompatible
+set backspace=2
+set smarttab
+set autoindent
+set laststatus=2
 
 set mouse=a         " Enable mouse usage (all modes)
 set showmatch       " Show matching brackets.
 set matchtime=1     " for 1/10th of a second
 set ignorecase      " Do case insensitive matching
 set smartcase       " Do smart case matching
+set hidden          " Hide buffers when they are abandoned
 setglobal modeline
 set modelines=3
 
@@ -41,7 +56,7 @@ set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
 " when joining lines, don't insert two spaces after punctuation
 set nojoinspaces
 
-" Don't redraw while executing macros (good performance config)
+" Don't redraw while executing macros
 set lazyredraw
 
 " Turn backup off
@@ -54,6 +69,7 @@ set shiftwidth=4
 set tabstop=4
 set softtabstop=4
 set smartindent
+set expandtab
 
 " create undo file to keep history after closing the file
 set undofile
@@ -64,7 +80,7 @@ execute 'set undodir='.fnameescape(s:editor_root."/undo/")
 set viminfo^=%
 
 " Restrict syntax for all files
-set synmaxcol=200
+set synmaxcol=1000
 
 "" Encoding
 set encoding=utf-8
@@ -72,7 +88,6 @@ set fileencoding=utf-8
 set fileencodings=utf-8
 " }}}
 " => Mappings ---------------------- {{{1
-
 " view hidden characters like spaces and tabs
 nnoremap <F3> :<C-U>setlocal listchars=tab:>\-,space:·,nbsp:␣,trail:•,eol:¶,precedes:«,extends:» list! list? <CR>
 " Allow Toggle between tabs - spaces
@@ -94,15 +109,13 @@ if !exists('g:vscode')
     " => Filetypes specific configs ---------------------- {{{2
     if has("autocmd")
         autocmd fileType html,xhtml,htm,xml,css,scss,php,ruby setlocal shiftwidth=2 tabstop=2 softtabstop=2
-
-        augroup nvim_python
+        augroup vim_python
           autocmd!
           autocmd fileType python setlocal expandtab shiftwidth=4 tabstop=4 colorcolumn=80
               \ formatoptions+=croq softtabstop=4
               \ cinwords=if,elif,else,for,while,try,except,finally,def,class,with
           autocmd fileType python hi ColorColumn ctermbg=darkgrey guibg=lightgrey
         augroup END
-
         autocmd BufNewFile,BufRead *.ts setlocal filetype=typescript
         autocmd BufNewFile,BufRead *.tsx setlocal filetype=typescript.tsx
         autocmd fileType typescript,typescript.tsx,javascript setlocal shiftwidth=2 tabstop=2 softtabstop=2 expandtab
@@ -131,13 +144,12 @@ if !exists('g:vscode')
 
     " Toggle spell checking
     map <leader>ss :setlocal spell!<cr>
-    " }}}
-    " => neovim only ---------------------- {{{2
+
     if (has("nvim"))
         " Live substitution
         set inccommand=nosplit
 
-        " terminal mode mappings
+        " Terminal mode mappings
         tnoremap <Esc> <C-\><C-n>
         tnoremap <C-h> <C-\><C-n><C-w>h
         tnoremap <C-j> <C-\><C-n><C-w>j
@@ -148,7 +160,7 @@ if !exists('g:vscode')
         autocmd TermOpen * setlocal statusline=%{b:term_title}
     endif
     " }}}
-    " => Plugins ---------- {{{2
+    " => Plugins -------------------------- {{{2
     if filereadable(s:editor_root."/addons.vim")
         execute 'source '.fnameescape(s:editor_root."/addons.vim")
     endif
@@ -179,7 +191,6 @@ if !exists('g:vscode')
     set statusline+=%*
     set statusline+=\ %c%V,%l/                                      " column and row Number
     set statusline+=%L\ %P                                          " total lines, position in file
-
     " }}}
     " => autocmds ---------------------- {{{2
     " Change StatusLine colors for insert mode
@@ -192,16 +203,27 @@ if !exists('g:vscode')
     "recalculate the tab warning flag when idle and after writing
     autocmd cursorhold,bufwritepost * unlet! b:statusline_tab_warning
 
+    " Specify the behavior when switching between buffers
+    try
+        set switchbuf=useopen,usetab,newtab
+        set stal=2
+    catch
+    endtry
+
     " Return to last edit position when opening files (You want this!)
     autocmd BufReadPost *
                 \ if line("'\"") > 0 && line("'\"") <= line("$") |
                 \   exe "normal! g`\"" |
                 \ endif
+
+    " highlight trailing whitespaces
+    highlight TrailingWhitespace ctermbg=darkgreen guibg=darkgreen
+    autocmd InsertEnter * match TrailingWhitespace /\s\+\%#\@<!$/
+    autocmd InsertLeave * match TrailingWhitespace /\s\+$/
     " }}}
 endif
 " }}}
 " => Helper functions ---------------------- {{{1
-
 " Strip trailing white space on save
 function! DeleteTrailingWS()
     " Don't strip on these filetypes
@@ -258,10 +280,8 @@ endfunction
 function! VisualSelection(direction) range
     let l:saved_reg = @"
     execute "normal! vgvy"
-
     let l:pattern = escape(@", '\\/.*$^~[]')
     let l:pattern = substitute(l:pattern, "\n$", "", "")
-
     if a:direction == 'b'
         execute "normal ?" . l:pattern . "^M"
     elseif a:direction == 'gv'
@@ -271,7 +291,6 @@ function! VisualSelection(direction) range
     elseif a:direction == 'f'
         execute "normal /" . l:pattern . "^M"
     endif
-
     let @/ = l:pattern
     let @" = l:saved_reg
 endfunction
@@ -297,8 +316,6 @@ function! g:ToggleColorColumn()
 endfunction
 
 " Append modeline after last line in buffer.
-" Use substitute() instead of printf() to handle '%%s' modeline in LaTeX
-" files.
 function! AppendModeline()
   let l:modeline = printf(" vim: set ft=%s ts=%d sw=%d %set %sai : ",
         \ &filetype, &tabstop, &shiftwidth, &expandtab ? '' : 'no', &autoindent ? '' : 'no')
@@ -308,7 +325,6 @@ endfunction
 nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
 
 " => local init.vim ---------------------- {{{1
-"" Include user's local vim config if exists
 if filereadable(s:editor_root."/local_init.vim")
     execute 'source '.fnameescape(s:editor_root."/local_init.vim")
 endif
