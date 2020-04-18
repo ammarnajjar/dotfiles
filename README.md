@@ -1,6 +1,6 @@
 # Dotfiles Configurations
 
-My dotfiles configurations for neovim, git, bash and tmux.  
+My dotfiles configurations for neovim/vim, git, bash and tmux.  
 It will be installed in the current directory with symlinks to the correct paths.  
 
 ## Usage:
@@ -32,4 +32,4 @@ wget https://raw.githubusercontent.com/ammarnajjar/dotfiles/master/install.sh &&
     └── tmux.conf
 ```
 
-I have full explanation to my neovim configurations [here](https://ammarnajjar.github.io/editors/2016/06/19/Vimrc-Adventure/).  
+I have full explanation to my configurations [here](https://ammarnajjar.github.io/editors/2016/06/19/Vimrc-Adventure/)
