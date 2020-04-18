@@ -18,7 +18,7 @@ endif
 call plug#begin(s:editor_root."/plugged/")
 " => Install Plugins ----------------------------- {{{2
 Plug 'tpope/vim-fugitive'
-Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 if isdirectory('/usr/local/opt/fzf')
   Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
 else
