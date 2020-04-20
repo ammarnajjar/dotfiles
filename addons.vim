@@ -23,10 +23,10 @@ if isdirectory('/usr/local/opt/fzf')
   Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
 else
   Plug 'junegunn/fzf', { 'dir': '~/.config/.fzf', 'do': './install --all' }
-  Plug 'junegunn/fzf.vim'               " FZF fuzzy file finder
+  Plug 'junegunn/fzf.vim'
 endif
-Plug 'tomtom/tcomment_vim'              " Fast comment
-Plug 'ammarnajjar/vim-code-dark'        " vscode similar Colorscheme
+Plug 'tomtom/tcomment_vim'
+Plug 'ammarnajjar/vim-code-dark'
 "}}}
 call plug#end()
 " => LSP ----------------------------- {{{2
@@ -42,12 +42,10 @@ inoremap <silent><expr> <TAB>
       \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
-
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
-
 let g:coc_snippet_next = '<tab>'
 
 nnoremap <silent> <leader>y  :<C-u>CocList -A --normal yank<cr>
@@ -81,64 +79,39 @@ let g:coc_global_extensions = [
             \]
 "}}}
 " => Theme ---------------- {{{2
-" Colorscheme
-" iterm2 specific settings
 set cursorline
 function! LightTheme()
     set background=light
     highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=254
-    highlight CursorLineNr term=bold ctermfg=Black ctermbg=Grey gui=bold guifg=White guibg=Grey
-    autocmd InsertEnter * highlight CursorLineNr term=bold ctermfg=Black ctermbg=117 gui=bold guifg=White guibg=SkyBlue1
-    autocmd InsertEnter * highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=NONE
-    autocmd InsertLeave * highlight CursorLineNr term=bold ctermfg=Black ctermbg=Grey gui=bold guifg=White guibg=Grey
+    highlight cursorlinenr term=bold ctermfg=black ctermbg=grey gui=bold guifg=white guibg=grey
+    autocmd insertenter * highlight cursorlinenr term=bold ctermfg=black ctermbg=117 gui=bold guifg=white guibg=skyblue1
+    autocmd insertenter * highlight cursorline cterm=none ctermfg=none ctermbg=none
+    autocmd insertleave * highlight cursorlinenr term=bold ctermfg=black ctermbg=grey gui=bold guifg=white guibg=grey
     autocmd InsertLeave * highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=254
 endfunc
 function! DarkTheme()
     set background=dark
-    try
-        colorscheme codedark
-    highlight CursorLineNr term=bold ctermfg=Yellow ctermbg=Black gui=bold guifg=Yellow guibg=Black
-    autocmd InsertEnter * highlight CursorLineNr term=bold ctermfg=Black ctermbg=74 gui=bold guifg=Black guibg=SkyBlue1
-    autocmd InsertLeave * highlight CursorLineNr term=bold ctermfg=Yellow ctermbg=Black gui=bold guifg=Yellow guibg=Black
-    catch /^Vim\%((\a\+)\)\=:E185/
-        echo 'fallback to Default colorscheme'
-    endtry
+    colorscheme codedark
+    highlight CursorLineNr term=bold ctermfg=yellow ctermbg=black gui=bold guifg=yellow guibg=black
+    autocmd InsertEnter * highlight CursorLineNr term=bold ctermfg=black ctermbg=74 gui=bold guifg=black guibg=skyblue1
+    autocmd InsertLeave * highlight CursorLineNr term=bold ctermfg=yellow ctermbg=black gui=bold guifg=yellow guibg=black
 endfunc
-
-if $KONSOLE_PROFILE_NAME =~? 'light' || $ITERM_PROFILE =~? 'light'
-    call LightTheme()
-else
-    call DarkTheme()
-endif
-
-if has("gui_running")
-    call LightTheme()
-    set guioptions-=T
-    set guioptions+=e
-    set guitablabel=%M\ %t
-    set lines=39
-    set columns=83
-    set guioptions=bgmrL
-endif
+try
+    if $KONSOLE_PROFILE_NAME =~? 'light' || $ITERM_PROFILE =~? 'light'
+        call LightTheme()
+    else
+        call DarkTheme()
+    endif
+catch /^Vim\%((\a\+)\)\=:E185/
+endtry
 "}}}
 " => fzf ---------------- {{{2
-nnoremap <silent> <C-p> :FZF<CR>
+nnoremap <silent> <C-p> :Files<CR>
 nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
 nnoremap <silent> <Leader>AG :Ag <C-R><C-A><CR>
 nnoremap <silent> <Leader>'  :Marks<CR>
 
-" This is the deault extra key bindings
-let g:fzf_action = {
-  \ 'ctrl-t': 'tab split',
-  \ 'ctrl-x': 'split',
-  \ 'ctrl-v': 'vsplit' }
-
-" Default fzf layout
-let g:fzf_layout = { 'down': '~40%' }
-
-" In Neovim, you can set up fzf window using a Vim command
-let g:fzf_layout = { 'window': 'enew' }
-let g:fzf_layout = { 'window': '-tabnew' }
+let g:fzf_layout = { 'down': '~40%', 'window': 'enew' }
 
 " [Buffers] Jump to the existing window if possible
 let g:fzf_buffers_jump = 1
@@ -148,24 +121,6 @@ let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %
 
 " [Tags] Command to generate tags file
 let g:fzf_tags_command = 'ctags --append=no --recurse --totals --exclude=blib --exclude=.svn --exclude=.get --exclude="@.gitignore" --extra=q'
-
-autocmd VimEnter * command! Colors
-  \ call fzf#vim#colors({'left': '15%', 'options': '--reverse --margin 30%,0'})
-
-" Mapping selecting mappings
-nmap <leader><tab> <plug>(fzf-maps-n)
-xmap <leader><tab> <plug>(fzf-maps-x)
-omap <leader><tab> <plug>(fzf-maps-o)
-
-" Insert mode completion
-imap <c-x><c-k> <plug>(fzf-complete-word)
-imap <c-x><c-f> <plug>(fzf-complete-path)
-imap <c-x><c-j> <plug>(fzf-complete-file-ag)
-imap <c-x><c-l> <plug>(fzf-complete-line)
-
-if has('nvim')
-  let $FZF_DEFAULT_OPTS .= ' --inline-info'
-endif
 
 " use the silver searcher if exists
 if executable('ag')

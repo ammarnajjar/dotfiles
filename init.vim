@@ -2,7 +2,7 @@
 " Fie: init.vim
 " Author: Ammar Najjar <najjarammar@protonmail.com>
 " Description: My neovim/vim configurations file
-" Last Modified: Sat Apr 18 23:01:07 CEST 2020
+" Last Modified: Mon Apr 20 03:33:48 CEST 2020
 " }}}
 " => General ---------------------- {{{1
 let mapleader=","   " Change leader key to ,
@@ -193,10 +193,6 @@ if !exists('g:vscode')
     set statusline+=%L\ %P                                          " total lines, position in file
     " }}}
     " => autocmds ---------------------- {{{2
-    " Change StatusLine colors for insert mode
-    autocmd InsertEnter * highlight StatusLine term=reverse ctermbg=Blue gui=bold guifg=White guibg=Blue
-    autocmd InsertLeave * highlight StatusLine term=reverse ctermfg=254 ctermbg=238 gui=bold guifg=White guibg=Black
-
     " delete trailing white spaces except for markdown
     autocmd BufWrite *.* :call DeleteTrailingWS()
 
