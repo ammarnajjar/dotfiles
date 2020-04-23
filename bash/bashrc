@@ -2,7 +2,6 @@ alias ll='ls -lh'
 alias la='ls -aAh'
 alias l='ls -CF'
 alias g="git status"
-alias vi="vi -u NONE"
 
 # Tell grep to highlight matches
 alias grep="grep --color=auto"
