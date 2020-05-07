@@ -61,8 +61,10 @@ function prepare_dotfiles_dir() {
 
 function update_tmux_conf() {
     echo_blue "** Tmux config"
-    [ -L $HOME/.tmux.conf ] && mv $HOME/.tmux.conf /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_tmux.conf
-    ln -s $dotfiles_dir/tmux/tmux.conf $HOME/.tmux.conf
+    mkdir -p ${XDG_CONFIG_HOME:=$HOME/.config}
+    [ -L $HOME/.tmux.conf ] && rm $HOME/.tmux.conf
+    [ -L $XDG_CONFIG_HOME/tmux ] && rm $XDG_CONFIG_HOME/tmux
+    ln -s $dotfiles_dir/tmux $XDG_CONFIG_HOME/tmux
 }
 
 function clone_repos() {
