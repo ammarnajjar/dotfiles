@@ -20,7 +20,7 @@ function get_sudo() {
 }
 
 function install_pkgs() {
-    pkgs="git curl wget tmux neovim"
+    pkgs="git curl wget tmux"
     if [[ "$OSTYPE" == "linux-gnu" ]]; then
         # Linux
         sys_id="$(cat /etc/*release | grep ID=)"
@@ -50,10 +50,16 @@ function prepare_dotfiles_dir() {
     cd $current_dir
     echo_blue "** Preparing dotfiles dir -- $(pwd)"
     dotfiles_dir="$current_dir/dotfiles"
+    # bash
     [ -f $HOME/.bashrc ] && mv $HOME/.bashrc /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_bashrc
     echo "export dotfiles_dir=$dotfiles_dir" > $HOME/.bashrc
     echo "source $(echo $dotfiles_dir)/bash/bashrc" >> $HOME/.bashrc
-    source $HOME/.bashrc
+
+    # zsh
+    [ -f $HOME/.zshrc ] && mv $HOME/.zshrc /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_zshrc
+    echo "export dotfiles_dir=$dotfiles_dir" > $HOME/.zshrc
+    echo "source $dotfiles_dir/zsh/zshrc" >> $HOME/.zshrc
+
     [ -d $dotfiles_dir ] && mv $dotfiles_dir /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_dotfiles
     mkdir -p $dotfiles_dir
     cd $dotfiles_dir
@@ -75,6 +81,7 @@ function clone_repos() {
     git clone https://github.com/ammarnajjar/vim-code-dark.git plugged/vim-code-dark.vim
     git clone -b 'ignored-in-history' https://github.com/ammarnajjar/bash-sensible.git bash/bash-sensible
     git clone https://github.com/ammarnajjar/bash-git-prompt.git bash/bash-git-prompt
+    git clone https://github.com/ohmyzsh/ohmyzsh.git zsh/ohmyzsh
 }
 
 function nvim_symlinks() {
@@ -114,7 +121,7 @@ function main(){
 
     update_tmux_conf
     update_git_conf
-    source $HOME/.bashrc
+    source $HOME/.zshrc
 
     install_plugins
     echo_blue "** Installation Complete **"
