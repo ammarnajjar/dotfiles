@@ -42,6 +42,7 @@ set smartcase       " Do smart case matching
 set hidden          " Hide buffers when they are abandoned
 setglobal modeline
 set modelines=3
+set number
 
 if exists('$SHELL')
     set shell=$SHELL
@@ -58,6 +59,9 @@ set nojoinspaces
 
 " Don't redraw while executing macros
 set lazyredraw
+
+" Time in milliseconds to wait for a mapped sequence to complete
+set timeoutlen=500
 
 " Turn backup off
 set nobackup
