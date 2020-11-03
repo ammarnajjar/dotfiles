@@ -213,5 +213,6 @@ alias dokcer=docker
 
 alias ctagsit="ctags --append=no --recurse --totals --exclude=blib --exclude=.svn --exclude=.get --exclude='@.gitignore' --extra=q"
 
+PROMPT='%{$fg[yellow]%}[%D{%f.%m.%y} %D{%L:%M:%S}] '$PROMPT
 
 # vim: set ft=sh ts=4 sw=4 et ai :
