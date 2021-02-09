@@ -67,14 +67,14 @@ export ASDF_DIR="$dotfiles_dir/asdf/asdf"
 # source stuff
 source_list=(
     ~/.fzf.bash
-    ~/.asdf/asdf.sh
-    ~/.local_bashrc
+    $ASDF_DIR/asdf.sh
     $dotfiles_dir/bash/bash-sensible/sensible.bash
     $dotfiles_dir/bash/bash-git-prompt/gitprompt.sh
     /etc/bash_completion
     /usr/local/etc/bash_completion.d
     /usr/local/git/contrib/completion/git-completion.bash
     /usr/share/doc/git/contrib/completion/git-completion.bash
+    ~/.local_bashrc
 )
 
 for target in "${source_list[@]}"

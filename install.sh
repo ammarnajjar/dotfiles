@@ -54,6 +54,8 @@ function prepare_shell_rc_file() {
         [ -f $HOME/.bashrc ] && mv $HOME/.bashrc /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_bashrc
         echo "export dotfiles_dir=$dotfiles_dir" > $HOME/.bashrc
         echo "source $(echo $dotfiles_dir)/bash/bashrc" >> $HOME/.bashrc
+        git clone -b 'ignored-in-history' https://github.com/ammarnajjar/bash-sensible.git bash/bash-sensible
+        git clone https://github.com/ammarnajjar/bash-git-prompt.git bash/bash-git-prompt
     elif [[ "$SHELL" == *"zsh"* ]]
     then
         # zsh
@@ -61,6 +63,7 @@ function prepare_shell_rc_file() {
         [ -f $HOME/.zshrc ] && mv $HOME/.zshrc /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_zshrc
         echo "export dotfiles_dir=$dotfiles_dir" > $HOME/.zshrc
         echo "source $dotfiles_dir/zsh/zshrc" >> $HOME/.zshrc
+        git clone https://github.com/ohmyzsh/ohmyzsh.git zsh/ohmyzsh
     fi
 }
 
@@ -69,11 +72,11 @@ function prepare_dotfiles_dir() {
     echo_blue "** Preparing dotfiles dir -- $(pwd)"
     dotfiles_dir="$current_dir/dotfiles"
 
-    prepare_shell_rc_file
-
     [ -d $dotfiles_dir ] && mv $dotfiles_dir /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_dotfiles
     mkdir -p $dotfiles_dir
     cd $dotfiles_dir
+
+    prepare_shell_rc_file
 }
 
 function update_tmux_conf() {
@@ -90,10 +93,7 @@ function clone_repos() {
     git clone https://github.com/ammarnajjar/dotfiles.git .
     curl -fLo autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     git clone https://github.com/ammarnajjar/vim-code-dark.git plugged/vim-code-dark.vim
-    git clone -b 'ignored-in-history' https://github.com/ammarnajjar/bash-sensible.git bash/bash-sensible
-    git clone https://github.com/ammarnajjar/bash-git-prompt.git bash/bash-git-prompt
     git clone https://github.com/asdf-vm/asdf.git asdf/asdf
-    git clone https://github.com/ohmyzsh/ohmyzsh.git zsh/ohmyzsh
 }
 
 function nvim_symlinks() {
