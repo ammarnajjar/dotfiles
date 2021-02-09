@@ -55,17 +55,6 @@ do
     [ -f $target ] && source $target
 done
 
-# activate some env stuff
-if [ -n "$(type direnv)" ] && [ "$(type direnv)" = function ]; then
-    # direnv is already initialized
-    true
-else
-    if command -v direnv 1>/dev/null 2>&1; then
-        eval "$(direnv hook zsh)"
-	    alias tmux='direnv exec / tmux'
-    fi
-fi
-
 # useful functions stolen from https://github.com/Bash-it/bash-it
 function mkcd() {
     mkdir -p -- "$*"
@@ -108,6 +97,17 @@ function reset_branch() {
 function set_to_origin() {
     git fetch && git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)
 }
+
+# activate some env stuff
+if [ -n "$(type direnv)" ] && [ "$(type direnv)" = function ]; then
+    # direnv is already initialized
+    true
+else
+    if command -v direnv 1>/dev/null 2>&1; then
+        eval "$(direnv hook $SHELL)"
+	    alias tmux='direnv exec / tmux'
+    fi
+fi
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -182,6 +182,7 @@ plugins=(
     git
     fzf
     osx
+    direnv
     asdf
 )
 
