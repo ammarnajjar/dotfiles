@@ -15,5 +15,7 @@ abbr.*
 .DS_Store
 bash/bash-git-prompt
 bash/bash-sensible
+zsh/ohmyzsh
 .netrwhist
 local_init.vim
+asdf/asdf

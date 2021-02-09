@@ -1,0 +1,218 @@
+# https://unix.stackexchange.com/a/477909/178887
+autoload -Uz compinit
+compinit
+
+# https://stackoverflow.com/a/42265848/3297680
+export GPG_TTY=$(tty)
+
+export HISTFILESIZE=
+export HISTSIZE=
+export SAVEHIST=
+export HISTTIMEFORMAT="[%F %T]: "
+
+export TERM=xterm-256color
+export LANG='en_US.UTF-8'
+export EDITOR=vim
+export GIT_EDITOR="vim"
+
+# optout
+export DOTNET_CLI_TELEMETRY_OPTOUT=1
+
+# get konsole profile name if possible
+if hash qdbus 2>/dev/null; then
+    export KONSOLE_PROFILE_NAME="$(qdbus $KONSOLE_DBUS_SERVICE $KONSOLE_DBUS_SESSION profile)"
+fi
+
+export GEM_HOME="$HOME/.gem"
+export PATH="/usr/local/opt/ruby/bin:$PATH"
+
+# Tell ls to be colourful
+export CLICOLOR=1
+export LSCOLORS=Exfxcxdxbxegedabagacad
+
+NPM_PACKAGES="${HOME}/.npm-packages"
+export PATH="$NPM_PACKAGES/bin:$PATH"
+
+if command -v manpath 1>/dev/null 2>&1; then
+    unset MANPATH # delete if you already modified MANPATH elsewhere in your config
+    export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
+fi
+
+export FZF_DEFAULT_OPTS='--height 60% --border'
+
+# asdf
+export ASDF_NPM_DEFAULT_PACKAGES_FILE="$dotfiles_dir/asdf/default-node-packages"
+export ASDF_PYTHON_DEFAULT_PACKAGES_FILE="$dotfiles_dir/asdf/default-python-packages"
+export ASDF_DIR="$dotfiles_dir/asdf/asdf"
+export ASDF_DATA_DIR="$dotfiles_dir/asdf/asdf"
+
+# source stuff
+source_list=(
+    ~/.fzf.zsh
+    ~/.local_bashrc
+)
+
+for target in "${source_list[@]}"
+do
+    [ -f $target ] && source $target
+done
+
+# useful functions stolen from https://github.com/Bash-it/bash-it
+function mkcd() {
+    mkdir -p -- "$*"
+    cd -- "$*"
+}
+# display all ip addresses for this host
+function ips ()
+{
+    if command -v ifconfig &>/dev/null
+    then
+        ifconfig | awk '/inet /{ print $2 }'
+    elif command -v ip &>/dev/null
+    then
+        ip addr | grep -oP 'inet \K[\d.]+'
+    else
+        echo "You don't have ifconfig or ip command installed!"
+    fi
+}
+# search through directory contents with grep
+function lsgrep ()
+{
+    ls | grep "$*"
+}
+# back up file with timestamp
+function buf ()
+{
+    local filename=$1
+    local filetime=$(date +%Y%m%d_%H%M%S)
+    cp -a "${filename}" "${filename}_${filetime}"
+}
+# move files to hidden folder in /tmp/.trash
+function del() {
+    mkdir -p /tmp/.trash && mv "$@" /tmp/.trash;
+}
+
+function reset_branch() {
+    git reset --hard $(git rev-parse --abbrev-ref HEAD)
+}
+
+function set_to_origin() {
+    git fetch && git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)
+}
+
+# activate some env stuff
+if [ -n "$(type direnv)" ] && [ "$(type direnv)" = function ]; then
+    # direnv is already initialized
+    true
+else
+    if command -v direnv 1>/dev/null 2>&1; then
+        eval "$(direnv hook $SHELL)"
+	    alias tmux='direnv exec / tmux'
+    fi
+fi
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+# Path to your oh-my-zsh installation.
+export ZSH="$dotfiles_dir/zsh/ohmyzsh"
+
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+ZSH_THEME="robbyrussell"
+
+# Set list of themes to pick from when loading at random
+# Setting this variable when ZSH_THEME=random will cause zsh to load
+# a theme from this variable instead of looking in $ZSH/themes/
+# If set to an empty array, this variable will have no effect.
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
+
+# Uncomment the following line to use hyphen-insensitive completion.
+# Case-sensitive completion must be off. _ and - will be interchangeable.
+HYPHEN_INSENSITIVE="true"
+
+# Uncomment the following line to disable bi-weekly auto-update checks.
+# DISABLE_AUTO_UPDATE="true"
+
+# Uncomment the following line to automatically update without prompting.
+# DISABLE_UPDATE_PROMPT="true"
+
+# Uncomment the following line to change how often to auto-update (in days).
+# export UPDATE_ZSH_DAYS=13
+
+# Uncomment the following line if pasting URLs and other text is messed up.
+# DISABLE_MAGIC_FUNCTIONS="true"
+
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
+
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="true"
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+# COMPLETION_WAITING_DOTS="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# You can set one of the optional three formats:
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# or set a custom format using the strftime function format specifications,
+# see 'man strftime' for details.
+# HIST_STAMPS="mm/dd/yyyy"
+
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
+
+# Which plugins would you like to load?
+# Standard plugins can be found in $ZSH/plugins/
+# Custom plugins may be added to $ZSH_CUSTOM/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(
+    git
+    fzf
+    osx
+    direnv
+    asdf
+)
+
+source $ZSH/oh-my-zsh.sh
+
+# User configuration
+
+# export MANPATH="/usr/local/man:$MANPATH"
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+alias ll='ls -lh'
+alias la='ls -aAh'
+alias l='ls -CF'
+alias g="git status"
+
+# Tell grep to highlight matches
+alias grep="grep --color=auto"
+alias fgrep="fgrep --color=auto"
+alias egrep="egrep --color=auto"
+
+# typo
+alias gti=git
+alias dokcer=docker
+
+alias ctagsit="ctags --append=no --recurse --totals --exclude=blib --exclude=.svn --exclude=.get --exclude='@.gitignore' --extra=q"
+
+PROMPT='%{$fg[yellow]%}[%D{%f.%m.%y} %D{%L:%M:%S}] '$PROMPT
+
+# vim: set ft=sh ts=4 sw=4 et ai :
