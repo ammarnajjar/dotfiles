@@ -62,6 +62,7 @@ export FZF_DEFAULT_OPTS='--height 60% --border'
 # source stuff
 source_list=(
     ~/.fzf.bash
+    ~/.asdf/asdf.sh
     ~/.local_bashrc
     $dotfiles_dir/bash/bash-sensible/sensible.bash
     $dotfiles_dir/bash/bash-git-prompt/gitprompt.sh
@@ -77,15 +78,6 @@ do
 done
 
 # activate some env stuff
-if [ -n "$(type -t nodenv)" ] && [ "$(type -t nodenv)" = function ]; then
-    # nodenv is already initialized
-    true
-else
-    if command -v nodenv 1>/dev/null 2>&1; then
-        eval "$(nodenv init -)"
-    fi
-fi
-
 if [ -n "$(type -t direnv)" ] && [ "$(type -t direnv)" = function ]; then
     # direnv is already initialized
     true

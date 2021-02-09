@@ -1,0 +1,6 @@
+tox
+neovim
+pyflakes
+pylint
+pytest
+pre-commit
