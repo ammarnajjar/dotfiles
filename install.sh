@@ -47,6 +47,7 @@ function install_pkgs() {
 }
 
 function prepare_shell_rc_file() {
+    cd $dotfiles_dir
     if [[ "$SHELL" == *"bash"* ]]
     then
         # bash
@@ -74,7 +75,8 @@ function prepare_dotfiles_dir() {
 
     [ -d $dotfiles_dir ] && mv $dotfiles_dir /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_dotfiles
     mkdir -p $dotfiles_dir
-    cd $dotfiles_dir
+
+    clone_dotfiles
 
     prepare_shell_rc_file
 }
@@ -87,10 +89,15 @@ function update_tmux_conf() {
     ln -s $dotfiles_dir/tmux $XDG_CONFIG_HOME/tmux
 }
 
+
+function clone_dotfiles() {
+    cd $dotfiles_dir
+    git clone https://github.com/ammarnajjar/dotfiles.git .
+}
+
 function clone_repos() {
     cd $dotfiles_dir
     echo_blue "** Clone github repos -- $(pwd)"
-    git clone https://github.com/ammarnajjar/dotfiles.git .
     curl -fLo autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     git clone https://github.com/ammarnajjar/vim-code-dark.git plugged/vim-code-dark.vim
     git clone https://github.com/asdf-vm/asdf.git asdf/asdf
