@@ -4,7 +4,7 @@
 # Author: Ammar Najjar <najjarammar@protonmail.com>
 # Description: install neovim and other bash, tmux and git condifurations.
 # The old configurations if exist will be backed up under /tmp/trash/..
-# Last Modified: April 21, 2019
+# Last Modified: 09.02.2021
 
 function echo_blue() {
     echo -e '\E[37;44m'"\033[1m$1\033[0m"
@@ -46,19 +46,30 @@ function install_pkgs() {
     fi
 }
 
+function prepare_shell_rc_file() {
+    if [[ "$SHELL" == *"bash"* ]]
+    then
+        # bash
+        shellrc=.bashrc
+        [ -f $HOME/.bashrc ] && mv $HOME/.bashrc /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_bashrc
+        echo "export dotfiles_dir=$dotfiles_dir" > $HOME/.bashrc
+        echo "source $(echo $dotfiles_dir)/bash/bashrc" >> $HOME/.bashrc
+    elif [[ "$SHELL" == *"zsh"* ]]
+    then
+        # zsh
+        shellrc=.zshrc
+        [ -f $HOME/.zshrc ] && mv $HOME/.zshrc /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_zshrc
+        echo "export dotfiles_dir=$dotfiles_dir" > $HOME/.zshrc
+        echo "source $dotfiles_dir/zsh/zshrc" >> $HOME/.zshrc
+    fi
+}
+
 function prepare_dotfiles_dir() {
     cd $current_dir
     echo_blue "** Preparing dotfiles dir -- $(pwd)"
     dotfiles_dir="$current_dir/dotfiles"
-    # bash
-    [ -f $HOME/.bashrc ] && mv $HOME/.bashrc /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_bashrc
-    echo "export dotfiles_dir=$dotfiles_dir" > $HOME/.bashrc
-    echo "source $(echo $dotfiles_dir)/bash/bashrc" >> $HOME/.bashrc
 
-    # zsh
-    [ -f $HOME/.zshrc ] && mv $HOME/.zshrc /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_zshrc
-    echo "export dotfiles_dir=$dotfiles_dir" > $HOME/.zshrc
-    echo "source $dotfiles_dir/zsh/zshrc" >> $HOME/.zshrc
+    prepare_shell_rc_file
 
     [ -d $dotfiles_dir ] && mv $dotfiles_dir /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_dotfiles
     mkdir -p $dotfiles_dir
@@ -81,6 +92,7 @@ function clone_repos() {
     git clone https://github.com/ammarnajjar/vim-code-dark.git plugged/vim-code-dark.vim
     git clone -b 'ignored-in-history' https://github.com/ammarnajjar/bash-sensible.git bash/bash-sensible
     git clone https://github.com/ammarnajjar/bash-git-prompt.git bash/bash-git-prompt
+    git clone https://github.com/asdf-vm/asdf.git asdf/asdf
     git clone https://github.com/ohmyzsh/ohmyzsh.git zsh/ohmyzsh
 }
 
@@ -121,7 +133,7 @@ function main(){
 
     update_tmux_conf
     update_git_conf
-    source $HOME/.zshrc
+    source $HOME/$shellrc
 
     install_plugins
     echo_blue "** Installation Complete **"

@@ -19,17 +19,21 @@ wget https://raw.githubusercontent.com/ammarnajjar/dotfiles/master/install.sh &&
 ├── LICENSE
 ├── README.md
 ├── addons.vim
+├── asdf
+│   ├── default-node-packages
+│   └── default-python-packages
 ├── bash
 │   └── bashrc
 ├── coc-settings.json
 ├── git
 │   ├── config
-│   ├── git-completion.bash
 │   └── gitmessage
 ├── init.vim
 ├── install.sh
-└── tmux
-    └── tmux.conf
+├── tmux
+│   └── tmux.conf
+└── zsh
+    └── zshrc
 ```
 
 I have full explanation to my configurations [here](https://ammarnajjar.github.io/editors/2016/06/19/Vimrc-Adventure/)

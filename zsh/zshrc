@@ -43,6 +43,7 @@ export FZF_DEFAULT_OPTS='--height 60% --border'
 # asdf
 export ASDF_NPM_DEFAULT_PACKAGES_FILE="$dotfiles_dir/asdf/default-node-packages"
 export ASDF_PYTHON_DEFAULT_PACKAGES_FILE="$dotfiles_dir/asdf/default-python-packages"
+export ASDF_DIR="$dotfiles_dir/asdf/asdf"
 
 # source stuff
 source_list=(
