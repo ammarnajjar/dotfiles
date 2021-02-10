@@ -20,7 +20,7 @@ function get_sudo() {
 }
 
 function install_pkgs() {
-    pkgs="git curl wget tmux"
+    pkgs="git curl wget tmux vim neovim"
     if [[ "$OSTYPE" == "linux-gnu" ]]; then
         # Linux
         sys_id="$(cat /etc/*release | grep ID=)"
