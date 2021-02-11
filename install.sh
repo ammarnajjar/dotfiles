@@ -110,7 +110,7 @@ function direnv_symlinks() {
 
 function add_asdf_plugins() {
     echo_blue "** Add asdf plugins"
-    for plugin in $ASDF_PLUGINS
+    for plugin in ${ASDF_PLUGINS[@]}
     do
         asdf plugin-add $plugin
     done
