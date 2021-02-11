@@ -51,12 +51,12 @@ function prepare_shell_rc_file() {
     if [ -z "$BASH_VERSION" ]
     then
         echo_blue "=== bash ==="
-        shellrc=.bashrc
         [ -f $HOME/.bashrc ] && mv $HOME/.bashrc /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_bashrc
         echo "export dotfiles_dir=$dotfiles_dir" > $HOME/.bashrc
-        echo "source $(echo $dotfiles_dir)/shell/bash/bashrc" >> $HOME/.bashrc
+        echo "source $dotfiles_dir/shell/bash/bashrc" >> $HOME/.bashrc
         git clone -b 'ignored-in-history' https://github.com/ammarnajjar/bash-sensible.git shell/bash/bash-sensible
         git clone https://github.com/ammarnajjar/bash-git-prompt.git shell/bash/bash-git-prompt
+        source $HOME/.bashrc
     elif [ -z "$ZSH_VERSION" ]
     then
         echo_blue "=== zsh ==="
@@ -65,6 +65,7 @@ function prepare_shell_rc_file() {
         echo "export dotfiles_dir=$dotfiles_dir" > $HOME/.zshrc
         echo "source $dotfiles_dir/shell/zsh/zshrc" >> $HOME/.zshrc
         git clone https://github.com/ohmyzsh/ohmyzsh.git shell/zsh/ohmyzsh
+        source $HOME/.zshrc
     fi
 }
 
@@ -77,7 +78,6 @@ function prepare_dotfiles_dir() {
     mkdir -p $dotfiles_dir
 
     clone_dotfiles
-    prepare_shell_rc_file
 }
 
 function update_tmux_conf() {
@@ -153,8 +153,8 @@ function main(){
 
     update_tmux_conf
     update_git_conf
-    source $HOME/$shellrc
 
+    prepare_shell_rc_file
     add_asdf_plugins
     install_plugins
     echo_blue "** Installation Complete **"
