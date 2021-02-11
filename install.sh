@@ -4,7 +4,7 @@
 # Author: Ammar Najjar <najjarammar@protonmail.com>
 # Description: install neovim and other bash, tmux and git condifurations.
 # The old configurations if exist will be backed up under /tmp/trash/..
-# Last Modified: 09.02.2021
+# Last Modified: 11.02.2021
 
 function echo_blue() {
     echo -e '\E[37;44m'"\033[1m$1\033[0m"
@@ -56,7 +56,7 @@ function prepare_shell_rc_file() {
         echo "source $dotfiles_dir/shell/bash/bashrc" >> $HOME/.bashrc
         git clone -b 'ignored-in-history' https://github.com/ammarnajjar/bash-sensible.git shell/bash/bash-sensible
         git clone https://github.com/ammarnajjar/bash-git-prompt.git shell/bash/bash-git-prompt
-        source $HOME/.bashrc
+        shell="bash"
     elif [ -z "$ZSH_VERSION" ]
     then
         echo_blue "=== zsh ==="
@@ -64,7 +64,7 @@ function prepare_shell_rc_file() {
         echo "export dotfiles_dir=$dotfiles_dir" > $HOME/.zshrc
         echo "source $dotfiles_dir/shell/zsh/zshrc" >> $HOME/.zshrc
         git clone https://github.com/ohmyzsh/ohmyzsh.git shell/zsh/ohmyzsh
-        source $HOME/.zshrc
+        shell="zsh"
     fi
 }
 
@@ -109,7 +109,8 @@ function direnv_symlinks() {
 }
 
 function add_asdf_plugins() {
-    echo_blue "** Add asdf plugins"
+    source $HOME/."$shell"rc
+    echo_blue "** Add asdf plugins: (${ASDF_PLUGINS[*]})"
     for plugin in ${ASDF_PLUGINS[@]}
     do
         asdf plugin-add $plugin
@@ -158,6 +159,7 @@ function main(){
     add_asdf_plugins
     install_plugins
     echo_blue "** Installation Complete **"
+    exec $shell
 }
 
 current_dir=$(pwd)
