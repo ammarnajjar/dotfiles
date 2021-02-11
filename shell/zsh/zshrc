@@ -5,52 +5,7 @@ compinit
 # https://stackoverflow.com/a/42265848/3297680
 export GPG_TTY=$(tty)
 
-export HISTFILESIZE=
-export HISTSIZE=
-export SAVEHIST=
-export HISTTIMEFORMAT="[%F %T]: "
-
-export TERM=xterm-256color
-export LANG='en_US.UTF-8'
-export EDITOR=vim
-export GIT_EDITOR="vim"
-
-# optout
-export DOTNET_CLI_TELEMETRY_OPTOUT=1
-
-# get konsole profile name if possible
-if hash qdbus 2>/dev/null; then
-    export KONSOLE_PROFILE_NAME="$(qdbus $KONSOLE_DBUS_SERVICE $KONSOLE_DBUS_SESSION profile)"
-fi
-
-export GEM_HOME="$HOME/.gem"
-export PATH="/usr/local/opt/ruby/bin:$PATH"
-
-# Tell ls to be colourful
-export CLICOLOR=1
-export LSCOLORS=Exfxcxdxbxegedabagacad
-
-NPM_PACKAGES="${HOME}/.npm-packages"
-export PATH="$NPM_PACKAGES/bin:$PATH"
-
-if command -v manpath 1>/dev/null 2>&1; then
-    unset MANPATH # delete if you already modified MANPATH elsewhere in your config
-    export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
-fi
-
-export FZF_DEFAULT_OPTS='--height 60% --border'
-
-# asdf
-export ASDF_NPM_DEFAULT_PACKAGES_FILE="$dotfiles_dir/asdf/default-node-packages"
-export ASDF_PYTHON_DEFAULT_PACKAGES_FILE="$dotfiles_dir/asdf/default-python-packages"
-export ASDF_DIR="$dotfiles_dir/asdf/asdf"
-export ASDF_DATA_DIR="$dotfiles_dir/asdf/asdf"
-export ASDF_PLUGINS=(
-    direnv
-    nodejs
-    python
-    dotnet-core
-)
+source $dotfiles_dir/shell/common.sh
 
 # source stuff
 source_list=(
@@ -64,53 +19,11 @@ do
     [ -f $target ] && source $target
 done
 
-# useful functions stolen from https://github.com/Bash-it/bash-it
-function mkcd() {
-    mkdir -p -- "$*"
-    cd -- "$*"
-}
-# display all ip addresses for this host
-function ips ()
-{
-    if command -v ifconfig &>/dev/null
-    then
-        ifconfig | awk '/inet /{ print $2 }'
-    elif command -v ip &>/dev/null
-    then
-        ip addr | grep -oP 'inet \K[\d.]+'
-    else
-        echo "You don't have ifconfig or ip command installed!"
-    fi
-}
-# search through directory contents with grep
-function lsgrep ()
-{
-    ls | grep "$*"
-}
-# back up file with timestamp
-function buf ()
-{
-    local filename=$1
-    local filetime=$(date +%Y%m%d_%H%M%S)
-    cp -a "${filename}" "${filename}_${filetime}"
-}
-# move files to hidden folder in /tmp/.trash
-function del() {
-    mkdir -p /tmp/.trash && mv "$@" /tmp/.trash;
-}
-
-function reset_branch() {
-    git reset --hard $(git rev-parse --abbrev-ref HEAD)
-}
-
-function set_to_origin() {
-    git fetch && git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)
-}
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="$dotfiles_dir/zsh/ohmyzsh"
+export ZSH="$dotfiles_dir/shell/zsh/ohmyzsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -177,7 +90,6 @@ HYPHEN_INSENSITIVE="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-    git
     fzf
     osx
     direnv
@@ -193,23 +105,8 @@ source $ZSH/oh-my-zsh.sh
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-alias ll='ls -lh'
-alias la='ls -aAh'
-alias l='ls -CF'
-alias g="git status"
-
-# Tell grep to highlight matches
-alias grep="grep --color=auto"
-alias fgrep="fgrep --color=auto"
-alias egrep="egrep --color=auto"
-
-# typo
-alias gti=git
-alias dokcer=docker
-
-alias ctagsit="ctags --append=no --recurse --totals --exclude=blib --exclude=.svn --exclude=.get --exclude='@.gitignore' --extra=q"
-
 PROMPT='%{$fg[yellow]%}[%D{%f.%m.%y} %D{%L:%M:%S}] '$PROMPT
+
 
 # activate some env stuff
 if [ -n "$(type direnv)" ] && [ "$(type direnv)" = function ]; then

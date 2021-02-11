@@ -54,17 +54,17 @@ function prepare_shell_rc_file() {
         shellrc=.bashrc
         [ -f $HOME/.bashrc ] && mv $HOME/.bashrc /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_bashrc
         echo "export dotfiles_dir=$dotfiles_dir" > $HOME/.bashrc
-        echo "source $(echo $dotfiles_dir)/bash/bashrc" >> $HOME/.bashrc
-        git clone -b 'ignored-in-history' https://github.com/ammarnajjar/bash-sensible.git bash/bash-sensible
-        git clone https://github.com/ammarnajjar/bash-git-prompt.git bash/bash-git-prompt
+        echo "source $(echo $dotfiles_dir)/shell/bash/bashrc" >> $HOME/.bashrc
+        git clone -b 'ignored-in-history' https://github.com/ammarnajjar/bash-sensible.git shell/bash/bash-sensible
+        git clone https://github.com/ammarnajjar/bash-git-prompt.git shell/bash/bash-git-prompt
     elif [[ "$SHELL" == *"zsh"* ]]
     then
         # zsh
         shellrc=.zshrc
         [ -f $HOME/.zshrc ] && mv $HOME/.zshrc /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_zshrc
         echo "export dotfiles_dir=$dotfiles_dir" > $HOME/.zshrc
-        echo "source $dotfiles_dir/zsh/zshrc" >> $HOME/.zshrc
-        git clone https://github.com/ohmyzsh/ohmyzsh.git zsh/ohmyzsh
+        echo "source $dotfiles_dir/shell/zsh/zshrc" >> $HOME/.zshrc
+        git clone https://github.com/ohmyzsh/ohmyzsh.git shell/zsh/ohmyzsh
     fi
 }
 
