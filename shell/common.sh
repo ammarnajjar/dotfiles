@@ -17,7 +17,6 @@ alias ctagsit="ctags --append=no --recurse --totals --exclude=blib --exclude=.sv
 # don't put duplicate lines or lines starting with space in the history.
 # HISTCONTROL=ignoreboth
 # append to the history file, don't overwrite it
-shopt -s histappend
 
 export TERM=xterm-256color
 export LANG='en_US.UTF-8'
@@ -35,6 +34,7 @@ fi
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 export HISTFILESIZE=
 export HISTSIZE=
+export SAVEHIST=
 export HISTTIMEFORMAT="[%F %T]: "
 
 export GEM_HOME="$HOME/.gem"
@@ -44,18 +44,10 @@ export PATH="/usr/local/opt/ruby/bin:$PATH"
 export CLICOLOR=1
 export LSCOLORS=Exfxcxdxbxegedabagacad
 
-NPM_PACKAGES="${HOME}/.npm-packages"
-export PATH="$NPM_PACKAGES/bin:$PATH"
-
 if command -v manpath 1>/dev/null 2>&1; then
     unset MANPATH # delete if you already modified MANPATH elsewhere in your config
     export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
 fi
-
-# GIT_PROMPT_ONLY_IN_REPO=1
-GIT_PROMPT_FETCH_REMOTE_STATUS=0   # uncomment to avoid fetching remote status
-GIT_PROMPT_IGNORE_SUBMODULES=1 # uncomment to avoid searching for changed files in submodules
-GIT_PROMPT_SHOW_UNTRACKED_FILES=normal # can be no, normal or all; determines counting of untracked files
 
 export FZF_DEFAULT_OPTS='--height 60% --border'
 
@@ -64,25 +56,12 @@ export ASDF_NPM_DEFAULT_PACKAGES_FILE="$dotfiles_dir/asdf/default-node-packages"
 export ASDF_PYTHON_DEFAULT_PACKAGES_FILE="$dotfiles_dir/asdf/default-python-packages"
 export ASDF_DIR="$dotfiles_dir/asdf/asdf"
 export ASDF_DATA_DIR="$dotfiles_dir/asdf/asdf"
-
-# source stuff
-source_list=(
-    $HOME/.fzf.bash
-    $ASDF_DIR/asdf.sh
-    $ASDF_DIR/plugins/dotnet/set-dotnet-home.bash
-    $dotfiles_dir/bash/bash-sensible/sensible.bash
-    $dotfiles_dir/bash/bash-git-prompt/gitprompt.sh
-    /etc/bash_completion
-    /usr/local/etc/bash_completion.d
-    /usr/local/git/contrib/completion/git-completion.bash
-    /usr/share/doc/git/contrib/completion/git-completion.bash
-    $HOME/.local_bashrc
+export ASDF_PLUGINS=(
+    direnv
+    nodejs
+    python
+    dotnet-core
 )
-
-for target in "${source_list[@]}"
-do
-    [ -f $target ] && source $target
-done
 
 # useful functions stolen from https://github.com/Bash-it/bash-it
 function mkcd() {
@@ -127,15 +106,5 @@ function set_to_origin() {
     git fetch && git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)
 }
 
-# activate some env stuff
-if [ -n "$(type -t direnv)" ] && [ "$(type -t direnv)" = function ]; then
-    # direnv is already initialized
-    true
-else
-    if command -v direnv 1>/dev/null 2>&1; then
-        eval "$(direnv hook bash)"
-	    alias tmux='direnv exec / tmux'
-    fi
-fi
-
 # vim: set ft=sh ts=4 sw=4 et ai :
+

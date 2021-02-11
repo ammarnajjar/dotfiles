@@ -13,9 +13,9 @@ undo/*
 abbr.*
 **/*.retry
 .DS_Store
-bash/bash-git-prompt
-bash/bash-sensible
-zsh/ohmyzsh
+bash-git-prompt
+bash-sensible
+ohmyzsh
 .netrwhist
 local_init.vim
 asdf/asdf

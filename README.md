@@ -9,7 +9,7 @@ Make a **backup** for your settings (or else look for them under /tmp/trash/..).
 Then:
 
 ```bash
-wget https://raw.githubusercontent.com/ammarnajjar/dotfiles/master/install.sh && bash install.sh
+wget https://raw.githubusercontent.com/ammarnajjar/dotfiles/master/install.sh && $0 install.sh
 ```
 
 ## Tools supported:
@@ -21,6 +21,8 @@ wget https://raw.githubusercontent.com/ammarnajjar/dotfiles/master/install.sh &&
 - [git](https://git-scm.com/)
 - [tmux](https://github.com/tmux/tmux)
 - [asdf](https://github.com/asdf-vm/asdf)
+    - Plugins are set using the environment variable `ASDF_PLUGINS`
+- [direnv](https://github.com/direnv/direnv)
 
 ## Files in repo:
 
@@ -35,6 +37,9 @@ wget https://raw.githubusercontent.com/ammarnajjar/dotfiles/master/install.sh &&
 ├── bash
 │   └── bashrc
 ├── coc-settings.json
+├── direnv
+│   ├── direnvrc
+│   └── envrc
 ├── git
 │   ├── config
 │   └── gitmessage
@@ -46,4 +51,4 @@ wget https://raw.githubusercontent.com/ammarnajjar/dotfiles/master/install.sh &&
     └── zshrc
 ```
 
-I have full explanation to my configurations [here](https://ammarnajjar.github.io/editors/2016/06/19/Vimrc-Adventure/)
+I have full explanation to my vimrc [here](https://ammarnajjar.github.io/editors/2016/06/19/Vimrc-Adventure/)
