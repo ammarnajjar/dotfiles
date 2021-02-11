@@ -77,7 +77,6 @@ function prepare_dotfiles_dir() {
     mkdir -p $dotfiles_dir
 
     clone_dotfiles
-
     prepare_shell_rc_file
 }
 
@@ -103,12 +102,14 @@ function clone_repos() {
 }
 
 function direnv_symlinks() {
+    echo_blue "** Create direnv Symlinks"
     mkdir -p $HOME/.config/direnv
     ln -s $dotfiles_dir/direnv/direnvrc $HOME/.config/direnv/direnvrc
     ln -s $dotfiles_dir/direnv/envrc $HOME/.envrc
 }
 
 function add_asdf_plugins() {
+    echo_blue "** Add asdf plugins"
     for plugin in $ASDF_PLUGINS
     do
         asdf plugin-add $plugin
@@ -154,6 +155,7 @@ function main(){
     update_git_conf
     source $HOME/$shellrc
 
+    add_asdf_plugins
     install_plugins
     echo_blue "** Installation Complete **"
 }
