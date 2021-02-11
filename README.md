@@ -21,6 +21,8 @@ wget https://raw.githubusercontent.com/ammarnajjar/dotfiles/master/install.sh &&
 - [git](https://git-scm.com/)
 - [tmux](https://github.com/tmux/tmux)
 - [asdf](https://github.com/asdf-vm/asdf)
+    - Plugins set using the environment variable `ASDF_PLUGINS`
+- [direnv](https://github.com/direnv/direnv)
 
 ## Files in repo:
 
@@ -30,16 +32,21 @@ wget https://raw.githubusercontent.com/ammarnajjar/dotfiles/master/install.sh &&
 ├── README.md
 ├── addons.vim
 ├── asdf
+│   ├── asdf
 │   ├── default-node-packages
 │   └── default-python-packages
 ├── bash
 │   └── bashrc
 ├── coc-settings.json
+├── direnv
+│   ├── direnvrc
+│   └── envrc
 ├── git
 │   ├── config
 │   └── gitmessage
 ├── init.vim
 ├── install.sh
+├── local_init.vim
 ├── tmux
 │   └── tmux.conf
 └── zsh

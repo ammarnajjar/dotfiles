@@ -1,0 +1,3 @@
+# ln -s $dotfiles_dir/direnv/direnvrc $HOME/.config/direnv/direnvrc
+source "$(asdf direnv hook asdf)"
+

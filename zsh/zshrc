@@ -45,6 +45,12 @@ export ASDF_NPM_DEFAULT_PACKAGES_FILE="$dotfiles_dir/asdf/default-node-packages"
 export ASDF_PYTHON_DEFAULT_PACKAGES_FILE="$dotfiles_dir/asdf/default-python-packages"
 export ASDF_DIR="$dotfiles_dir/asdf/asdf"
 export ASDF_DATA_DIR="$dotfiles_dir/asdf/asdf"
+export ASDF_PLUGINS=(
+    nodejs
+    python
+    dotnet
+    direnv
+)
 
 # source stuff
 source_list=(
@@ -100,17 +106,6 @@ function reset_branch() {
 function set_to_origin() {
     git fetch && git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)
 }
-
-# activate some env stuff
-if [ -n "$(type direnv)" ] && [ "$(type direnv)" = function ]; then
-    # direnv is already initialized
-    true
-else
-    if command -v direnv 1>/dev/null 2>&1; then
-        eval "$(direnv hook $SHELL)"
-	    alias tmux='direnv exec / tmux'
-    fi
-fi
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -216,4 +211,14 @@ alias ctagsit="ctags --append=no --recurse --totals --exclude=blib --exclude=.sv
 
 PROMPT='%{$fg[yellow]%}[%D{%f.%m.%y} %D{%L:%M:%S}] '$PROMPT
 
+# activate some env stuff
+if [ -n "$(type direnv)" ] && [ "$(type direnv)" = function ]; then
+    # direnv is already initialized
+    true
+else
+    if command -v direnv 1>/dev/null 2>&1; then
+        eval "$(direnv hook $SHELL)"
+	    alias tmux='direnv exec / tmux'
+    fi
+fi
 # vim: set ft=sh ts=4 sw=4 et ai :

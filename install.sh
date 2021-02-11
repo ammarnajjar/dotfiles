@@ -89,7 +89,6 @@ function update_tmux_conf() {
     ln -s $dotfiles_dir/tmux $XDG_CONFIG_HOME/tmux
 }
 
-
 function clone_dotfiles() {
     cd $dotfiles_dir
     git clone https://github.com/ammarnajjar/dotfiles.git .
@@ -101,6 +100,19 @@ function clone_repos() {
     curl -fLo autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     git clone https://github.com/ammarnajjar/vim-code-dark.git plugged/vim-code-dark.vim
     git clone https://github.com/asdf-vm/asdf.git asdf/asdf
+}
+
+function direnv_symlinks() {
+    mkdir -p $HOME/.config/direnv
+    ln -s $dotfiles_dir/direnv/direnvrc $HOME/.config/direnv/direnvrc
+    ln -s $dotfiles_dir/direnv/envrc $HOME/.envrc
+}
+
+function add_asdf_plugins() {
+    for plugin in $ASDF_PLUGINS
+    do
+        asdf plugin-add $plugin
+    done
 }
 
 function nvim_symlinks() {
@@ -123,7 +135,6 @@ function update_git_conf() {
     ln -s $dotfiles_dir/git $XDG_CONFIG_HOME//git
 }
 
-
 function install_plugins() {
     echo_blue "** Install plugins"
     nvim +PlugInstall +qall
@@ -137,6 +148,7 @@ function main(){
 
     clone_repos
     nvim_symlinks
+    direnv_symlinks
 
     update_tmux_conf
     update_git_conf
