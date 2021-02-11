@@ -32,7 +32,6 @@ wget https://raw.githubusercontent.com/ammarnajjar/dotfiles/master/install.sh &&
 ├── README.md
 ├── addons.vim
 ├── asdf
-│   ├── asdf
 │   ├── default-node-packages
 │   └── default-python-packages
 ├── bash
@@ -46,7 +45,6 @@ wget https://raw.githubusercontent.com/ammarnajjar/dotfiles/master/install.sh &&
 │   └── gitmessage
 ├── init.vim
 ├── install.sh
-├── local_init.vim
 ├── tmux
 │   └── tmux.conf
 └── zsh
