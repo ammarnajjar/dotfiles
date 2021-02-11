@@ -1,5 +1,3 @@
-#!/usr/bin/bash
-
 # File: install.sh
 # Author: Ammar Najjar <najjarammar@protonmail.com>
 # Description: install neovim and other bash, tmux and git condifurations.
@@ -7,7 +5,13 @@
 # Last Modified: 11.02.2021
 
 function echo_blue() {
-    echo -e '\E[37;44m'"\033[1m$1\033[0m"
+    if [ ! -z $BASH_VERSION ]
+    then
+        echo -e '\E[37;44m'"\033[1m$1\033[0m"
+    elif [ ! -z $ZSH_VERSION ]
+    then
+        print -P "%F{green}$1%f"
+    fi
 }
 
 function get_sudo() {
