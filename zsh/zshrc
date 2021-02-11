@@ -48,8 +48,9 @@ export ASDF_DATA_DIR="$dotfiles_dir/asdf/asdf"
 
 # source stuff
 source_list=(
-    ~/.fzf.zsh
-    ~/.local_bashrc
+    $HOME/.fzf.zsh
+    $ASDF_DIR/plugins/dotnet/set-dotnet-home.zsh
+    $HOME/.local_bashrc
 )
 
 for target in "${source_list[@]}"
