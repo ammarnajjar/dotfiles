@@ -48,7 +48,7 @@ function install_pkgs() {
 
 function prepare_shell_rc_file() {
     cd $dotfiles_dir
-    if [ -z "$BASH_VERSION" ]
+    if [ ! -z $BASH_VERSION ]
     then
         echo_blue "=== bash ==="
         [ -f $HOME/.bashrc ] && mv $HOME/.bashrc /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_bashrc
@@ -57,7 +57,7 @@ function prepare_shell_rc_file() {
         git clone -b 'ignored-in-history' https://github.com/ammarnajjar/bash-sensible.git shell/bash/bash-sensible
         git clone https://github.com/ammarnajjar/bash-git-prompt.git shell/bash/bash-git-prompt
         shell="bash"
-    elif [ -z "$ZSH_VERSION" ]
+    elif [ ! -z $ZSH_VERSION ]
     then
         echo_blue "=== zsh ==="
         [ -f $HOME/.zshrc ] && mv $HOME/.zshrc /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_zshrc
