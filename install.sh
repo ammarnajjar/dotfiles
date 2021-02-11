@@ -60,7 +60,6 @@ function prepare_shell_rc_file() {
     elif [ -z "$ZSH_VERSION" ]
     then
         echo_blue "=== zsh ==="
-        shellrc=.zshrc
         [ -f $HOME/.zshrc ] && mv $HOME/.zshrc /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_zshrc
         echo "export dotfiles_dir=$dotfiles_dir" > $HOME/.zshrc
         echo "source $dotfiles_dir/shell/zsh/zshrc" >> $HOME/.zshrc
@@ -99,6 +98,7 @@ function clone_repos() {
     curl -fLo autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     git clone https://github.com/ammarnajjar/vim-code-dark.git plugged/vim-code-dark.vim
     git clone https://github.com/asdf-vm/asdf.git asdf/asdf
+    source asdf/asdf/asdf.sh
 }
 
 function direnv_symlinks() {
