@@ -7,6 +7,12 @@ export GPG_TTY=$(tty)
 
 source $dotfiles_dir/shell/common.sh
 
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+export HISTFILESIZE=99999999
+export HISTSIZE=99999999
+export SAVEHIST=99999999
+export HISTTIMEFORMAT="[%F %T]: "
+
 # source stuff
 source_list=(
     $HOME/.fzf.zsh
