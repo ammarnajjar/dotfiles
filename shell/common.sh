@@ -81,11 +81,13 @@ function ips ()
         echo "You don't have ifconfig or ip command installed!"
     fi
 }
+
 # search through directory contents with grep
 function lsgrep ()
 {
     ls | grep "$*"
 }
+
 # back up file with timestamp
 function buf ()
 {
@@ -93,6 +95,7 @@ function buf ()
     local filetime=$(date +%Y%m%d_%H%M%S)
     cp -a "${filename}" "${filename}_${filetime}"
 }
+
 # move files to hidden folder in /tmp/.trash
 function del() {
     mkdir -p /tmp/.trash && mv "$@" /tmp/.trash;
@@ -104,6 +107,20 @@ function reset_branch() {
 
 function set_to_origin() {
     git fetch && git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)
+}
+
+# update all asdf plugins to latest
+# modified version of https://gist.github.com/ig0rsky/fef7f785b940d13b52eb1b379bd7438d
+function asdf_update() {
+    asdf plugin update --all
+
+    cat ~/.tool-versions | awk '{print $1}' | xargs -I {} bash -c 'echo {} $(asdf latest {})' > ~/.tool-versions.new
+    cp ~/.tool-versions ~/.tool-versions.bk
+    mv ~/.tool-versions.new ~/.tool-versions
+
+    echo "Version updates:"
+    paste -d '\t' .tool-versions .tool-versions.bk
+    asdf install
 }
 
 # vim: set ft=sh ts=4 sw=4 et ai :
