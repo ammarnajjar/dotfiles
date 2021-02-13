@@ -118,6 +118,7 @@ function add_asdf_plugins() {
     for plugin in ${ASDF_PLUGINS[@]}
     do
         asdf plugin-add $plugin
+        asdf install $plugin latest
     done
 }
 

@@ -57,6 +57,8 @@ export ASDF_PYTHON_DEFAULT_PACKAGES_FILE="$dotfiles_dir/asdf/default-python-pack
 export ASDF_DIR="$dotfiles_dir/asdf/asdf"
 export ASDF_DATA_DIR="$dotfiles_dir/asdf/asdf"
 export ASDF_PLUGINS=(
+    tmux
+    vim
     direnv
     nodejs
     python
@@ -119,7 +121,8 @@ function asdf_update() {
     mv ~/.tool-versions.new ~/.tool-versions
 
     echo "Version updates:"
-    paste -d '\t' .tool-versions .tool-versions.bk
+    paste -d '\t' ~/.tool-versions ~/.tool-versions.bk
+    rm ~/.tool-versions.bk
     asdf install
 }
 
