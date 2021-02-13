@@ -24,7 +24,7 @@ function get_sudo() {
 }
 
 function install_pkgs() {
-    pkgs="git curl"
+    pkgs="git curl vim tmux"
     if [[ "$OSTYPE" == "linux-gnu" ]]; then
         # Linux
         sys_id="$(cat /etc/*release | grep ID=)"
@@ -101,7 +101,6 @@ function clone_repos() {
     curl -fLo autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     git clone https://github.com/ammarnajjar/vim-code-dark.git plugged/vim-code-dark.vim
     git clone https://github.com/asdf-vm/asdf.git asdf/asdf
-    source asdf/asdf/asdf.sh
 }
 
 function direnv_symlinks() {
@@ -109,15 +108,6 @@ function direnv_symlinks() {
     mkdir -p $HOME/.config/direnv
     ln -s $dotfiles_dir/direnv/direnvrc $HOME/.config/direnv/direnvrc
     ln -s $dotfiles_dir/direnv/envrc $HOME/.envrc
-}
-
-function add_asdf_plugins() {
-    source $HOME/."$shell"rc
-    echo_blue "** Add asdf plugins: (${ASDF_PLUGINS[*]})"
-    for plugin in ${ASDF_PLUGINS[@]}
-    do
-        asdf plugin-add $plugin
-    done
 }
 
 function vim_symlinks() {
@@ -160,8 +150,8 @@ function main(){
     update_git_conf
 
     prepare_shell_rc_file
-    add_asdf_plugins
     install_plugins
+    cd $HOME
     echo_blue "** Installation Complete **"
     exec $shell
 }

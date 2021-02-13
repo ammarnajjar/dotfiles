@@ -21,7 +21,6 @@ wget https://raw.githubusercontent.com/ammarnajjar/dotfiles/master/install.sh &&
 - [git](https://git-scm.com/)
 - [tmux](https://github.com/tmux/tmux)
 - [asdf](https://github.com/asdf-vm/asdf)
-    - Plugins are set using the environment variable `ASDF_PLUGINS`
 - [direnv](https://github.com/direnv/direnv)
 
 ## Files in repo:

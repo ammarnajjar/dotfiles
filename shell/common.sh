@@ -56,14 +56,6 @@ export ASDF_NPM_DEFAULT_PACKAGES_FILE="$dotfiles_dir/asdf/default-node-packages"
 export ASDF_PYTHON_DEFAULT_PACKAGES_FILE="$dotfiles_dir/asdf/default-python-packages"
 export ASDF_DIR="$dotfiles_dir/asdf/asdf"
 export ASDF_DATA_DIR="$dotfiles_dir/asdf/asdf"
-export ASDF_PLUGINS=(
-    python
-    nodejs
-    direnv
-    dotnet-core
-    tmux
-    vim
-)
 
 # useful functions stolen from https://github.com/Bash-it/bash-it
 function mkcd() {
