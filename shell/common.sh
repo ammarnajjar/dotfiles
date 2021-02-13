@@ -57,12 +57,12 @@ export ASDF_PYTHON_DEFAULT_PACKAGES_FILE="$dotfiles_dir/asdf/default-python-pack
 export ASDF_DIR="$dotfiles_dir/asdf/asdf"
 export ASDF_DATA_DIR="$dotfiles_dir/asdf/asdf"
 export ASDF_PLUGINS=(
+    python
+    nodejs
+    direnv
+    dotnet-core
     tmux
     vim
-    direnv
-    nodejs
-    python
-    dotnet-core
 )
 
 # useful functions stolen from https://github.com/Bash-it/bash-it
@@ -116,14 +116,12 @@ function set_to_origin() {
 function asdf_update() {
     asdf plugin update --all
 
-    cat ~/.tool-versions | awk '{print $1}' | xargs -I {} bash -c 'echo {} $(asdf latest {})' > ~/.tool-versions.new
     cp ~/.tool-versions ~/.tool-versions.bk
-    mv ~/.tool-versions.new ~/.tool-versions
+    cat ~/.tool-versions | awk '{print $1}' | xargs -I {} bash -c 'asdf install {} $(asdf latest {}) && asdf global {} latest'
 
     echo "Version updates:"
     paste -d '\t' ~/.tool-versions ~/.tool-versions.bk
     rm ~/.tool-versions.bk
-    asdf install
 }
 
 # vim: set ft=sh ts=4 sw=4 et ai :

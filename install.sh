@@ -1,6 +1,6 @@
 # File: install.sh
 # Author: Ammar Najjar <najjarammar@protonmail.com>
-# Description: install neovim and other bash, tmux and git condifurations.
+# Description: install vim  and other bash/zsh, tmux and git condifurations.
 # The old configurations if exist will be backed up under /tmp/trash/..
 # Last Modified: 11.02.2021
 
@@ -16,7 +16,7 @@ function echo_blue() {
 
 function get_sudo() {
     uid="$(id -u)"
-    SUDO="sudo"
+    SUDO="sudo "
     if [[ $uid -eq 0 ]]
     then
         SUDO=""
@@ -24,19 +24,18 @@ function get_sudo() {
 }
 
 function install_pkgs() {
-    pkgs="git curl wget tmux vim neovim"
+    pkgs="git curl"
     if [[ "$OSTYPE" == "linux-gnu" ]]; then
         # Linux
         sys_id="$(cat /etc/*release | grep ID=)"
         if [[ "$sys_id" == *"fedora"* ]]
         then
-            pkg_manager="$SUDO dnf"
-            $pkg_manager install -y $pkgs python3-neovim
+            pkg_manager="$SUDO"dnf
         elif [[ "$sys_id" == *"debian"* ]] || [[ "$sys_id" == *"Ubuntu"* ]]
         then
-            pkg_manager="$SUDO apt"
-            $pkg_manager install -y $pkgs python3-neovim
+            pkg_manager="$SUDO"apt
         fi
+        bash -c "$pkg_manager update && $pkg_manager install -y $pkgs"
     elif [[ "$OSTYPE" == "darwin"* ]]; then
         # Mac OSX
         pkg_manager="brew"
@@ -118,17 +117,17 @@ function add_asdf_plugins() {
     for plugin in ${ASDF_PLUGINS[@]}
     do
         asdf plugin-add $plugin
-        asdf install $plugin latest
     done
 }
 
-function nvim_symlinks() {
+function vim_symlinks() {
     echo_blue "** Create Neovim/Vim Symlinks"
+    [ -L $dotfiles_dir ] && mv $dotfiles_dir /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_dotfiles
+    # neovim
     mkdir -p ${XDG_CONFIG_HOME:=$HOME/.config}
-    [ -L $dotfiles_dir ] && mv $dotfiles_dir /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_nvim
     [ -L $HOME/.config/nvim ] && rm $HOME/.config/nvim
     ln -s $dotfiles_dir $XDG_CONFIG_HOME/nvim
-    # vim compatible
+    # vim
     [ -L $HOME/.vim ] && rm $HOME/.vim
     [ -L $HOME/.vimrc ] && rm $HOME/.vimrc
     ln -s $dotfiles_dir $HOME/.vim
@@ -144,7 +143,7 @@ function update_git_conf() {
 
 function install_plugins() {
     echo_blue "** Install plugins"
-    nvim +PlugInstall +qall
+    vim +PlugInstall +qall
 }
 
 function main(){
@@ -154,7 +153,7 @@ function main(){
     prepare_dotfiles_dir
 
     clone_repos
-    nvim_symlinks
+    vim_symlinks
     direnv_symlinks
 
     update_tmux_conf

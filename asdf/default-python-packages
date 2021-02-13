@@ -1,5 +1,4 @@
 tox
-neovim
 pyflakes
 pylint
 pytest
