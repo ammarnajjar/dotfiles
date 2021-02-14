@@ -1,5 +1,2 @@
-tox
-pyflakes
+flake8
 pylint
-pytest
-pre-commit
