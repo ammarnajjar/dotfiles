@@ -1,8 +1,8 @@
 " => Header ---------------------- {{{1
-" Fie: init.vim
+" Fie: vimrc.vim
 " Author: Ammar Najjar <najjarammar@protonmail.com>
 " Description: My neovim/vim configurations file
-" Last Modified: Mon Apr 20 03:33:48 CEST 2020
+" Last Modified: Mon Feb 15 22:42:50 CET 2021
 " }}}
 " => General ---------------------- {{{1
 let mapleader=","   " Change leader key to ,
@@ -320,9 +320,9 @@ function! AppendModeline()
 endfunction
 nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
 
-" => local init.vim ---------------------- {{{1
-if filereadable(s:editor_root."/local_init.vim")
-    execute 'source '.fnameescape(s:editor_root."/local_init.vim")
+" => local vimrc.vim ---------------------- {{{1
+if filereadable(s:editor_root."/local_vimrc.vim")
+    execute 'source '.fnameescape(s:editor_root."/local_vimrc.vim")
 endif
 " }}}
 " vim: ft=vim:ts=4:sw=4:et:fdm=marker

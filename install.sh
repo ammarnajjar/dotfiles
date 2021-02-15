@@ -117,11 +117,12 @@ function vim_symlinks() {
     mkdir -p ${XDG_CONFIG_HOME:=$HOME/.config}
     [ -L $HOME/.config/nvim ] && rm $HOME/.config/nvim
     ln -s $dotfiles_dir $XDG_CONFIG_HOME/nvim
+    ln -s $dotfiles_dir/vimrc.vim $XDG_CONFIG_HOME/nvim/init.vim
     # vim
     [ -L $HOME/.vim ] && rm $HOME/.vim
     [ -L $HOME/.vimrc ] && rm $HOME/.vimrc
     ln -s $dotfiles_dir $HOME/.vim
-    ln -s $dotfiles_dir/init.vim $HOME/.vimrc
+    ln -s $dotfiles_dir/vimrc.vim $HOME/.vimrc
 }
 
 function update_git_conf() {
