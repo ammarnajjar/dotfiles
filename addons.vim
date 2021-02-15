@@ -19,12 +19,8 @@ call plug#begin(s:editor_root."/plugged/")
 " => Install Plugins ----------------------------- {{{2
 Plug 'tpope/vim-fugitive'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-if isdirectory('/usr/local/opt/fzf')
-  Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
-else
-  Plug 'junegunn/fzf', { 'dir': '~/.config/.fzf', 'do': './install --all' }
-  Plug 'junegunn/fzf.vim'
-endif
+Plug 'junegunn/fzf', { 'dir': '~/.config/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 Plug 'tomtom/tcomment_vim'
 Plug 'ammarnajjar/vim-code-dark'
 "}}}
