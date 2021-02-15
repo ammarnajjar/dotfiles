@@ -103,6 +103,14 @@ function set_to_origin() {
     git fetch && git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)
 }
 
+function asdf_latest() {
+    for plugin in ${ASDF_PLUGINS[@]}
+    do
+        asdf install $plugin latest
+        asdf global $plugin latest
+    done
+}
+
 # update all asdf plugins to latest
 # modified version of https://gist.github.com/ig0rsky/fef7f785b940d13b52eb1b379bd7438d
 function asdf_update() {
