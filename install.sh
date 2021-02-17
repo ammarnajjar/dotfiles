@@ -125,6 +125,11 @@ function vim_symlinks() {
     ln -s $dotfiles_dir/vimrc.vim $HOME/.vimrc
 }
 
+function compile_terminfo() {
+    # enable italics in terminal
+    tic -o $HOME/.terminfo $dotfiles_dir/shell/terminfo
+}
+
 function update_git_conf() {
     echo_blue "** Git config"
     mkdir -p ${XDG_CONFIG_HOME:=$HOME/.config}
@@ -146,6 +151,7 @@ function main(){
     clone_repos
     vim_symlinks
     direnv_symlinks
+    compile_terminfo
 
     update_tmux_conf
     update_git_conf
