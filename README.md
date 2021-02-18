@@ -29,7 +29,6 @@ wget https://raw.githubusercontent.com/ammarnajjar/dotfiles/master/install.sh &&
 .
 ├── LICENSE
 ├── README.md
-├── addons.vim
 ├── asdf
 │   ├── default-node-packages
 │   └── default-python-packages
@@ -40,16 +39,17 @@ wget https://raw.githubusercontent.com/ammarnajjar/dotfiles/master/install.sh &&
 ├── git
 │   ├── config
 │   └── gitmessage
+├── init.vim
 ├── install.sh
 ├── shell
 │   ├── bash
 │   │   └── bashrc
 │   ├── common.sh
+│   ├── terminfo
 │   └── zsh
 │       └── zshrc
-├── tmux
-│   └── tmux.conf
-└── vimrc
+└── tmux
+    └── tmux.conf
 ```
 
 I have full explanation to my vimrc [here](https://ammarnajjar.github.io/editors/2016/06/19/Vimrc-Adventure/)

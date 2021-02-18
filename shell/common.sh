@@ -1,3 +1,4 @@
+alias vim=nvim
 alias ll='ls -lh'
 alias la='ls -aAh'
 alias l='ls -CF'

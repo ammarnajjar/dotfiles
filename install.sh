@@ -1,6 +1,6 @@
 # File: install.sh
 # Author: Ammar Najjar <najjarammar@protonmail.com>
-# Description: install vim  and other bash/zsh, tmux and git condifurations.
+# Description: install neovim  and other bash/zsh, tmux and git condifurations.
 # The old configurations if exist will be backed up under /tmp/trash/..
 # Last Modified: 11.02.2021
 
@@ -24,7 +24,7 @@ function get_sudo() {
 }
 
 function install_pkgs() {
-    pkgs="git curl vim tmux"
+    pkgs="git curl neovim tmux"
     if [[ "$OSTYPE" == "linux-gnu" ]]; then
         # Linux
         sys_id="$(cat /etc/*release | grep ID=)"
@@ -117,12 +117,11 @@ function vim_symlinks() {
     mkdir -p ${XDG_CONFIG_HOME:=$HOME/.config}
     [ -L $HOME/.config/nvim ] && rm $HOME/.config/nvim
     ln -s $dotfiles_dir $XDG_CONFIG_HOME/nvim
-    ln -s $dotfiles_dir/vimrc.vim $XDG_CONFIG_HOME/nvim/init.vim
     # vim
     [ -L $HOME/.vim ] && rm $HOME/.vim
     [ -L $HOME/.vimrc ] && rm $HOME/.vimrc
     ln -s $dotfiles_dir $HOME/.vim
-    ln -s $dotfiles_dir/vimrc.vim $HOME/.vimrc
+    ln -s $dotfiles_dir/init.vim $HOME/.vimrc
 }
 
 function compile_terminfo() {
