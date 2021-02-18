@@ -106,7 +106,8 @@ function set_to_origin() {
 function asdf_latest() {
     for plugin in ${ASDF_PLUGINS[@]}
     do
-        asdf install $plugin latest
+        asdf plugin-add $plugin
+        NODEJS_CHECK_SIGNATURES=no asdf install $plugin latest
         asdf global $plugin latest
     done
 }
@@ -123,6 +124,7 @@ function asdf_update() {
     paste -d '\t' ~/.tool-versions ~/.tool-versions.bk
     rm ~/.tool-versions.bk
 }
+
 
 # vim: set ft=sh ts=4 sw=4 et ai :
 
