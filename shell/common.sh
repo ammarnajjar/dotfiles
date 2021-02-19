@@ -1,4 +1,3 @@
-alias vim=nvim
 alias ll='ls -lh'
 alias la='ls -aAh'
 alias l='ls -CF'
@@ -21,8 +20,8 @@ alias ctagsit="ctags --append=no --recurse --totals --exclude=blib --exclude=.sv
 
 export TERM=xterm-256color
 export LANG='en_US.UTF-8'
-export EDITOR=vim
-export GIT_EDITOR="vim"
+export EDITOR=nvim
+export GIT_EDITOR="nvim"
 
 # optout
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
