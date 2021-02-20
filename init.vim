@@ -14,8 +14,12 @@ else
 endif
 
 " Figure out the system Python for Neovim.
-if exists("$VIRTUAL_ENV")
+if exists("$VIRTUAL_ENV") + exists("$ASDF_DIR") > 1
+    let g:python3_host_prog=substitute(system("which -a python3 | head -n3 | tail -n1"), "\n", '', 'g')
+elseif exists("$VIRTUAL_ENV")
     let g:python3_host_prog=substitute(system("which -a python3 | tail -n2 | head -n1"), "\n", '', 'g')
+elseif exists("$ASDF_DIR")
+    let g:python3_host_prog=substitute(system("which -a python3 | head -n2 | tail -n1"), "\n", '', 'g')
 else
     let g:python3_host_prog=substitute(system("which python3"), "\n", '', 'g')
 endif
