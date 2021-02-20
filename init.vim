@@ -48,15 +48,10 @@ setglobal modeline
 set modelines=3
 set number
 
-if exists('$SHELL')
-    set shell=$SHELL
-else
-    set shell=/usr/local/bin/bash
-endif
-
 " Ignore compiled files
 set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__,*~,*.class
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
+set wildignore+=*/node_modules/*,*/.dist/*,*/.coverage/*
 
 " when joining lines, don't insert two spaces after punctuation
 set nojoinspaces
@@ -88,7 +83,7 @@ execute 'set undodir='.fnameescape(s:editor_root."/undo/")
 set viminfo^=%
 
 " Restrict syntax for all files
-set synmaxcol=1000
+set synmaxcol=200
 
 "" Encoding
 set encoding=utf-8
