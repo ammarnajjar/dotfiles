@@ -284,7 +284,7 @@ if !exists('g:vscode')
     endif
 
     " [Tags] Command to generate tags file
-    let g:fzf_tags_command = 'ctags --append=no --recurse --totals --exclude=blib --exclude=.svn --exclude=.get --exclude="@.gitignore" --extra=q'
+    let g:fzf_tags_command = 'ctags --append=no --recurse --exclude=blib --exclude=dist --exclude=node_modules --exclude=coverage --exclude=.svn --exclude=.get --exclude="@.gitignore" --extra=q'
 
     " use the silver searcher if exists
     if executable('ag')
