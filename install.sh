@@ -2,7 +2,7 @@
 # Author: Ammar Najjar <najjarammar@protonmail.com>
 # Description: install neovim  and other bash/zsh, tmux and git condifurations.
 # The old configurations if exist will be backed up under /tmp/trash/..
-# Last Modified: 11.02.2021
+# Last Modified: Sat Feb 20 23:20:22 CET 2021
 
 function echo_blue() {
     if [ ! -z $BASH_VERSION ]
@@ -138,7 +138,7 @@ function update_git_conf() {
 
 function install_plugins() {
     echo_blue "** Install plugins"
-    vim +PlugInstall +qall
+    nvim +PlugInstall +qall
 }
 
 function main(){

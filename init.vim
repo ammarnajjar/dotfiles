@@ -278,7 +278,7 @@ if !exists('g:vscode')
 
     " show preview with colors using bat
     if executable('bat')
-        let $FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --margin=1 --preview 'bat --color=always --style=header,grid --line-range :150 {}'"
+        let $FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --margin=1 --preview 'bat --line-range :150 {}'"
     else
     endif
 

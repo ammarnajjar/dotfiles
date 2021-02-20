@@ -22,6 +22,7 @@ export TERM=xterm-256color
 export LANG='en_US.UTF-8'
 export EDITOR=nvim
 export GIT_EDITOR="nvim"
+export BAT_CONFIG_PATH=$dotfiles_dir/bat/config
 
 # optout
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
