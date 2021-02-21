@@ -83,7 +83,7 @@ execute 'set undodir='.fnameescape(s:editor_root."/undo/")
 set viminfo^=%
 
 " Restrict syntax for all files
-set synmaxcol=200
+set synmaxcol=500
 
 "" Encoding
 set encoding=utf-8
@@ -264,9 +264,10 @@ if !exists('g:vscode')
     "}}}
     " => fzf ---------------- {{{3
     nnoremap <silent> <C-p> :Files<CR>
+
+    " grep text under cursor
+    nnoremap <silent> <Leader>rg :Rg <C-R><C-W><CR>
     nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
-    nnoremap <silent> <Leader>AG :Ag <C-R><C-A><CR>
-    nnoremap <silent> <Leader>'  :Marks<CR>
 
     let g:fzf_layout = { 'down': '~40%', 'window': 'enew' }
 
@@ -285,8 +286,12 @@ if !exists('g:vscode')
     " [Tags] Command to generate tags file
     let g:fzf_tags_command = 'ctags --append=no --recurse --exclude=blib --exclude=dist --exclude=node_modules --exclude=coverage --exclude=.svn --exclude=.get --exclude="@.gitignore" --extra=q'
 
-    " use the silver searcher if exists
-    if executable('ag')
+    " use ripgrep if exists
+    if executable('rg')
+      let $FZF_DEFAULT_COMMAND = 'rg --hidden --files --glob="!.git/*" --glob="!venv/*" --glob="!coverage/*" --glob="!node_modules/*" --glob="!target/*" --glob="!__pycache__/*" --glob="!dist/*" --glob="!build/*" --glob="!*.DS_Store"'
+     set grepprg=rg
+    " else use the silver searcher if exists
+    elseif executable('ag')
       let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git --ignore venv/ --ignore coverage/ --ignore node_modules/ --ignore target/  --ignore __pycache__/ --ignore dist/ --ignore build/ --ignore .DS_Store  -g ""'
       set grepprg=ag\ --nogroup
     else
@@ -456,4 +461,4 @@ if filereadable(s:editor_root."/local_vimrc.vim")
     execute 'source '.fnameescape(s:editor_root."/local_vimrc.vim")
 endif
 " }}}
-" vim: ft=vim:ts=4:sw=4:et:fdm=marker
+" vim: ft=vim:ts=4:sw=4:et

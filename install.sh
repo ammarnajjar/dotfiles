@@ -101,6 +101,7 @@ function clone_repos() {
     curl -fLo autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     git clone https://github.com/ammarnajjar/vim-code-dark.git plugged/vim-code-dark.vim
     git clone https://github.com/asdf-vm/asdf.git asdf/asdf
+    ln -s $dotfiles_dir/asdf/default-cargo-crates $HOME/.default-cargo-crates
 }
 
 function direnv_symlinks() {
