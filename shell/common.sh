@@ -104,13 +104,19 @@ function set_to_origin() {
     git fetch && git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)
 }
 
+function asdf_add() {
+     asdf plugin-add $1
+     NODEJS_CHECK_SIGNATURES=no asdf install $1 latest
+     asdf global $1 latest
+}
+
 function asdf_latest() {
-    for plugin in ${ASDF_PLUGINS[@]}
-    do
-        asdf plugin-add $plugin
-        NODEJS_CHECK_SIGNATURES=no asdf install $plugin latest
-        asdf global $plugin latest
-    done
+     for plugin in ${ASDF_PLUGINS[@]}
+     do
+         asdf plugin-add $plugin
+         NODEJS_CHECK_SIGNATURES=no asdf install $plugin latest
+         asdf global $plugin latest
+     done
 }
 
 # update all asdf plugins to latest
