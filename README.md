@@ -30,8 +30,11 @@ wget https://raw.githubusercontent.com/ammarnajjar/dotfiles/master/install.sh &&
 ├── LICENSE
 ├── README.md
 ├── asdf
+│   ├── default-cargo-crates
 │   ├── default-node-packages
 │   └── default-python-packages
+├── bat
+│   └── config
 ├── coc-settings.json
 ├── direnv
 │   ├── direnvrc
@@ -39,8 +42,9 @@ wget https://raw.githubusercontent.com/ammarnajjar/dotfiles/master/install.sh &&
 ├── git
 │   ├── config
 │   └── gitmessage
-├── init.vim
 ├── install.sh
+├── nvim
+│   └── init.vim
 ├── shell
 │   ├── bash
 │   │   └── bashrc
@@ -48,8 +52,12 @@ wget https://raw.githubusercontent.com/ammarnajjar/dotfiles/master/install.sh &&
 │   ├── terminfo
 │   └── zsh
 │       └── zshrc
-└── tmux
-    └── tmux.conf
+├── tmux
+│   └── tmux.conf
+└── vim
+    ├── README.md
+    ├── link.sh
+    └── vimrc
 ```
 
 I have full explanation to my vimrc [here](https://ammarnajjar.github.io/editors/2016/06/19/Vimrc-Adventure/)
