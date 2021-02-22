@@ -117,7 +117,7 @@ function nvim_symlinks() {
     echo_blue "** Create Neovim Symlinks"
     mkdir -p ${XDG_CONFIG_HOME:=$HOME/.config}
     [ -L $HOME/.config/nvim ] && rm $HOME/.config/nvim
-    ln -s $dotfiles_dir $XDG_CONFIG_HOME/nvim
+    ln -s $dotfiles_dir/nvim $XDG_CONFIG_HOME/nvim
 }
 
 function compile_terminfo() {
