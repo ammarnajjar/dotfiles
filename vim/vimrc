@@ -1,7 +1,7 @@
 " => Header ---------------------- {{{1
-" Fie: init.vim
+" Fie: vimrc.vim
 " Author: Ammar Najjar <najjarammar@protonmail.com>
-" Description: My neovim/vim configurations file
+" Description: My vim configuration file (also compatbile with noevim)
 " Last Modified: Mon Feb 15 22:42:50 CET 2021
 " }}}
 " => General ---------------------- {{{1

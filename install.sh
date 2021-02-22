@@ -111,18 +111,13 @@ function direnv_symlinks() {
     ln -s $dotfiles_dir/direnv/envrc $HOME/.envrc
 }
 
-function vim_symlinks() {
-    echo_blue "** Create Neovim/Vim Symlinks"
+function nvim_symlinks() {
     [ -L $dotfiles_dir ] && mv $dotfiles_dir /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_dotfiles
     # neovim
+    echo_blue "** Create Neovim Symlinks"
     mkdir -p ${XDG_CONFIG_HOME:=$HOME/.config}
     [ -L $HOME/.config/nvim ] && rm $HOME/.config/nvim
     ln -s $dotfiles_dir $XDG_CONFIG_HOME/nvim
-    # vim
-    [ -L $HOME/.vim ] && rm $HOME/.vim
-    [ -L $HOME/.vimrc ] && rm $HOME/.vimrc
-    ln -s $dotfiles_dir $HOME/.vim
-    ln -s $dotfiles_dir/init.vim $HOME/.vimrc
 }
 
 function compile_terminfo() {
@@ -149,7 +144,7 @@ function main(){
     prepare_dotfiles_dir
 
     clone_repos
-    vim_symlinks
+    nvim_symlinks
     direnv_symlinks
     compile_terminfo
 
@@ -158,7 +153,7 @@ function main(){
 
     prepare_shell_rc_file
     install_plugins
-    cd $HOME
+    cd $current_dir
     echo_blue "** Installation Complete **"
     exec $shell
 }
