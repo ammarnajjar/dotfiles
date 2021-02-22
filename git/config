@@ -1,20 +1,42 @@
 [user]
 	name = Ammar Najjar
+
 [core]
 	editor = nvim
+    pager = delta
+
 [alias]
 	lol = log --graph --decorate --pretty=oneline --abbrev-commit --all
 	lg1 = log --graph --pretty=format:'%C(bold yellow)%h%Creset -%C(bold cyan)%aD%C(reset) %C(bold green)%d%Creset %s %C(bold blue)<%an>%Creset' --abbrev-commit
 	lg2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold yellow)%h%C(reset) - %C(bold cyan)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold green)%d%C(reset)' --all
 	lg3 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
 	gco = "!f() { git branch -a | grep -e $1 -m 1 | sed 's/remotes\\/origin\\///' | xargs git checkout; }; f"
+
 [color]
 	ui = true
+
 [commit]
 	template = ~/.config/git/gitmessage
+
 [changelog]
 	format = * %h %B
+
 [init]
 	defaultBranch = master
+
 [push]
     default = current
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    features = line-numbers decorations
+    file-modified-label = modified:
+    syntax-theme = Sublime Snazzy
+    whitespace-error-style = 22 reverse
+
+[delta "decorations"]
+    commit-decoration-style = bold yellow box ul
+    file-style = bold yellow ul
+    file-decoration-style = none
