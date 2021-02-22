@@ -141,7 +141,8 @@ function precmd() {
   fi
 }
 
-PROMPT='%{$fg[yellow]%}[%D{%f.%m.%y} %*] %{$fg[green]%}$(if [ $cmd_time ]; then echo "($cmd_time)"; fi)%  '$PROMPT
+PROMPT='%{$fg[green]%}$(if [ $cmd_time ]; then echo "($cmd_time)"; fi)%f '$PROMPT
+RPROMPT='%{$fg[yellow]%}[%D{%f.%m.%y} %*]%f'
 
 # activate some env stuff
 if [ -n "$(type direnv)" ] && [ "$(type direnv)" = function ]; then
