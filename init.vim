@@ -270,6 +270,13 @@ local servers = { "angularls", "cssls", "gopls", "pyls", "rls", "yamlls", "tsser
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup { on_attach = require'completion'.on_attach }
 end
+
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+  vim.lsp.diagnostic.on_publish_diagnostics, {
+    -- delay update diagnostics
+    update_in_insert = false,
+  }
+)
 EOF
     "}}}
     " => completion-nvim -------------------- {{{3
