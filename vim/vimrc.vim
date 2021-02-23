@@ -1,7 +1,7 @@
 " => Header ---------------------- {{{1
 " Fie: vimrc.vim
 " Author: Ammar Najjar <najjarammar@protonmail.com>
-" Description: My vim configuration file (also compatbile with noevim)
+" Description: My neovim/vim configurations file
 " Last Modified: Mon Feb 15 22:42:50 CET 2021
 " }}}
 " => General ---------------------- {{{1
@@ -179,14 +179,62 @@ if !exists('g:vscode')
     call plug#begin(s:editor_root."/plugged/")
     " => Install Plugins ----------------------------- {{{3
     Plug 'tpope/vim-fugitive'
-    Plug 'neovim/nvim-lspconfig'
-    Plug 'nvim-lua/completion-nvim'
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
     Plug 'junegunn/fzf', { 'dir': '~/.config/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
     Plug 'tomtom/tcomment_vim'
     Plug 'ammarnajjar/vim-code-dark'
     "}}}
     call plug#end()
+    " => LSP ----------------------------- {{{3
+    " Remap keys for gotos
+    nmap <silent> gd <Plug>(coc-definition)
+    nmap <silent> gy <Plug>(coc-type-definition)
+    nmap <silent> gi <Plug>(coc-implementation)
+    nmap <silent> gr <Plug>(coc-references)
+
+    " Make <tab> used for trigger completion, completion confirm, snippet expand and jump like VSCode.
+    inoremap <silent><expr> <TAB>
+          \ pumvisible() ? coc#_select_confirm() :
+          \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+          \ <SID>check_back_space() ? "\<TAB>" :
+          \ coc#refresh()
+    function! s:check_back_space() abort
+      let col = col('.') - 1
+      return !col || getline('.')[col - 1]  =~# '\s'
+    endfunction
+    let g:coc_snippet_next = '<tab>'
+
+    nnoremap <silent> <leader>y  :<C-u>CocList -A --normal yank<cr>
+
+    "" coc Global extension names to install when they aren't installed
+    let g:coc_global_extensions = [
+                \ "coc-angular",
+                \ "coc-css",
+                \ "coc-docker",
+                \ "coc-emmet",
+                \ "coc-emoji",
+                \ "coc-eslint",
+                \ "coc-highlight",
+                \ "coc-html",
+                \ "coc-json",
+                \ "coc-lists",
+                \ "coc-marketplace",
+                \ "coc-omnisharp",
+                \ "coc-prettier",
+                \ "coc-python",
+                \ "coc-rls",
+                \ "coc-sh",
+                \ "coc-snippets",
+                \ "coc-sql",
+                \ "coc-syntax",
+                \ "coc-tag",
+                \ "coc-tslint-plugin",
+                \ "coc-tsserver",
+                \ "coc-yaml",
+                \ "coc-yank",
+                \]
+    "}}}
     " => Theme ---------------- {{{3
     set cursorline
     function! LightTheme()
@@ -213,75 +261,6 @@ if !exists('g:vscode')
         endif
     catch /^Vim\%((\a\+)\)\=:E185/
     endtry
-    "}}}
-    " => Builtin LSP (nvim > 5.0) ----------------------------- {{{3
-lua << EOF
-require'lspconfig'.angularls.setup{}
-local nvim_lsp = require('lspconfig')
-local on_attach = function(client, bufnr)
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-
-  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-  -- Mappings.
-  local opts = { noremap=true, silent=true }
-  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-  buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-  buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-  buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-
-  -- Set some keybinds conditional on server capabilities
-  if client.resolved_capabilities.document_formatting then
-    buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-  elseif client.resolved_capabilities.document_range_formatting then
-    buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
-  end
-
-  -- Set autocommands conditional on server_capabilities
-  if client.resolved_capabilities.document_highlight then
-    vim.api.nvim_exec([[
-      hi LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
-      hi LspReferenceText cterm=bold ctermbg=red guibg=LightYellow
-      hi LspReferenceWrite cterm=bold ctermbg=red guibg=LightYellow
-      augroup lsp_document_highlight
-        autocmd! * <buffer>
-        autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-        autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-      augroup END
-    ]], false)
-  end
-end
-
--- Use a loop to conveniently both setup defined servers
--- and map buffer local keybindings when the language server attaches
-local servers = { "angularls", "cssls", "gopls", "pyls", "rls", "yamlls", "tsserver"}
-for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup { on_attach = require'completion'.on_attach }
-end
-
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics, {
-    -- delay update diagnostics
-    update_in_insert = false,
-  }
-)
-EOF
-    "}}}
-    " => completion-nvim -------------------- {{{3
-    set completeopt=menuone,noinsert,noselect
-    let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
     "}}}
     " => fzf ---------------- {{{3
     nnoremap <silent> <C-p> :Files<CR>
