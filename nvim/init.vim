@@ -298,9 +298,6 @@ EOF
     set statusline+=%=                                              " right align
     set statusline+=%y                                              " buffer file type
     set statusline+=(%{strftime(\"%d.%m.%Y\ %H:%M\",getftime(expand(\"%:p\")))})  " last modified
-    set statusline+=%#question#                                     " coc diagnostic
-    set statusline+=%{StatusDiagnostic()}
-    set statusline+=%*
     set statusline+=%#directory#
     set statusline+=%{&ff!='unix'?'['.&ff.']':''}                   " fileformat not unix
     set statusline+=%*
@@ -343,20 +340,6 @@ EOF
         %s/\s\+$//ge
         exe "normal `z"
     endfunc
-
-    " coc-status-manual
-    function! StatusDiagnostic() abort
-      let info = get(b:, 'coc_diagnostic_info', {})
-      if empty(info) | return '' | endif
-      let msgs = []
-      if get(info, 'error', 0)
-        call add(msgs, 'E' . info['error'])
-      endif
-      if get(info, 'warning', 0)
-        call add(msgs, 'W' . info['warning'])
-      endif
-      return join(msgs, ' ') . ' ' . get(g:, 'coc_status', '') . ' '
-    endfunction
 
     " Check if paste mode is enabled
     function! HasPaste()

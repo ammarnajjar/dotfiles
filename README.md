@@ -35,7 +35,6 @@ wget https://raw.githubusercontent.com/ammarnajjar/dotfiles/master/install.sh &&
 │   └── default-python-packages
 ├── bat
 │   └── config
-├── coc-settings.json
 ├── direnv
 │   ├── direnvrc
 │   └── envrc
@@ -56,6 +55,7 @@ wget https://raw.githubusercontent.com/ammarnajjar/dotfiles/master/install.sh &&
 │   └── tmux.conf
 └── vim
     ├── README.md
+    ├── coc-settings.json
     ├── link.sh
     └── vimrc
 ```
