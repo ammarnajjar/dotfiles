@@ -20,3 +20,4 @@ ohmyzsh
 local_init.vim
 local_vimrc.vim
 asdf/asdf
+lua-language-server

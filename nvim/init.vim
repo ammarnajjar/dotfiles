@@ -134,6 +134,7 @@ if !exists('g:vscode')
         " => Install Plugins ----------------------------- {{{3
         Plug 'neovim/nvim-lspconfig'
         Plug 'nvim-lua/completion-nvim'
+        Plug 'dstein64/nvim-scrollview', { 'branch': 'main' }
         Plug 'junegunn/fzf', { 'dir': '~/.config/.fzf', 'do': './install --all' }
         Plug 'junegunn/fzf.vim'
         Plug 'tpope/vim-fugitive'
@@ -171,6 +172,7 @@ if !exists('g:vscode')
         " => Builtin LSP (nvim > 5.0) ----------------------------- {{{3
 lua << EOF
 local nvim_lsp = require('lspconfig')
+
 local on_attach = function(client)
     require'completion'.on_attach(client)
 
@@ -230,6 +232,25 @@ local servers = { "angularls", "cssls", "gopls", "pyls", "rls", "yamlls", "tsser
 for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup { on_attach = on_attach }
 end
+
+-- setup lsp for lua
+local system_name
+if vim.fn.has("mac") == 1 then
+  system_name = "macOS"
+elseif vim.fn.has("unix") == 1 then
+  system_name = "Linux"
+else
+  print("Unsupported system for lua lsp")
+end
+
+-- set the path to the sumneko installation
+-- lua_lsp_root_path => $HOME/.config/nvim/lsp/lua-language-server
+local lua_lsp_root_path = vim.fn.stdpath('config')..'/lsp/lua-language-server'
+local lua_lsp_binary = lua_lsp_root_path.."/bin/"..system_name.."/lua-language-server"
+nvim_lsp["sumneko_lua"].setup {
+    cmd = {lua_lsp_binary, "-E", lua_lsp_root_path .. "/main.lua"};
+    on_attach = on_attach
+}
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics, {

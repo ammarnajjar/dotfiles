@@ -120,6 +120,19 @@ function nvim_symlinks() {
     ln -s $dotfiles_dir/nvim $XDG_CONFIG_HOME/nvim
 }
 
+function install_lua_language_server() {
+    mkdir -p $dotfiles_dir/nvim/lsp
+    cd $dotfiles_dir/nvim/lsp
+    # clone project
+    git clone https://github.com/sumneko/lua-language-server
+    cd lua-language-server
+    git submodule update --init --recursive
+    cd 3rd/luamake
+    ninja -f ninja/macos.ninja
+    cd ../..
+    ./3rd/luamake/luamake rebuild
+}
+
 function compile_terminfo() {
     # enable italics in terminal
     tic -o $HOME/.terminfo $dotfiles_dir/shell/terminfo
