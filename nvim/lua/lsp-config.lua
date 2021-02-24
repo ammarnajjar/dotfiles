@@ -3,6 +3,7 @@ local nvim_lsp = require('lspconfig')
 local on_attach = function(client)
     require'completion'.on_attach(client)
 
+    local bufnr = 0
     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
     local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
@@ -63,11 +64,11 @@ end
 -- setup lsp for lua
 local system_name
 if vim.fn.has("mac") == 1 then
-  system_name = "macOS"
+    system_name = "macOS"
 elseif vim.fn.has("unix") == 1 then
-  system_name = "Linux"
+    system_name = "Linux"
 else
-  print("Unsupported system for lua lsp")
+    print("Unsupported system for lua lsp")
 end
 
 -- set the path to the sumneko installation
@@ -75,13 +76,33 @@ end
 local lua_lsp_root_path = vim.fn.stdpath('config')..'/lsp/lua-language-server'
 local lua_lsp_binary = lua_lsp_root_path.."/bin/"..system_name.."/lua-language-server"
 nvim_lsp["sumneko_lua"].setup {
-    cmd = {lua_lsp_binary, "-E", lua_lsp_root_path .. "/main.lua"};
+    cmd = {lua_lsp_binary, "-E", lua_lsp_root_path .. "/main.lua"},
+    settings = {
+        Lua = {
+            runtime = {
+                version = 'LuaJIT',
+                -- Setup your lua path
+                path = vim.split(package.path, ';'),
+            },
+            diagnostics = {
+                -- Get the language server to recognize the `vim` global
+                globals = {'vim'},
+            },
+            workspace = {
+                -- Make the server aware of Neovim runtime files
+                library = {
+                    [vim.fn.expand('$VIMRUNTIME/lua')] = true,
+                    [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
+                },
+            },
+        },
+    },
     on_attach = on_attach
 }
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-    vim.lsp.diagnostic.on_publish_diagnostics, {
-        -- delay update diagnostics
-        update_in_insert = false,
-    }
+vim.lsp.diagnostic.on_publish_diagnostics, {
+    -- delay update diagnostics
+    update_in_insert = false,
+}
 )
