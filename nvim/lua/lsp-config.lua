@@ -56,7 +56,17 @@ end
 
 -- Use a loop to conveniently both setup defined servers
 -- and map buffer local keybindings when the language server attaches
-local servers = { "angularls", "cssls", "gopls", "pyls", "rls", "yamlls", "tsserver"}
+local servers = {
+    "angularls",
+    "tsserver",
+    "cssls",
+    "pyls",
+    "bashls",
+    "gopls",
+    "rls",
+    "dockerls",
+    "yamlls",
+}
 for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup { on_attach = on_attach }
 end
@@ -76,7 +86,7 @@ end
 local lua_lsp_root_path = vim.fn.stdpath('config')..'/lsp/lua-language-server'
 local lua_lsp_binary = lua_lsp_root_path.."/bin/"..system_name.."/lua-language-server"
 nvim_lsp["sumneko_lua"].setup {
-    cmd = {lua_lsp_binary, "-E", lua_lsp_root_path .. "/main.lua"},
+    cmd = { lua_lsp_binary, "-E", lua_lsp_root_path .. "/main.lua" },
     settings = {
         Lua = {
             runtime = {
@@ -86,7 +96,7 @@ nvim_lsp["sumneko_lua"].setup {
             },
             diagnostics = {
                 -- Get the language server to recognize the `vim` global
-                globals = {'vim'},
+                globals = { 'vim' },
             },
             workspace = {
                 -- Make the server aware of Neovim runtime files
@@ -106,3 +116,4 @@ vim.lsp.diagnostic.on_publish_diagnostics, {
     update_in_insert = false,
 }
 )
+

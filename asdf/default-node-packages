@@ -5,3 +5,5 @@ typescript
 typescript-language-server
 vscode-css-languageserver-bin
 yaml-language-server
+dockerfile-language-server-nodejs
+bash-language-server
