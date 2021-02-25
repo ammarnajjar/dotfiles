@@ -46,18 +46,28 @@ map('n', '<leader>ag', '<cmd>Ag <C-R><C-W><CR>')
 -- [Buffers] Jump to the existing window if possible
 vim.g.fzf_buffers_jump = 1
 
--- [[B]Commits] Customize the options used by 'git log':
+-- [B]Commits] Customize the options used by 'git log':
 vim.g.fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
 
--- -- show preview with colors using bat
-vim.cmd [[let $FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --margin=1 --preview 'bat --line-range :150 {}'"]]
+-- show preview with colors using bat
+if vim.fn.executable('bat') then
+    vim.cmd [[let $FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --margin=1 --preview 'bat --line-range :150 {}'"]]
+end
 
 -- [Tags] Command to generate tags file
 vim.g.fzf_tags_command = 'ctags --append=no --recurse --exclude=blib --exclude=dist --exclude=node_modules --exclude=coverage --exclude=.svn --exclude=.get --exclude="@.gitignore" --extra=q'
 
--- use ripgrep
-vim.cmd [[let $FZF_DEFAULT_COMMAND = 'rg --hidden --files --glob="!.git/*" --glob="!venv/*" --glob="!coverage/*" --glob="!node_modules/*" --glob="!target/*" --glob="!__pycache__/*" --glob="!dist/*" --glob="!build/*" --glob="!*.DS_Store"']]
-vim.cmd [[set grepprg=rg]]
+-- use ripgrep if exists
+if vim.fn.executable('rg') then
+    vim.cmd [[let $FZF_DEFAULT_COMMAND = 'rg --hidden --files --glob="!.git/*" --glob="!venv/*" --glob="!coverage/*" --glob="!node_modules/*" --glob="!target/*" --glob="!__pycache__/*" --glob="!dist/*" --glob="!build/*" --glob="!*.DS_Store"']]
+    vim.cmd [[set grepprg=rg]]
+-- else use the silver searcher if exists
+elseif vim.fn.executable('ag') then
+    vim.cmd [[let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git --ignore venv/ --ignore coverage/ --ignore node_modules/ --ignore target/  --ignore __pycache__/ --ignore dist/ --ignore build/ --ignore .DS_Store  -g ""']]
+    vim.cmd [[set grepprg=ag\ --nogroup]]
+else
+    vim.cmd [[let $FZF_DEFAULT_COMMAND = "find * -path '*/\.*' -prune -o -path 'venv/**' -prune -o -path  'coverage/**' -prune -o -path 'node_modules/**' -prune -o -path '__pycache__/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"]]
+end
 -- }}}
 -- => treesitter  ---------------- {{{1
 local ts = require 'nvim-treesitter.configs'
