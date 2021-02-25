@@ -2,9 +2,10 @@ spell
 bundle
 autoload
 plugged
+plugin
+pack
 cache
 fonts
-liquidprompt*
 macros
 session
 sessions
@@ -13,6 +14,7 @@ undo
 abbr.*
 **/*.retry
 .DS_Store
+liquidprompt*
 bash-git-prompt
 bash-sensible
 ohmyzsh
