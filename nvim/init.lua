@@ -21,11 +21,12 @@ vim.cmd [[set wildignore+=*/.git/*,*/.hg/*,*/.svn/*]]
 vim.cmd [[set wildignore+=*/node_modules/*,*/.dist/*,*/.coverage/*]]
 
 --  when joining lines, don't insert two spaces after '.', '?' or '!'
--- opt('o', 'nojoinspaces', true) -- TODO: does not work
-vim.cmd [[set nojoinspaces]]
+opt('o', 'joinspaces', false)
 
 --  Don't redraw while executing macros
 opt('o', 'lazyredraw', true)
+
+opt('o', 'termguicolors', true)
 
 --  Turn backup off
 vim.cmd [[set nowritebackup]]
