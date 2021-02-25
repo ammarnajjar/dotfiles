@@ -1,5 +1,6 @@
 -- Change leader key to ,
 vim.g.mapleader = ','
+local editor_root=vim.fn.expand("~/.config/nvim/")
 
 require('globals')
 require('plugins')
@@ -29,8 +30,8 @@ opt('o', 'lazyredraw', true)
 opt('o', 'termguicolors', true)
 
 --  Turn backup off
-vim.cmd [[set nowritebackup]]
-vim.cmd [[set noswapfile]]
+opt('o', 'writebackup', false)
+opt('o', 'swapfile', false)
 
 --  Default 1 tab == 4 spaces
 local indent = 4
@@ -45,7 +46,7 @@ opt('o', 'inccommand', 'nosplit')
 --  create undo file to keep history after closing the file
 vim.cmd [[set undofile]]
 vim.cmd [[set undolevels=1000]]
--- vim.cmd [[execute 'set undodir='.fnameescape(s:editor_root."/undo/")]]
+vim.fn.execute([[set undodir=]]..editor_root..'/undo/')
 
 -- Remember info about open buffers on close
 vim.cmd [[set shada^=%]]
@@ -73,3 +74,15 @@ map('t', '<ESC>', '<C-\\><C-n>')
 map('n', '<leader>s', '<cmd>split term://zsh<CR><C-w><S-j><S-a>')
 map('n', '<leader>v', '<cmd>vsplit term://zsh<CR><C-w><S-j><S-a>')
 map('n', '<leader>t', '<cmd>tabedit term://zsh<CR><S-a>')
+
+-- * extend using local vimrc
+-- if vim.fn.filereadable(editor_root..'/local_vimrc.vim') then
+--     vim.fn.execute([['source '.fnameescape(]]..editor_root..[["/local_vimrc.vim")]])
+-- end
+
+-- TODO:
+-- * filetype specific settings (indent and so)
+-- * helper functions (tabs, trailing whitespaces, ..)
+-- * look into session management in nvim
+-- * statusline: e.g: https://github.com/haorenW1025/dotfiles/blob/master/nvim/lua/status-line.lua
+-- * auto light/dark theme switcher
