@@ -75,10 +75,11 @@ map('n', '<leader>s', '<cmd>split term://zsh<CR><C-w><S-j><S-a>')
 map('n', '<leader>v', '<cmd>vsplit term://zsh<CR><C-w><S-j><S-a>')
 map('n', '<leader>t', '<cmd>tabedit term://zsh<CR><S-a>')
 
--- * extend using local vimrc
--- if vim.fn.filereadable(editor_root..'/local_vimrc.vim') then
---     vim.fn.execute([['source '.fnameescape(]]..editor_root..[["/local_vimrc.vim")]])
--- end
+-- * extend using local moddule
+local localFile = editor_root..'local.lua'
+if (file_exists(localFile)) then
+    loadfile(localFile)()
+end
 
 -- TODO:
 -- * filetype specific settings (indent and so)

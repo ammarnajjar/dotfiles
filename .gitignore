@@ -19,7 +19,6 @@ bash-git-prompt
 bash-sensible
 ohmyzsh
 .netrwhist
-local_init.vim
-local_vimrc.vim
 asdf/asdf
 lua-language-server
+local.*
