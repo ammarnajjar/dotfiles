@@ -1,6 +1,6 @@
 # Dotfiles Configurations
 
-My dotfiles configurations.
+My dotfiles configurations.  
 It will be installed in the current directory with symlinks to the relatedd system paths.
 
 ## Usage:

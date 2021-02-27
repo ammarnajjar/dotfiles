@@ -58,7 +58,6 @@ map('v', '>', '>gv')
 --  Edit the vimrc file
 map('n', '<leader>ev', '<cmd>tabe $MYVIMRC<CR>')
 -- Opens a new tab with the current buffer's path
--- map('n', ',te', '<cmd>tabedit <c-r>=expand("%:p:h")<CR>/') -- TODO
 map('n', '<leader>te', '<cmd>tabedit<CR>')
 
 -- nnoremap <silent> <leader>cc :call g:ToggleColorColumn()<CR>
@@ -81,9 +80,40 @@ if (file_exists(localFile)) then
     loadfile(localFile)()
 end
 
+-- highlight yanked text
+vim.api.nvim_command([[autocmd TextYankPost * silent! lua vim.highlight.on_yank({ timeout=500} )]])
+
+-- delete trailing white spaces except for markdown
+vim.api.nvim_command([[autocmd BufWrite *.* lua DeleteTrailingWS()]])
+function DeleteTrailingWS()
+    if (vim.bo.filetype == 'markdown') then
+        return
+    end
+    vim.fn.nvim_command([[normal mz]])
+    vim.cmd([[%s/\s\+$//ge]])
+    vim.fn.nvim_command([[normal 'z]])
+end
+
 -- TODO:
+local x = 1
+print(x)
+
+vim.cmd([[highlight TrailingWhitespace ctermbg=darkgreen guibg=darkgreen]])
+
+-- highlight trailing whitespaces
+vim.api.nvim_command([[
+augroup AutoCompileLatex
+autocmd InsertEnter *.* :match TrailingWhitespace /\s\+\%#\@<!$/
+autocmd InsertLeave *.* :match TrailingWhitespace /\s\+$/
+augroup END
+]])
+
+-- view hidden characters like spaces and tabs
+-- vim.api.nvim_command([[<C-U>setlocal listchars=tab:>\-,space:·,nbsp:␣,trail:•,eol:¶,precedes:«,extends:» list! list? <CR>]])
+
 -- * filetype specific settings (indent and so)
 -- * helper functions (tabs, trailing whitespaces, ..)
 -- * look into session management in nvim
 -- * statusline: e.g: https://github.com/haorenW1025/dotfiles/blob/master/nvim/lua/status-line.lua
 -- * auto light/dark theme switcher
+
