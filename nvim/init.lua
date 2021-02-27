@@ -71,8 +71,9 @@ map('n', '<leader>ss', '<cmd>setlocal spell!<CR>')
 -- Terminal mode mappings
 map('t', '<ESC>', '<C-\\><C-n>')
 map('n', '<leader>s', '<cmd>split term://zsh<CR><C-w><S-j><S-a>')
-map('n', '<leader>v', '<cmd>vsplit term://zsh<CR><C-w><S-j><S-a>')
+map('n', '<leader>v', '<cmd>vsplit term://zsh<CR><C-w><S-l><S-a>')
 map('n', '<leader>t', '<cmd>tabedit term://zsh<CR><S-a>')
+vim.cmd('autocmd TermOpen * setlocal statusline=%{b:term_title}')
 
 -- * extend using local moddule
 local localFile = editor_root..'local.lua'
@@ -117,9 +118,44 @@ function TabToggle()
 	end
 end
 
+-- => Status line ---------------------- {{{
+local git_stl = vim.fn.exists('g:loaded_fugitive') and "%{FugitiveStatusline()}" or ''
+local status_line = {
+	"[%n]",-----------------------------------------------buffer number
+	"%<%.99f",--------------------------------------------file name, F for full-path
+	"%m%r%h%w",-------------------------------------------status flags
+	"%#question#",----------------------------------------warning for encoding not utf8
+	"%{(&fenc!='utf-8'&&&fenc!='')?'['.&fenc.']':''}",
+	"%*",
+	git_stl,-------------------------------------------fugitive statusline
+	"%=",-------------------------------------------------right align
+	"%y",-------------------------------------------------buffer file type
+	"%#directory#",
+	"%{&ff!='unix'?'['.&ff.']':''}",----------------------fileformat not unix
+	"%*",
+	"-%c%V,%l/",-----------------------------------------column and row Number
+	"%L-%P",---------------------------------------------total lines, position in file
+}
+vim.o.statusline = table.concat(status_line)
+-- }}}
+
+-- -- recalculate the tab warning flag when idle and after writing
+-- vim.api.nvim_command('autocmd cursorhold,bufwritepost * unlet! b:statusline_tab_warning')
+--
+-- -- return '[tabs]' if tab chars in file, or empty string
+-- function StatuslineTabWarning()
+--	   if (! vim.fn.exists("b:statusline_tab_warning")) then
+--		   let tabs = search('^\t', 'nw') != 0
+--		   if tabs
+--			   let b:statusline_tab_warning = '[tabs]'
+--		   else
+--			   let b:statusline_tab_warning = ''
+--		   endif
+--	   endif
+--	   return b:statusline_tab_warning
+-- end
+
 -- TODO
--- * filetype specific settings (indent and so)
 -- * helper functions
 -- * look into session management in nvim
--- * statusline: e.g: https://github.com/haorenW1025/dotfiles/blob/master/nvim/lua/status-line.lua
 
