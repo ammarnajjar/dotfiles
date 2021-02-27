@@ -83,6 +83,13 @@ end
 -- highlight yanked text
 vim.api.nvim_command([[autocmd TextYankPost * silent! lua vim.highlight.on_yank({ timeout=500} )]])
 
+-- highlight trailing whitespaces
+vim.api.nvim_command([[
+autocmd BufEnter *.* :highlight TrailingWhitespace ctermbg=darkgreen guibg=darkgreen
+autocmd InsertEnter *.* :match TrailingWhitespace /\s\+\%#\@<!$/
+autocmd InsertLeave *.* :match TrailingWhitespace /\s\+$/
+]])
+
 -- delete trailing white spaces except for markdown
 vim.api.nvim_command([[autocmd BufWrite *.* lua DeleteTrailingWS()]])
 function DeleteTrailingWS()
@@ -94,20 +101,7 @@ function DeleteTrailingWS()
     vim.fn.nvim_command([[normal 'z]])
 end
 
--- TODO:
-local x = 1
-print(x)
-
-vim.cmd([[highlight TrailingWhitespace ctermbg=darkgreen guibg=darkgreen]])
-
--- highlight trailing whitespaces
-vim.api.nvim_command([[
-augroup AutoCompileLatex
-autocmd InsertEnter *.* :match TrailingWhitespace /\s\+\%#\@<!$/
-autocmd InsertLeave *.* :match TrailingWhitespace /\s\+$/
-augroup END
-]])
-
+-- TODO
 -- view hidden characters like spaces and tabs
 -- vim.api.nvim_command([[<C-U>setlocal listchars=tab:>\-,space:·,nbsp:␣,trail:•,eol:¶,precedes:«,extends:» list! list? <CR>]])
 
