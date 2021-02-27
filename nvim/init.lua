@@ -118,6 +118,18 @@ function TabToggle()
 	end
 end
 
+-- TODO does not update
+function TabsFound()
+	local curline = vim.api.nvim_buf_get_lines(0, 0, 1000, false)
+	for _, value in ipairs(curline) do
+		if string.find(value, '\t+') then
+			return '[tabs]'
+		end
+	end
+	return ''
+end
+
+
 -- => Status line ---------------------- {{{
 local git_stl = vim.fn.exists('g:loaded_fugitive') and "%{FugitiveStatusline()}" or ''
 local status_line = {
@@ -126,6 +138,8 @@ local status_line = {
 	"%m%r%h%w",-------------------------------------------status flags
 	"%#question#",----------------------------------------warning for encoding not utf8
 	"%{(&fenc!='utf-8'&&&fenc!='')?'['.&fenc.']':''}",
+	"%#warningmsg#",									-- warning if tabs exist
+	TabsFound(),
 	"%*",
 	git_stl,-------------------------------------------fugitive statusline
 	"%=",-------------------------------------------------right align
@@ -158,4 +172,4 @@ vim.o.statusline = table.concat(status_line)
 -- TODO
 -- * helper functions
 -- * look into session management in nvim
-
+-- HxEREX
