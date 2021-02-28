@@ -118,7 +118,6 @@ function TabToggle()
 	end
 end
 
--- TODO does not update
 function TabsFound()
 	local curline = vim.api.nvim_buf_get_lines(0, 0, 1000, false)
 	for _, value in ipairs(curline) do
@@ -129,7 +128,6 @@ function TabsFound()
 	return ''
 end
 
-
 -- => Status line ---------------------- {{{
 local git_stl = vim.fn.exists('g:loaded_fugitive') and "%{FugitiveStatusline()}" or ''
 local status_line = {
@@ -138,10 +136,10 @@ local status_line = {
 	"%m%r%h%w",-------------------------------------------status flags
 	"%#question#",----------------------------------------warning for encoding not utf8
 	"%{(&fenc!='utf-8'&&&fenc!='')?'['.&fenc.']':''}",
-	"%#warningmsg#",									-- warning if tabs exist
-	TabsFound(),
-	"%*",
-	git_stl,-------------------------------------------fugitive statusline
+	"%#warningmsg#",---------------|
+	"%{luaeval('TabsFound()')}",---|--------------------- warning if tabs exist
+	"%*",--------------------------|
+	git_stl,----------------------------------------------fugitive statusline
 	"%=",-------------------------------------------------right align
 	"%y",-------------------------------------------------buffer file type
 	"%#directory#",
@@ -150,26 +148,9 @@ local status_line = {
 	"-%c%V,%l/",-----------------------------------------column and row Number
 	"%L-%P",---------------------------------------------total lines, position in file
 }
-vim.o.statusline = table.concat(status_line)
+vim.wo.statusline = table.concat(status_line)
 -- }}}
-
--- -- recalculate the tab warning flag when idle and after writing
--- vim.api.nvim_command('autocmd cursorhold,bufwritepost * unlet! b:statusline_tab_warning')
---
--- -- return '[tabs]' if tab chars in file, or empty string
--- function StatuslineTabWarning()
---	   if (! vim.fn.exists("b:statusline_tab_warning")) then
---		   let tabs = search('^\t', 'nw') != 0
---		   if tabs
---			   let b:statusline_tab_warning = '[tabs]'
---		   else
---			   let b:statusline_tab_warning = ''
---		   endif
---	   endif
---	   return b:statusline_tab_warning
--- end
 
 -- TODO
 -- * helper functions
 -- * look into session management in nvim
--- HxEREX
