@@ -56,8 +56,6 @@ vim.api.nvim_set_keymap('n', '<leader>ev', '<cmd>tabe $MYVIMRC<CR>', {})
 -- Opens a new tab with the current buffer's path
 vim.api.nvim_set_keymap('n', '<leader>te', '<cmd>tabedit<CR>', {})
 
--- nnoremap <silent> <leader>cc :call g:ToggleColorColumn()<CR>
-
 -- Switch CWD to the directory of the open buffer
 vim.api.nvim_set_keymap('', '<leader>cd', '<cmd>cd %:p:h<CR>:pwd<CR>', {})
 
@@ -71,7 +69,7 @@ vim.api.nvim_set_keymap('n', '<leader>v', '<cmd>vsplit term://zsh<CR><C-w><S-l><
 vim.api.nvim_set_keymap('n', '<leader>t', '<cmd>tabedit term://zsh<CR><S-a>', {})
 vim.cmd('autocmd TermOpen * setlocal statusline=%{b:term_title}')
 
--- => auto install packer ---------------- {{{1
+-- => Plugins ---------------- {{{
 local execute = vim.api.nvim_command
 local install_path = vim.fn.stdpath('config')..'/pack/packer/opt/packer.nvim'
 
@@ -100,14 +98,14 @@ require('packer').startup(function()
 	use { 'ammarnajjar/vim-code-dark' }
 end)
 -- }}}
--- => colorscheme ---------------- {{{1
+-- => colorscheme ---------------- {{{
 vim.cmd [[colorscheme codedark]]
 -- }}}
--- => completion ---------------- {{{1
+-- => completion ---------------- {{{
 vim.cmd [[set completeopt=menuone,noinsert,noselect]]
 vim.g.completion_matching_strategy_list = {'exact', 'substring', 'fuzzy'}
 -- }}}
--- => fzf ---------------- {{{1
+-- => fzf ---------------- {{{
 vim.g.fzf_layout = { down='~40%', window='enew' }
 
 vim.api.nvim_set_keymap('n', '<C-p>', '<cmd>Files<cr>', {})
@@ -142,11 +140,13 @@ else
 	vim.cmd [[let $FZF_DEFAULT_COMMAND = "find * -path '*/\.*' -prune -o -path 'venv/**' -prune -o -path  'coverage/**' -prune -o -path 'node_modules/**' -prune -o -path '__pycache__/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o	-type f -print -o -type l -print 2> /dev/null"]]
 end
 -- }}}
--- => treesitter  ---------------- {{{1
+
+-- => treesitter  ---------------- {{{
 local ts = require 'nvim-treesitter.configs'
 ts.setup {ensure_installed = 'maintained', highlight = {enable = true}}
 -- }}}
 
+-- => lsp {{{
 local nvim_lsp = require('lspconfig')
 
 local on_attach = function(client)
@@ -265,6 +265,7 @@ vim.lsp.diagnostic.on_publish_diagnostics, {
 	update_in_insert = false,
 }
 )
+-- }}}
 
 local function file_exists(name)
 	local fi=io.open(name,"r")
@@ -314,6 +315,7 @@ function TabToggle()
 	end
 end
 
+-- Check for tabs usage
 function TabsFound()
 	local curline = vim.api.nvim_buf_get_lines(0, 0, 1000, false)
 	for _, value in ipairs(curline) do
@@ -324,22 +326,54 @@ function TabsFound()
 	return ''
 end
 
+-- Check if paste mode is enabled
+function HasPaste()
+	if vim.o.paste then
+		return '[PASTE]'
+	else
+		return ''
+	end
+end
+
+-- Toggle ColumnColor
+vim.api.nvim_command('autocmd fileType * hi ColorColumn ctermbg=black guibg=black')
+vim.api.nvim_set_keymap('n', '<leader>cc', '<cmd>lua ToggleColorColumn()<CR>', { silent=true })
+function ToggleColorColumn()
+	if vim.wo.colorcolumn ~= '' then
+		vim.wo.colorcolumn = ''
+	else
+		vim.wo.colorcolumn = '80'
+	end
+end
+
+-- Append modeline after last line in buffer
+vim.api.nvim_set_keymap('n', '<Leader>ml', '<cmd>lua AppendModeline()<CR>', { silent=true })
+function AppendModeline()
+	local modeline = string.format(" vim: ft=%s ts=%d sw=%d %set %sai", vim.bo.filetype, vim.bo.tabstop, vim.bo.shiftwidth, vim.bo.expandtab and '' or 'no', vim.bo.autoindent and '' or 'no')
+	modeline = { string.format(vim.bo.commentstring, modeline) }
+	vim.api.nvim_buf_set_lines(0, -1, -1, true, modeline)
+end
+-- }}}
+
 -- => Statusline ---------------------- {{{
 local git_stl = vim.fn.exists('g:loaded_fugitive') and "%{FugitiveStatusline()}" or ''
 local status_line = {
-	"[%n]",-----------------------------------------------buffer number
-	"%<%.99f",--------------------------------------------file name, F for full-path
-	"%m%r%h%w",-------------------------------------------status flags
-	"%#question#",----------------------------------------warning for encoding not utf8
+	"[%n]",---------------------------------------------- buffer number
+	"%<%.99f",------------------------------------------- file name, F for full-path
+	"%m%r%h%w",------------------------------------------ status flags
+	"%#question#",--------------------------------------- warning for encoding not utf8
 	"%{(&fenc!='utf-8'&&&fenc!='')?'['.&fenc.']':''}",
+	"%#warningmsg#",---------------|
+	"%{luaeval('HasPaste()')}",----|--------------------- warning if paste mode is active
+	"%*",--------------------------|
 	"%#warningmsg#",---------------|
 	"%{luaeval('TabsFound()')}",---|--------------------- warning if tabs exist
 	"%*",--------------------------|
-	git_stl,----------------------------------------------fugitive statusline
-	"%=",-------------------------------------------------right align
-	"%y",-------------------------------------------------buffer file type
+	git_stl,--------------------------------------------- fugitive statusline
+	"%=",------------------------------------------------ right align
+	"%y",------------------------------------------------ buffer file type
 	"%#directory#",
-	"%{&ff!='unix'?'['.&ff.']':''}",----------------------fileformat not unix
+	"%{&ff!='unix'?'['.&ff.']':''}",--------------------- fileformat not unix
 	"%*",
 	" %c%V,%l/",-----------------------------------------column and row Number
 	"%L %P",---------------------------------------------total lines, position in file
@@ -347,6 +381,4 @@ local status_line = {
 vim.wo.statusline = table.concat(status_line)
 -- }}}
 
--- TODO
--- * helper functions
--- * LOOK INTO SESSION MANAGEMENT IN NVIM
+-- vim: ft=lua ts=4 sw=4 noet noai
