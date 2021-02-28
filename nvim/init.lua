@@ -145,8 +145,8 @@ local status_line = {
 	"%#directory#",
 	"%{&ff!='unix'?'['.&ff.']':''}",----------------------fileformat not unix
 	"%*",
-	"-%c%V,%l/",-----------------------------------------column and row Number
-	"%L-%P",---------------------------------------------total lines, position in file
+	" %c%V,%l/",-----------------------------------------column and row Number
+	"%L %P",---------------------------------------------total lines, position in file
 }
 vim.wo.statusline = table.concat(status_line)
 -- }}}
