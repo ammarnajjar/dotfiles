@@ -9,6 +9,26 @@
 vim.g.mapleader = ','
 local editor_root=vim.fn.expand("~/.config/nvim/")
 
+local function trim(s)
+   return (s:gsub("^%s*(.-)%s*$", "%1"))
+end
+
+-- find the python3 binary for neovim
+local which_python
+if vim.env.VIRTUAL_ENV and vim.env.ASDF_DIR then
+    which_python = "which -a python3 | head -n3 | tail -n1"
+elseif vim.env.VIRTUAL_ENV then
+   which_python = "which -a python3 | tail -n2 | head -n1"
+elseif vim.env.ASDF_DIR then
+    which_python = "which -a python3 | head -n2 | tail -n1"
+else
+    which_python = "which python3"
+end
+local handle = io.popen(which_python)
+local result = handle:read("*a")
+handle:close()
+vim.g.python3_host_prog = trim(result)
+
 vim.o.mouse = 'a'-------- Enable mouse usage (all modes)
 vim.o.matchtime = 1------ for 1/10th of a second
 vim.o.showmatch = true--- Show matching brackets.
@@ -19,7 +39,6 @@ vim.wo.number = true
 vim.o.modelines = 2
 vim.bo.modeline = true
 vim.o.filetype = 'on'
-
 
 -- Ignore compile/build files
 vim.o.wildignore = vim.o.wildignore..table.concat({
@@ -128,7 +147,6 @@ vim.cmd('packadd packer.nvim')
 require('packer').startup(function()
   -- Packer can manage itself as an optional plugin
   use { 'wbthomason/packer.nvim', opt = true }
-  use { 'nvim-treesitter/nvim-treesitter'}
   use { 'neovim/nvim-lspconfig' }
   use { 'nvim-lua/completion-nvim' }
   use { 'dstein64/nvim-scrollview' }
@@ -152,7 +170,7 @@ local function LightTheme()
 end
 local function DarkTheme()
   vim.o.background = 'dark'
-  vim.cmd [[colorscheme codedark]]
+  vim.cmd([[colorscheme codedark]])
   vim.api.nvim_command([[
   highlight CursorLineNr term=bold ctermfg=yellow ctermbg=black gui=bold guifg=yellow guibg=black
   autocmd InsertEnter * highlight CursorLineNr term=bold ctermfg=black ctermbg=74 gui=bold guifg=black guibg=skyblue1
@@ -166,7 +184,7 @@ else
 end
 
 -- completion
-vim.cmd [[set completeopt=menuone,noinsert,noselect]]
+vim.cmd([[set completeopt=menuone,noinsert,noselect]])
 vim.g.completion_matching_strategy_list = {'exact', 'substring', 'fuzzy'}
 
 -- fzf
@@ -203,9 +221,6 @@ else
   -- else revert to find
   vim.cmd([[let $FZF_DEFAULT_COMMAND = "find * -path '*/\.*' -prune -o -path 'venv/**' -prune -o -path  'coverage/**' -prune -o -path 'node_modules/**' -prune -o -path '__pycache__/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"]])
 end
--- treesitter
-local ts = require 'nvim-treesitter.configs'
-ts.setup {ensure_installed = 'maintained', highlight = {enable = true}}
 -- lsp
 local nvim_lsp = require('lspconfig')
 

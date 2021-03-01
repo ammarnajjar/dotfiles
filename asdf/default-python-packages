@@ -2,5 +2,6 @@ pip
 flake8
 pylint
 neovim
+pynvim
 python-language-server[autopep8]
 pyls-mypy
