@@ -1,3 +1,10 @@
+--  => Header ---------------------- {{{
+--  Fie: init.lua
+--  Author: Ammar Najjar <najjarammar@protonmail.com>
+--  Description: My neovim lua configurations file
+--  Last Modified: Mon Mar  1 06:40:43 CET 2021
+--  }}}
+-- => General ---------------------- {{{
 --- Change leader key to ,
 vim.g.mapleader = ','
 local editor_root=vim.fn.expand("~/.config/nvim/")
@@ -13,46 +20,42 @@ vim.bo.modeline = true
 vim.wo.number = true
 
 -- Ignore compile/build files
-vim.cmd [[set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__,*~,*.class]]
-vim.cmd [[set wildignore+=*/.git/*,*/.hg/*,*/.svn/*]]
-vim.cmd [[set wildignore+=*/node_modules/*,*/.dist/*,*/.coverage/*]]
+vim.o.wildignore = vim.o.wildignore..table.concat({
+	'*.o','*.obj','.git','*.rbc','*.pyc','__pycache__','*~','*.class',
+	'*.git/*','*.hg/*','*.svn/*',
+	'*/node_modules/*','*/.dist/*','*/.coverage/*'
+})
 
--- when joining lines, don't insert two spaces after '.', '?' or '!'
-vim.o.joinspaces = false
+vim.o.joinspaces = false -- when joining lines, don't insert two spaces after '.', '?' or '!'
+vim.o.lazyredraw = true -- Don't redraw while executing macros
 
--- Don't redraw while executing macros
-vim.o.lazyredraw = true
-
+vim.env.NVIM_TUI_ENABLE_TRUE_COLOR = 1
 vim.o.termguicolors = true
 
--- Turn backup off
-vim.o.writebackup = false
-vim.o.swapfile = false
+vim.o.writebackup = false ---|-- Turn backup off
+vim.o.swapfile = false ------|
 
--- Default 1 tab == 4 spaces
-local indent = 4
-vim.bo.expandtab = true
-vim.bo.smartindent = true
-vim.bo.shiftwidth = indent
-vim.bo.tabstop = indent
+local indent = 4 ------------|
+vim.bo.expandtab = true -----|
+vim.bo.smartindent = true ---|-- Default 1 tab == 4 spaces
+vim.bo.shiftwidth = indent --|
+vim.bo.tabstop = indent -----|
 
--- Live substitution
-vim.o.inccommand = 'nosplit'
+vim.o.inccommand = 'nosplit' -- Live substitution
 
 -- create undo file to keep history after closing the file
-vim.cmd [[set undofile]]
-vim.cmd [[set undolevels=1000]]
-vim.fn.execute([[set undodir=]]..editor_root..'/undo/')
+vim.o.undolevels = 1000
+vim.cmd('set undofile')
+vim.fn.execute('set undodir='..editor_root..'/undo/')
 
--- Remember info about open buffers on close
-vim.cmd [[set shada^=%]]
+vim.cmd('set shada^=%') -- Remember info about open buffers on close
 
--- visual shifting (does not exit Visual mode)
-vim.api.nvim_set_keymap('v', '<', '<gv', {})
-vim.api.nvim_set_keymap('v', '>', '>gv', {})
+vim.api.nvim_set_keymap('v', '<', '<gv', {}) --|-- visual shifting
+vim.api.nvim_set_keymap('v', '>', '>gv', {}) --|
 
 -- Edit the vimrc file
 vim.api.nvim_set_keymap('n', '<leader>ev', '<cmd>tabe $MYVIMRC<CR>', {})
+
 -- Opens a new tab with the current buffer's path
 vim.api.nvim_set_keymap('n', '<leader>te', '<cmd>tabedit<CR>', {})
 
@@ -69,6 +72,41 @@ vim.api.nvim_set_keymap('n', '<leader>v', '<cmd>vsplit term://zsh<CR><C-w><S-l><
 vim.api.nvim_set_keymap('n', '<leader>t', '<cmd>tabedit term://zsh<CR><S-a>', {})
 vim.cmd('autocmd TermOpen * setlocal statusline=%{b:term_title}')
 
+-- view hidden characters like spaces and tabs
+vim.api.nvim_set_keymap('n', '<F3>', [[<cmd>setlocal listchars=tab:>\-,space:·,nbsp:␣,trail:•,eol:¶,precedes:«,extends:» list! list? <CR>]], { noremap = true })
+
+-- Allow toggling between tabs and spaces
+-- This seems to trigger a bug https://github.com/neovim/neovim/issues/12861
+vim.api.nvim_set_keymap('n', '<F4>', '<cmd>lua TabToggle()<cr>', {})
+function TabToggle()
+	if vim.bo.expandtab then
+		vim.bo.expandtab = false
+		vim.cmd('retab!')
+	else
+		vim.bo.expandtab = true
+		vim.cmd('retab')
+	end
+end
+
+-- Toggle ColumnColor
+vim.api.nvim_command('autocmd fileType * hi ColorColumn ctermbg=black guibg=black')
+vim.api.nvim_set_keymap('n', '<leader>cc', '<cmd>lua ToggleColorColumn()<CR>', { silent=true })
+function ToggleColorColumn()
+	if vim.wo.colorcolumn ~= '' then
+		vim.wo.colorcolumn = ''
+	else
+		vim.wo.colorcolumn = '80'
+	end
+end
+
+-- Append modeline after last line in buffer
+vim.api.nvim_set_keymap('n', '<Leader>ml', '<cmd>lua AppendModeline()<CR>', { silent=true })
+function AppendModeline()
+	local modeline = string.format(" vim: ft=%s ts=%d sw=%d %set %sai", vim.bo.filetype, vim.bo.tabstop, vim.bo.shiftwidth, vim.bo.expandtab and '' or 'no', vim.bo.autoindent and '' or 'no')
+	modeline = { string.format(vim.bo.commentstring, modeline) }
+	vim.api.nvim_buf_set_lines(0, -1, -1, true, modeline)
+end
+--}}}
 -- => Plugins ---------------- {{{
 local execute = vim.api.nvim_command
 local install_path = vim.fn.stdpath('config')..'/pack/packer/opt/packer.nvim'
@@ -79,10 +117,10 @@ if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
 end
 
 -- Automatically run :PackerCompile whenever plugins.lua is updated with an autocommand:
-vim.cmd [[ autocmd BufWritePost plugins.lua PackerCompile ]]
+vim.cmd('autocmd BufWritePost init.lua PackerCompile')
 
 -- load packer
-vim.cmd [[packadd packer.nvim]]
+vim.cmd('packadd packer.nvim')
 
 require('packer').startup(function()
 	-- Packer can manage itself as an optional plugin
@@ -97,15 +135,36 @@ require('packer').startup(function()
 	use { 'tomtom/tcomment_vim' }
 	use { 'ammarnajjar/vim-code-dark' }
 end)
--- }}}
--- => colorscheme ---------------- {{{
-vim.cmd [[colorscheme codedark]]
--- }}}
--- => completion ---------------- {{{
+-- colorscheme
+vim.wo.cursorline = true
+local function LightTheme()
+	vim.o.background = 'light'
+	vim.api.nvim_command([[
+	highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=254
+	highlight cursorlinenr term=bold ctermfg=black ctermbg=grey gui=bold guifg=white guibg=grey
+	autocmd insertenter * highlight cursorlinenr term=bold ctermfg=black ctermbg=117 gui=bold guifg=white guibg=skyblue1
+	autocmd insertenter * highlight cursorline cterm=none ctermfg=none ctermbg=none
+	autocmd insertleave * highlight cursorlinenr term=bold ctermfg=black ctermbg=grey gui=bold guifg=white guibg=grey
+	autocmd InsertLeave * highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=254]])
+end
+local function DarkTheme()
+	vim.o.background = 'dark'
+	vim.cmd [[colorscheme codedark]]
+	vim.api.nvim_command([[
+	highlight CursorLineNr term=bold ctermfg=yellow ctermbg=black gui=bold guifg=yellow guibg=black
+	autocmd InsertEnter * highlight CursorLineNr term=bold ctermfg=black ctermbg=74 gui=bold guifg=black guibg=skyblue1
+	autocmd InsertLeave * highlight CursorLineNr term=bold ctermfg=yellow ctermbg=black gui=bold guifg=yellow guibg=black]])
+end
+
+if vim.env.KONSOLE_PROFILE_NAME == 'light' or vim.env.ITERM_PROFILE == 'light' then
+	LightTheme()
+else
+	DarkTheme()
+end
+-- completion
 vim.cmd [[set completeopt=menuone,noinsert,noselect]]
 vim.g.completion_matching_strategy_list = {'exact', 'substring', 'fuzzy'}
--- }}}
--- => fzf ---------------- {{{
+-- fzf
 vim.g.fzf_layout = { down='~40%', window='enew' }
 
 vim.api.nvim_set_keymap('n', '<C-p>', '<cmd>Files<cr>', {})
@@ -130,23 +189,20 @@ vim.g.fzf_tags_command = 'ctags --append=no --recurse --exclude=blib --exclude=d
 
 -- use ripgrep if exists
 if vim.fn.executable('rg') then
-	vim.cmd [[let $FZF_DEFAULT_COMMAND = 'rg --hidden --files --glob="!.git/*" --glob="!venv/*" --glob="!coverage/*" --glob="!node_modules/*" --glob="!target/*" --glob="!__pycache__/*" --glob="!dist/*" --glob="!build/*" --glob="!*.DS_Store"']]
-	vim.cmd [[set grepprg=rg]]
+	vim.cmd([[let $FZF_DEFAULT_COMMAND = 'rg --hidden --files --glob="!.git/*" --glob="!venv/*" --glob="!coverage/*" --glob="!node_modules/*" --glob="!target/*" --glob="!__pycache__/*" --glob="!dist/*" --glob="!build/*" --glob="!*.DS_Store"']])
+	vim.cmd('set grepprg=rg')
 	-- else use the silver searcher if exists
 elseif vim.fn.executable('ag') then
-	vim.cmd [[let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git --ignore venv/ --ignore coverage/ --ignore node_modules/ --ignore target/  --ignore __pycache__/ --ignore dist/ --ignore build/ --ignore .DS_Store	-g ""']]
-	vim.cmd [[set grepprg=ag\ --nogroup]]
+	vim.cmd([[let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git --ignore venv/ --ignore coverage/ --ignore node_modules/ --ignore target/  --ignore __pycache__/ --ignore dist/ --ignore build/ --ignore .DS_Store	-g ""']])
+	vim.cmd([[set grepprg=ag\ --nogroup]])
 else
-	vim.cmd [[let $FZF_DEFAULT_COMMAND = "find * -path '*/\.*' -prune -o -path 'venv/**' -prune -o -path  'coverage/**' -prune -o -path 'node_modules/**' -prune -o -path '__pycache__/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o	-type f -print -o -type l -print 2> /dev/null"]]
+	-- else revert to find
+	vim.cmd([[let $FZF_DEFAULT_COMMAND = "find * -path '*/\.*' -prune -o -path 'venv/**' -prune -o -path  'coverage/**' -prune -o -path 'node_modules/**' -prune -o -path '__pycache__/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o	-type f -print -o -type l -print 2> /dev/null"]])
 end
--- }}}
-
--- => treesitter  ---------------- {{{
+-- treesitter
 local ts = require 'nvim-treesitter.configs'
 ts.setup {ensure_installed = 'maintained', highlight = {enable = true}}
--- }}}
-
--- => lsp {{{
+-- lsp
 local nvim_lsp = require('lspconfig')
 
 local on_attach = function(client)
@@ -266,20 +322,22 @@ vim.lsp.diagnostic.on_publish_diagnostics, {
 }
 )
 -- }}}
-
-local function file_exists(name)
-	local fi=io.open(name,"r")
-	if fi~=nil then io.close(fi) return true else return false end
-end
-
--- extend using local moddule
-local localFile = editor_root..'local.lua'
-if (file_exists(localFile)) then
-	loadfile(localFile)()
-end
+-- => autocmd configs ---------------------- {{{
+vim.api.nvim_command([[
+augroup python_vim
+  autocmd! * <buffer>
+  autocmd fileType python setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4 colorcolumn=80
+	  \ formatoptions+=croq cinwords=if,elif,else,for,while,try,except,finally,def,class,with
+  autocmd fileType python hi ColorColumn ctermbg=darkgrey guibg=lightgrey
+augroup END
+autocmd BufNewFile,BufRead *.ts setlocal filetype=typescript
+autocmd BufNewFile,BufRead *.tsx setlocal filetype=typescript.tsx
+autocmd fileType html,xhtml,htm,xml,css,scss,php,ruby setlocal shiftwidth=2 tabstop=2 softtabstop=2
+autocmd fileType typescript,typescript.tsx,javascript setlocal shiftwidth=2 tabstop=2 softtabstop=2 expandtab
+]])
 
 -- highlight yanked text
-vim.api.nvim_command([[autocmd TextYankPost * silent! lua vim.highlight.on_yank({ timeout=500} )]])
+vim.api.nvim_command('autocmd TextYankPost * silent! lua vim.highlight.on_yank({ timeout=500} )')
 
 -- highlight trailing whitespaces
 vim.api.nvim_command([[
@@ -289,7 +347,7 @@ autocmd InsertLeave *.* :match TrailingWhitespace /\s\+$/
 ]])
 
 -- delete trailing white spaces except for markdown
-vim.api.nvim_command([[autocmd BufWrite *.* lua DeleteTrailingWS()]])
+vim.api.nvim_command('autocmd BufWrite *.* lua DeleteTrailingWS()')
 function DeleteTrailingWS()
 	if (vim.bo.filetype == 'markdown') then
 		return
@@ -298,25 +356,9 @@ function DeleteTrailingWS()
 	vim.cmd([[%s/\s\+$//ge]])
 	vim.fn.nvim_command([[normal 'z]])
 end
-
--- view hidden characters like spaces and tabs
-vim.api.nvim_set_keymap('n', '<F3>', [[<cmd>setlocal listchars=tab:>\-,space:·,nbsp:␣,trail:•,eol:¶,precedes:«,extends:» list! list? <CR>]], { noremap = true })
-
--- Allow toggling between tabs and spaces
--- This seems to trigger a bug https://github.com/neovim/neovim/issues/12861
-vim.api.nvim_set_keymap('n', '<F4>', '<cmd>lua TabToggle()<cr>', {})
-function TabToggle()
-	if vim.bo.expandtab then
-		vim.bo.expandtab = false
-		vim.cmd('retab!')
-	else
-		vim.bo.expandtab = true
-		vim.cmd('retab')
-	end
-end
-
--- Check for tabs usage
-function TabsFound()
+-- }}}
+-- => Statusline ---------------------- {{{
+function TabsFound() -- Check for tabs usage
 	local curline = vim.api.nvim_buf_get_lines(0, 0, 1000, false)
 	for _, value in ipairs(curline) do
 		if string.find(value, '\t+') then
@@ -326,8 +368,7 @@ function TabsFound()
 	return ''
 end
 
--- Check if paste mode is enabled
-function HasPaste()
+function HasPaste() -- Check for paste mode
 	if vim.o.paste then
 		return '[PASTE]'
 	else
@@ -335,27 +376,6 @@ function HasPaste()
 	end
 end
 
--- Toggle ColumnColor
-vim.api.nvim_command('autocmd fileType * hi ColorColumn ctermbg=black guibg=black')
-vim.api.nvim_set_keymap('n', '<leader>cc', '<cmd>lua ToggleColorColumn()<CR>', { silent=true })
-function ToggleColorColumn()
-	if vim.wo.colorcolumn ~= '' then
-		vim.wo.colorcolumn = ''
-	else
-		vim.wo.colorcolumn = '80'
-	end
-end
-
--- Append modeline after last line in buffer
-vim.api.nvim_set_keymap('n', '<Leader>ml', '<cmd>lua AppendModeline()<CR>', { silent=true })
-function AppendModeline()
-	local modeline = string.format(" vim: ft=%s ts=%d sw=%d %set %sai", vim.bo.filetype, vim.bo.tabstop, vim.bo.shiftwidth, vim.bo.expandtab and '' or 'no', vim.bo.autoindent and '' or 'no')
-	modeline = { string.format(vim.bo.commentstring, modeline) }
-	vim.api.nvim_buf_set_lines(0, -1, -1, true, modeline)
-end
--- }}}
-
--- => Statusline ---------------------- {{{
 local git_stl = vim.fn.exists('g:loaded_fugitive') and "%{FugitiveStatusline()}" or ''
 local status_line = {
 	"[%n]",---------------------------------------------- buffer number
@@ -380,5 +400,15 @@ local status_line = {
 }
 vim.wo.statusline = table.concat(status_line)
 -- }}}
+-- => local.lua  ---------------------- {{{
+local function file_exists(name)
+	local fi=io.open(name,"r")
+	if fi~=nil then io.close(fi) return true else return false end
+end
 
+local localFile = editor_root..'local.lua'
+if (file_exists(localFile)) then
+	loadfile(localFile)()
+end
+-- }}}
 -- vim: ft=lua ts=4 sw=4 noet noai
