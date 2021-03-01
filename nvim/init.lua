@@ -16,6 +16,10 @@ vim.o.ignorecase = true-- Do case insensitive matching
 vim.o.smartcase = true--- Do smart case matching
 vim.o.hidden = true------ Hide buffers when they are abandoned
 vim.wo.number = true
+vim.o.modelines = 2
+vim.bo.modeline = true
+vim.o.filetype = 'on'
+
 
 -- Ignore compile/build files
 vim.o.wildignore = vim.o.wildignore..table.concat({
@@ -38,6 +42,7 @@ vim.bo.expandtab = true -----|
 vim.bo.smartindent = true ---|-- Default 1 tab == 4 spaces
 vim.bo.shiftwidth = indent --|
 vim.bo.tabstop = indent -----|
+vim.bo.softtabstop=indent ---|
 
 vim.o.inccommand = 'nosplit' -- Live substitution
 
@@ -87,7 +92,7 @@ function TabToggle()
 end
 
 -- Toggle ColumnColor
-vim.api.nvim_command('autocmd fileType * hi ColorColumn ctermbg=black guibg=black')
+vim.api.nvim_command('autocmd filetype * hi ColorColumn ctermbg=black guibg=black')
 vim.api.nvim_set_keymap('n', '<leader>cc', '<cmd>lua ToggleColorColumn()<CR>', { silent=true })
 function ToggleColorColumn()
   if vim.wo.colorcolumn ~= '' then
@@ -97,8 +102,6 @@ function ToggleColorColumn()
   end
 end
 
-vim.o.modelines = 2
-vim.bo.modeline = true
 -- Append modeline after last line in buffer
 vim.api.nvim_set_keymap('n', '<Leader>ml', '<cmd>lua AppendModeline()<CR>', { silent=true })
 function AppendModeline()
@@ -324,27 +327,42 @@ vim.lsp.diagnostic.on_publish_diagnostics, {
 )
 -- }}}
 -- => autocmd configs ---------------------- {{{
-vim.api.nvim_command([[
-augroup filetypes_in_vim
-  autocmd! * <buffer>
-  autocmd filetype python setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4 colorcolumn=80
-    \ formatoptions+=croq cinwords=if,elif,else,for,while,try,except,finally,def,class,with
-  autocmd filetype python hi ColorColumn ctermbg=darkgrey guibg=lightgrey
-  autocmd BufNewFile,BufRead *.ts setlocal filetype=typescript
-  autocmd BufNewFile,BufRead *.tsx setlocal filetype=typescript.tsx
-  autocmd filetype html,xhtml,htm,xml,css,scss,php,ruby setlocal shiftwidth=2 tabstop=2 softtabstop=2
-  autocmd filetype typescript,typescript.tsx,javascript,lua setlocal shiftwidth=2 tabstop=2 softtabstop=2 expandtab
-augroup END
-]])
+local function indentUsing(indent)
+  vim.bo.shiftwidth = indent
+  vim.bo.tabstop = indent
+  vim.bo.softtabstop = indent
+end
+local function pythonSetup()
+  indentUsing(4)
+  vim.bo.formatoptions = vim.bo.formatoptions..'croq'
+  vim.bo.cinwords='if,elif,else,for,while,try,except,finally,def,class,with'
+end
+function FileTypeSetup()
+  local with_two_spaces = {
+    'typescript', 'typescript.tsx', 'javascript', 'javascript.jsx',
+    'lua', 'ruby', 'html', 'xhtml', 'htm', 'xml', 'css', 'scss', 'php'
+  }
+  if (vim.bo.filetype == 'python') then
+    pythonSetup()
+  else
+    for _, filetype in pairs(with_two_spaces) do
+      if (vim.bo.filetype == filetype) then
+        indentUsing(2)
+        break
+      end
+    end
+  end
+end
+vim.api.nvim_command('autocmd BufRead,BufEnter,BufNewFile *.* lua FileTypeSetup()')
 
 -- highlight yanked text
 vim.api.nvim_command('autocmd TextYankPost * silent! lua vim.highlight.on_yank({ timeout=500} )')
 
 -- highlight trailing whitespaces
 vim.api.nvim_command([[
-autocmd BufEnter *.* :highlight TrailingWhitespace ctermbg=darkgreen guibg=darkgreen
-autocmd InsertEnter *.* :match TrailingWhitespace /\s\+\%#\@<!$/
-autocmd InsertLeave *.* :match TrailingWhitespace /\s\+$/
+autocmd BufEnter *.* highlight TrailingWhitespace ctermbg=darkgreen guibg=darkgreen
+autocmd InsertEnter *.* match TrailingWhitespace /\s\+\%#\@<!$/
+autocmd InsertLeave *.* match TrailingWhitespace /\s\+$/
 ]])
 
 -- delete trailing white spaces except for markdown
