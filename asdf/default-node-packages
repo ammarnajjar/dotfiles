@@ -1,4 +1,5 @@
 npm
+pyright
 neovim
 typescript
 @angular/language-server
