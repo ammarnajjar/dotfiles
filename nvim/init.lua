@@ -56,13 +56,6 @@ vim.o.termguicolors = true
 vim.o.writebackup = false ---|-- Turn backup off
 vim.o.swapfile = false ------|
 
-local indent = 4 ------------|
-vim.bo.expandtab = true -----|
-vim.bo.smartindent = true ---|-- Default 1 tab == 4 spaces
-vim.bo.shiftwidth = indent --|
-vim.bo.tabstop = indent -----|
-vim.bo.softtabstop=indent ---|
-
 vim.o.inccommand = 'nosplit' -- Live substitution
 
 -- create undo file to keep history after closing the file
@@ -339,22 +332,30 @@ nvim_lsp["sumneko_lua"].setup {
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 vim.lsp.diagnostic.on_publish_diagnostics, {
+  -- enable virtual text
+  virtual_text = true,
+
+  -- show signs
+  signs = true,
+
   -- delay update diagnostics
   update_in_insert = false,
 }
 )
 -- }}}
 -- => autocmd configs ---------------------- {{{
-local function indentUsing(indent)
-  vim.bo.shiftwidth = indent
-  vim.bo.tabstop = indent
-  vim.bo.softtabstop = indent
+local function indentUsing(new_indent)
+  vim.bo.shiftwidth = new_indent
+  vim.bo.tabstop = new_indent
+  vim.bo.softtabstop = new_indent
 end
+
 local function pythonSetup()
   indentUsing(4)
   vim.bo.formatoptions = vim.bo.formatoptions..'croq'
   vim.bo.cinwords='if,elif,else,for,while,try,except,finally,def,class,with'
 end
+
 function FileTypeSetup()
   local with_two_spaces = {
     'typescript', 'typescript.tsx', 'javascript', 'javascript.jsx',
@@ -371,6 +372,12 @@ function FileTypeSetup()
     end
   end
 end
+
+local indent = 4 ------------|
+vim.bo.expandtab = true -----|
+vim.bo.smartindent = true ---|-- Default 1 tab == 4 spaces
+indentUsing(indent) ---------|
+
 vim.api.nvim_command('autocmd BufRead,BufEnter,BufNewFile *.* lua FileTypeSetup()')
 
 -- highlight yanked text
@@ -393,6 +400,9 @@ function DeleteTrailingWS()
   vim.cmd([[%s/\s\+$//ge]])
   vim.fn.nvim_command([[normal 'z]])
 end
+
+-- Return to last edit position when opening files
+vim.api.nvim_command([[autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") |  exe "normal! g`\"" | endif]])
 -- }}}
 -- => Statusline ---------------------- {{{
 function TabsFound() -- Check for tabs usage
@@ -413,7 +423,7 @@ function HasPaste() -- Check for paste mode
   end
 end
 
-local git_stl = vim.fn.exists('g:loaded_fugitive') and "%{FugitiveStatusline()}" or ''
+local git_stl = vim.g.loaded_fugitive==1 and "%{FugitiveStatusline()}" or ''
 local status_line = {
   "[%n]",---------------------------------------------- buffer number
   "%<%.99f",------------------------------------------- file name, F for full-path
