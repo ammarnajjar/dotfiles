@@ -102,6 +102,7 @@ function clone_repos() {
     git clone https://github.com/ammarnajjar/vim-code-dark.git plugged/vim-code-dark.vim
     git clone https://github.com/asdf-vm/asdf.git asdf/asdf
     ln -s $dotfiles_dir/asdf/default-cargo-crates $HOME/.default-cargo-crates
+    ln -s $dotfiles_dir/asdf/default-gems $HOME/.default-gems
 }
 
 function direnv_symlinks() {
