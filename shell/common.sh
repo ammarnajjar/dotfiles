@@ -58,6 +58,9 @@ export ASDF_PYTHON_DEFAULT_PACKAGES_FILE="$dotfiles_dir/asdf/default-python-pack
 export ASDF_DIR="$dotfiles_dir/asdf/asdf"
 export ASDF_DATA_DIR="$dotfiles_dir/asdf/asdf"
 
+# mute direnv output
+export DIRENV_LOG_FORMAT=""
+
 # useful functions stolen from https://github.com/Bash-it/bash-it
 function mkcd() {
     mkdir -p -- "$*"

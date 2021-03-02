@@ -1,10 +1,10 @@
 npm
-pyright
 neovim
 typescript
 @angular/language-server
 typescript-language-server
 vscode-css-languageserver-bin
 yaml-language-server
-dockerfile-language-server-nodejs
+pyright
 bash-language-server
+dockerfile-language-server-nodejs
