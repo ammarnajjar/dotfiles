@@ -39,7 +39,7 @@ export SAVEHIST=
 export HISTTIMEFORMAT="[%F %T]: "
 
 export GEM_HOME="$HOME/.gem"
-export PATH="/usr/local/opt/ruby/bin:$PATH"
+export PATH="/usr/local/opt/ruby/bin:$HOME/.gem/bin:$PATH"
 
 # Tell ls to be colourful
 export CLICOLOR=1
