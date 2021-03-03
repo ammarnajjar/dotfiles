@@ -3,4 +3,3 @@ flake8
 pylint
 neovim
 pynvim
-pyls-mypy
