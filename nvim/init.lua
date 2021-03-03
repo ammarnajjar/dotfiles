@@ -52,8 +52,8 @@ vim.o.lazyredraw = true -- Don't redraw while executing macros
 vim.env.NVIM_TUI_ENABLE_TRUE_COLOR = 1
 vim.o.termguicolors = true
 
-vim.o.writebackup = false ---|-- Turn backup off
-vim.o.swapfile = false ------|
+vim.o.writebackup = false ---╮--- Turn backup off
+vim.o.swapfile = false ------╯
 
 vim.o.inccommand = 'nosplit' -- Live substitution
 
@@ -67,8 +67,8 @@ vim.cmd('set shada^=%') -- Remember info about open buffers on close
 vim.g.switchbuf='useopen,usetab,newtab'
 vim.g.showtabline = 2
 
-vim.api.nvim_set_keymap('v', '<', '<gv', {}) --|-- visual shifting
-vim.api.nvim_set_keymap('v', '>', '>gv', {}) --|
+vim.api.nvim_set_keymap('v', '<', '<gv', {}) --╮-- visual shifting
+vim.api.nvim_set_keymap('v', '>', '>gv', {}) --╯
 
 -- Edit the vimrc file
 vim.api.nvim_set_keymap('n', '<leader>ev', '<cmd>tabe $MYVIMRC<CR>', {})
@@ -391,10 +391,10 @@ function FileTypeSetup()
   end
 end
 
-local indent = 4 ------------|
+local indent = 4 ------------╮
 vim.bo.expandtab = true -----|
 vim.bo.smartindent = true ---|-- Default 1 tab == 4 spaces
-indentUsing(indent) ---------|
+indentUsing(indent) ---------╯
 
 vim.api.nvim_command('autocmd BufRead,BufEnter,BufNewFile *.* lua FileTypeSetup()')
 
@@ -448,12 +448,12 @@ local status_line = {
   "%m%r%h%w",------------------------------------------ status flags
   "%#question#",--------------------------------------- warning for encoding not utf8
   "%{(&fenc!='utf-8'&&&fenc!='')?'['.&fenc.']':''}",
-  "%#warningmsg#",---------------|
+  "%#warningmsg#",---------------╮
   "%{luaeval('HasPaste()')}",----|--------------------- warning if paste mode is active
-  "%*",--------------------------|
-  "%#warningmsg#",---------------|
+  "%*",--------------------------╯
+  "%#warningmsg#",---------------╮
   "%{luaeval('TabsFound()')}",---|--------------------- warning if tabs exist
-  "%*",--------------------------|
+  "%*",--------------------------╯
   git_stl,--------------------------------------------- fugitive statusline
   "%=",------------------------------------------------ right align
   "%y",------------------------------------------------ buffer file type
