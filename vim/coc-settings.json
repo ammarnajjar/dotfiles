@@ -4,5 +4,4 @@
   "python.linting.pylintEnabled": false,
   "python.jediEnabled": false,
   "python.pythonPath": "${workspaceFolder}/venv/bin/python",
-  "angular.enable-experimental-ivy-prompt": false
 }

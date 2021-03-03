@@ -39,7 +39,7 @@ export SAVEHIST=
 export HISTTIMEFORMAT="[%F %T]: "
 
 export GEM_HOME="$HOME/.gem"
-export PATH="/usr/local/opt/ruby/bin:$PATH"
+export PATH="/usr/local/opt/ruby/bin:$HOME/.gem/bin:$PATH"
 
 # Tell ls to be colourful
 export CLICOLOR=1
@@ -57,6 +57,19 @@ export ASDF_NPM_DEFAULT_PACKAGES_FILE="$dotfiles_dir/asdf/default-node-packages"
 export ASDF_PYTHON_DEFAULT_PACKAGES_FILE="$dotfiles_dir/asdf/default-python-packages"
 export ASDF_DIR="$dotfiles_dir/asdf/asdf"
 export ASDF_DATA_DIR="$dotfiles_dir/asdf/asdf"
+export ASDF_PLUGINS=(
+    nodejs
+    python
+    direnv
+    dotnet-core
+    fzf
+    rust
+    golang
+    ruby
+)
+
+# mute direnv output
+export DIRENV_LOG_FORMAT=""
 
 # useful functions stolen from https://github.com/Bash-it/bash-it
 function mkcd() {

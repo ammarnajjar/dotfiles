@@ -102,6 +102,7 @@ function clone_repos() {
     git clone https://github.com/ammarnajjar/vim-code-dark.git plugged/vim-code-dark.vim
     git clone https://github.com/asdf-vm/asdf.git asdf/asdf
     ln -s $dotfiles_dir/asdf/default-cargo-crates $HOME/.default-cargo-crates
+    ln -s $dotfiles_dir/asdf/default-gems $HOME/.default-gems
 }
 
 function direnv_symlinks() {
@@ -111,18 +112,26 @@ function direnv_symlinks() {
     ln -s $dotfiles_dir/direnv/envrc $HOME/.envrc
 }
 
-function vim_symlinks() {
-    echo_blue "** Create Neovim/Vim Symlinks"
+function nvim_symlinks() {
     [ -L $dotfiles_dir ] && mv $dotfiles_dir /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_dotfiles
     # neovim
+    echo_blue "** Create Neovim Symlinks"
     mkdir -p ${XDG_CONFIG_HOME:=$HOME/.config}
     [ -L $HOME/.config/nvim ] && rm $HOME/.config/nvim
-    ln -s $dotfiles_dir $XDG_CONFIG_HOME/nvim
-    # vim
-    [ -L $HOME/.vim ] && rm $HOME/.vim
-    [ -L $HOME/.vimrc ] && rm $HOME/.vimrc
-    ln -s $dotfiles_dir $HOME/.vim
-    ln -s $dotfiles_dir/init.vim $HOME/.vimrc
+    ln -s $dotfiles_dir/nvim $XDG_CONFIG_HOME/nvim
+}
+
+function install_lua_language_server() {
+    mkdir -p $dotfiles_dir/nvim/lsp
+    cd $dotfiles_dir/nvim/lsp
+    # clone project
+    git clone https://github.com/sumneko/lua-language-server
+    cd lua-language-server
+    git submodule update --init --recursive
+    cd 3rd/luamake
+    ninja -f ninja/macos.ninja
+    cd ../..
+    ./3rd/luamake/luamake rebuild
 }
 
 function compile_terminfo() {
@@ -149,7 +158,7 @@ function main(){
     prepare_dotfiles_dir
 
     clone_repos
-    vim_symlinks
+    nvim_symlinks
     direnv_symlinks
     compile_terminfo
 
@@ -158,7 +167,7 @@ function main(){
 
     prepare_shell_rc_file
     install_plugins
-    cd $HOME
+    cd $current_dir
     echo_blue "** Installation Complete **"
     exec $shell
 }

@@ -1,5 +1,5 @@
 " => Header ---------------------- {{{1
-" Fie: init.vim
+" Fie: vimrc.vim
 " Author: Ammar Najjar <najjarammar@protonmail.com>
 " Description: My neovim/vim configurations file
 " Last Modified: Mon Feb 15 22:42:50 CET 2021
@@ -154,8 +154,8 @@ if !exists('g:vscode')
 
         " Terminal mode mappings
         tnoremap <Esc> <C-\><C-n>
-        noremap <leader>s :split term://bash<CR><C-w><S-j><S-a>
-        noremap <leader>t :tabedit term://bash<CR><S-a>
+        noremap <leader>s :split term://zsh<CR><C-w><S-j><S-a>
+        noremap <leader>t :tabedit term://zsh<CR><S-a>
         autocmd TermOpen * setlocal statusline=%{b:term_title}
     endif
     " }}}

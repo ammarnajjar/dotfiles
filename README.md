@@ -1,55 +1,72 @@
 # Dotfiles Configurations
 
-My dotfiles configurations.  
-It will be installed in the current directory with symlinks to the correct paths.  
+It will be installed in the current directory (where [`install.sh`](install.sh) is run) with symlinks to the related system paths.
 
 ## Usage:
 
-Make a **backup** for your settings (or else look for them under /tmp/trash/..).  
-Then:
+Make a **backup** for your settings, only then:
 
 ```bash
 wget https://raw.githubusercontent.com/ammarnajjar/dotfiles/master/install.sh && $0 install.sh
 ```
 
-## Tools supported:
+<details><summary>Tools supported:</summary>
 
-- [vim](https://github.com/vim/vim)
-- [neovim](https://github.com/neovim/neovim)
+- [vim](https://github.com/vim/vim): these configurations support also neovim version < 0.5.0, one need to link them manually though.
+
+- [neovim](https://github.com/neovim/neovim): by default version >= 0.5.0 is supported see [`init.lua`](nvim/init.lua).
+
 - [bash](https://www.gnu.org/software/bash/)
+
 - [zsh](https://www.zsh.org/)
+
 - [git](https://git-scm.com/)
+
 - [tmux](https://github.com/tmux/tmux)
+
 - [asdf](https://github.com/asdf-vm/asdf)
+
 - [direnv](https://github.com/direnv/direnv)
 
-## Files in repo:
+</details>
+
+<details><summary>Files in repository:</summary>
 
 ```bash
 .
 ├── LICENSE
 ├── README.md
 ├── asdf
+│   ├── default-cargo-crates
+│   ├── default-gems
 │   ├── default-node-packages
 │   └── default-python-packages
-├── coc-settings.json
+├── bat
+│   └── config
 ├── direnv
 │   ├── direnvrc
 │   └── envrc
 ├── git
 │   ├── config
 │   └── gitmessage
-├── init.vim
 ├── install.sh
+├── nvim
+│   └── init.lua
 ├── shell
 │   ├── bash
 │   │   └── bashrc
 │   ├── common.sh
-│   ├── terminfo
 │   └── zsh
 │       └── zshrc
-└── tmux
-    └── tmux.conf
+├── tmux
+│   └── tmux.conf
+└── vim
+    ├── README.md
+    ├── coc-settings.json
+    ├── link.sh
+    └── vimrc.vim
 ```
+</details>
 
-I have full explanation to my vimrc [here](https://ammarnajjar.github.io/editors/2016/06/19/Vimrc-Adventure/)
+*This is my personal configurations, use at your own risk.*
+
