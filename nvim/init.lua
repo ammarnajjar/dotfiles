@@ -297,7 +297,7 @@ function LoadLsp()
     "angularls",
     "tsserver",
     "cssls",
-    "pyright",
+    "pyright", -- check for compatible nodejs version => tail $(lua vim.lsp.get_log_path())
     "bashls",
     "gopls",
     "rls",
