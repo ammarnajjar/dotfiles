@@ -12,6 +12,11 @@ local function trim(s)
    return (s:gsub("^%s*(.-)%s*$", "%1"))
 end
 
+local function file_exists(name)
+  local fi=io.open(name,"r")
+  if fi~=nil then io.close(fi) return true else return false end
+end
+
 -- find the python3 binary for neovim
 local which_python
 if vim.env.VIRTUAL_ENV and vim.env.ASDF_DIR then
@@ -227,7 +232,6 @@ else
 end
 
 function LoadLsp()
-  -- lsp
   local nvim_lsp = require('lspconfig')
 
   local on_attach = function(client)
@@ -318,30 +322,32 @@ function LoadLsp()
   -- lua_lsp_root_path => $HOME/.config/nvim/lsp/lua-language-server
   local lua_lsp_root_path = vim.fn.stdpath('config')..'/lsp/lua-language-server'
   local lua_lsp_binary = lua_lsp_root_path.."/bin/"..system_name.."/lua-language-server"
-  nvim_lsp["sumneko_lua"].setup {
-    cmd = { lua_lsp_binary, "-E", lua_lsp_root_path .. "/main.lua" },
-    settings = {
-      Lua = {
-        runtime = {
-          version = 'LuaJIT',
-          -- Setup your lua path
-          path = vim.split(package.path, ';'),
-        },
-        diagnostics = {
-          -- Get the language server to recognize the `vim` global
-          globals = { 'vim', 'use' },
-        },
-        workspace = {
-          -- Make the server aware of Neovim runtime files
-          library = {
-            [vim.fn.expand('$VIMRUNTIME/lua')] = true,
-            [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
+  if (file_exists(lua_lsp_binary)) then
+    nvim_lsp["sumneko_lua"].setup {
+      cmd = { lua_lsp_binary, "-E", lua_lsp_root_path .. "/main.lua" },
+      settings = {
+        Lua = {
+          runtime = {
+            version = 'LuaJIT',
+            -- Setup your lua path
+            path = vim.split(package.path, ';'),
+          },
+          diagnostics = {
+            -- Get the language server to recognize the `vim` global
+            globals = { 'vim', 'use' },
+          },
+          workspace = {
+            -- Make the server aware of Neovim runtime files
+            library = {
+              [vim.fn.expand('$VIMRUNTIME/lua')] = true,
+              [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
+            },
           },
         },
       },
-    },
-    on_attach = on_attach
-  }
+      on_attach = on_attach
+    }
+  end
 
   vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
@@ -362,7 +368,7 @@ end
 
 -- load lsp after colorscheme is applied on buffer
 -- else messages will show up without colors (white)
-vim.api.nvim_command('autocmd BufReadPost * lua LoadLsp()')
+vim.api.nvim_command('autocmd BufWinEnter * lua LoadLsp()')
 -- }}}
 -- => autocmd configs ---------------------- {{{
 local function indentUsing(new_indent)
@@ -466,14 +472,9 @@ local status_line = {
   " %c%V,%l/",-----------------------------------------column and row Number
   "%L %P",---------------------------------------------total lines, position in file
 }
-vim.wo.statusline = table.concat(status_line)
+vim.o.statusline = table.concat(status_line)
 -- }}}
 -- => local.lua  ---------------------- {{{
-local function file_exists(name)
-  local fi=io.open(name,"r")
-  if fi~=nil then io.close(fi) return true else return false end
-end
-
 local localFile = editor_root..'local.lua'
 if (file_exists(localFile)) then
   loadfile(localFile)()
