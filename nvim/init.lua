@@ -28,12 +28,12 @@ local result = handle:read("*a")
 handle:close()
 vim.g.python3_host_prog = trim(result)
 
-vim.o.mouse = 'a'-------- Enable mouse usage (all modes)
-vim.o.matchtime = 1------ for 1/10th of a second
-vim.o.showmatch = true--- Show matching brackets.
-vim.o.ignorecase = true-- Do case insensitive matching
-vim.o.smartcase = true--- Do smart case matching
-vim.o.hidden = true------ Hide buffers when they are abandoned
+vim.o.mouse = 'a' -------- Enable mouse usage (all modes)
+vim.o.matchtime = 1 ------ for 1/10th of a second
+vim.o.showmatch = true --- Show matching brackets.
+vim.o.ignorecase = true -- Do case insensitive matching
+vim.o.smartcase = true --- Do smart case matching
+vim.o.hidden = true ------ Hide buffers when they are abandoned
 vim.wo.number = true
 vim.o.modelines = 2
 vim.bo.modeline = true
@@ -52,8 +52,8 @@ vim.o.lazyredraw = true --- Don't redraw while executing macros
 vim.env.NVIM_TUI_ENABLE_TRUE_COLOR = 1
 vim.o.termguicolors = true
 
-vim.o.writebackup = false ---╮--- Turn backup off
-vim.o.swapfile = false ------╯
+vim.o.writebackup = false --╮-- Turn backup off
+vim.o.swapfile = false -----╯
 
 vim.o.inccommand = 'nosplit' -- Live substitution
 
@@ -62,7 +62,7 @@ vim.o.undolevels = 1000
 vim.cmd('set undofile')
 vim.fn.execute('set undodir='..editor_root..'/undo/')
 
-vim.cmd('set shada^=%') -- Remember info about open buffers on close
+vim.cmd('set shada^=%') ------- Remember info about open buffers on close
 
 vim.g.switchbuf='useopen,usetab,newtab'
 vim.g.showtabline = 2
@@ -158,8 +158,10 @@ require('packer').startup(function()
   use { 'tomtom/tcomment_vim' }
   use { 'ammarnajjar/vim-code-dark' }
 end)
+
 -- colorscheme
 vim.wo.cursorline = true
+
 local function LightTheme()
   vim.o.background = 'light'
   vim.api.nvim_command([[
@@ -200,16 +202,16 @@ vim.api.nvim_set_keymap('n', '<leader>ag', '<cmd>Ag <C-R><C-W><CR>', {})
 -- [Buffers] Jump to the existing window if possible
 vim.g.fzf_buffers_jump = 1
 
--- [B]Commits] Customize the options used by 'git log':
+-- [Commits] Customize the options used by 'git log':
 vim.g.fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
-
--- show preview with colors using bat
-if vim.fn.executable('bat') then
-  vim.cmd [[let $FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --margin=1 --preview 'bat --line-range :150 {}'"]]
-end
 
 -- [Tags] Command to generate tags file
 vim.g.fzf_tags_command = 'ctags --append=no --recurse --exclude=blib --exclude=dist --exclude=node_modules --exclude=coverage --exclude=.svn --exclude=.get --exclude="@.gitignore" --extra=q'
+
+-- show preview with colors using bat if exists
+if vim.fn.executable('bat') then
+  vim.cmd [[let $FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --margin=1 --preview 'bat --line-range :150 {}'"]]
+end
 
 -- use ripgrep if exists
 if vim.fn.executable('rg') then
@@ -237,7 +239,7 @@ function LoadLsp()
 
     buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-    -- Mappings.
+    -- Mappings
     local opts = { noremap=true, silent=true }
     buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
     buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
