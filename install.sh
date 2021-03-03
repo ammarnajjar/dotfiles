@@ -129,9 +129,13 @@ function install_lua_language_server() {
     cd lua-language-server
     git submodule update --init --recursive
     cd 3rd/luamake
-    ninja -f ninja/macos.ninja
+    if [[ "$OSTYPE" == "linux-gnu" ]]; then
+        ninja -f ninja/linux.ninja
+    elif [[ "$OSTYPE" == "darwin"* ]]; then
+        ninja -f ninja/macos.ninja
+    fi
     cd ../..
-    ./3rd/luamake/luamake rebuild
+    ./3rd/luamake/luamake rebuild || echo "* Faild: installing lua-lsp-server"
 }
 
 function compile_terminfo() {
@@ -166,6 +170,7 @@ function main(){
     update_git_conf
 
     prepare_shell_rc_file
+    install_lua_language_server
     install_plugins
     cd $current_dir
     echo_blue "** Installation Complete **"
