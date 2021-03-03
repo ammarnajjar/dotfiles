@@ -272,6 +272,9 @@ local on_attach = function(client)
     augroup END
     ]], false)
   end
+
+  -- show diagnostics as a popup
+  vim.api.nvim_command('autocmd CursorMoved <buffer> lua vim.lsp.diagnostic.show_line_diagnostics()')
 end
 
 -- Use a loop to conveniently both setup defined servers
@@ -332,10 +335,13 @@ nvim_lsp["sumneko_lua"].setup {
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 vim.lsp.diagnostic.on_publish_diagnostics, {
-  -- enable virtual text
+  -- underline
+  underline = true,
+
+  -- virtual text
   virtual_text = true,
 
-  -- show signs
+  -- signs
   signs = true,
 
   -- delay update diagnostics
