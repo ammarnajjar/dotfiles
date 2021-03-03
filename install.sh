@@ -1,8 +1,6 @@
 # File: install.sh
 # Author: Ammar Najjar <najjarammar@protonmail.com>
 # Description: install neovim  and other bash/zsh, tmux and git condifurations.
-# The old configurations if exist will be backed up under /tmp/trash/..
-# Last Modified: Sat Feb 20 23:20:22 CET 2021
 
 function echo_blue() {
     if [ ! -z $BASH_VERSION ]

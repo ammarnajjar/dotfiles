@@ -368,7 +368,7 @@ end
 
 -- load lsp after colorscheme is applied on buffer
 -- else messages will show up without colors (white)
-vim.api.nvim_command('autocmd BufWinEnter * lua LoadLsp()')
+vim.api.nvim_command('autocmd BufNewFile,BufReadPost * lua LoadLsp()')
 -- }}}
 -- => autocmd configs ---------------------- {{{
 local function indentUsing(new_indent)
