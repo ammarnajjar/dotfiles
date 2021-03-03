@@ -1,12 +1,10 @@
 # Dotfiles Configurations
 
-My dotfiles configurations.  
-It will be installed in the current directory with symlinks to the relatedd system paths.
+It will be installed in the current directory (where [`install.sh`](install.sh) is asked to run) with symlinks to the related system paths.
 
 ## Usage:
 
-Make a **backup** for your settings (or else look for them under /tmp/trash/..).
-Then:
+Make a **backup** for your settings, only then:
 
 ```bash
 wget https://raw.githubusercontent.com/ammarnajjar/dotfiles/master/install.sh && $0 install.sh
@@ -14,9 +12,9 @@ wget https://raw.githubusercontent.com/ammarnajjar/dotfiles/master/install.sh &&
 
 <details><summary>Tools supported:</summary>
 
-- [vim](https://github.com/vim/vim)
+- [vim](https://github.com/vim/vim): these configurations support also neovim version < 0.5.0, one need to link them manually though.
 
-- [neovim](https://github.com/neovim/neovim)
+- [neovim](https://github.com/neovim/neovim): by default version >= 0.5.0 is supported see [`init.lua`](nvim/init.lua).
 
 - [bash](https://www.gnu.org/software/bash/)
 
@@ -40,6 +38,7 @@ wget https://raw.githubusercontent.com/ammarnajjar/dotfiles/master/install.sh &&
 ├── README.md
 ├── asdf
 │   ├── default-cargo-crates
+│   ├── default-gems
 │   ├── default-node-packages
 │   └── default-python-packages
 ├── bat
@@ -52,12 +51,11 @@ wget https://raw.githubusercontent.com/ammarnajjar/dotfiles/master/install.sh &&
 │   └── gitmessage
 ├── install.sh
 ├── nvim
-│   └── init.vim
+│   └── init.lua
 ├── shell
 │   ├── bash
 │   │   └── bashrc
 │   ├── common.sh
-│   ├── terminfo
 │   └── zsh
 │       └── zshrc
 ├── tmux
@@ -66,8 +64,9 @@ wget https://raw.githubusercontent.com/ammarnajjar/dotfiles/master/install.sh &&
     ├── README.md
     ├── coc-settings.json
     ├── link.sh
-    └── vimrc
+    └── vimrc.vim
 ```
 </details>
 
-I have full explanation to my vimrc [here](https://ammarnajjar.github.io/editors/2016/06/19/Vimrc-Adventure/)
+*This is my personal configurations, use at your own risk.*
+
