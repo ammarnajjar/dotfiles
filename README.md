@@ -1,6 +1,6 @@
 # Dotfiles Configurations
 
-It will be installed in the current directory (where [`install.sh`](install.sh) is asked to run) with symlinks to the related system paths.
+It will be installed in the current directory (where [`install.sh`](install.sh) is run) with symlinks to the related system paths.
 
 ## Usage:
 
