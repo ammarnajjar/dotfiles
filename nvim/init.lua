@@ -47,7 +47,7 @@ vim.o.wildignore = vim.o.wildignore..table.concat({
 })
 
 vim.o.joinspaces = false -- when joining lines, don't insert two spaces after '.', '?' or '!'
-vim.o.lazyredraw = true -- Don't redraw while executing macros
+vim.o.lazyredraw = true --- Don't redraw while executing macros
 
 vim.env.NVIM_TUI_ENABLE_TRUE_COLOR = 1
 vim.o.termguicolors = true
@@ -140,7 +140,7 @@ if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
   execute 'packadd packer.nvim'
 end
 
--- Automatically run :PackerCompile whenever plugins.lua is updated with an autocommand:
+-- Automatically run :PackerCompile whenever this file is updated
 vim.cmd('autocmd BufWritePost init.lua PackerCompile')
 
 -- load packer
@@ -220,7 +220,7 @@ elseif vim.fn.executable('ag') then
   vim.cmd([[let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git --ignore venv/ --ignore coverage/ --ignore node_modules/ --ignore target/  --ignore __pycache__/ --ignore dist/ --ignore build/ --ignore .DS_Store  -g ""']])
   vim.cmd([[set grepprg=ag\ --nogroup]])
 else
-  -- else revert to find
+  -- else fallback to find
   vim.cmd([[let $FZF_DEFAULT_COMMAND = "find * -path '*/\.*' -prune -o -path 'venv/**' -prune -o -path  'coverage/**' -prune -o -path 'node_modules/**' -prune -o -path '__pycache__/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"]])
 end
 
@@ -359,6 +359,7 @@ function LoadLsp()
 end
 
 -- load lsp after colorscheme is applied on buffer
+-- else messages will show up without colors (white)
 vim.api.nvim_command('autocmd BufReadPost * lua LoadLsp()')
 -- }}}
 -- => autocmd configs ---------------------- {{{
