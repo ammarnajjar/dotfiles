@@ -93,11 +93,9 @@ function clone_dotfiles() {
     git clone https://github.com/ammarnajjar/dotfiles.git .
 }
 
-function clone_repos() {
+function asdf_setup() {
     cd $dotfiles_dir
-    echo_blue "** Clone github repos -- $(pwd)"
-    curl -fLo autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    git clone https://github.com/ammarnajjar/vim-code-dark.git plugged/vim-code-dark.vim
+    echo_blue "** asdf setup -- $(pwd)"
     git clone https://github.com/asdf-vm/asdf.git asdf/asdf
     ln -s $dotfiles_dir/asdf/default-cargo-crates $HOME/.default-cargo-crates
     ln -s $dotfiles_dir/asdf/default-gems $HOME/.default-gems
@@ -150,7 +148,7 @@ function update_git_conf() {
 
 function install_plugins() {
     echo_blue "** Install plugins"
-    nvim +PlugInstall +qall
+    nvim +PackerCompile +PackerInstall +qall
 }
 
 function main(){
@@ -159,7 +157,7 @@ function main(){
     install_pkgs
     prepare_dotfiles_dir
 
-    clone_repos
+    asdf_setup
     nvim_symlinks
     direnv_symlinks
     compile_terminfo
