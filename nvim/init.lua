@@ -452,25 +452,26 @@ end
 
 local git_stl = vim.g.loaded_fugitive==1 and "%{FugitiveStatusline()}" or ''
 local status_line = {
-  "[%n]",---------------------------------------------- buffer number
-  "%<%.99f",------------------------------------------- file name, F for full-path
-  "%m%r%h%w",------------------------------------------ status flags
-  "%#question#",--------------------------------------- warning for encoding not utf8
-  "%{(&fenc!='utf-8'&&&fenc!='')?'['.&fenc.']':''}",
-  "%#warningmsg#",---------------╮
-  "%{luaeval('HasPaste()')}",----|--------------------- warning if paste mode is active
-  "%*",--------------------------╯
-  "%#warningmsg#",---------------╮
-  "%{luaeval('TabsFound()')}",---|--------------------- warning if tabs exist
-  "%*",--------------------------╯
-  git_stl,--------------------------------------------- fugitive statusline
-  "%=",------------------------------------------------ right align
-  "%y",------------------------------------------------ buffer file type
-  "%#directory#",
-  "%{&ff!='unix'?'['.&ff.']':''}",--------------------- fileformat not unix
-  "%*",
-  " %c%V,%l/",-----------------------------------------column and row Number
-  "%L %P",---------------------------------------------total lines, position in file
+  "[%n]", ------------------------------------------------ buffer number
+  "%<%.99f", --------------------------------------------- file name (F for full-path)
+  "%m%r%h%w", -------------------------------------------- status flags
+  "%#question#", --------------------------------------╮
+  "%{(&fenc!='utf-8'&&&fenc!='')?'['.&fenc.']':''}", --|-- warning for encoding not utf8
+  "%*", -----------------------------------------------╯
+  "%#warningmsg#", ---------------------╮
+  "%{luaeval('HasPaste()')}", ----------|------------------ warning if paste mode is active
+  "%*", --------------------------------╯
+  "%#warningmsg#", ---------------------╮
+  "%{luaeval('TabsFound()')}", ---------|----------------- warning if tabs exist
+  "%*", --------------------------------╯
+  git_stl, ----------------------------------------------- fugitive statusline
+  "%=", -------------------------------------------------- right align
+  "%y", -------------------------------------------------- buffer file type
+  "%#directory#", ----------------------╮
+  "%{&ff!='unix'?'['.&ff.']':''}", -----|----------------- fileformat not unix
+  "%*", --------------------------------╯
+  " %c%V,%l/", -------------------------------------------column and row number
+  "%L %P", -----------------------------------------------total lines, position in file
 }
 vim.o.statusline = table.concat(status_line)
 -- }}}
