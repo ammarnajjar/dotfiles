@@ -179,7 +179,7 @@ local function LightTheme()
 end
 local function DarkTheme()
   vim.o.background = 'dark'
-  vim.cmd([[colorscheme codedark]])
+  pcall(function() vim.cmd('colorscheme codedark') end)  -- try colorscheme, fallback to default
   vim.api.nvim_command([[
   highlight CursorLineNr term=bold ctermfg=yellow ctermbg=black gui=bold guifg=yellow guibg=black
   autocmd InsertEnter * highlight CursorLineNr term=bold ctermfg=black ctermbg=74 gui=bold guifg=black guibg=skyblue1
