@@ -22,7 +22,7 @@ function get_sudo() {
 }
 
 function install_pkgs() {
-    pkgs="git curl neovim tmux libstdc++-static ninja-build" # some lua-lsp-deps here
+    pkgs="git curl neovim tmux g++ libstdc++-static ninja-build" # some lua-lsp-deps here
     if [[ "$OSTYPE" == "linux-gnu" ]]; then
         # Linux
         sys_id="$(cat /etc/*release | grep ID=)"
