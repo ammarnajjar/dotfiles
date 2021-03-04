@@ -102,6 +102,12 @@ function asdf_setup() {
     ln -s $dotfiles_dir/asdf/default-gems $HOME/.default-gems
 }
 
+function asdf_neovim_nightly(){
+    asdf plugin-add neovim
+    asdf install neovim nightly
+    asdf global neovim nightly
+}
+
 function direnv_symlinks() {
     echo_blue "** Create direnv Symlinks"
     mkdir -p $HOME/.config/direnv
@@ -159,6 +165,7 @@ function main(){
     prepare_dotfiles_dir
 
     asdf_setup
+    asdf_neovim_nightly
     nvim_symlinks
     direnv_symlinks
     compile_terminfo
