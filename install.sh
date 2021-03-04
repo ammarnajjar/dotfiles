@@ -147,11 +147,6 @@ function update_git_conf() {
     ln -s $dotfiles_dir/git $XDG_CONFIG_HOME//git
 }
 
-function install_plugins() {
-    echo_blue "** Install plugins"
-    bash --rcfile <(echo '. ~/.bashrc; nvim +PackerCompile +PackerInstall +qall')
-}
-
 function main(){
     mkdir -p /tmp/trash
     get_sudo
@@ -169,9 +164,9 @@ function main(){
     prepare_shell_rc_file
     install_lua_language_server
     cd $current_dir
+    bash --rcfile <(echo '. ~/.bashrc; asdf_add neovim nightly; exit')
+    bash --rcfile <(echo '. ~/.bashrc; nvim +PackerCompile +PackerInstall; exit')
     echo_blue "** Installation Complete **"
-    bash --rcfile <(echo '. ~/.bashrc; asdf_add neovim nightly')
-    install_plugins
     exec $shell
 }
 
