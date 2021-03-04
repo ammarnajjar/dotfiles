@@ -102,12 +102,6 @@ function asdf_setup() {
     ln -s $dotfiles_dir/asdf/default-gems $HOME/.default-gems
 }
 
-function asdf_neovim_nightly(){
-    asdf plugin-add neovim
-    asdf install neovim nightly
-    asdf global neovim nightly
-}
-
 function direnv_symlinks() {
     echo_blue "** Create direnv Symlinks"
     mkdir -p $HOME/.config/direnv
@@ -155,7 +149,7 @@ function update_git_conf() {
 
 function install_plugins() {
     echo_blue "** Install plugins"
-    nvim +PackerCompile +PackerInstall +qall
+    bash --rcfile <(echo '. ~/.bashrc; nvim +PackerCompile +PackerInstall +qall')
 }
 
 function main(){
@@ -165,7 +159,6 @@ function main(){
     prepare_dotfiles_dir
 
     asdf_setup
-    asdf_neovim_nightly
     nvim_symlinks
     direnv_symlinks
     compile_terminfo
@@ -175,9 +168,10 @@ function main(){
 
     prepare_shell_rc_file
     install_lua_language_server
-    install_plugins
     cd $current_dir
     echo_blue "** Installation Complete **"
+    bash --rcfile <(echo '. ~/.bashrc; asdf_add neovim nightly')
+    install_plugins
     exec $shell
 }
 

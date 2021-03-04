@@ -119,8 +119,8 @@ function set_to_origin() {
 
 function asdf_add() {
      asdf plugin-add $1
-     NODEJS_CHECK_SIGNATURES=no asdf install $1 latest
-     asdf global $1 latest
+     NODEJS_CHECK_SIGNATURES=no asdf install $1 $2
+     asdf global $1 $2
 }
 
 function asdf_latest() {
