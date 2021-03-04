@@ -22,12 +22,13 @@ function get_sudo() {
 }
 
 function install_pkgs() {
-    pkgs="git curl neovim tmux g++ libstdc++-static ninja-build" # some lua-lsp-deps here
+    pkgs="git curl neovim tmux g++ ninja-build"
     if [[ "$OSTYPE" == "linux-gnu" ]]; then
         # Linux
         sys_id="$(cat /etc/*release | grep ID=)"
         if [[ "$sys_id" == *"fedora"* ]]
         then
+            pkgs="$pkgs libstdc++-static" # needed for lua-lsp
             pkg_manager="$SUDO"dnf
         elif [[ "$sys_id" == *"debian"* ]] || [[ "$sys_id" == *"Ubuntu"* ]]
         then
