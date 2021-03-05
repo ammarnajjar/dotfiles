@@ -12,9 +12,9 @@ function echo_blue() {
     fi
 }
 
-function get_sudo() {
+function set_sudo() {
     uid="$(id -u)"
-    SUDO="sudo"
+    SUDO="sudo "
     if [[ $uid -eq 0 ]]
     then
         SUDO=""
@@ -22,23 +22,20 @@ function get_sudo() {
 }
 
 function install_pkgs() {
-    pkgs="git curl neovim tmux"
+    pkgs="git tmux neovim"
     if [[ "$OSTYPE" == "linux-gnu" ]]; then
         # Linux
         sys_id="$(cat /etc/*release | grep ID=)"
         if [[ "$sys_id" == *"fedora"* ]]
         then
-            $SUDO dnf install -y $pkgs g++ ninja-build libstdc++-static
+            "$SUDO"dnf install -y $pkgs g++ ninja-build libstdc++-static
         elif [[ "$sys_id" == *"debian"* ]] || [[ "$sys_id" == *"Ubuntu"* ]]
         then
-            $SUDO apt update && $SUDO apt install -y $pkgs g++ ninja-build
+            "$SUDO"apt update && "$SUDO"apt install -y $pkgs g++ ninja-build
         fi
     elif [[ "$OSTYPE" == "darwin"* ]]; then
         # Mac OSX
         brew install $pkgs ninja
-    elif [[ "$OSTYPE" == "msys" ]]; then
-        # Lightweight shell and GNU utilities compiled for Windows (part of MinGW)
-        echo "OS ("$OSTYPE") is not supported"
     else
         # not supported
         echo "OS ("$OSTYPE") is not supported"
@@ -108,7 +105,6 @@ function direnv_symlinks() {
 
 function nvim_symlinks() {
     [ -L $dotfiles_dir ] && mv $dotfiles_dir /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_dotfiles
-    # neovim
     echo_blue "** Create Neovim Symlinks"
     mkdir -p ${XDG_CONFIG_HOME:=$HOME/.config}
     [ -L $HOME/.config/nvim ] && rm $HOME/.config/nvim
@@ -116,9 +112,9 @@ function nvim_symlinks() {
 }
 
 function install_lua_language_server() {
+    echo_blue "** lua language server "
     mkdir -p $dotfiles_dir/nvim/lsp
     cd $dotfiles_dir/nvim/lsp
-    # clone project
     git clone https://github.com/sumneko/lua-language-server
     cd lua-language-server
     git submodule update --init --recursive
@@ -138,7 +134,7 @@ function compile_terminfo() {
 }
 
 function update_git_conf() {
-    echo_blue "** Git config"
+    echo_blue "** git config"
     mkdir -p ${XDG_CONFIG_HOME:=$HOME/.config}
     [ -L $XDG_CONFIG_HOME/git ] && mv $HOME/.config/git /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_git
     ln -s $dotfiles_dir/git $XDG_CONFIG_HOME//git
@@ -146,7 +142,7 @@ function update_git_conf() {
 
 function main(){
     mkdir -p /tmp/trash
-    get_sudo
+    set_sudo
     install_pkgs
     prepare_dotfiles_dir
 
