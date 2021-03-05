@@ -1,6 +1,6 @@
 # File: install.sh
 # Author: Ammar Najjar <najjarammar@protonmail.com>
-# Description: install neovim  and other bash/zsh, tmux and git condifurations.
+# Description: install deps/repos and setup config files
 
 function echo_blue() {
     if [ ! -z $BASH_VERSION ]
@@ -39,6 +39,7 @@ function install_pkgs() {
     else
         # not supported
         echo "OS ("$OSTYPE") is not supported"
+        exit 1
     fi
 }
 
@@ -69,10 +70,9 @@ function prepare_dotfiles_dir() {
     echo_blue "** Preparing dotfiles dir -- $(pwd)"
     dotfiles_dir="$current_dir/dotfiles"
 
-    [ -d $dotfiles_dir ] && mv $dotfiles_dir /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_dotfiles
-    mkdir -p $dotfiles_dir
-
-    clone_dotfiles
+    [ -d $dotfiles_dir ] && mkdir -p /tmp/trash && mv $dotfiles_dir /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_dotfiles
+    mkdir -p $dotfiles_dir && cd $dotfiles_dir
+    git clone https://github.com/ammarnajjar/dotfiles.git .
 }
 
 function update_tmux_conf() {
@@ -81,11 +81,6 @@ function update_tmux_conf() {
     [ -L $HOME/.tmux.conf ] && rm $HOME/.tmux.conf
     [ -L $XDG_CONFIG_HOME/tmux ] && rm $XDG_CONFIG_HOME/tmux
     ln -s $dotfiles_dir/tmux $XDG_CONFIG_HOME/tmux
-}
-
-function clone_dotfiles() {
-    cd $dotfiles_dir
-    git clone https://github.com/ammarnajjar/dotfiles.git .
 }
 
 function asdf_setup() {
@@ -141,7 +136,6 @@ function update_git_conf() {
 }
 
 function main(){
-    mkdir -p /tmp/trash
     set_sudo
     install_pkgs
     prepare_dotfiles_dir
