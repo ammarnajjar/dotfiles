@@ -214,16 +214,16 @@ vim.g.fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %
 vim.g.fzf_tags_command = 'ctags --append=no --recurse --exclude=blib --exclude=dist --exclude=node_modules --exclude=coverage --exclude=.svn --exclude=.get --exclude="@.gitignore" --extra=q'
 
 -- show preview with colors using bat if exists
-if vim.fn.executable('bat') then
+if (vim.fn.executable('bat') ~= 0) then
   vim.cmd [[let $FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --margin=1 --preview 'bat --line-range :150 {}'"]]
 end
 
 -- use ripgrep if exists
-if vim.fn.executable('rg') then
+if (vim.fn.executable('rg') ~= 0) then
   vim.cmd([[let $FZF_DEFAULT_COMMAND = 'rg --hidden --files --glob="!.git/*" --glob="!venv/*" --glob="!coverage/*" --glob="!node_modules/*" --glob="!target/*" --glob="!__pycache__/*" --glob="!dist/*" --glob="!build/*" --glob="!*.DS_Store"']])
   vim.cmd('set grepprg=rg')
   -- else use the silver searcher if exists
-elseif vim.fn.executable('ag') then
+elseif (vim.fn.executable('ag') ~= 0) then
   vim.cmd([[let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git --ignore venv/ --ignore coverage/ --ignore node_modules/ --ignore target/  --ignore __pycache__/ --ignore dist/ --ignore build/ --ignore .DS_Store  -g ""']])
   vim.cmd([[set grepprg=ag\ --nogroup]])
 else
