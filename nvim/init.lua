@@ -191,12 +191,12 @@ else
 end
 
 -- completion
-vim.g.completeopt = 'menuone,noinsert,noselect'
+vim.cmd([[set completeopt=menuone,noinsert,noselect]])
 vim.g.completion_matching_strategy_list = {'exact', 'substring', 'fuzzy'}
 
 -- fzf
 vim.g.fzf_layout = { down='~40%', window='enew' }
-vim.api.nvim_set_keymap('n', '<C-p>', '<cmd>FZF<cr>', {})
+vim.api.nvim_set_keymap('n', '<C-p>', '<cmd>Files<cr>', {})
 
 -- grep text under cursor
 vim.api.nvim_set_keymap('n', '<leader>rg', '<cmd>Rg <C-R><C-W><CR>', {})
