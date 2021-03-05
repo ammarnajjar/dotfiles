@@ -22,16 +22,16 @@ function set_sudo() {
 }
 
 function install_pkgs() {
-    pkgs="git tmux neovim"
+    pkgs="git curl findutils tmux neovim"
     if [[ "$OSTYPE" == "linux-gnu" ]]; then
         # Linux
         sys_id="$(cat /etc/*release | grep ID=)"
         if [[ "$sys_id" == *"fedora"* ]]
         then
-            "$SUDO"dnf install -y $pkgs g++ ninja-build libstdc++-static
+            bash -c ""$SUDO"dnf install -y $pkgs g++ ninja-build libstdc++-static"
         elif [[ "$sys_id" == *"debian"* ]] || [[ "$sys_id" == *"Ubuntu"* ]]
         then
-            "$SUDO"apt update && "$SUDO"apt install -y $pkgs g++ ninja-build
+            bash -c ""$SUDO"apt update && "$SUDO"apt install -y $pkgs g++ ninja-build"
         fi
     elif [[ "$OSTYPE" == "darwin"* ]]; then
         # Mac OSX
@@ -135,6 +135,18 @@ function update_git_conf() {
     ln -s $dotfiles_dir/git $XDG_CONFIG_HOME//git
 }
 
+function neovim_nightly() {
+    if [ ! -z $BASH_VERSION ]
+    then
+        bash --rcfile <(echo '. ~/.bashrc; asdf_add neovim nightly; exit')
+        bash --rcfile <(echo '. ~/.bashrc; nvim +PackerCompile +PackerInstall; exit')
+    elif [ ! -z $ZSH_VERSION ]
+    then
+        zsh -c '. ~/.zshrc; asdf_add neovim nightly; exit'
+        zsh -c '. ~/.zshrc; nvim +PackerCompile +PackerInstall; exit'
+    fi
+}
+
 function main(){
     set_sudo
     install_pkgs
@@ -150,9 +162,8 @@ function main(){
 
     prepare_shell_rc_file
     install_lua_language_server
+    neovim_nightly
     cd $current_dir
-    bash --rcfile <(echo '. ~/.bashrc; asdf_add neovim nightly; exit')
-    bash --rcfile <(echo '. ~/.bashrc; nvim +PackerCompile +PackerInstall; exit')
     echo_blue "** Installation Complete **"
     exec $shell
 }
