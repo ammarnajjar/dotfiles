@@ -14,7 +14,7 @@ function echo_blue() {
 
 function get_sudo() {
     uid="$(id -u)"
-    SUDO="sudo "
+    SUDO="sudo"
     if [[ $uid -eq 0 ]]
     then
         SUDO=""
@@ -22,23 +22,20 @@ function get_sudo() {
 }
 
 function install_pkgs() {
-    pkgs="git curl neovim tmux g++ ninja-build"
+    pkgs="git curl neovim tmux"
     if [[ "$OSTYPE" == "linux-gnu" ]]; then
         # Linux
         sys_id="$(cat /etc/*release | grep ID=)"
         if [[ "$sys_id" == *"fedora"* ]]
         then
-            pkgs="$pkgs libstdc++-static" # needed for lua-lsp
-            pkg_manager="$SUDO"dnf
+            $SUDO dnf install -y $pkgs g++ ninja-build libstdc++-static
         elif [[ "$sys_id" == *"debian"* ]] || [[ "$sys_id" == *"Ubuntu"* ]]
         then
-            pkg_manager="$SUDO"apt
+            $SUDO apt update && $SUDO apt install -y $pkgs g++ ninja-build
         fi
-        bash -c "$pkg_manager update && $pkg_manager install -y $pkgs"
     elif [[ "$OSTYPE" == "darwin"* ]]; then
         # Mac OSX
-        pkg_manager="brew"
-        $pkg_manager install $pkgs
+        brew install $pkgs ninja
     elif [[ "$OSTYPE" == "msys" ]]; then
         # Lightweight shell and GNU utilities compiled for Windows (part of MinGW)
         echo "OS ("$OSTYPE") is not supported"

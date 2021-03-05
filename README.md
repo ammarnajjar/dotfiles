@@ -12,9 +12,9 @@ wget https://raw.githubusercontent.com/ammarnajjar/dotfiles/master/install.sh &&
 
 <details><summary>Tools supported:</summary>
 
-- [vim](https://github.com/vim/vim): these configurations support also neovim version < 0.5.0, one need to link them manually though.
-
 - [neovim](https://github.com/neovim/neovim): by default version >= 0.5.0 is supported see [`init.lua`](nvim/init.lua).
+
+- [vim](https://github.com/vim/vim): neovim version < 0.5.0 included, one need to link them manually though see [link.sh](vim/link.sh)
 
 - [bash](https://www.gnu.org/software/bash/)
 
@@ -27,6 +27,8 @@ wget https://raw.githubusercontent.com/ammarnajjar/dotfiles/master/install.sh &&
 - [asdf](https://github.com/asdf-vm/asdf)
 
 - [direnv](https://github.com/direnv/direnv)
+
+- OS: only tested on fedora, debian unstable, ubuntu and macos.
 
 </details>
 
