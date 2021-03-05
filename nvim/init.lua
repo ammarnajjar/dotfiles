@@ -63,8 +63,7 @@ vim.o.swapfile = false -----╯
 vim.o.inccommand = 'nosplit' -- Live substitution
 
 -- create undo file to keep history after closing the file
-vim.o.undolevels = 1000
-vim.cmd('set undofile')
+vim.bo.undofile = true
 vim.fn.execute('set undodir='..editor_root..'/undo/')
 
 vim.cmd('set shada^=%') ------- Remember info about open buffers on close
@@ -192,12 +191,12 @@ else
 end
 
 -- completion
-vim.cmd([[set completeopt=menuone,noinsert,noselect]])
+vim.g.completeopt = 'menuone,noinsert,noselect'
 vim.g.completion_matching_strategy_list = {'exact', 'substring', 'fuzzy'}
 
 -- fzf
 vim.g.fzf_layout = { down='~40%', window='enew' }
-vim.api.nvim_set_keymap('n', '<C-p>', '<cmd>Files<cr>', {})
+vim.api.nvim_set_keymap('n', '<C-p>', '<cmd>FZF<cr>', {})
 
 -- grep text under cursor
 vim.api.nvim_set_keymap('n', '<leader>rg', '<cmd>Rg <C-R><C-W><CR>', {})
@@ -214,20 +213,20 @@ vim.g.fzf_tags_command = 'ctags --append=no --recurse --exclude=blib --exclude=d
 
 -- show preview with colors using bat if exists
 if (vim.fn.executable('bat') ~= 0) then
-  vim.cmd [[let $FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --margin=1 --preview 'bat --line-range :150 {}'"]]
+  vim.env.FZF_DEFAULT_OPTS = "--ansi --preview-window 'right:60%' --margin=1 --preview 'bat --line-range :150 {}'"
 end
 
 -- use ripgrep if exists
 if (vim.fn.executable('rg') ~= 0) then
-  vim.cmd([[let $FZF_DEFAULT_COMMAND = 'rg --hidden --files --glob="!.git/*" --glob="!venv/*" --glob="!coverage/*" --glob="!node_modules/*" --glob="!target/*" --glob="!__pycache__/*" --glob="!dist/*" --glob="!build/*" --glob="!*.DS_Store"']])
-  vim.cmd('set grepprg=rg')
+  vim.env.FZF_DEFAULT_COMMAND = 'rg --hidden --files --glob="!.git/*" --glob="!venv/*" --glob="!coverage/*" --glob="!node_modules/*" --glob="!target/*" --glob="!__pycache__/*" --glob="!dist/*" --glob="!build/*" --glob="!*.DS_Store"'
+  vim.g.grepprg='rg'
   -- else use the silver searcher if exists
 elseif (vim.fn.executable('ag') ~= 0) then
-  vim.cmd([[let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git --ignore venv/ --ignore coverage/ --ignore node_modules/ --ignore target/  --ignore __pycache__/ --ignore dist/ --ignore build/ --ignore .DS_Store  -g ""']])
-  vim.cmd([[set grepprg=ag\ --nogroup]])
+  vim.env.FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git --ignore venv/ --ignore coverage/ --ignore node_modules/ --ignore target/  --ignore __pycache__/ --ignore dist/ --ignore build/ --ignore .DS_Store  -g ""'
+  vim.g.grepprg='ag --nogroup'
 else
   -- else fallback to find
-  vim.cmd([[let $FZF_DEFAULT_COMMAND = "find * -path '*/\.*' -prune -o -path 'venv/**' -prune -o -path  'coverage/**' -prune -o -path 'node_modules/**' -prune -o -path '__pycache__/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"]])
+  vim.env.FZF_DEFAULT_COMMAND = [[find * -path '*/\.*' -prune -o -path 'venv/**' -prune -o -path  'coverage/**' -prune -o -path 'node_modules/**' -prune -o -path '__pycache__/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null]]
 end
 
 function LoadLsp()
