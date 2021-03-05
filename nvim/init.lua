@@ -199,8 +199,8 @@ vim.g.fzf_layout = { down='~40%', window='enew' }
 vim.api.nvim_set_keymap('n', '<C-p>', '<cmd>Files<cr>', {})
 
 -- grep text under cursor
-vim.api.nvim_set_keymap('n', '<leader>rg', '<cmd>Rg <C-R><C-W><CR>', {})
-vim.api.nvim_set_keymap('n', '<leader>ag', '<cmd>Ag <C-R><C-W><CR>', {})
+vim.api.nvim_set_keymap('n', '<leader>rg', ':Rg <C-R><C-W><CR>', {})
+vim.api.nvim_set_keymap('n', '<leader>ag', ':Ag <C-R><C-W><CR>', {})
 
 -- [Buffers] Jump to the existing window if possible
 vim.g.fzf_buffers_jump = 1
