@@ -8,3 +8,4 @@ yaml-language-server
 pyright
 bash-language-server
 dockerfile-language-server-nodejs
+vim-language-server

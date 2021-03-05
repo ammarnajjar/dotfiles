@@ -156,7 +156,6 @@ require('packer').startup(function()
   use { 'wbthomason/packer.nvim', opt = true }
   use { 'neovim/nvim-lspconfig' }
   use { 'nvim-lua/completion-nvim' }
-  use { 'dstein64/nvim-scrollview' }
   use { 'junegunn/fzf' }
   use { 'junegunn/fzf.vim' }
   use { 'tpope/vim-fugitive' }
@@ -303,6 +302,7 @@ function LoadLsp()
     "rls",
     "dockerls",
     "yamlls",
+    "vimls",
   }
   for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup { on_attach = on_attach }
@@ -470,8 +470,8 @@ local status_line = {
   "%#directory#", ----------------------╮
   "%{&ff!='unix'?'['.&ff.']':''}", -----|----------------- fileformat not unix
   "%*", --------------------------------╯
-  " %c%V,%l/", -------------------------------------------column and row number
-  "%L %P", -----------------------------------------------total lines, position in file
+  " %c%V,%l/", ------------------------------------------- column and row number
+  "%L %P", ----------------------------------------------- total lines, position in file
 }
 vim.o.statusline = table.concat(status_line)
 -- }}}
