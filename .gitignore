@@ -22,3 +22,4 @@ ohmyzsh
 asdf/asdf
 lua-language-server
 local.*
+Session.vim
