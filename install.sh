@@ -22,16 +22,16 @@ function set_sudo() {
 }
 
 function install_pkgs() {
-    pkgs="git curl findutils tmux neovim"
+    pkgs="git curl tmux neovim"
     if [[ "$OSTYPE" == "linux-gnu" ]]; then
         # Linux
         sys_id="$(cat /etc/*release | grep ID=)"
         if [[ "$sys_id" == *"fedora"* ]]
         then
-            bash -c ""$SUDO"dnf install -y $pkgs g++ ninja-build libstdc++-static"
+            bash -c ""$SUDO"dnf install -y $pkgs findutils g++ ninja-build libstdc++-static"
         elif [[ "$sys_id" == *"debian"* ]] || [[ "$sys_id" == *"Ubuntu"* ]]
         then
-            bash -c ""$SUDO"apt update && "$SUDO"apt install -y $pkgs g++ ninja-build"
+            bash -c ""$SUDO"apt update && "$SUDO"apt install -y $pkgs findutils g++ ninja-build"
         fi
     elif [[ "$OSTYPE" == "darwin"* ]]; then
         # Mac OSX
