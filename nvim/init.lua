@@ -97,18 +97,19 @@ vim.cmd('autocmd TermOpen * setlocal statusline=%{b:term_title}')
 vim.api.nvim_set_keymap('n', '<F2>', [[<cmd>setlocal listchars=tab:>\-,space:·,nbsp:␣,trail:•,eol:¶,precedes:«,extends:» list! list? <CR>]], { noremap = true })
 
 -- Allow toggling between tabs and spaces
--- "| write | edit" is a workaround for syntax highlight problems after retab
--- https://github.com/nvim-treesitter/nvim-treesitter#i-experience-weird-highlighting-issues-similar-to-78
 vim.api.nvim_set_keymap('n', '<F3>', '<cmd>lua TabToggle()<cr>', {})
 function TabToggle()
   if vim.bo.expandtab then
     vim.bo.expandtab = false
-    vim.cmd('retab! | write | edit')
+    vim.cmd('retab!')
   else
     vim.bo.expandtab = true
-    vim.cmd('retab | write | edit')
+    vim.cmd('retab')
   end
 end
+-- a manual workaround for syntax highlight problems after retab
+-- https://github.com/nvim-treesitter/nvim-treesitter#i-experience-weird-highlighting-issues-similar-to-78
+vim.api.nvim_set_keymap('n', '<F4>', '<cmd>write | edit | TSBufEnable highlight<cr>', {})
 
 -- Toggle ColumnColor
 vim.api.nvim_command('autocmd filetype * hi ColorColumn ctermbg=black guibg=black')
