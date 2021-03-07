@@ -94,18 +94,19 @@ vim.api.nvim_set_keymap('n', '<leader>t', '<cmd>tabedit term://zsh<CR><S-a>', {}
 vim.cmd('autocmd TermOpen * setlocal statusline=%{b:term_title}')
 
 -- view hidden characters like spaces and tabs
-vim.api.nvim_set_keymap('n', '<F3>', [[<cmd>setlocal listchars=tab:>\-,space:·,nbsp:␣,trail:•,eol:¶,precedes:«,extends:» list! list? <CR>]], { noremap = true })
+vim.api.nvim_set_keymap('n', '<F2>', [[<cmd>setlocal listchars=tab:>\-,space:·,nbsp:␣,trail:•,eol:¶,precedes:«,extends:» list! list? <CR>]], { noremap = true })
 
 -- Allow toggling between tabs and spaces
--- This seems to trigger a bug https://github.com/neovim/neovim/issues/12861
-vim.api.nvim_set_keymap('n', '<F4>', '<cmd>lua TabToggle()<cr>', {})
+-- "| write | edit" is a workaround for syntax highlight problems after retab
+-- https://github.com/nvim-treesitter/nvim-treesitter#i-experience-weird-highlighting-issues-similar-to-78
+vim.api.nvim_set_keymap('n', '<F3>', '<cmd>lua TabToggle()<cr>', {})
 function TabToggle()
   if vim.bo.expandtab then
     vim.bo.expandtab = false
-    vim.cmd('retab!')
+    vim.cmd('retab! | write | edit')
   else
     vim.bo.expandtab = true
-    vim.cmd('retab')
+    vim.cmd('retab | write | edit')
   end
 end
 
@@ -154,12 +155,14 @@ require('packer').startup(function()
   -- Packer can manage itself as an optional plugin
   use { 'wbthomason/packer.nvim', opt = true }
   use { 'neovim/nvim-lspconfig' }
+  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+  use { 'nvim-treesitter/nvim-treesitter-angular' }
   use { 'nvim-lua/completion-nvim' }
   use { 'junegunn/fzf' }
   use { 'junegunn/fzf.vim' }
   use { 'tpope/vim-fugitive' }
   use { 'tomtom/tcomment_vim' }
-  use { 'ammarnajjar/vim-code-dark' }
+  use { 'ammarnajjar/nvcode-color-schemes.vim' }
 end)
 
 -- colorscheme
@@ -177,7 +180,8 @@ local function LightTheme()
 end
 local function DarkTheme()
   vim.o.background = 'dark'
-  pcall(function() vim.cmd('colorscheme codedark') end)  -- try colorscheme, fallback to default
+  vim.g.nvcode_termcolors = 256
+  pcall(function() vim.cmd('colorscheme nvcode') end)  -- try colorscheme, fallback to default
   vim.api.nvim_command([[
   highlight CursorLineNr term=bold ctermfg=yellow ctermbg=black gui=bold guifg=yellow guibg=black
   autocmd InsertEnter * highlight CursorLineNr term=bold ctermfg=black ctermbg=74 gui=bold guifg=black guibg=skyblue1
@@ -368,6 +372,12 @@ end
 -- load lsp after colorscheme is applied on buffer
 -- else messages will show up without colors (white)
 vim.api.nvim_command('autocmd BufNewFile,BufReadPost * lua LoadLsp()')
+
+-- nvim-treesitter
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  highlight = { enable = true }, ---- false will disable the whole extension
+}
 -- }}}
 -- => autocmd configs ---------------------- {{{
 local function indentUsing(new_indent)
@@ -458,7 +468,7 @@ local status_line = {
   "%{(&fenc!='utf-8'&&&fenc!='')?'['.&fenc.']':''}", --|-- warning for encoding not utf8
   "%*", -----------------------------------------------╯
   "%#warningmsg#", ---------------------╮
-  "%{luaeval('HasPaste()')}", ----------|------------------ warning if paste mode is active
+  "%{luaeval('HasPaste()')}", ----------|----------------- warning if paste mode is active
   "%*", --------------------------------╯
   "%#warningmsg#", ---------------------╮
   "%{luaeval('TabsFound()')}", ---------|----------------- warning if tabs exist
