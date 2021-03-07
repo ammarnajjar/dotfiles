@@ -34,7 +34,7 @@ if [ -n "$(type -t direnv)" ] && [ "$(type -t direnv)" = function ]; then
 else
     if command -v direnv 1>/dev/null 2>&1; then
         eval "$(direnv hook bash)"
-	    alias tmux='direnv exec / tmux'
+	    alias tmux='env TERM=screen-256color direnv exec / tmux'
     fi
 fi
 

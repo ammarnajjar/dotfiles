@@ -151,7 +151,7 @@ if [ -n "$(type direnv)" ] && [ "$(type direnv)" = function ]; then
 else
     if command -v direnv 1>/dev/null 2>&1; then
         eval "$(direnv hook zsh)"
-	    alias tmux='direnv exec / tmux'
+	    alias tmux='env TERM=screen-256color direnv exec / tmux'
     fi
 fi
 # vim: set ft=sh ts=4 sw=4 et ai :
