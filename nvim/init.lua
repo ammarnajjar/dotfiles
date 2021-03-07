@@ -172,8 +172,8 @@ vim.wo.cursorline = true
 local function LightTheme()
   vim.o.background = 'light'
   vim.api.nvim_command([[
-  highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=254
-  highlight cursorlinenr term=bold ctermfg=black ctermbg=grey gui=bold guifg=white guibg=grey
+  autocmd BufEnter * highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=254
+  autocmd BufEnter * highlight cursorlinenr term=bold ctermfg=black ctermbg=grey gui=bold guifg=white guibg=grey
   autocmd insertenter * highlight cursorlinenr term=bold ctermfg=black ctermbg=117 gui=bold guifg=white guibg=skyblue1
   autocmd insertenter * highlight cursorline cterm=none ctermfg=none ctermbg=none
   autocmd insertleave * highlight cursorlinenr term=bold ctermfg=black ctermbg=grey gui=bold guifg=white guibg=grey
@@ -184,9 +184,10 @@ local function DarkTheme()
   vim.g.nvcode_termcolors = 256
   pcall(function() vim.cmd('colorscheme nvcode') end)  -- try colorscheme, fallback to default
   vim.api.nvim_command([[
-  highlight CursorLineNr term=bold ctermfg=yellow ctermbg=black gui=bold guifg=yellow guibg=black
+  autocmd BufEnter * highlight CursorLineNr term=bold ctermfg=yellow ctermbg=black gui=bold guifg=yellow guibg=black
   autocmd InsertEnter * highlight CursorLineNr term=bold ctermfg=black ctermbg=74 gui=bold guifg=black guibg=skyblue1
-  autocmd InsertLeave * highlight CursorLineNr term=bold ctermfg=yellow ctermbg=black gui=bold guifg=yellow guibg=black]])
+  autocmd InsertLeave * highlight CursorLineNr term=bold ctermfg=yellow ctermbg=black gui=bold guifg=yellow guibg=black
+  ]])
 end
 
 if vim.env.KONSOLE_PROFILE_NAME == 'light' or vim.env.ITERM_PROFILE == 'light' then
