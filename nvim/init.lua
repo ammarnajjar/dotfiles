@@ -94,7 +94,7 @@ vim.api.nvim_set_keymap('n', '<leader>t', '<cmd>tabedit term://zsh<CR><S-a>', {}
 vim.cmd('autocmd TermOpen * setlocal statusline=%{b:term_title}')
 
 -- view hidden characters like spaces and tabs
-vim.api.nvim_set_keymap('n', '<F2>', [[<cmd>setlocal listchars=tab:>\-,space:·,nbsp:␣,trail:•,eol:¶,precedes:«,extends:» list! list? <CR>]], { noremap = true })
+vim.api.nvim_set_keymap('n', '<F2>', [[<cmd>setlocal listchars=tab:>\-,space:·,nbsp:␣,trail:•,eol:↲,precedes:«,extends:»,conceal:┊ list! list? <CR>]], { noremap = true })
 
 -- Allow toggling between tabs and spaces
 vim.api.nvim_set_keymap('n', '<F3>', '<cmd>lua TabToggle()<cr>', {})
