@@ -91,7 +91,7 @@ vim.api.nvim_set_keymap('t', '<ESC>', '<C-\\><C-n>', {})
 vim.api.nvim_set_keymap('n', '<leader>s', '<cmd>split term://zsh<CR><C-w><S-j><S-a>', {})
 vim.api.nvim_set_keymap('n', '<leader>v', '<cmd>vsplit term://zsh<CR><C-w><S-l><S-a>', {})
 vim.api.nvim_set_keymap('n', '<leader>t', '<cmd>tabedit term://zsh<CR><S-a>', {})
-vim.cmd('autocmd TermOpen * setlocal statusline=%{b:term_title}')
+vim.cmd('autocmd TermOpen * setlocal nonumber statusline=%{b:term_title}')
 
 -- view hidden characters by default
 vim.o.listchars='tab:>-,space:·,nbsp:␣,trail:•,eol:↲,precedes:«,extends:»,conceal:┊'
