@@ -93,8 +93,11 @@ vim.api.nvim_set_keymap('n', '<leader>v', '<cmd>vsplit term://zsh<CR><C-w><S-l><
 vim.api.nvim_set_keymap('n', '<leader>t', '<cmd>tabedit term://zsh<CR><S-a>', {})
 vim.cmd('autocmd TermOpen * setlocal statusline=%{b:term_title}')
 
--- view hidden characters like spaces and tabs
-vim.api.nvim_set_keymap('n', '<F2>', [[<cmd>setlocal listchars=tab:>\-,space:·,nbsp:␣,trail:•,eol:↲,precedes:«,extends:»,conceal:┊ list! list? <CR>]], { noremap = true })
+-- view hidden characters by default
+vim.o.listchars='tab:>-,space:·,nbsp:␣,trail:•,eol:↲,precedes:«,extends:»,conceal:┊'
+vim.wo.list = true
+vim.o.list = true
+vim.api.nvim_set_keymap('n', '<F2>', '<cmd>setlocal list! list? <CR>', { noremap = true })
 
 -- Allow toggling between tabs and spaces
 vim.api.nvim_set_keymap('n', '<F3>', '<cmd>lua TabToggle()<cr>', {})
@@ -382,10 +385,10 @@ require'nvim-treesitter.configs'.setup {
 }
 -- }}}
 -- => autocmd configs ---------------------- {{{
-local function indentUsing(new_indent)
-  vim.bo.shiftwidth = new_indent
-  vim.bo.tabstop = new_indent
-  vim.bo.softtabstop = new_indent
+local function indentUsing(indent)
+  vim.bo.shiftwidth = indent
+  vim.bo.tabstop = indent
+  vim.bo.softtabstop = indent
 end
 
 local function pythonSetup()
@@ -395,9 +398,14 @@ local function pythonSetup()
 end
 
 function FileTypeSetup()
+  vim.bo.expandtab = true -------╮
+  vim.bo.smartindent = true -----|-- Default 1 tab == 4 spaces
+  indentUsing(4) ----------------╯
+
   local with_two_spaces = {
     'typescript', 'typescript.tsx', 'javascript', 'javascript.jsx',
-    'lua', 'ruby', 'html', 'xhtml', 'htm', 'xml', 'css', 'scss', 'php'
+    'lua', 'ruby', 'html', 'xhtml', 'htm', 'css', 'scss', 'php',
+    'json', 'yml', 'yaml',
   }
   if (vim.bo.filetype == 'python') then
     pythonSetup()
@@ -411,15 +419,10 @@ function FileTypeSetup()
   end
 end
 
-local indent = 4 ------------╮
-vim.bo.expandtab = true -----|
-vim.bo.smartindent = true ---|-- Default 1 tab == 4 spaces
-indentUsing(indent) ---------╯
-
-vim.api.nvim_command('autocmd BufRead,BufEnter,BufNewFile *.* lua FileTypeSetup()')
+vim.api.nvim_command('autocmd BufEnter,BufNewFile * lua FileTypeSetup()')
 
 -- highlight yanked text
-vim.api.nvim_command('autocmd TextYankPost * silent! lua vim.highlight.on_yank({ timeout=500} )')
+vim.api.nvim_command('autocmd TextYankPost * silent! lua vim.highlight.on_yank({ timeout=1000 } )')
 
 -- highlight trailing whitespaces
 vim.api.nvim_command([[
