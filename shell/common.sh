@@ -18,6 +18,7 @@ alias ctagsit="ctags --append=no --recurse --totals --exclude=blib --exclude=.sv
 # HISTCONTROL=ignoreboth
 # append to the history file, don't overwrite it
 
+alias tmux='env TERM=screen-256color tmux'
 export TERM=xterm-256color
 export LANG='en_US.UTF-8'
 export EDITOR=nvim
