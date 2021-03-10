@@ -78,7 +78,7 @@ vim.api.nvim_set_keymap('v', '>', '>gv', {}) --╯
 vim.api.nvim_set_keymap('n', '<leader>ev', '<cmd>tabe $MYVIMRC<CR>', {})
 
 -- Opens a new tab with the current buffer's path
-vim.api.nvim_set_keymap('n', '<leader>te', '<cmd>cd %:p:h<CR>:tabedit ./', {})
+vim.api.nvim_set_keymap('n', '<leader>te', ':tabedit <C-r>=expand("%:p:h")<CR>/', {})
 
 -- Switch CWD to the directory of the open buffer
 vim.api.nvim_set_keymap('', '<leader>cd', '<cmd>cd %:p:h<CR>:pwd<CR>', {})
