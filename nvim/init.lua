@@ -495,4 +495,4 @@ if (file_exists(localFile)) then
   loadfile(localFile)()
 end
 -- }}}
--- vim: ft=lua ts=2 sw=2 et ai
+-- vim: ft=lua ts=2 sw=2 et ai fdm=marker

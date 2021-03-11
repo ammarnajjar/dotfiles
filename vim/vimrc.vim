@@ -461,4 +461,4 @@ if filereadable(s:editor_root."/local_vimrc.vim")
     execute 'source '.fnameescape(s:editor_root."/local_vimrc.vim")
 endif
 " }}}
-" vim: ft=vim:ts=4:sw=4:et
+" vim: ft=vim:ts=4:sw=4:et ai fdm=marker
