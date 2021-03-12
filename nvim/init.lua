@@ -158,7 +158,7 @@ vim.cmd('packadd packer.nvim')
 require('packer').startup(function()
   -- Packer can manage itself as an optional plugin
   use { 'wbthomason/packer.nvim', opt = true }
-  use { 'neovim/nvim-lspconfig' }
+  use { 'ammarnajjar/nvim-lspconfig' }
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
   use { 'nvim-treesitter/nvim-treesitter-angular' }
   use { 'nvim-lua/completion-nvim' }
