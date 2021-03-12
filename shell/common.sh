@@ -120,7 +120,8 @@ function set_to_origin() {
 
 function asdf_add() {
      asdf plugin-add $1
-     NODEJS_CHECK_SIGNATURES=no asdf install $1 $2
+     # for gpg-key issues see: https://github.com/asdf-vm/asdf-nodejs/issues/192#issuecomment-797448073
+     asdf install $1 $2
      asdf global $1 $2
 }
 
@@ -128,7 +129,7 @@ function asdf_latest() {
      for plugin in ${ASDF_PLUGINS[@]}
      do
          asdf plugin-add $plugin
-         NODEJS_CHECK_SIGNATURES=no asdf install $plugin latest
+         asdf install $plugin latest
          asdf global $plugin latest
      done
 }
