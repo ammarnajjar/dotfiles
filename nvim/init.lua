@@ -376,13 +376,15 @@ end
 
 -- load lsp after colorscheme is applied on buffer
 -- else messages will show up without colors (white)
-vim.api.nvim_command('autocmd BufNewFile,BufReadPost * lua LoadLsp()')
+vim.api.nvim_command('autocmd BufNewFile,BufReadPost * lua pcall(function() LoadLsp() end)')
 
 -- nvim-treesitter
-require'nvim-treesitter.configs'.setup {
-  ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
-  highlight = { enable = true }, ---- false will disable the whole extension
-}
+pcall(function()
+  require'nvim-treesitter.configs'.setup {
+    ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+    highlight = { enable = true }, ---- false will disable the whole extension
+  }
+end)
 -- }}}
 -- => autocmd configs ---------------------- {{{
 local function indentUsing(indent)
