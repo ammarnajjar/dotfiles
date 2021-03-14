@@ -150,7 +150,7 @@ if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
 end
 
 -- Automatically run :PackerCompile whenever this file is updated
-vim.cmd('autocmd BufWritePost init.lua PackerCompile')
+vim.api.nvim_command('autocmd BufWritePost init.lua PackerCompile')
 
 -- load packer
 vim.cmd('packadd packer.nvim')
@@ -434,14 +434,14 @@ autocmd InsertLeave *.* match TrailingWhitespace /\s\+$/
 ]])
 
 -- delete trailing white spaces except for markdown
-vim.api.nvim_command('autocmd BufWrite *.* lua DeleteTrailingWS()')
+vim.api.nvim_command('autocmd BufWritePre *.* lua DeleteTrailingWS()')
 function DeleteTrailingWS()
   if (vim.bo.filetype == 'markdown') then
     return
   end
-  vim.fn.nvim_command([[normal mz]])
+  vim.api.nvim_command([[normal mz]])
   vim.cmd([[%s/\s\+$//ge]])
-  vim.fn.nvim_command([[normal 'z]])
+  vim.api.nvim_command([[normal 'z]])
 end
 
 -- Return to last edit position when opening files
