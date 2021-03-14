@@ -89,7 +89,11 @@ function asdf_setup() {
     git clone https://github.com/asdf-vm/asdf.git asdf/asdf
     ln -s $dotfiles_dir/asdf/default-cargo-crates $HOME/.default-cargo-crates
     ln -s $dotfiles_dir/asdf/default-gems $HOME/.default-gems
-    ln -s $dotfiles_dir/gnupg/dirmngr.conf $HOME/.gnupg/dirmngr.conf
+
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        echo "standard-resolver" > $HOME/.gnupg/dirmngr.conf
+        "$SUDO"pkill dirmngr
+    fi
 }
 
 function direnv_symlinks() {
