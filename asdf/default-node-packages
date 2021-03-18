@@ -1,7 +1,6 @@
 npm
 neovim
 typescript
-@angular/language-server
 typescript-language-server
 vscode-css-languageserver-bin
 yaml-language-server
