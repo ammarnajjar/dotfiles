@@ -126,7 +126,10 @@ function set_dotnet_vars {
   export DOTNET_ROOT=$DOTNET_ROOT
   export PATH=$DOTNET_ROOT:$PATH
 }
-set_dotnet_vars
+
+if command -v dotnet 1>/dev/null 2>&1; then
+    set_dotnet_vars
+fi
 
 function asdf_add() {
      asdf plugin-add $1
