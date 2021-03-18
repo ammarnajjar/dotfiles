@@ -238,7 +238,12 @@ else
   vim.env.FZF_DEFAULT_COMMAND = [[find * -path '*/\.*' -prune -o -path 'venv/**' -prune -o -path  'coverage/**' -prune -o -path 'node_modules/**' -prune -o -path '__pycache__/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null]]
 end
 
+LSP_LOADED = false
 function LoadLsp()
+  if (LSP_LOADED) then
+    return
+  end
+  LSP_LOADED = true
   local nvim_lsp = require('lspconfig')
 
   local on_attach = function(client)
