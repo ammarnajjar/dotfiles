@@ -118,6 +118,16 @@ function set_to_origin() {
     git fetch && git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)
 }
 
+# https://github.com/OmniSharp/omnisharp-vscode/issues/2970#issuecomment-541516806
+function set_dotnet_vars {
+  DOTNET_BASE=$(dotnet --info | grep "Base Path" | awk '{print $3}')
+  DOTNET_ROOT=$(echo $DOTNET_BASE | sed -E "s/^(.*)(\/sdk\/[^\/]+\/)$/\1/")
+  export MSBuildSDKsPath=${DOTNET_BASE}Sdks/
+  export DOTNET_ROOT=$DOTNET_ROOT
+  export PATH=$DOTNET_ROOT:$PATH
+}
+set_dotnet_vars
+
 function asdf_add() {
      asdf plugin-add $1
      # for gpg-key issues see: https://github.com/asdf-vm/asdf-nodejs/issues/192#issuecomment-797448073
@@ -147,6 +157,4 @@ function asdf_update() {
     rm ~/.tool-versions.bk
 }
 
-
 # vim: set ft=sh ts=4 sw=4 et ai :
-
