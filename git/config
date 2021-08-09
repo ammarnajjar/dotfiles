@@ -16,6 +16,13 @@
 [color]
 	ui = true
 
+[color "status"]
+  added = green bold
+  changed = yellow bold
+  deleted = red bold strike
+  untracked = cyan
+  branch = magenta black bold ul
+
 [commit]
 	template = ~/.config/git/gitmessage
 
