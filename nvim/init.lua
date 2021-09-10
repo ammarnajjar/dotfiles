@@ -165,7 +165,8 @@ require('packer').startup(function()
   use { 'junegunn/fzf' }
   use { 'junegunn/fzf.vim' }
   use { 'tpope/vim-fugitive' }
-  use { 'tomtom/tcomment_vim' }
+  use { 'JoosepAlviste/nvim-ts-context-commentstring' }
+  use { 'tpope/vim-commentary' }
   use { 'ammarnajjar/nvcode-color-schemes.vim' }
 end)
 
@@ -387,6 +388,9 @@ pcall(function()
   require'nvim-treesitter.configs'.setup {
     ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
     highlight = { enable = true }, ---- false will disable the whole extension
+    context_commentstring = {
+      enable = true,
+    },
   }
 end)
 -- }}}
