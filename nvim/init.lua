@@ -17,6 +17,13 @@ local function file_exists(name)
   if fi~=nil then io.close(fi) return true else return false end
 end
 
+local function call_shell(command)
+  local handle = io.popen(command)
+  local result = handle:read("*a")
+  handle:close()
+  return trim(result)
+end
+
 -- find the python3 binary for neovim
 local which_python
 if vim.env.VIRTUAL_ENV and vim.env.ASDF_DIR then
@@ -28,10 +35,7 @@ elseif vim.env.ASDF_DIR then
 else
     which_python = "which python3"
 end
-local handle = io.popen(which_python)
-local result = handle:read("*a")
-handle:close()
-vim.g.python3_host_prog = trim(result)
+vim.g.python3_host_prog = call_shell(which_python)
 
 vim.o.mouse = 'a' -------- Enable mouse usage (all modes)
 vim.o.matchtime = 1 ------ for 1/10th of a second
@@ -474,7 +478,13 @@ function HasPaste() -- Check for paste mode
   end
 end
 
-local git_stl = vim.g.loaded_fugitive==1 and "%{FugitiveStatusline()}" or ''
+local get_head_command = 'git rev-parse --abbrev-ref HEAD'
+local git_head = call_shell(get_head_command)
+local git_stl = git_head ~= '' and '[git:' ..call_shell(get_head_command)..']' or ''
+
+-- local git_stl = vim.g.loaded_fugitive==1 and vim.api.nvim_command('echo FugitiveHead()') or ''
+-- local git_stl = vim.api.nvim_command('FugitiveHead()')
+-- print(git_stl)
 local status_line = {
   "[%n]", ------------------------------------------------ buffer number
   "%<%.99f", --------------------------------------------- file name (F for full-path)
