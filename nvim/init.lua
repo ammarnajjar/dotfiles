@@ -122,11 +122,7 @@ vim.api.nvim_set_keymap('n', '<F4>', '<cmd>write | edit | TSBufEnable highlight<
 vim.api.nvim_command('autocmd filetype * hi ColorColumn ctermbg=black guibg=black')
 vim.api.nvim_set_keymap('n', '<leader>cc', '<cmd>lua ToggleColorColumn()<CR>', { silent=true })
 function ToggleColorColumn()
-  if vim.wo.colorcolumn ~= '' then
-    vim.wo.colorcolumn = ''
-  else
-    vim.wo.colorcolumn = '80'
-  end
+    vim.wo.colorcolumn = vim.wo.colorcolumn ~= '' and '' or '80'
 end
 
 -- Append modeline after last line in buffer
