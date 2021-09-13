@@ -168,7 +168,6 @@ require('packer').startup(function()
   use { 'nvim-lua/completion-nvim' }
   use { 'junegunn/fzf' }
   use { 'junegunn/fzf.vim' }
-  use { 'tpope/vim-fugitive' }
   use { 'JoosepAlviste/nvim-ts-context-commentstring' }
   use { 'tpope/vim-commentary' }
   use { 'ammarnajjar/nvcode-color-schemes.vim' }
@@ -478,13 +477,10 @@ function HasPaste() -- Check for paste mode
   end
 end
 
-local get_head_command = 'git rev-parse --abbrev-ref HEAD'
+local get_head_command = 'command -v git >/dev/null 2>&1 && git rev-parse --abbrev-ref HEAD'
 local git_head = call_shell(get_head_command)
 local git_stl = git_head ~= '' and '[git:' ..call_shell(get_head_command)..']' or ''
 
--- local git_stl = vim.g.loaded_fugitive==1 and vim.api.nvim_command('echo FugitiveHead()') or ''
--- local git_stl = vim.api.nvim_command('FugitiveHead()')
--- print(git_stl)
 local status_line = {
   "[%n]", ------------------------------------------------ buffer number
   "%<%.99f", --------------------------------------------- file name (F for full-path)
@@ -498,7 +494,7 @@ local status_line = {
   "%#warningmsg#", ---------------------╮
   "%{luaeval('TabsFound()')}", ---------|----------------- warning if tabs exist
   "%*", --------------------------------╯
-  git_stl, ----------------------------------------------- fugitive statusline
+  git_stl, ----------------------------------------------- git branch
   "%=", -------------------------------------------------- right align
   "%y", -------------------------------------------------- buffer file type
   "%#directory#", ----------------------╮
