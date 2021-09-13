@@ -477,9 +477,11 @@ function HasPaste() -- Check for paste mode
   end
 end
 
-local get_head_command = 'command -v git >/dev/null 2>&1 && git rev-parse --abbrev-ref HEAD'
-local git_head = call_shell(get_head_command)
-local git_stl = git_head ~= '' and '[git:' ..call_shell(get_head_command)..']' or ''
+function GitBranch()
+  local get_head_command = 'command -v git >/dev/null 2>&1 && git rev-parse --abbrev-ref HEAD'
+  local git_head = call_shell(get_head_command)
+  return git_head ~= '' and '[git:' ..call_shell(get_head_command)..']' or ''
+end
 
 local status_line = {
   "[%n]", ------------------------------------------------ buffer number
@@ -494,7 +496,7 @@ local status_line = {
   "%#warningmsg#", ---------------------╮
   "%{luaeval('TabsFound()')}", ---------|----------------- warning if tabs exist
   "%*", --------------------------------╯
-  git_stl, ----------------------------------------------- git branch
+  GitBranch(), ----------------------------------------------- git branch
   "%=", -------------------------------------------------- right align
   "%y", -------------------------------------------------- buffer file type
   "%#directory#", ----------------------╮
