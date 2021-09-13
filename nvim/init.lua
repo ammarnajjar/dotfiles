@@ -459,7 +459,7 @@ end
 vim.api.nvim_command([[autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") |  exe "normal! g`\"" | endif]])
 -- }}}
 -- => Statusline ---------------------- {{{
-function TabsFound() -- Check for tabs usage
+function TabsFound()
   local curline = vim.api.nvim_buf_get_lines(0, 0, 1000, false)
   for _, value in ipairs(curline) do
     if string.find(value, '\t+') then
@@ -469,12 +469,8 @@ function TabsFound() -- Check for tabs usage
   return ''
 end
 
-function HasPaste() -- Check for paste mode
-  if vim.o.paste then
-    return '[PASTE]'
-  else
-    return ''
-  end
+function HasPaste()
+  return vim.o.paste and '[paste]' or ''
 end
 
 function GitBranch()
@@ -490,19 +486,21 @@ local status_line = {
   "%#question#", --------------------------------------╮
   "%{(&fenc!='utf-8'&&&fenc!='')?'['.&fenc.']':''}", --|-- warning for encoding not utf8
   "%*", -----------------------------------------------╯
-  "%#warningmsg#", ---------------------╮
-  "%{luaeval('HasPaste()')}", ----------|----------------- warning if paste mode is active
+  "%#errormsg#", -----------------------╮
+  "%{luaeval('HasPaste()')}", ---------------------------- warning if paste mode is active
+  "%{luaeval('TabsFound()')}", --------------------------- warning if tabs exist
   "%*", --------------------------------╯
   "%#warningmsg#", ---------------------╮
-  "%{luaeval('TabsFound()')}", ---------|----------------- warning if tabs exist
+  GitBranch(), ------------------------------------------- git branch
   "%*", --------------------------------╯
-  GitBranch(), ----------------------------------------------- git branch
   "%=", -------------------------------------------------- right align
-  "%y", -------------------------------------------------- buffer file type
   "%#directory#", ----------------------╮
-  "%{&ff!='unix'?'['.&ff.']':''}", -----|----------------- fileformat not unix
+  "%y", -------------------------------------------------- buffer file type
+  "%{&ff!='unix'?'['.&ff.']':''}", ----------------------- fileformat not unix
   "%*", --------------------------------╯
+  "%#warningmsg#", ---------------------╮
   " %c%V,%l/", ------------------------------------------- column and row number
+  "%*", --------------------------------╯
   "%L %P", ----------------------------------------------- total lines, position in file
 }
 vim.o.statusline = table.concat(status_line)
