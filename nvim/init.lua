@@ -99,8 +99,6 @@ vim.cmd('autocmd TermOpen * setlocal nonumber statusline=%{b:term_title}')
 
 -- view hidden characters by default
 vim.o.listchars='tab:>-,space:·,nbsp:␣,trail:•,eol:↲,precedes:«,extends:»,conceal:┊'
-vim.wo.list = true
-vim.o.list = true
 vim.api.nvim_set_keymap('n', '<F2>', '<cmd>setlocal list! list? <CR>', { noremap = true })
 
 -- Allow toggling between tabs and spaces
