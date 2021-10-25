@@ -318,6 +318,15 @@ function LoadLsp()
     nvim_lsp[lsp].setup { on_attach = on_attach }
   end
 
+  -- omnisharp c#
+  local pid = vim.fn.getpid()
+  -- omnisharp install path => $HOME/.omnisharp
+  local omnisharp_bin = vim.fn.stdpath('config')..'/../../.omnisharp/run'
+  nvim_lsp["omnisharp"].setup {
+      cmd = { omnisharp_bin, "--languageserver" , "--hostPID", tostring(pid) };
+      on_attach = on_attach
+  }
+
   -- setup lsp for lua
   local system_name
   if vim.fn.has("mac") == 1 then
