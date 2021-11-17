@@ -298,7 +298,7 @@ function LoadLsp()
     end
 
     -- show diagnostics as a popup
-    vim.api.nvim_command('autocmd CursorMoved <buffer> lua vim.lsp.diagnostic.show_line_diagnostics()')
+    -- vim.api.nvim_command('autocmd CursorMoved <buffer> lua vim.lsp.diagnostic.show_line_diagnostics()')
   end
 
   -- Use a loop to conveniently both setup defined servers
