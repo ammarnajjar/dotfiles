@@ -421,7 +421,7 @@ function FileTypeSetup()
   local with_two_spaces = {
     'typescript', 'typescript.tsx', 'javascript', 'javascript.jsx',
     'lua', 'ruby', 'html', 'xhtml', 'htm', 'css', 'scss', 'php',
-    'json', 'yml', 'yaml',
+    'json', 'yml', 'yaml', 'dart',
   }
   if (vim.bo.filetype == 'python') then
     pythonSetup()
