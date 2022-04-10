@@ -16,7 +16,6 @@ alias ctagsit="ctags --append=no --recurse --totals --exclude=blib --exclude=.sv
 
 # don't put duplicate lines or lines starting with space in the history.
 # HISTCONTROL=ignoreboth
-# append to the history file, don't overwrite it
 
 alias tmux='env TERM=screen-256color tmux'
 export TERM=xterm-256color
@@ -59,14 +58,14 @@ export ASDF_PYTHON_DEFAULT_PACKAGES_FILE="$dotfiles_dir/asdf/default-python-pack
 export ASDF_DIR="$dotfiles_dir/asdf/asdf"
 export ASDF_DATA_DIR="$dotfiles_dir/asdf/asdf"
 export ASDF_PLUGINS=(
-    nodejs
-    python
     direnv
     dotnet-core
     fzf
-    rust
     golang
+    nodejs
+    python
     ruby
+    rust
 )
 
 # mute direnv output
@@ -77,6 +76,7 @@ function mkcd() {
     mkdir -p -- "$*"
     cd -- "$*"
 }
+
 # display all ip addresses for this host
 function ips ()
 {
@@ -89,12 +89,6 @@ function ips ()
     else
         echo "You don't have ifconfig or ip command installed!"
     fi
-}
-
-# search through directory contents with grep
-function lsgrep ()
-{
-    ls | grep "$*"
 }
 
 # back up file with timestamp
@@ -110,13 +104,6 @@ function del() {
     mkdir -p /tmp/.trash && mv "$@" /tmp/.trash;
 }
 
-function reset_branch() {
-    git reset --hard $(git rev-parse --abbrev-ref HEAD)
-}
-
-function set_to_origin() {
-    git fetch && git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)
-}
 
 # https://github.com/OmniSharp/omnisharp-vscode/issues/2970#issuecomment-541516806
 function set_dotnet_vars {
@@ -130,22 +117,6 @@ function set_dotnet_vars {
 if command -v dotnet 1>/dev/null 2>&1; then
     set_dotnet_vars
 fi
-
-function asdf_add() {
-     asdf plugin-add $1
-     # for gpg-key issues see: https://github.com/asdf-vm/asdf-nodejs/issues/192#issuecomment-797448073
-     asdf install $1 $2
-     asdf global $1 $2
-}
-
-function asdf_latest() {
-     for plugin in ${ASDF_PLUGINS[@]}
-     do
-         asdf plugin-add $plugin
-         asdf install $plugin latest
-         asdf global $plugin latest
-     done
-}
 
 # update all asdf plugins to latest
 # modified version of https://gist.github.com/ig0rsky/fef7f785b940d13b52eb1b379bd7438d
