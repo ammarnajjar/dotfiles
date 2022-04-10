@@ -109,6 +109,7 @@ plugins=(
     macos
     asdf
     fzf
+    evalcache
 )
 
 source $ZSH/oh-my-zsh.sh
