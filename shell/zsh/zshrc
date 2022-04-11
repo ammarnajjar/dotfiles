@@ -130,4 +130,12 @@ source "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/zshrc"
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+# Fix path for asdf plugins in tmux
+if [ -n "$TMUX" ]; then
+    for plugin in "${ASDF_PLUGINS[@]}"
+    do
+        export PATH="$(asdf where $plugin):$PATH"
+    done
+fi
+
 # vim: set ft=sh ts=4 sw=4 et ai :
