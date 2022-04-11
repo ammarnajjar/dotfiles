@@ -12,7 +12,6 @@ fi
 autoload -Uz compinit
 compinit
 
-source $dotfiles_dir/shell/common.sh
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 export HISTFILESIZE=99999999
@@ -22,9 +21,9 @@ export HISTTIMEFORMAT="[%F %T]: "
 
 # source stuff
 source_list=(
-    $HOME/.fzf.zsh
     $ASDF_DIR/asdf.sh
-    $ASDF_DIR/plugins/dotnet/set-dotnet-home.zsh
+    $ASDF_DIR/plugins/dotnet-core/set-dotnet-home.zsh
+    $HOME/.fzf.zsh
     $HOME/.local_bashrc
 )
 
@@ -32,6 +31,8 @@ for target in "${source_list[@]}"
 do
     [ -f $target ] && source $target
 done
+
+source $dotfiles_dir/shell/common.sh
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
@@ -108,10 +109,9 @@ HYPHEN_INSENSITIVE="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-    direnv
+    fzf
     macos
     asdf
-    fzf
     evalcache
 )
 
@@ -124,16 +124,8 @@ source $ZSH/oh-my-zsh.sh
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-# activate some env stuff
-if [ -n "$(type direnv)" ] && [ "$(type direnv)" = function ]; then
-    # direnv is already initialized
-    true
-else
-    if command -v direnv 1>/dev/null 2>&1; then
-        eval "$(direnv hook zsh)"
-	    alias tmux='env TERM=screen-256color direnv exec / tmux'
-    fi
-fi
+source "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/zshrc"
+
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

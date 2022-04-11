@@ -17,7 +17,7 @@ alias ctagsit="ctags --append=no --recurse --totals --exclude=blib --exclude=.sv
 # don't put duplicate lines or lines starting with space in the history.
 # HISTCONTROL=ignoreboth
 
-alias tmux='env TERM=screen-256color tmux'
+alias tmux='env TERM=screen-256color direnv exec $HOME tmux'
 export TERM=xterm-256color
 export LANG='en_US.UTF-8'
 export EDITOR=nvim
