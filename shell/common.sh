@@ -45,11 +45,6 @@ export PATH="/usr/local/opt/ruby/bin:$HOME/.gem/bin:$PATH"
 export CLICOLOR=1
 export LSCOLORS=Exfxcxdxbxegedabagacad
 
-if command -v manpath 1>/dev/null 2>&1; then
-    unset MANPATH # delete if you already modified MANPATH elsewhere in your config
-    export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
-fi
-
 export FZF_DEFAULT_OPTS='--height 60% --border'
 
 # asdf
@@ -92,7 +87,7 @@ function ips ()
 }
 
 # back up file with timestamp
-function buf ()
+function bak ()
 {
     local filename=$1
     local filetime=$(date +%Y%m%d_%H%M%S)
