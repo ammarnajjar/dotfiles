@@ -113,6 +113,13 @@ if command -v dotnet 1>/dev/null 2>&1; then
     set_dotnet_vars
 fi
 
+function asdf_add() {
+    asdf plugin-add $1
+    # for gpg-key issues see: https://github.com/asdf-vm/asdf-nodejs/issues/192#issuecomment-797448073
+    asdf install $1 $2
+    asdf global $1 $2
+}
+
 # update all asdf plugins to latest
 # modified version of https://gist.github.com/ig0rsky/fef7f785b940d13b52eb1b379bd7438d
 function asdf_update() {
