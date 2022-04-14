@@ -27,6 +27,17 @@ import $HOME/.fzf.zsh
 import $ASDF_DIR/asdf.sh
 import "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/zshrc"
 
+# searching through history with up and down arrows
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey "^[[A" up-line-or-beginning-search # Up
+bindkey "^[[B" down-line-or-beginning-search # Down
+
+# case insensitive auto completion
+zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+
 # https://asdf-vm.com/guide/getting-started.html#_3-install-asdf
 fpath=(${ASDF_DIR}/completions $fpath)
 
