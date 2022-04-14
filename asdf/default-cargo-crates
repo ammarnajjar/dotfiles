@@ -1,3 +1,4 @@
 bat
 ripgrep
 git-delta
+fd-find
