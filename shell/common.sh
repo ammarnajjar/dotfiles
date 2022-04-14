@@ -45,7 +45,26 @@ export PATH="/usr/local/opt/ruby/bin:$HOME/.gem/bin:$PATH"
 export CLICOLOR=1
 export LSCOLORS=Exfxcxdxbxegedabagacad
 
-export FZF_DEFAULT_OPTS='--height 60% --border'
+# fzf
+bindkey "ç" fzf-cd-widget
+export FZF_DEFAULT_OPTS="
+--border
+--info=inline
+--height=80%
+--multi
+--preview-window=:hidden
+--preview '([[ -f {} ]] && (bat --style=numbers --color=always {} || cat {})) || ([[ -d {} ]] && (tree -C {} | less)) || echo {} 2> /dev/null | head -200'
+--color='hl:148,hl+:154,pointer:032,marker:010,bg+:237,gutter:008'
+--prompt='∼ ' --pointer='▶' --marker='✓'
+--bind '?:toggle-preview'
+--bind 'ctrl-a:select-all'
+--bind 'ctrl-y:execute-silent(echo {+} | pbcopy)'
+--bind 'ctrl-e:execute(echo {+} | xargs -o nvim)'
+--bind 'ctrl-v:execute(code {+})'
+"
+export FZF_DEFAULT_COMMAND="fd --exclude 'venv/*' --exclude 'coverage/*' --exclude 'node_modules/*' --exclude 'target/*' --exclude '__pycache__/*' --exclude 'dist/*' --exclude 'build/*' --exclude '*.DS_Store'"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND="$FZF_DEFAULT_COMMAND --type d"
 
 # asdf
 export ASDF_NPM_DEFAULT_PACKAGES_FILE="$dotfiles_dir/asdf/default-node-packages"

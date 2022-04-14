@@ -224,7 +224,10 @@ if (vim.fn.executable('bat') ~= 0) then
 end
 
 -- use ripgrep if exists
-if (vim.fn.executable('rg') ~= 0) then
+if (vim.fn.executable('fd') ~= 0) then
+  vim.env.FZF_DEFAULT_COMMAND = 'fd --hidden --type f --exclude=".git/*" --exclude="venv/*" --exclude="coverage/*" --exclude="node_modules/*" --exclude="target/*" --exclude="__pycache__/*" --exclude="dist/*" --exclude="build/*" --exclude="*.DS_Store"'
+  vim.g.grepprg='fd'
+elseif (vim.fn.executable('rg') ~= 0) then
   vim.env.FZF_DEFAULT_COMMAND = 'rg --hidden --files --glob="!.git/*" --glob="!venv/*" --glob="!coverage/*" --glob="!node_modules/*" --glob="!target/*" --glob="!__pycache__/*" --glob="!dist/*" --glob="!build/*" --glob="!*.DS_Store"'
   vim.g.grepprg='rg'
   -- else use the silver searcher if exists
