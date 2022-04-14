@@ -110,7 +110,8 @@ function set_dotnet_vars {
 }
 
 if command -v dotnet 1>/dev/null 2>&1; then
-    set_dotnet_vars
+    # TODO: maybe not needed anymore?
+    # set_dotnet_vars
 fi
 
 function asdf_add() {

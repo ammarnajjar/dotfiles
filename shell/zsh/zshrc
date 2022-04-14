@@ -12,27 +12,11 @@ fi
 autoload -Uz compinit
 compinit
 
-
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 export HISTFILESIZE=99999999
 export HISTSIZE=99999999
 export SAVEHIST=99999999
 export HISTTIMEFORMAT="[%F %T]: "
-
-# source stuff
-source_list=(
-    $ASDF_DIR/asdf.sh
-    $ASDF_DIR/plugins/dotnet-core/set-dotnet-home.zsh
-    $HOME/.fzf.zsh
-    $HOME/.local_bashrc
-)
-
-for target in "${source_list[@]}"
-do
-    [ -f $target ] && source $target
-done
-
-source $dotfiles_dir/shell/common.sh
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
@@ -112,10 +96,9 @@ plugins=(
     fzf
     macos
     asdf
+    direnv
     evalcache
 )
-
-source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
@@ -124,10 +107,19 @@ source $ZSH/oh-my-zsh.sh
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-source "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/zshrc"
 
+# source stuff
+source_list=(
+    $dotfiles_dir/shell/common.sh
+    $ZSH/oh-my-zsh.sh
+    # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+    $HOME/.p10k.zsh
+    $HOME/.local_bashrc
+)
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+for target in "${source_list[@]}"
+do
+    [ -f $target ] && source $target
+done
 
 # vim: set ft=sh ts=4 sw=4 et ai :
