@@ -60,9 +60,7 @@ function prepare_shell_rc_file() {
         [ -f $HOME/.zshrc ] && mv $HOME/.zshrc /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_zshrc
         echo "export dotfiles_dir=$dotfiles_dir" > $HOME/.zshrc
         echo "source $dotfiles_dir/shell/zsh/zshrc" >> $HOME/.zshrc
-        git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $dotfiles_dir/shell/zsh/ohmyzsh/custom/themes/powerlevel10k
-        git clone --depth=1 https://github.com/mroth/evalcache $dotfiles_dir/shell/zsh/ohmyzsh/custom/plugins/evalcache
-        git clone --depth=1 https://github.com/ohmyzsh/ohmyzsh.git $dotfiles_dir/shell/zsh/ohmyzsh
+        git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $dotfiles_dir/shell/zsh/powerlevel10k
         ln -s $dotfiles_dir/shell/zsh/p10k.zsh $HOME/.p10k.zsh
         shell="zsh"
     fi

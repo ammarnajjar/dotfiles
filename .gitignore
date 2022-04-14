@@ -23,3 +23,4 @@ asdf/asdf
 lua-language-server
 local.*
 Session.vim
+powerlevel10k
