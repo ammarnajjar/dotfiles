@@ -1,25 +1,31 @@
 # https://stackoverflow.com/a/42265848/3297680
 export GPG_TTY=$(tty)
 
+# man bash | grep -A1 '\-f file$'
+#        -f file
+#               True if file exists and is a regular file.
+#        -r file
+#               True if file exists and is readable.
+import () {
+    [[ -r "$1" ]] && source "$1"
+}
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+import "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 
-[ -f $dotfiles_dir/shell/common.sh ] && source $dotfiles_dir/shell/common.sh
+import $dotfiles_dir/shell/common.sh ]
 
-source_list=(
-    $HOME/.fzf.zsh
-    $ASDF_DIR/asdf.sh
-    "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/zshrc"
-)
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+export HISTFILESIZE=99999999
+export HISTSIZE=99999999
+export SAVEHIST=99999999
+export HISTTIMEFORMAT="[%F %T]: "
 
-for target in "${source_list[@]}"
-do
-    [ -f $target ] && source $target
-done
+import $HOME/.fzf.zsh
+import $ASDF_DIR/asdf.sh
+import "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/zshrc"
 
 # https://asdf-vm.com/guide/getting-started.html#_3-install-asdf
 fpath=(${ASDF_DIR}/completions $fpath)
@@ -28,22 +34,9 @@ fpath=(${ASDF_DIR}/completions $fpath)
 autoload -Uz compinit
 compinit
 
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-export HISTFILESIZE=99999999
-export HISTSIZE=99999999
-export SAVEHIST=99999999
-export HISTTIMEFORMAT="[%F %T]: "
-
-source_list=(
-    $dotfiles_dir/shell/zsh/powerlevel10k/powerlevel10k.zsh-theme
-    # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-    $HOME/.p10k.zsh
-    $HOME/.local_bashrc
-)
-
-for target in "${source_list[@]}"
-do
-    [ -f $target ] && source $target
-done
+import $dotfiles_dir/shell/zsh/powerlevel10k/powerlevel10k.zsh-theme
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+import $HOME/.p10k.zsh
+import $HOME/.local_bashrc
 
 # vim: set ft=sh ts=4 sw=4 et ai :
