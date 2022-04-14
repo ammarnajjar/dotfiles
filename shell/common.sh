@@ -49,6 +49,7 @@ export LSCOLORS=Exfxcxdxbxegedabagacad
 bindkey "ç" fzf-cd-widget
 export FZF_DEFAULT_OPTS="
 --border
+--layout=reverse
 --info=inline
 --height=80%
 --multi
