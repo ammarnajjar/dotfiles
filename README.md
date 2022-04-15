@@ -46,7 +46,6 @@ wget https://raw.githubusercontent.com/ammarnajjar/dotfiles/master/install.sh &&
 ├── bat
 │   └── config
 ├── direnv
-│   ├── direnvrc
 │   └── envrc
 ├── git
 │   ├── config

@@ -100,7 +100,6 @@ function asdf_setup() {
 function direnv_symlinks() {
     echo_blue "** Create direnv Symlinks"
     mkdir -p $HOME/.config/direnv
-    ln -s $dotfiles_dir/direnv/direnvrc $HOME/.config/direnv/direnvrc
     ln -s $dotfiles_dir/direnv/envrc $HOME/.envrc
 }
 
