@@ -26,15 +26,6 @@ import /etc/bash_completion
 import /usr/local/git/contrib/completion/git-completion.bash
 import /usr/share/doc/git/contrib/completion/git-completion.bash
 
-import $HOME/.local_bashrc
-
-# asdf direnv setup --shell /usr/local/bin/bash --version latest
-import "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/bashrc"
-
-if [ -n "$(type -t kubectl)" ] && [ "$(type -t kubectl)" = function ]; then
-    source <(kubectl completion bash)
-fi
-
 # custom prompt
 RED='\033[0;31m'
 YELLOW='\033[0;33m'
@@ -58,5 +49,14 @@ function prompt_command() {
     PS1=$(printf "%*s\r%s\n\$ " "$(($(tput cols)+${compensate}))" "$(prompt_right)" "$(prompt_left)")
 }
 PROMPT_COMMAND=prompt_command
+
+import $HOME/.local_bashrc
+
+# asdf direnv setup --shell /usr/local/bin/bash --version latest
+import "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/bashrc"
+
+if [ -n "$(type -t kubectl)" ] && [ "$(type -t kubectl)" = function ]; then
+    source <(kubectl completion bash)
+fi
 
 # vim: set ft=sh ts=4 sw=4 et ai :
