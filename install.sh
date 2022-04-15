@@ -52,7 +52,6 @@ function prepare_shell_rc_file() {
         echo "export dotfiles_dir=$dotfiles_dir" > $HOME/.bashrc
         echo "source $dotfiles_dir/shell/bash/bashrc" >> $HOME/.bashrc
         git clone --depth=1 -b 'ignored-in-history' https://github.com/ammarnajjar/bash-sensible.git shell/bash/bash-sensible
-        git clone --depth=1 https://github.com/ammarnajjar/bash-git-prompt.git shell/bash/bash-git-prompt
         shell="bash"
     elif [ ! -z $ZSH_VERSION ]
     then
