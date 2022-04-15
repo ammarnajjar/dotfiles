@@ -17,12 +17,6 @@ import "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 
 import $dotfiles_dir/shell/common.sh
 
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-export HISTFILESIZE=99999999
-export HISTSIZE=99999999
-export SAVEHIST=99999999
-export HISTTIMEFORMAT="[%F %T]: "
-
 import $HOME/.fzf.zsh
 import $ASDF_DIR/asdf.sh
 import "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/zshrc"

@@ -79,6 +79,12 @@ export ASDF_PLUGINS=(
 # mute direnv output
 export DIRENV_LOG_FORMAT=""
 
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+export HISTFILESIZE=99999999
+export HISTSIZE=99999999
+export SAVEHIST=99999999
+export HISTTIMEFORMAT="[%F %T]: "
+
 # useful functions stolen from https://github.com/Bash-it/bash-it
 function mkcd() {
     mkdir -p -- "$*"
