@@ -15,7 +15,7 @@ import () {
 # confirmations, etc.) must go above this block; everything else may go below.
 import "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 
-import $dotfiles_dir/shell/common.sh ]
+import $dotfiles_dir/shell/common.sh
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 export HISTFILESIZE=99999999
@@ -49,5 +49,7 @@ import $dotfiles_dir/shell/zsh/powerlevel10k/powerlevel10k.zsh-theme
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 import $HOME/.p10k.zsh
 import $HOME/.local_bashrc
+
+source <(kubectl completion zsh)
 
 # vim: set ft=sh ts=4 sw=4 et ai :

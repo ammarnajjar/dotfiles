@@ -24,19 +24,13 @@ export EDITOR=nvim
 export GIT_EDITOR="nvim"
 export BAT_CONFIG_PATH=$dotfiles_dir/bat/config
 
-# optout
+# dotnet optout
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 
 # get konsole profile name if possible
 if hash qdbus 2>/dev/null; then
     export KONSOLE_PROFILE_NAME="$(qdbus $KONSOLE_DBUS_SERVICE $KONSOLE_DBUS_SESSION profile)"
 fi
-
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-export HISTFILESIZE=
-export HISTSIZE=
-export SAVEHIST=
-export HISTTIMEFORMAT="[%F %T]: "
 
 export GEM_HOME="$HOME/.gem"
 export PATH="/usr/local/opt/ruby/bin:$HOME/.gem/bin:$PATH"
@@ -46,7 +40,6 @@ export CLICOLOR=1
 export LSCOLORS=Exfxcxdxbxegedabagacad
 
 # fzf
-bindkey "ç" fzf-cd-widget
 export FZF_DEFAULT_OPTS="
 --border
 --layout=reverse
@@ -120,19 +113,18 @@ function del() {
 }
 
 
-# https://github.com/OmniSharp/omnisharp-vscode/issues/2970#issuecomment-541516806
-function set_dotnet_vars {
-  DOTNET_BASE=$(dotnet --info | grep "Base Path" | awk '{print $3}')
-  DOTNET_ROOT=$(echo $DOTNET_BASE | sed -E "s/^(.*)(\/sdk\/[^\/]+\/)$/\1/")
-  export MSBuildSDKsPath=${DOTNET_BASE}Sdks/
-  export DOTNET_ROOT=$DOTNET_ROOT
-  export PATH=$DOTNET_ROOT:$PATH
-}
-
-if command -v dotnet 1>/dev/null 2>&1; then
-    # TODO: maybe not needed anymore?
-    # set_dotnet_vars
-fi
+# TODO: maybe not needed anymore?
+# # https://github.com/OmniSharp/omnisharp-vscode/issues/2970#issuecomment-541516806
+# function set_dotnet_vars {
+#   DOTNET_BASE=$(dotnet --info | grep "Base Path" | awk '{print $3}')
+#   DOTNET_ROOT=$(echo $DOTNET_BASE | sed -E "s/^(.*)(\/sdk\/[^\/]+\/)$/\1/")
+#   export MSBuildSDKsPath=${DOTNET_BASE}Sdks/
+#   export DOTNET_ROOT=$DOTNET_ROOT
+#   export PATH=$DOTNET_ROOT:$PATH
+# }
+# if command -v dotnet 1>/dev/null 2>&1; then
+#     set_dotnet_vars
+# fi
 
 function asdf_add() {
     asdf plugin-add $1
