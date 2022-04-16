@@ -154,8 +154,8 @@ if !exists('g:vscode')
 
         " Terminal mode mappings
         tnoremap <Esc> <C-\><C-n>
-        noremap <leader>s :split term://zsh<CR><C-w><S-j><S-a>
-        noremap <leader>t :tabedit term://zsh<CR><S-a>
+        noremap <leader>s :split term://$SHELL<CR><C-w><S-j><S-a>
+        noremap <leader>t :tabedit term://$SHELL<CR><S-a>
         autocmd TermOpen * setlocal statusline=%{b:term_title}
     endif
     " }}}
