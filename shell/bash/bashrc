@@ -25,22 +25,29 @@ RED='\033[0;31m'
 YELLOW='\033[0;33m'
 LIGHT_GREEN='\033[0;32m'
 LIGHT_GRAY='\033[0;37m'
+LIGHT_PURPLE='\033[0;35m'
 NORMAL='\033[0m'
+
+
+COMPENSATE=4
 
 function prompt_right() {
     echo -e "${LIGHT_GRAY}\\\t${NORMAL}"
 }
 
 function prompt_left() {
+    VENV=""
+    if [ ! -z "$VIRTUAL_ENV" ]; then 
+        VENV="(${LIGHT_PURPLE}`basename \"$VIRTUAL_ENV\"`${NORMAL}) "
+    fi
     GIT_BRANCH=""
     BRANCH=$(git branch 2>/dev/null | grep '^*' | sed s/..//)
     if [ ! -z "$BRANCH" ]; then  GIT_BRANCH=" [${LIGHT_GREEN}${BRANCH}${NORMAL}]"; fi
-    echo -e "${YELLOW}\w${NORMAL}${GIT_BRANCH}"
+    echo -e "${VENV}${YELLOW}\w${NORMAL}${GIT_BRANCH}"
 }
 
 function prompt_command() {
-    compensate=4
-    PS1=$(printf "%*s\r%s\n\$ " "$(($(tput cols)+${compensate}))" "$(prompt_right)" "$(prompt_left)")
+    PS1=$(printf "%*s\r%s\n\$ " "$(($(tput cols)+${COMPENSATE}))" "$(prompt_right)" "$(prompt_left)")
 }
 PROMPT_COMMAND=prompt_command
 
