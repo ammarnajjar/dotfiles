@@ -76,13 +76,6 @@ export ASDF_PLUGINS=(
     rust
 )
 
-# ensure compatibility tmux <-> direnv
-if [ -n "$TMUX" ] && [ -n "$DIRENV_DIR" ]; then
-    unset "${!DIRENV_@}"  # unset env vars starting with DIRENV_
-fi
-# mute direnv output
-export DIRENV_LOG_FORMAT=""
-
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 export HISTFILESIZE=99999999
 export HISTSIZE=99999999
@@ -155,5 +148,8 @@ function asdf_update() {
     paste -d '\t' ~/.tool-versions ~/.tool-versions.bk
     rm ~/.tool-versions.bk
 }
+
+# https://github.com/asdf-community/asdf-direnv#pro-tips
+PATH="$PATH:$ASDF_DIR/bin"
 
 # vim: set ft=sh ts=4 sw=4 et ai :

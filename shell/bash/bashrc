@@ -16,8 +16,6 @@ import /usr/local/git/contrib/completion/git-completion.bash
 import /usr/share/doc/git/contrib/completion/git-completion.bash
 
 import $HOME/.fzf.bash
-# https://github.com/asdf-community/asdf-direnv#pro-tips
-PATH="$PATH:$ASDF_DIR/bin"
 import $ASDF_DIR/completions/asdf.bash
 
 # custom prompt
@@ -50,10 +48,17 @@ function prompt_command() {
 }
 PROMPT_COMMAND=prompt_command
 
-import $HOME/.local_bashrc
+# ensure compatibility tmux <-> direnv
+if [ -n "$TMUX" ] && [ -n "$DIRENV_DIR" ]; then
+    unset "${!DIRENV_@}"  # unset env vars starting with DIRENV_
+fi
+# mute direnv output
+export DIRENV_LOG_FORMAT=""
 
 # asdf direnv setup --shell /usr/local/bin/bash --version latest
 import "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/bashrc"
+
+import $HOME/.local_bashrc
 
 if [ -n "$(type -t kubectl)" ] && [ "$(type -t kubectl)" = function ]; then
     source <(kubectl completion bash)
