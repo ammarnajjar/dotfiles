@@ -76,6 +76,10 @@ export ASDF_PLUGINS=(
     rust
 )
 
+# ensure compatibility tmux <-> direnv
+if [ -n "$TMUX" ] && [ -n "$DIRENV_DIR" ]; then
+    unset "${!DIRENV_@}"  # unset env vars starting with DIRENV_
+fi
 # mute direnv output
 export DIRENV_LOG_FORMAT=""
 

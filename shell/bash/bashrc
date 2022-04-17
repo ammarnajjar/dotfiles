@@ -10,15 +10,15 @@ import () {
 shopt -s histappend
 
 import $dotfiles_dir/shell/common.sh
-
-import $HOME/.fzf.bash
-import $ASDF_DIR/asdf.sh
-import $ASDF_DIR/completions/asdf.bash
-
 import $dotfiles_dir/shell/bash/bash-sensible/sensible.bash
 import /etc/bash_completion
 import /usr/local/git/contrib/completion/git-completion.bash
 import /usr/share/doc/git/contrib/completion/git-completion.bash
+
+import $HOME/.fzf.bash
+# https://github.com/asdf-community/asdf-direnv#pro-tips
+PATH="$PATH:$ASDF_DIR/bin"
+import $ASDF_DIR/completions/asdf.bash
 
 # custom prompt
 RED='\033[0;31m'
@@ -27,7 +27,6 @@ LIGHT_GREEN='\033[0;32m'
 LIGHT_GRAY='\033[0;37m'
 LIGHT_PURPLE='\033[0;35m'
 NORMAL='\033[0m'
-
 
 COMPENSATE=4
 
