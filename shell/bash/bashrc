@@ -48,6 +48,9 @@ function prompt_command() {
 }
 PROMPT_COMMAND=prompt_command
 
+# After each command, append to the history file and reread it
+PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
+
 # ensure compatibility tmux <-> direnv
 if [ -n "$TMUX" ] && [ -n "$DIRENV_DIR" ]; then
     unset "${!DIRENV_@}"  # unset env vars starting with DIRENV_
