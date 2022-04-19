@@ -70,6 +70,7 @@ export ASDF_PLUGINS=(
     dotnet-core
     fzf
     golang
+    git
     nodejs
     python
     ruby
@@ -77,9 +78,10 @@ export ASDF_PLUGINS=(
 )
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-export HISTFILESIZE=99999999
-export HISTSIZE=99999999
-export SAVEHIST=99999999
+export HISTCONTROL=ignoreboth:erasedups
+export HISTFILESIZE=9999999999
+export HISTSIZE=9999999999
+export SAVEHIST=9999999999
 export HISTTIMEFORMAT="[%F %T]: "
 
 # useful functions stolen from https://github.com/Bash-it/bash-it
