@@ -95,7 +95,7 @@ vim.api.nvim_set_keymap('t', '<ESC>', '<C-\\><C-n>', {})
 vim.api.nvim_set_keymap('n', '<leader>s', '<cmd>split term://'..'$SHELL'..'<CR><C-w><S-j><S-a>', {})
 vim.api.nvim_set_keymap('n', '<leader>v', '<cmd>vsplit term://'..'$SHELL'..'<CR><C-w><S-l><S-a>', {})
 vim.api.nvim_set_keymap('n', '<leader>t', '<cmd>tabedit term://'..'$SHELL'..'<CR><S-a>', {})
-vim.cmd('autocmd TermOpen * setlocal nonumber statusline=%{b:term_title}')
+vim.api.nvim_create_autocmd('TermOpen', { pattern="*", command = 'setlocal nonumber statusline=%{b:term_title}' })
 
 -- view hidden characters by default
 vim.o.listchars='tab:>-,space:·,nbsp:␣,trail:•,eol:↲,precedes:«,extends:»,conceal:┊'
@@ -117,7 +117,9 @@ end
 vim.api.nvim_set_keymap('n', '<F4>', '<cmd>write | edit | TSBufEnable highlight<cr>', {})
 
 -- Toggle ColumnColor
-vim.api.nvim_command('autocmd filetype * hi ColorColumn ctermbg=black guibg=black')
+vim.api.nvim_create_autocmd('FileType', { pattern = '*', callback = function()
+  vim.api.nvim_command('highlight ColorColumn ctermbg=black guibg=black')
+end })
 vim.api.nvim_set_keymap('n', '<leader>cc', '<cmd>lua ToggleColorColumn()<CR>', { silent=true })
 function ToggleColorColumn()
     vim.wo.colorcolumn = vim.wo.colorcolumn ~= '' and '' or '80'
@@ -139,16 +141,15 @@ function AppendModeline()
 end
 --}}}
 -- => Plugins ---------------- {{{
-local execute = vim.api.nvim_command
 local install_path = vim.fn.stdpath('config')..'/pack/packer/opt/packer.nvim'
 
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-  execute('!git clone https://github.com/wbthomason/packer.nvim '..install_path)
-  execute 'packadd packer.nvim'
+  vim.api.nvim_command('!git clone https://github.com/wbthomason/packer.nvim '..install_path)
+  vim.api.nvim_command 'packadd packer.nvim'
 end
 
 -- Automatically run :PackerCompile whenever this file is updated
-vim.api.nvim_command('autocmd BufWritePost init.lua PackerCompile')
+vim.api.nvim_create_autocmd('BufWritePost', { command = 'PackerCompile' })
 
 -- load packer
 vim.cmd('packadd packer.nvim')
@@ -172,23 +173,20 @@ vim.wo.cursorline = true
 
 local function LightTheme()
   vim.o.background = 'light'
-  vim.api.nvim_command([[
-  autocmd BufEnter * highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=254
-  autocmd BufEnter * highlight cursorlinenr term=bold ctermfg=black ctermbg=grey gui=bold guifg=white guibg=grey
-  autocmd insertenter * highlight cursorlinenr term=bold ctermfg=black ctermbg=117 gui=bold guifg=white guibg=skyblue1
-  autocmd insertenter * highlight cursorline cterm=none ctermfg=none ctermbg=none
-  autocmd insertleave * highlight cursorlinenr term=bold ctermfg=black ctermbg=grey gui=bold guifg=white guibg=grey
-  autocmd InsertLeave * highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=254]])
+  vim.api.nvim_create_autocmd('BufEnter', { command = 'highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=254' })
+  vim.api.nvim_create_autocmd('BufEnter', { command = 'highlight cursorlinenr term=bold ctermfg=black ctermbg=grey gui=bold guifg=white guibg=grey' })
+  vim.api.nvim_create_autocmd('insertenter', { command = 'highlight cursorlinenr term=bold ctermfg=black ctermbg=117 gui=bold guifg=white guibg=skyblue1' })
+  vim.api.nvim_create_autocmd('insertenter', { command = 'highlight cursorline cterm=none ctermfg=none ctermbg=none' })
+  vim.api.nvim_create_autocmd('insertleave', { command = 'highlight cursorlinenr term=bold ctermfg=black ctermbg=grey gui=bold guifg=white guibg=grey' })
+  vim.api.nvim_create_autocmd('InsertLeave', { command = 'highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=254' })
 end
 local function DarkTheme()
   vim.o.background = 'dark'
   vim.g.nvcode_termcolors = 256
   pcall(function() vim.cmd('colorscheme nvcode') end)  -- try colorscheme, fallback to default
-  vim.api.nvim_command([[
-  autocmd BufEnter * highlight CursorLineNr term=bold ctermfg=yellow ctermbg=black gui=bold guifg=yellow guibg=black
-  autocmd InsertEnter * highlight CursorLineNr term=bold ctermfg=black ctermbg=74 gui=bold guifg=black guibg=skyblue1
-  autocmd InsertLeave * highlight CursorLineNr term=bold ctermfg=yellow ctermbg=black gui=bold guifg=yellow guibg=black
-  ]])
+  vim.api.nvim_create_autocmd('BufEnter', { command = 'highlight CursorLineNr term=bold ctermfg=yellow ctermbg=black gui=bold guifg=yellow guibg=black' })
+  vim.api.nvim_create_autocmd('InsertEnter', { command = 'highlight CursorLineNr term=bold ctermfg=black ctermbg=74 gui=bold guifg=black guibg=skyblue1' })
+  vim.api.nvim_create_autocmd('InsertLeave', { command = 'highlight CursorLineNr term=bold ctermfg=yellow ctermbg=black gui=bold guifg=yellow guibg=black' })
 end
 
 if vim.env.KONSOLE_PROFILE_NAME == 'light' or vim.env.ITERM_PROFILE == 'light' then
@@ -301,7 +299,7 @@ function LoadLsp()
     end
 
     -- show diagnostics as a popup
-    -- vim.api.nvim_command('autocmd CursorMoved <buffer> lua vim.lsp.diagnostic.show_line_diagnostics()')
+    -- vim.api.nvim_create_autocmd('CursorMoved', { callback = function() vim.diagnostic.open_float(0, {scope="line"}) end })
   end
 
   -- Use a loop to conveniently both setup defined servers
@@ -391,7 +389,7 @@ end
 
 -- load lsp after colorscheme is applied on buffer
 -- else messages will show up without colors (white)
-vim.api.nvim_command('autocmd BufNewFile,BufReadPost * lua pcall(function() LoadLsp() end)')
+vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufReadPost'}, { callback = LoadLsp })
 
 -- nvim-treesitter
 pcall(function()
@@ -440,20 +438,17 @@ function FileTypeSetup()
   end
 end
 
-vim.api.nvim_command('autocmd BufEnter,BufNewFile * lua FileTypeSetup()')
+vim.api.nvim_create_autocmd({'BufEnter', 'BufNewFile' }, { callback = FileTypeSetup })
 
 -- highlight yanked text
-vim.api.nvim_command('autocmd TextYankPost * silent! lua vim.highlight.on_yank({ timeout=1000 } )')
+vim.api.nvim_create_autocmd('TextYankPost', { command = 'silent! lua vim.highlight.on_yank({ timeout=1000 } )' })
 
 -- highlight trailing whitespaces
-vim.api.nvim_command([[
-autocmd BufEnter *.* highlight TrailingWhitespace ctermbg=darkgreen guibg=darkgreen
-autocmd InsertEnter *.* match TrailingWhitespace /\s\+\%#\@<!$/
-autocmd InsertLeave *.* match TrailingWhitespace /\s\+$/
-]])
+vim.api.nvim_create_autocmd('BufEnter', { command = 'highlight TrailingWhitespace ctermbg=darkgreen guibg=darkgreen' })
+vim.api.nvim_create_autocmd('InsertEnter', { pattern = "*.*", command = "match TrailingWhitespace /\\s\\+\\%#\\@<!$/" })
+vim.api.nvim_create_autocmd('InsertLeave', { pattern = "*.*", command = "match TrailingWhitespace /\\s\\+$/" })
 
 -- delete trailing white spaces except for markdown
-vim.api.nvim_command('autocmd BufWritePre *.* lua DeleteTrailingWS()')
 function DeleteTrailingWS()
   if (vim.bo.filetype == 'markdown') then
     return
@@ -462,9 +457,10 @@ function DeleteTrailingWS()
   vim.cmd([[%s/\s\+$//ge]])
   vim.api.nvim_command([[normal 'z]])
 end
+vim.api.nvim_create_autocmd('BufWritePre', { callback = DeleteTrailingWS })
 
 -- Return to last edit position when opening files
-vim.api.nvim_command([[autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") |  exe "normal! g`\"" | endif]])
+vim.api.nvim_create_autocmd('BufReadPost', { pattern = "*", command = "silent! normal! g;" })
 -- }}}
 -- => Statusline ---------------------- {{{
 function TabsFound()
