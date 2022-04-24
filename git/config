@@ -23,7 +23,7 @@
 	format = * %h %B
 
 [init]
-	defaultBranch = master
+	defaultBranch = main
 
 [push]
 	default = current
