@@ -161,6 +161,7 @@ require('packer').startup(function()
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
   use { 'nvim-treesitter/nvim-treesitter-angular' }
   use { 'nvim-lua/completion-nvim' }
+  use { 'tjdevries/nlua.nvim' }
   use { 'junegunn/fzf' }
   use { 'junegunn/fzf.vim' }
   use { 'JoosepAlviste/nvim-ts-context-commentstring' }
@@ -319,6 +320,15 @@ function LoadLsp()
   for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup { on_attach = on_attach }
   end
+
+  -- lua vim.api.nvim_
+  require('nlua.lsp.nvim').setup(require('lspconfig'), {
+    on_attach = on_attach,
+
+    globals = {
+      "Color", "c", "Group", "g", "s",
+    }
+  })
 
   -- omnisharp c#
   local pid = vim.fn.getpid()
