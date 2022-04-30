@@ -113,17 +113,14 @@ function nvim_symlinks() {
 
 function install_lua_language_server() {
     echo_blue "** lua language server "
+    # https://github.com/sumneko/lua-language-server/wiki/Build-and-Run
     mkdir -p $dotfiles_dir/nvim/lsp
     cd $dotfiles_dir/nvim/lsp
     git clone --depth=1 https://github.com/sumneko/lua-language-server
     cd lua-language-server
     git submodule update --init --recursive
     cd 3rd/luamake
-    if [[ "$OSTYPE" == "linux-gnu" ]]; then
-        ninja -f ninja/linux.ninja
-    elif [[ "$OSTYPE" == "darwin"* ]]; then
-        ninja -f ninja/macos.ninja
-    fi
+    ./compile/install.sh
     cd ../..
     ./3rd/luamake/luamake rebuild || echo "* Faild: installing lua-lsp-server"
 }
