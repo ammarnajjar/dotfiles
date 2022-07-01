@@ -178,7 +178,6 @@ if !exists('g:vscode')
 
     call plug#begin(s:editor_root."/plugged/")
     " => Install Plugins ----------------------------- {{{3
-    Plug 'tpope/vim-fugitive'
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
     Plug 'junegunn/fzf', { 'dir': '~/.config/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
