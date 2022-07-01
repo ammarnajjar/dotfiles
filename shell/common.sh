@@ -42,7 +42,6 @@ export LSCOLORS=Exfxcxdxbxegedabagacad
 # fzf
 export FZF_DEFAULT_OPTS="
 --border
---layout=reverse
 --info=inline
 --height=80%
 --multi
