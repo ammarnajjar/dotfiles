@@ -14,14 +14,14 @@
 # Any items in the `env` entry below will be added as
 # environment variables. Some entries may override variables
 # set by alacritty itself.
-#env:
+env:
   # TERM variable
   #
   # This value is used to set the `$TERM` environment variable for
   # each instance of Alacritty. If it is not present, alacritty will
   # check the local terminfo database and use `alacritty` if it is
   # available, otherwise `xterm-256color` is used.
-  #TERM: alacritty
+  TERM: alacritty
 
 window:
   # Window dimensions (changes require restart)
@@ -45,9 +45,9 @@ window:
   #
   # Blank space added around the window in pixels. This padding is scaled
   # by DPI and the specified value is always added at both opposing sides.
-  #padding:
-  #  x: 0
-  #  y: 0
+  padding:
+   x: 5
+   y: 5
 
   # Spread additional padding evenly around the terminal content.
   #dynamic_padding: false
@@ -99,13 +99,13 @@ window:
   # and `light`. Set this to `None` to use the default theme variant.
   #gtk_theme_variant: None
 
-#scrolling:
+scrolling:
   # Maximum number of lines in the scrollback buffer.
   # Specifying '0' will disable scrolling.
-  #history: 10000
+  history: 100000
 
   # Scrolling distance multiplier.
-  #multiplier: 3
+  multiplier: 3
 
 # Font configuration
 font:
@@ -180,14 +180,14 @@ font:
   #builtin_box_drawing: true
 
 # If `true`, bold text is drawn using the bright color variants.
-#draw_bold_text_with_bright_colors: false
+# draw_bold_text_with_bright_colors: false
 
 # Colors (Tomorrow Night)
-#colors:
+colors:
   # Default colors
-  #primary:
-  #  background: '#1d1f21'
-  #  foreground: '#c5c8c6'
+  primary:
+   background: '#000000'
+   foreground: '#c5c8c6'
 
     # Bright and dim foreground colors
     #
@@ -277,6 +277,29 @@ font:
   #selection:
   #  text: CellBackground
   #  background: CellForeground
+
+  # Colors (iTerm 2 default theme)
+  # Normal colors
+  normal:
+    black:   '0x2e2e2e'
+    red:     '0xeb4129'
+    green:   '0xabe047'
+    yellow:  '0xf6c744'
+    blue:    '0x47a0f3'
+    magenta: '0x7b5cb0'
+    cyan:    '0x64dbed'
+    white:   '0xe5e9f0'
+
+  # Bright colors
+  bright:
+    black:   '0x565656'
+    red:     '0xec5357'
+    green:   '0xc0e17d'
+    yellow:  '0xf9da6a'
+    blue:    '0x49a4f8'
+    magenta: '0xa47de9'
+    cyan:    '0x99faf2'
+    white:   '0xffffff'
 
   # Normal colors
   #normal:
@@ -372,13 +395,13 @@ font:
   #
   #command: None
 
-#selection:
+selection:
   # This string contains all characters that are used as separators for
   # "semantic words" in Alacritty.
   #semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
 
   # When set to `true`, selected text will be copied to the primary clipboard.
-  #save_to_clipboard: false
+  save_to_clipboard: true
 
 #cursor:
   # Cursor style
