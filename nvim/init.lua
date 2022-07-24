@@ -447,7 +447,10 @@ vim.api.nvim_create_autocmd({'BufEnter', 'BufNewFile' }, { callback = FileTypeSe
 vim.api.nvim_create_autocmd('TextYankPost', { command = 'silent! lua vim.highlight.on_yank({ timeout=1000 } )' })
 
 -- highlight trailing whitespaces
-vim.api.nvim_create_autocmd('BufEnter', { command = 'highlight TrailingWhitespace ctermbg=darkgreen guibg=darkgreen' })
+local highlight_trailing_whitespace_config = {
+  background = tonumber('0xDC1B1B')
+}
+vim.api.nvim_set_hl(0, 'TrailingWhitespace', highlight_trailing_whitespace_config)
 vim.api.nvim_create_autocmd('InsertEnter', { pattern = "*.*", command = "match TrailingWhitespace /\\s\\+\\%#\\@<!$/" })
 vim.api.nvim_create_autocmd('InsertLeave', { pattern = "*.*", command = "match TrailingWhitespace /\\s\\+$/" })
 
