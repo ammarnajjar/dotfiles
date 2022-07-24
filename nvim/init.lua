@@ -186,7 +186,8 @@ local function DarkTheme()
   vim.o.background = 'dark'
   vim.g.nvcode_termcolors = 256
   pcall(function() vim.cmd('colorscheme nvcode') end)  -- try colorscheme, fallback to default
-  vim.api.nvim_create_autocmd('BufEnter', { command = 'highlight CursorLineNr term=bold ctermfg=yellow ctermbg=black gui=bold guifg=yellow guibg=black' })
+
+  vim.api.nvim_set_hl(0, 'CursorLineNr', { background = 'black', foreground = 'yellow', ctermfg = 'yellow', ctermbg = 'black', bold = true })
   vim.api.nvim_create_autocmd('InsertEnter', { command = 'highlight CursorLineNr term=bold ctermfg=black ctermbg=74 gui=bold guifg=black guibg=skyblue1' })
   vim.api.nvim_create_autocmd('InsertLeave', { command = 'highlight CursorLineNr term=bold ctermfg=yellow ctermbg=black gui=bold guifg=yellow guibg=black' })
 end
@@ -447,7 +448,7 @@ vim.api.nvim_create_autocmd({'BufEnter', 'BufNewFile' }, { callback = FileTypeSe
 vim.api.nvim_create_autocmd('TextYankPost', { command = 'silent! lua vim.highlight.on_yank({ timeout=1000 } )' })
 
 -- highlight trailing whitespaces
-vim.api.nvim_create_autocmd('BufEnter', { command = 'highlight TrailingWhitespace ctermbg=darkgreen guibg=darkgreen' })
+vim.api.nvim_set_hl(0, 'TrailingWhitespace', { background = tonumber('0xDC1B1B') })
 vim.api.nvim_create_autocmd('InsertEnter', { pattern = "*.*", command = "match TrailingWhitespace /\\s\\+\\%#\\@<!$/" })
 vim.api.nvim_create_autocmd('InsertLeave', { pattern = "*.*", command = "match TrailingWhitespace /\\s\\+$/" })
 
