@@ -13,6 +13,7 @@ alias gti=git
 alias dokcer=docker
 
 alias ctagsit="ctags --append=no --recurse --totals --exclude=blib --exclude=.svn --exclude=.get --exclude='@.gitignore' --extra=q"
+alias youtube-dl-audio='youtube-dl --ignore-errors --output "%(title)s.%(ext)s" --extract-audio --audio-format mp3'
 
 # don't put duplicate lines or lines starting with space in the history.
 # HISTCONTROL=ignoreboth
