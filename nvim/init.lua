@@ -225,19 +225,20 @@ if (vim.fn.executable('bat') ~= 0) then
 end
 
 -- use ripgrep if exists
-if (vim.fn.executable('fd') ~= 0) then
-  vim.env.FZF_DEFAULT_COMMAND = 'fd --hidden --type f --exclude=".git/*" --exclude="venv/*" --exclude="coverage/*" --exclude="node_modules/*" --exclude="target/*" --exclude="__pycache__/*" --exclude="dist/*" --exclude="build/*" --exclude="*.DS_Store"'
-  vim.g.grepprg='fd'
-elseif (vim.fn.executable('rg') ~= 0) then
+if (vim.fn.executable('rg') ~= 0) then
   vim.env.FZF_DEFAULT_COMMAND = 'rg --hidden --files --glob="!.git/*" --glob="!venv/*" --glob="!coverage/*" --glob="!node_modules/*" --glob="!target/*" --glob="!__pycache__/*" --glob="!dist/*" --glob="!build/*" --glob="!*.DS_Store"'
-  vim.g.grepprg='rg'
-  -- else use the silver searcher if exists
+  vim.api.nvim_set_option('grepprg', 'rg --vimgrep --smart-case --follow')
 elseif (vim.fn.executable('ag') ~= 0) then
   vim.env.FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git --ignore venv/ --ignore coverage/ --ignore node_modules/ --ignore target/  --ignore __pycache__/ --ignore dist/ --ignore build/ --ignore .DS_Store  -g ""'
-  vim.g.grepprg='ag --nogroup'
+  vim.api.nvim_set_option('grepprg', 'ag')
 else
   -- else fallback to find
   vim.env.FZF_DEFAULT_COMMAND = [[find * -path '*/\.*' -prune -o -path 'venv/**' -prune -o -path  'coverage/**' -prune -o -path 'node_modules/**' -prune -o -path '__pycache__/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null]]
+end
+
+-- use fd if exists
+if (vim.fn.executable('fd') ~= 0) then
+  vim.env.FZF_DEFAULT_COMMAND = 'fd --type f --follow --hidden --exclude=".git/*" --exclude="venv/*" --exclude="coverage/*" --exclude="node_modules/*" --exclude="target/*" --exclude="__pycache__/*" --exclude="dist/*" --exclude="build/*" --exclude="*.DS_Store"'
 end
 
 local on_attach = function(client)
