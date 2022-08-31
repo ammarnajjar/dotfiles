@@ -90,6 +90,12 @@ function mkcd() {
     cd -- "$*"
 }
 
+# fetch and reset hard the current branch
+function greset()
+{
+    git fetch --prune && git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)
+}
+
 # display all ip addresses for this host
 function ips ()
 {
