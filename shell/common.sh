@@ -91,7 +91,7 @@ function mkcd() {
 }
 
 # fetch and reset hard the current branch
-function greset()
+function gr()
 {
     git fetch --prune
     git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)
