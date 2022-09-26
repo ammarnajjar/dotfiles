@@ -33,7 +33,7 @@ if vim.env.VIRTUAL_ENV and vim.env.ASDF_DIR then
 elseif vim.env.VIRTUAL_ENV then
    which_python = "which -a python3 | tail -n2 | head -n1"
 elseif vim.env.ASDF_DIR then
-    which_python = "which -a python3 | head -n2 | tail -n1"
+    which_python = "which -a python3 | head -n1"
 else
     which_python = "which python3"
 end
