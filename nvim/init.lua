@@ -160,7 +160,10 @@ require('packer').startup(function()
   -- Packer can manage itself as an optional plugin
   use { 'wbthomason/packer.nvim', opt = true }
   use { 'neovim/nvim-lspconfig' }
-  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+  use {
+      'nvim-treesitter/nvim-treesitter',
+      run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
+  }
   use { 'nvim-treesitter/nvim-treesitter-angular' }
   use { 'nvim-lua/completion-nvim' }
   use { 'junegunn/fzf' }
@@ -399,7 +402,12 @@ vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufReadPost'}, { callback = LoadLsp
 pcall(function()
   require'nvim-treesitter.configs'.setup {
      -- one of "all", "maintained" (parsers with maintainers), or a list of languages
-    ensure_installed = { "angular", "python", "bash", "javascript", "json", "go", "typescript", "latex", "c++", "c#", "c", "lua", "rust" },
+    ensure_installed = {
+      "angular", "python", "bash", "javascript", "json", "go",
+      "typescript", "tsx", "latex", "cpp", "c_sharp",
+      "c", "lua", "rust", "vim", "dot", "dockerfile",
+      "make", "html", "scss", "markdown"
+    },
     highlight = { enable = true }, ---- false will disable the whole extension
     context_commentstring = {
       enable = true,
