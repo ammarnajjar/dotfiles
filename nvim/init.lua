@@ -161,13 +161,14 @@ require('packer').startup(function()
   use { 'wbthomason/packer.nvim', opt = true }
   use { 'neovim/nvim-lspconfig' }
   use {
-      'nvim-treesitter/nvim-treesitter',
-      run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
+    'nvim-treesitter/nvim-treesitter-angular',
+    requires = {
+      { 'nvim-treesitter/nvim-treesitter', run = function() require('nvim-treesitter.install').update({ with_sync = true }) end },
+    },
   }
-  use { 'nvim-treesitter/nvim-treesitter-angular' }
-  use { 'nvim-lua/completion-nvim' }
-  use { 'junegunn/fzf' }
-  use { 'junegunn/fzf.vim' }
+  use { 'ms-jpq/coq_nvim', branch = 'coq' }
+  use { 'ms-jpq/coq.artifacts', branch= 'artifacts' }
+  use { 'junegunn/fzf.vim', requires = {{ 'junegunn/fzf' }}}
   use { 'tpope/vim-commentary' }
   use { 'ammarnajjar/nvcode-color-schemes.vim' }
 end)
@@ -243,9 +244,22 @@ if (vim.fn.executable('fd') ~= 0) then
   vim.env.FZF_DEFAULT_COMMAND = 'fd --type f --follow --hidden --exclude=".git/*" --exclude="venv/*" --exclude="coverage/*" --exclude="node_modules/*" --exclude="target/*" --exclude="__pycache__/*" --exclude="dist/*" --exclude="build/*" --exclude="*.DS_Store"'
 end
 
-local on_attach = function(client)
-  require'completion'.on_attach(client)
+vim.g.coq_settings = {
+  auto_start = "shut-up",
+  display = {
+    icons = {
+      mode = 'none'
+    },
+  },
+  clients = {
+    tabnine = {
+      enabled = true,
+    }
+  }
+}
 
+local coq = require('coq')
+local on_attach = function(client)
   local bufnr = 0
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
@@ -370,7 +384,7 @@ function LoadLsp()
     "dartls",
   }
   for _, lsp in ipairs(servers) do
-    require('lspconfig')[lsp].setup { on_attach = on_attach }
+    require('lspconfig')[lsp].setup { on_attach = on_attach, coq.lsp_ensure_capabilities() }
   end
 
   omnisharp_lsp()
@@ -401,17 +415,21 @@ vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufReadPost'}, { callback = LoadLsp
 -- nvim-treesitter
 pcall(function()
   require'nvim-treesitter.configs'.setup {
-     -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+     -- one of "all", or a list of languages
     ensure_installed = {
       "angular", "python", "bash", "javascript", "json", "go",
       "typescript", "tsx", "latex", "cpp", "c_sharp",
       "c", "lua", "rust", "vim", "dot", "dockerfile",
       "make", "html", "scss", "markdown"
     },
+    sync_install = false,
+    auto_install = true,
     highlight = { enable = true }, ---- false will disable the whole extension
     context_commentstring = {
       enable = true,
     },
+    incremental_selection = { enable = true },
+    indent = { enable = true },
   }
 end)
 -- }}}
