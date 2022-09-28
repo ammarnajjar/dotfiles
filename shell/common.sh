@@ -35,6 +35,7 @@ fi
 
 export GEM_HOME="$HOME/.gem"
 export PATH="/usr/local/opt/ruby/bin:$HOME/.gem/bin:$PATH"
+export PATH="$HOME/.npm-packages/bin:$PATH"
 
 # Tell ls to be colourful
 export CLICOLOR=1
