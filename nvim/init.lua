@@ -116,7 +116,7 @@ function TabToggle()
 end
 -- a manual workaround for syntax highlight problems after retab
 -- https://github.com/nvim-treesitter/nvim-treesitter#i-experience-weird-highlighting-issues-similar-to-78
-vim.api.nvim_set_keymap('n', '<F4>', '<cmd>write | edit | TSBufEnable highlight<cr>', {})
+-- vim.api.nvim_set_keymap('n', '<F4>', '<cmd>write | edit | TSBufEnable highlight<cr>', {})
 
 -- Toggle ColumnColor
 vim.api.nvim_create_autocmd('FileType', { pattern = '*', callback = function()
@@ -160,12 +160,12 @@ require('packer').startup(function()
   -- Packer can manage itself as an optional plugin
   use { 'wbthomason/packer.nvim', opt = true }
   use { 'neovim/nvim-lspconfig' }
-  use {
-    'nvim-treesitter/nvim-treesitter-angular',
-    requires = {
-      { 'nvim-treesitter/nvim-treesitter', run = function() require('nvim-treesitter.install').update({ with_sync = true }) end },
-    },
-  }
+  -- use {
+  --   'nvim-treesitter/nvim-treesitter-angular',
+  --   requires = {
+  --     { 'nvim-treesitter/nvim-treesitter', run = function() require('nvim-treesitter.install').update({ with_sync = true }) end },
+  --   },
+  -- }
   use { 'ms-jpq/coq_nvim', branch = 'coq' }
   use { 'ms-jpq/coq.artifacts', branch= 'artifacts' }
   use { 'junegunn/fzf.vim', requires = {{ 'junegunn/fzf' }}}
@@ -413,25 +413,25 @@ end
 vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufReadPost'}, { callback = LoadLsp })
 
 -- nvim-treesitter
-pcall(function()
-  require'nvim-treesitter.configs'.setup {
-     -- one of "all", or a list of languages
-    ensure_installed = {
-      "angular", "python", "bash", "javascript", "json", "go",
-      "typescript", "tsx", "latex", "cpp", "c_sharp",
-      "c", "lua", "rust", "vim", "dot", "dockerfile",
-      "make", "html", "scss", "markdown"
-    },
-    sync_install = false,
-    auto_install = true,
-    highlight = { enable = true }, ---- false will disable the whole extension
-    context_commentstring = {
-      enable = true,
-    },
-    incremental_selection = { enable = true },
-    indent = { enable = true },
-  }
-end)
+-- pcall(function()
+--   require'nvim-treesitter.configs'.setup {
+--      -- one of "all", or a list of languages
+--     ensure_installed = {
+--       "angular", "python", "bash", "javascript", "json", "go",
+--       "typescript", "tsx", "latex", "cpp", "c_sharp",
+--       "c", "lua", "rust", "vim", "dot", "dockerfile",
+--       "make", "html", "scss", "markdown"
+--     },
+--     sync_install = false,
+--     auto_install = true,
+--     highlight = { enable = true }, ---- false will disable the whole extension
+--     context_commentstring = {
+--       enable = true,
+--     },
+--     incremental_selection = { enable = true },
+--     indent = { enable = true },
+--   }
+-- end)
 -- }}}
 -- => autocmd configs ---------------------- {{{
 local function indentUsing(indent)
