@@ -9,7 +9,7 @@ vim.g.mapleader = ','
 local editor_root=vim.fn.expand("~/.config/nvim/")
 
 local function trim(s)
-   return (s:gsub("^%s*(.-)%s*$", "%1"))
+  return (s:gsub("^%s*(.-)%s*$", "%1"))
 end
 
 local function file_exists(name)
@@ -29,13 +29,13 @@ end
 -- find the python3 binary for neovim
 local which_python
 if vim.env.VIRTUAL_ENV and vim.env.ASDF_DIR then
-    which_python = "which -a python3 | head -n3 | tail -n1"
+  which_python = "which -a python3 | head -n3 | tail -n1"
 elseif vim.env.VIRTUAL_ENV then
-   which_python = "which -a python3 | tail -n2 | head -n1"
+  which_python = "which -a python3 | tail -n2 | head -n1"
 elseif vim.env.ASDF_DIR then
-    which_python = "which -a python3 | head -n1"
+  which_python = "which -a python3 | head -n1"
 else
-    which_python = "which python3"
+  which_python = "which python3"
 end
 vim.g.python3_host_prog = call_shell(which_python)
 
@@ -52,9 +52,9 @@ vim.o.filetype = 'on'
 
 -- Ignore compile/build files
 vim.o.wildignore = vim.o.wildignore..table.concat({
-    '*.o','*.obj','.git','*.rbc','*.pyc','__pycache__','*~','*.class',
-    '*.git/*','*.hg/*','*.svn/*',
-    '*/node_modules/*','*/.dist/*','*/.coverage/*'
+  '*.o','*.obj','.git','*.rbc','*.pyc','__pycache__','*~','*.class',
+  '*.git/*','*.hg/*','*.svn/*',
+  '*/node_modules/*','*/.dist/*','*/.coverage/*'
 })
 
 vim.o.joinspaces = false -- when joining lines, don't insert two spaces after '.', '?' or '!'
@@ -124,19 +124,19 @@ vim.api.nvim_create_autocmd('FileType', { pattern = '*', callback = function()
 end })
 vim.api.nvim_set_keymap('n', '<leader>cc', '<cmd>lua ToggleColorColumn()<CR>', { silent=true })
 function ToggleColorColumn()
-    vim.wo.colorcolumn = vim.wo.colorcolumn ~= '' and '' or '80'
+  vim.wo.colorcolumn = vim.wo.colorcolumn ~= '' and '' or '80'
 end
 
 -- Append modeline after last line in buffer
 vim.api.nvim_set_keymap('n', '<Leader>ml', '<cmd>lua AppendModeline()<CR>', { silent=true })
 function AppendModeline()
   local modeline = string.format(
-    " vim: ft=%s ts=%d sw=%d %set %sai",
-    vim.bo.filetype,
-    vim.bo.tabstop,
-    vim.bo.shiftwidth,
-    vim.bo.expandtab and '' or 'no',
-    vim.bo.autoindent and '' or 'no'
+  " vim: ft=%s ts=%d sw=%d %set %sai",
+  vim.bo.filetype,
+  vim.bo.tabstop,
+  vim.bo.shiftwidth,
+  vim.bo.expandtab and '' or 'no',
+  vim.bo.autoindent and '' or 'no'
   )
   modeline = { string.format(vim.bo.commentstring, modeline) }
   vim.api.nvim_buf_set_lines(0, -1, -1, true, modeline)
@@ -196,9 +196,9 @@ local function DarkTheme()
 end
 
 if vim.env.KONSOLE_PROFILE_NAME == 'light' or vim.env.ITERM_PROFILE == 'light' then
-    LightTheme()
+  LightTheme()
 else
-    DarkTheme()
+  DarkTheme()
 end
 
 -- completion
@@ -324,8 +324,8 @@ local function omnisharp_lsp()
   -- omnisharp install path => $HOME/.omnisharp
   local omnisharp_bin = vim.fn.stdpath('config')..'/../../.omnisharp/run'
   require('lspconfig')["omnisharp"].setup {
-      cmd = { omnisharp_bin, "--languageserver" , "--hostPID", tostring(pid) };
-      on_attach = on_attach
+    cmd = { omnisharp_bin, "--languageserver" , "--hostPID", tostring(pid) };
+    on_attach = on_attach
   }
 end
 
@@ -395,19 +395,19 @@ function LoadLsp()
   lua_lsp()
 
   vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-    vim.lsp.diagnostic.on_publish_diagnostics, {
-      -- underline
-      underline = true,
+  vim.lsp.diagnostic.on_publish_diagnostics, {
+    -- underline
+    underline = true,
 
-      -- virtual text
-      virtual_text = true,
+    -- virtual text
+    virtual_text = true,
 
-      -- signs
-      signs = true,
+    -- signs
+    signs = true,
 
-      -- delay update diagnostics
-      update_in_insert = false,
-    }
+    -- delay update diagnostics
+    update_in_insert = false,
+  }
   )
   LSP_LOADED = true
 end
@@ -418,20 +418,20 @@ vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufReadPost'}, { callback = LoadLsp
 
 -- nvim-treesitter
 -- require'nvim-treesitter.configs'.setup {
--- 	 -- one of "all", or a list of languages
--- 	ensure_installed = {
--- 		"angular", "python", "bash", "javascript", "json", "go",
--- 		"typescript", "c_sharp", "lua", "rust", "vim", "dot",
--- 		"dockerfile", "html", "scss", "markdown",
--- 	},
--- 	sync_install = false,
--- 	auto_install = true,
--- 	highlight = { enable = true }, ---- false will disable the whole extension
--- 	context_commentstring = {
--- 		enable = true,
--- 	},
--- 	incremental_selection = { enable = true },
--- 	indent = { enable = true },
+--   -- one of "all", or a list of languages
+--  ensure_installed = {
+--    "angular", "python", "bash", "javascript", "json", "go",
+--    "typescript", "c_sharp", "lua", "rust", "vim", "dot",
+--    "dockerfile", "html", "scss", "markdown",
+--  },
+--  sync_install = false,
+--  auto_install = true,
+--  highlight = { enable = true }, ---- false will disable the whole extension
+--  context_commentstring = {
+--    enable = true,
+--  },
+--  incremental_selection = { enable = true },
+--  indent = { enable = true },
 -- }
 -- }}}
 -- => autocmd configs ---------------------- {{{
