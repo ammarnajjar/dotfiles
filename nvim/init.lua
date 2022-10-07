@@ -1,8 +1,8 @@
---  => Header ---------------------- {{{
---  Fie: init.lua
---  Author: Ammar Najjar <najjarammar@protonmail.com>
---  Description: My neovim lua configurations file
---  }}}
+-- => Header ---------------------- {{{
+-- Fie: init.lua
+-- Author: Ammar Najjar <najjarammar@protonmail.com>
+-- Description: My neovim lua configurations file
+-- }}}
 -- => General ---------------------- {{{
 --- Change leader key to ,
 vim.g.mapleader = ','
@@ -131,7 +131,7 @@ end
 vim.api.nvim_set_keymap('n', '<Leader>ml', '<cmd>lua AppendModeline()<CR>', { silent=true })
 function AppendModeline()
   local modeline = string.format(
-  " vim: ft=%s ts=%d sw=%d %set %sai",
+  "vim: ft=%s ts=%d sw=%d %set %sai",
   vim.bo.filetype,
   vim.bo.tabstop,
   vim.bo.shiftwidth,
