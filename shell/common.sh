@@ -102,8 +102,9 @@ function gr()
 function gmd()
 {
  branch="$(git rev-parse --abbrev-ref HEAD)"
- git checkout develop
  git fetch --prune
+ git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)
+ git checkout develop
  git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)
  git checkout $branch
  git merge -S develop
