@@ -160,12 +160,12 @@ require('packer').startup(function()
   -- Packer can manage itself as an optional plugin
   use { 'wbthomason/packer.nvim', opt = true }
   use { 'neovim/nvim-lspconfig' }
-  -- use {
-  --   'nvim-treesitter/nvim-treesitter-angular',
-  --   requires = {
-  --     { 'nvim-treesitter/nvim-treesitter', run = function() require('nvim-treesitter.install').update({ with_sync = true }) end },
-  --   },
-  -- }
+  use {
+    'nvim-treesitter/nvim-treesitter-angular',
+    requires = {
+      { 'nvim-treesitter/nvim-treesitter', run = function() require('nvim-treesitter.install').update({ with_sync = true }) end },
+    },
+  }
   use { 'ms-jpq/coq_nvim', branch = 'coq' }
   use { 'ms-jpq/coq.artifacts', branch= 'artifacts' }
   use { 'junegunn/fzf.vim', requires = {{ 'junegunn/fzf' }}}
@@ -279,6 +279,7 @@ local on_attach = function(client)
   buf_set_keymap('n', '<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
   buf_set_keymap('n', '<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
   buf_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  buf_set_keymap("n", '<leader>er', "<cmd>lua vim.diagnostic.open_float(0, {scope=\"line\"})<CR>", opts)
   buf_set_keymap('n', '<leader>ee', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
   buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
@@ -416,25 +417,22 @@ end
 vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufReadPost'}, { callback = LoadLsp })
 
 -- nvim-treesitter
--- pcall(function()
---   require'nvim-treesitter.configs'.setup {
---      -- one of "all", or a list of languages
---     ensure_installed = {
---       "angular", "python", "bash", "javascript", "json", "go",
---       "typescript", "tsx", "latex", "cpp", "c_sharp",
---       "c", "lua", "rust", "vim", "dot", "dockerfile",
---       "make", "html", "scss", "markdown"
---     },
---     sync_install = false,
---     auto_install = true,
---     highlight = { enable = true }, ---- false will disable the whole extension
---     context_commentstring = {
---       enable = true,
---     },
---     incremental_selection = { enable = true },
---     indent = { enable = true },
---   }
--- end)
+-- require'nvim-treesitter.configs'.setup {
+-- 	 -- one of "all", or a list of languages
+-- 	ensure_installed = {
+-- 		"angular", "python", "bash", "javascript", "json", "go",
+-- 		"typescript", "c_sharp", "lua", "rust", "vim", "dot",
+-- 		"dockerfile", "html", "scss", "markdown",
+-- 	},
+-- 	sync_install = false,
+-- 	auto_install = true,
+-- 	highlight = { enable = true }, ---- false will disable the whole extension
+-- 	context_commentstring = {
+-- 		enable = true,
+-- 	},
+-- 	incremental_selection = { enable = true },
+-- 	indent = { enable = true },
+-- }
 -- }}}
 -- => autocmd configs ---------------------- {{{
 local function indentUsing(indent)
