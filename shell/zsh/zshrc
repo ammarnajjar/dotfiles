@@ -1,5 +1,6 @@
 # https://stackoverflow.com/a/42265848/3297680
 export GPG_TTY=$(tty)
+gpgconf --launch gpg-agent
 
 # man bash | grep -A1 '\-f file$'
 #        -f file
@@ -51,6 +52,8 @@ import $dotfiles_dir/shell/zsh/powerlevel10k/powerlevel10k.zsh-theme
 import $HOME/.p10k.zsh
 import $HOME/.local_bashrc
 
-source <(kubectl completion zsh)
+if [ type kubectl &> /dev/null ]; then
+    source <(kubectl completion zsh)
+fi
 
 # vim: set ft=sh ts=4 sw=4 et ai :
