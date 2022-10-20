@@ -46,6 +46,7 @@ fpath=(${ASDF_DIR}/completions $fpath)
 # https://unix.stackexchange.com/a/477909/178887
 autoload -Uz compinit
 compinit
+setopt interactivecomments
 
 import $dotfiles_dir/shell/zsh/powerlevel10k/powerlevel10k.zsh-theme
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
