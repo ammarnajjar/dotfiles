@@ -160,12 +160,12 @@ require('packer').startup(function()
   -- Packer can manage itself as an optional plugin
   use { 'wbthomason/packer.nvim', opt = true }
   use { 'neovim/nvim-lspconfig' }
-  use {
-    'nvim-treesitter/nvim-treesitter-angular',
-    requires = {
-      { 'nvim-treesitter/nvim-treesitter', run = function() require('nvim-treesitter.install').update({ with_sync = true }) end },
-    },
-  }
+  -- use {
+  --   'nvim-treesitter/nvim-treesitter-angular',
+  --   requires = {
+  --     { 'nvim-treesitter/nvim-treesitter', run = function() require('nvim-treesitter.install').update({ with_sync = true }) end },
+  --   },
+  -- }
   use { 'ms-jpq/coq_nvim', branch = 'coq' }
   use { 'ms-jpq/coq.artifacts', branch= 'artifacts' }
   use { 'junegunn/fzf.vim', requires = {{ 'junegunn/fzf' }}}

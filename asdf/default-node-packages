@@ -9,3 +9,5 @@ pyright
 bash-language-server
 dockerfile-language-server-nodejs
 vim-language-server
+ngrx-graph
+
