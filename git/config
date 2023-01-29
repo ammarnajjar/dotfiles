@@ -4,6 +4,7 @@
 [core]
 	editor = nvim
 	pager = delta || less || "nvim -c '%sm/\\e.\\{-}m//g' -c 'set ft=diff' -c '1' -"
+	excludesFile = ~/.config/git/gitignore
 
 [alias]
 	st = status
