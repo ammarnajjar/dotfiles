@@ -1,2 +1,4 @@
-.tool-versions
 .DS_Store
+.tool-versions
+.envrc
+
