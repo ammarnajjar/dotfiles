@@ -331,13 +331,13 @@ end
 
 local function lua_lsp()
   -- lsp for lua
-  -- set the path to the sumneko installation
+  -- set the path to the lua_ls installation
   -- lua_lsp_root_path => $HOME/.config/nvim/lsp/lua-language-server
   local lua_lsp_root_path = vim.fn.stdpath('config')..'/lsp/lua-language-server'
   local lua_lsp_binary = lua_lsp_root_path.."/bin/lua-language-server"
 
   if (file_exists(lua_lsp_binary)) then
-    require('lspconfig').sumneko_lua.setup {
+    require('lspconfig').lua_ls.setup {
       cmd = { lua_lsp_binary, "-E", lua_lsp_root_path .. "/main.lua" },
       settings = {
         Lua = {
