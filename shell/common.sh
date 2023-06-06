@@ -98,6 +98,18 @@ function gr()
     git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)
 }
 
+# update main and merge current branch to it locally
+function gmm()
+{
+ branch="$(git rev-parse --abbrev-ref HEAD)"
+ git fetch --prune
+ git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)
+ git checkout main
+ git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)
+ git checkout $branch
+ git merge -S main
+}
+
 # update develop and merge current branch to it locally
 function gmd()
 {
