@@ -1,3 +1,4 @@
+
 alias ll='ls -lh'
 alias la='ls -aAh'
 alias l='ls -CF'
@@ -24,6 +25,7 @@ export LANG='en_US.UTF-8'
 export EDITOR=nvim
 export GIT_EDITOR="nvim"
 export BAT_CONFIG_PATH=$dotfiles_dir/bat/config
+export XDG_CONFIG_HOME="$HOME/.config"
 
 # dotnet optout
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
