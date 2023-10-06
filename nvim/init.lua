@@ -230,10 +230,10 @@ end
 -- use ripgrep if exists
 if (vim.fn.executable('rg') ~= 0) then
   vim.env.FZF_DEFAULT_COMMAND = 'rg --hidden --files --glob="!.git/*" --glob="!venv/*" --glob="!coverage/*" --glob="!node_modules/*" --glob="!target/*" --glob="!__pycache__/*" --glob="!dist/*" --glob="!build/*" --glob="!*.DS_Store"'
-  vim.api.nvim_set_option('grepprg', 'rg --vimgrep --smart-case --follow')
+  vim.api.nvim_set_option_value('grepprg', 'rg --vimgrep --smart-case --follow', { scope = "global" })
 elseif (vim.fn.executable('ag') ~= 0) then
   vim.env.FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git --ignore venv/ --ignore coverage/ --ignore node_modules/ --ignore target/  --ignore __pycache__/ --ignore dist/ --ignore build/ --ignore .DS_Store  -g ""'
-  vim.api.nvim_set_option('grepprg', 'ag')
+  vim.api.nvim_set_option_value('grepprg', 'ag', { scope = "global" })
 else
   -- else fallback to find
   vim.env.FZF_DEFAULT_COMMAND = [[find * -path '*/\.*' -prune -o -path 'venv/**' -prune -o -path  'coverage/**' -prune -o -path 'node_modules/**' -prune -o -path '__pycache__/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null]]
@@ -262,9 +262,7 @@ local coq = require('coq')
 local on_attach = function(client)
   local bufnr = 0
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-
-  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+  vim.api.nvim_set_option_value('omnifunc', 'v:lua.vim.lsp.omnifunc', {buf=bufnr})
 
   -- Mappings
   local opts = { noremap=true, silent=true }
@@ -302,7 +300,7 @@ local on_attach = function(client)
 
   -- Set autocommands conditional on server_capabilities
   if client.server_capabilities.documentHighlightProvider then
-    vim.api.nvim_exec([[
+    vim.api.nvim_exec2([[
     hi LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
     hi LspReferenceText cterm=bold ctermbg=red guibg=LightYellow
     hi LspReferenceWrite cterm=bold ctermbg=red guibg=LightYellow
@@ -311,11 +309,11 @@ local on_attach = function(client)
     autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
     autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
     augroup END
-    ]], false)
+    ]], { false })
   end
 
   -- show diagnostics as a popup
-  vim.api.nvim_create_autocmd('CursorMoved', { callback = function() vim.diagnostic.open_float(nil, {scope="line"}) end })
+  vim.api.nvim_create_autocmd('CursorMoved', { callback = function() vim.diagnostic.open_float(nil, { scope="line" }) end })
 end
 
 local function omnisharp_lsp()
