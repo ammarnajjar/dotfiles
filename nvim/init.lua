@@ -130,7 +130,7 @@ end
 -- Append modeline after last line in buffer
 vim.api.nvim_set_keymap('n', '<Leader>ml', '<cmd>lua AppendModeline()<CR>', { silent=true })
 function AppendModeline()
-  local modeline = string.format(
+  local mine = string.format(
   "vim: ft=%s ts=%d sw=%d %set %sai",
   vim.bo.filetype,
   vim.bo.tabstop,
@@ -138,7 +138,7 @@ function AppendModeline()
   vim.bo.expandtab and '' or 'no',
   vim.bo.autoindent and '' or 'no'
   )
-  modeline = { string.format(vim.bo.commentstring, modeline) }
+  local modeline = { string.format(vim.bo.commentstring, mine) }
   vim.api.nvim_buf_set_lines(0, -1, -1, true, modeline)
 end
 --}}}
@@ -315,7 +315,7 @@ local on_attach = function(client)
   end
 
   -- show diagnostics as a popup
-  -- vim.api.nvim_create_autocmd('CursorMoved', { callback = function() vim.diagnostic.open_float(0, {scope="line"}) end })
+  vim.api.nvim_create_autocmd('CursorMoved', { callback = function() vim.diagnostic.open_float(nil, {scope="line"}) end })
 end
 
 local function omnisharp_lsp()
