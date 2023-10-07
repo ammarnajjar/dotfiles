@@ -1,6 +1,7 @@
 npm
 yarn
 neovim
+@angular/language-server
 typescript
 typescript-language-server
 vscode-css-languageserver-bin
