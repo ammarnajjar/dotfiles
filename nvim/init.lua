@@ -181,16 +181,19 @@ require('packer').startup(function()
   use { 'ms-jpq/coq.artifacts', branch= 'artifacts' }
   use { 'junegunn/fzf.vim', requires = {{ 'junegunn/fzf' }}}
   use { 'f-person/git-blame.nvim' }
+  use { "folke/trouble.nvim", requires = { "nvim-tree/nvim-web-devicons" }}
   use { 'tpope/vim-commentary' }
   use { 'ammarnajjar/nvcode-color-schemes.vim' }
 end)
 
+-- trouble
+vim.keymap.set("n", "<leader>xx", function() require("trouble").toggle() end)
+
 -- git-blame
 vim.g.gitblame_display_virtual_text = 0 -- Disable virtual text
 vim.g.gitblame_date_format = '%r %x-%X'
-vim.g.gitblame_message_template = '  <sha> • <date> • <summary>'
+vim.g.gitblame_message_template = '  <sha> • <date> • <author> • <summary>'
 local git_blame = require('gitblame')
-
 require('lualine').setup({
   sections = {
     lualine_c = {
