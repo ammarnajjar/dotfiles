@@ -167,6 +167,10 @@ require('packer').startup(function()
       'nvim-tree/nvim-web-devicons', -- optional
     },
   }
+  use {
+    'nvim-lualine/lualine.nvim',
+    requires = { 'nvim-tree/nvim-web-devicons', opt = true }
+  }
   -- use {
   --   'nvim-treesitter/nvim-treesitter-angular',
   --   requires = {
@@ -176,9 +180,24 @@ require('packer').startup(function()
   use { 'ms-jpq/coq_nvim', branch = 'coq' }
   use { 'ms-jpq/coq.artifacts', branch= 'artifacts' }
   use { 'junegunn/fzf.vim', requires = {{ 'junegunn/fzf' }}}
+  use { 'f-person/git-blame.nvim' }
   use { 'tpope/vim-commentary' }
   use { 'ammarnajjar/nvcode-color-schemes.vim' }
 end)
+
+-- git-blame
+vim.g.gitblame_display_virtual_text = 0 -- Disable virtual text
+vim.g.gitblame_date_format = '%r %x-%X'
+vim.g.gitblame_message_template = '  <sha> • <date> • <summary>'
+local git_blame = require('gitblame')
+
+require('lualine').setup({
+  sections = {
+    lualine_c = {
+      { git_blame.get_current_blame_text, cond = git_blame.is_blame_text_available }
+    }
+  }
+})
 
 -- nvim-tree
 -- disable netrw at the very start of your init.lua
@@ -213,7 +232,7 @@ require("nvim-tree").setup { -- BEGIN_DEFAULT_OPTS
     number = false,
     relativenumber = false,
     signcolumn = "yes",
-    width = 30,
+    width = 40,
     float = {
       enable = false,
       quit_on_focus_loss = true,
@@ -327,8 +346,8 @@ require("nvim-tree").setup { -- BEGIN_DEFAULT_OPTS
     timeout = 400,
   },
   diagnostics = {
-    enable = false,
-    show_on_dirs = false,
+    enable = true,
+    show_on_dirs = true,
     show_on_open_dirs = true,
     debounce_delay = 50,
     severity = {
@@ -439,7 +458,7 @@ require("nvim-tree").setup { -- BEGIN_DEFAULT_OPTS
   },
 } -- END_DEFAULT_OPTS
 
-vim.api.nvim_set_keymap('n', '<leader>l', ':NvimTreeToggle<CR>', {})
+vim.api.nvim_set_keymap('n', '<leader>l', ':NvimTreeToggle<CR><C-w><C-w>', {})
 local function open_nvim_tree()
   -- open the tree
   require("nvim-tree.api").tree.open()
@@ -646,6 +665,10 @@ local function angular_ls()
   }
 end
 
+require('lualine').setup({
+  options = { theme  = "auto" }
+})
+
 LSP_LOADED = false
 function LoadLsp()
   if (LSP_LOADED) then
@@ -794,31 +817,31 @@ function GitBranch()
   return git_head ~= '' and '[git:' ..call_shell(get_head_command)..']' or ''
 end
 
-local status_line = {
-  "[%n]", ------------------------------------------------ buffer number
-  "%<%.99f", --------------------------------------------- file name (F for full-path)
-  "%m%r%h%w", -------------------------------------------- status flags
-  "%#question#", --------------------------------------╮
-  "%{(&fenc!='utf-8'&&&fenc!='')?'['.&fenc.']':''}", --|-- warning for encoding not utf8
-  "%*", -----------------------------------------------╯
-  "%#errormsg#", -----------------------╮
-  "%{luaeval('HasPaste()')}", ---------------------------- warning if paste mode is active
-  "%{luaeval('TabsFound()')}", --------------------------- warning if tabs exist
-  "%*", --------------------------------╯
-  "%#warningmsg#", ---------------------╮
-  GitBranch(), ------------------------------------------- git branch
-  "%*", --------------------------------╯
-  "%=", -------------------------------------------------- right align
-  "%#directory#", ----------------------╮
-  "%y", -------------------------------------------------- buffer file type
-  "%{&ff!='unix'?'['.&ff.']':''}", ----------------------- fileformat not unix
-  "%*", --------------------------------╯
-  "%#warningmsg#", ---------------------╮
-  " %c%V,%l/", ------------------------------------------- column and row number
-  "%*", --------------------------------╯
-  "%L %P", ----------------------------------------------- total lines, position in file
-}
-vim.o.statusline = table.concat(status_line)
+-- local status_line = {
+--   "[%n]", ------------------------------------------------ buffer number
+--   "%<%.99f", --------------------------------------------- file name (F for full-path)
+--   "%m%r%h%w", -------------------------------------------- status flags
+--   "%#question#", --------------------------------------╮
+--   "%{(&fenc!='utf-8'&&&fenc!='')?'['.&fenc.']':''}", --|-- warning for encoding not utf8
+--   "%*", -----------------------------------------------╯
+--   "%#errormsg#", -----------------------╮
+--   "%{luaeval('HasPaste()')}", ---------------------------- warning if paste mode is active
+--   "%{luaeval('TabsFound()')}", --------------------------- warning if tabs exist
+--   "%*", --------------------------------╯
+--   "%#warningmsg#", ---------------------╮
+--   GitBranch(), ------------------------------------------- git branch
+--   "%*", --------------------------------╯
+--   "%=", -------------------------------------------------- right align
+--   "%#directory#", ----------------------╮
+--   "%y", -------------------------------------------------- buffer file type
+--   "%{&ff!='unix'?'['.&ff.']':''}", ----------------------- fileformat not unix
+--   "%*", --------------------------------╯
+--   "%#warningmsg#", ---------------------╮
+--   " %c%V,%l/", ------------------------------------------- column and row number
+--   "%*", --------------------------------╯
+--   "%L %P", ----------------------------------------------- total lines, position in file
+-- }
+-- vim.o.statusline = table.concat(status_line)
 -- }}}
 -- => local.lua  ---------------------- {{{
 local localFile = editor_root..'local.lua'
