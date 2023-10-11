@@ -165,6 +165,7 @@ require('packer').startup(function()
     'smoka7/hop.nvim',
     tag = 'v2.3.2', -- optional but strongly recommended
   }
+  use { "ray-x/lsp_signature.nvim" }
   use {
   "nvim-neo-tree/neo-tree.nvim",
     branch = "v3.x",
@@ -180,10 +181,10 @@ require('packer').startup(function()
         width = 40,
       },
       buffers = {
-        follow_current_file = true,
+        follow_current_file = { enabled = true },
       },
       filesystem = {
-        follow_current_file = true,
+        follow_current_file = { enabled = true },
         filtered_items = {
           hide_dotfiles = false,
           hide_gitignored = false,
@@ -196,6 +197,7 @@ require('packer').startup(function()
     })
     end
   }
+  use { "sindrets/diffview.nvim"  }
   use {
     'nvim-lualine/lualine.nvim',
     requires = { 'nvim-tree/nvim-web-devicons', opt = true }
@@ -215,6 +217,8 @@ require('packer').startup(function()
   use { 'tpope/vim-commentary' }
   use { 'ammarnajjar/nvcode-color-schemes.vim' }
 end)
+
+require("lsp_signature").setup()
 
 -- hop
 local hop = require('hop')
@@ -256,6 +260,8 @@ require('lualine').setup({
 -- Neotree
 vim.api.nvim_set_keymap('n', '<leader>l', ':Neotree toggle<CR><C-w><C-w>', {})
 vim.api.nvim_set_keymap('n', '<leader>gg', ':Neotree git_status left<CR><C-w><C-w>', {})
+vim.api.nvim_set_keymap('n', '<leader>h', ':DiffviewFileHistory %<CR>', {})
+vim.api.nvim_set_keymap('n', '<leader>xh', ':DiffviewClose<CR>', {})
 
 -- colorscheme
 vim.wo.cursorline = true
