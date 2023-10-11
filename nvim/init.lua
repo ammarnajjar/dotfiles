@@ -466,12 +466,13 @@ require("nvim-tree").setup { -- BEGIN_DEFAULT_OPTS
 } -- END_DEFAULT_OPTS
 
 vim.api.nvim_set_keymap('n', '<leader>l', ':NvimTreeToggle<CR><C-w><C-w>', {})
-local function open_nvim_tree()
-  -- open the tree
-  require("nvim-tree.api").tree.open()
-  vim.api.nvim_cmd({cmd = 'wincmd', args={'l'} }, {})
-end
-vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
+
+-- local function open_nvim_tree()
+--   -- open the tree
+--   require("nvim-tree.api").tree.open()
+--   vim.api.nvim_cmd({cmd = 'wincmd', args={'l'} }, {})
+-- end
+-- vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
 
 -- colorscheme
 vim.wo.cursorline = true
