@@ -171,6 +171,7 @@ require('packer').startup(function()
     'nvim-lualine/lualine.nvim',
     requires = { 'nvim-tree/nvim-web-devicons', opt = true }
   }
+  use { 'nvim-treesitter/nvim-treesitter' }
   -- use {
   --   'nvim-treesitter/nvim-treesitter-angular',
   --   requires = {
@@ -728,22 +729,22 @@ end
 vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufReadPost'}, { callback = LoadLsp })
 
 -- nvim-treesitter
--- require'nvim-treesitter.configs'.setup {
---   -- one of "all", or a list of languages
---  ensure_installed = {
---    "angular", "python", "bash", "javascript", "json", "go",
---    "typescript", "c_sharp", "lua", "rust", "vim", "dot",
---    "dockerfile", "html", "scss", "markdown",
---  },
---  sync_install = false,
---  auto_install = true,
---  highlight = { enable = true }, ---- false will disable the whole extension
---  context_commentstring = {
---    enable = true,
---  },
---  incremental_selection = { enable = true },
---  indent = { enable = true },
--- }
+require'nvim-treesitter.configs'.setup {
+  -- one of "all", or a list of languages
+ ensure_installed = {
+   "python", "bash","javascript", "json", "go",
+   "typescript", "c_sharp", "lua", "rust", "vim", "dot",
+   "dockerfile", "html", "scss", "markdown"
+ },
+ sync_install = false,
+ auto_install = true,
+ highlight = { enable = true }, ---- false will disable the whole extension
+ context_commentstring = {
+   enable = true,
+ },
+ incremental_selection = { enable = true },
+ indent = { enable = true },
+}
 -- }}}
 -- => autocmd configs ---------------------- {{{
 local function indentUsing(indent)
