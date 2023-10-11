@@ -162,6 +162,10 @@ require('packer').startup(function()
   use { 'wbthomason/packer.nvim', opt = true }
   use { 'neovim/nvim-lspconfig' }
   use {
+    'smoka7/hop.nvim',
+    tag = 'v2.3.2', -- optional but strongly recommended
+  }
+  use {
     'nvim-tree/nvim-tree.lua',
     requires = {
       'nvim-tree/nvim-web-devicons', -- optional
@@ -186,6 +190,23 @@ require('packer').startup(function()
   use { 'tpope/vim-commentary' }
   use { 'ammarnajjar/nvcode-color-schemes.vim' }
 end)
+
+-- hop
+local hop = require('hop')
+local directions = require('hop.hint').HintDirection
+vim.keymap.set('', 'f', function()
+  hop.hint_char1({ direction = directions.AFTER_CURSOR })
+end, {remap=true})
+vim.keymap.set('', 'F', function()
+  hop.hint_char1({ direction = directions.BEFORE_CURSOe })
+end, {remap=true})
+vim.keymap.set('', 't', function()
+  hop.hint_char1({ direction = directions.AFTER_CURSOR, hint_offset = -1 })
+end, {remap=true})
+vim.keymap.set('', 'T', function()
+  hop.hint_char1({ direction = directions.BEFORE_CURSOe, hint_offset = 1 })
+end, {remap=true})
+hop.setup()
 
 -- trouble
 vim.keymap.set("n", "<leader>xx", function() require("trouble").toggle() end)
