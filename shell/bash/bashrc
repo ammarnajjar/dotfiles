@@ -11,6 +11,7 @@ shopt -s histappend
 
 import $dotfiles_dir/shell/common.sh
 import $dotfiles_dir/shell/bash/bash-sensible/sensible.bash
+import $dotfiles_dir/git/git-completion.bash
 import /etc/bash_completion
 import /usr/local/git/contrib/completion/git-completion.bash
 import /usr/share/doc/git/contrib/completion/git-completion.bash

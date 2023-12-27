@@ -134,6 +134,7 @@ function update_git_conf() {
     echo_blue "** git config"
     mkdir -p ${XDG_CONFIG_HOME:=$HOME/.config}
     [ -L $XDG_CONFIG_HOME/git ] && mv $HOME/.config/git /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_git
+    wget https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash  -O $dotfiles_dir/git/git-completion.bash
     ln -s $dotfiles_dir/git $XDG_CONFIG_HOME//git
 }
 
