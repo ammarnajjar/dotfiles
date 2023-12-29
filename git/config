@@ -5,13 +5,14 @@
 	editor = nvim
 	pager = delta || less || "nvim -c '%sm/\\e.\\{-}m//g' -c 'set ft=diff' -c '1' -"
 	excludesFile = ~/.config/git/gitignore
+	abbrev = 8
 
 [alias]
 	st = status
-	lol = log --graph --decorate --pretty=oneline --abbrev-commit --all
-	lg1 = log --graph --pretty=format:'%C(bold yellow)%h%Creset -%C(bold cyan)%aD%C(reset) %C(bold green)%d%Creset %s %C(bold blue)<%an>%Creset' --abbrev-commit
-	lg2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold yellow)%h%C(reset) - %C(bold cyan)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold green)%d%C(reset)' --all
-	lg3 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''	   %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
+	lol = log --graph --decorate --pretty=oneline --abbrev-commit --abbrev=8 --all
+	lg1 = log --graph --pretty=format:'%C(bold yellow)%h%Creset -%C(bold cyan)%aD%C(reset) %C(bold green)%d%Creset %s %C(bold blue)<%an>%Creset' --abbrev-commit --abbrev=8
+	lg2 = log --graph --abbrev-commit --abbrev=8 --decorate --format=format:'%C(bold yellow)%h%C(reset) - %C(bold cyan)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold green)%d%C(reset)' --all
+	lg3 = log --graph --abbrev-commit --abbrev=8 --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''	   %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
 	gco = "!f() { git branch -a | grep -e $1 -m 1 | sed 's/remotes\\/origin\\///' | xargs git checkout; }; f"
 
 [color]
