@@ -202,7 +202,7 @@ require('packer').startup(function()
     'nvim-lualine/lualine.nvim',
     requires = { 'nvim-tree/nvim-web-devicons', opt = true }
   }
-  use { 'nvim-treesitter/nvim-treesitter' }
+  -- use { 'nvim-treesitter/nvim-treesitter' }
   -- use {
   --   'nvim-treesitter/nvim-treesitter-angular',
   --   requires = {
@@ -349,61 +349,6 @@ vim.g.coq_settings = {
 }
 
 local coq = require('coq')
-local on_attach = function(client)
-  local bufnr = 0
-  vim.api.nvim_set_option_value('omnifunc', 'v:lua.vim.lsp.omnifunc', {buf=bufnr})
-
-  -- Mappings
-  local opts = { noremap=true, silent=true }
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>gt', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", '<leader>er', "<cmd>lua vim.diagnostic.open_float(0, {scope=\"line\"})<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>ee', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>gw', '<cmd>lua vim.lsp.buf.document_symbol()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>gW', '<cmd>lua vim.lsp.buf.workspace_symbol()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>ai', '<cmd>lua vim.lsp.buf.incoming_calls()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>ao', '<cmd>lua vim.lsp.buf.outgoing_calls()<CR>', opts)
-
-  -- https://neovim.io/doc/user/lsp.html
-  -- :lua =vim.lsp.get_active_clients()[1].server_capabilities
-
-  -- Set some keybinds conditional on server capabilities
-  if client.server_capabilities.documentFormattingProvider then
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>=', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
-  elseif client.server_capabilities.documentRangeFormattingProvider then
-    vim.api.nvim_buf_set_keymap(bufnr, "n", '<leader>=', "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
-  end
-
-  -- Set autocommands conditional on server_capabilities
-  if client.server_capabilities.documentHighlightProvider then
-    vim.api.nvim_exec2([[
-    hi LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
-    hi LspReferenceText cterm=bold ctermbg=red guibg=LightYellow
-    hi LspReferenceWrite cterm=bold ctermbg=red guibg=LightYellow
-    augroup lsp_document_highlight
-    autocmd! * <buffer>
-    autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-    autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-    augroup END
-    ]], { false })
-  end
-
-  -- show diagnostics as a popup
-  -- vim.api.nvim_create_autocmd('CursorMoved', { callback = function() vim.diagnostic.open_float(nil, { scope="line" }) end })
-end
 
 local function omnisharp_lsp()
   -- omnisharp c#
@@ -412,7 +357,6 @@ local function omnisharp_lsp()
   local omnisharp_bin = vim.fn.stdpath('config')..'/../../.omnisharp/run'
   require('lspconfig')["omnisharp"].setup {
     cmd = { omnisharp_bin, "--languageserver" , "--hostPID", tostring(pid) };
-    on_attach = on_attach
   }
 end
 
@@ -449,7 +393,6 @@ local function lua_lsp()
           },
         },
       },
-      on_attach = on_attach
     }
   end
 end
@@ -458,7 +401,6 @@ local function angular_ls()
   local util = require('lspconfig.util')
   require('lspconfig')["angularls"].setup {
     root_dir = util.root_pattern("package.json"),
-    on_attach = on_attach
   }
 end
 
@@ -491,7 +433,7 @@ function LoadLsp()
     "dartls",
   }
   for _, lsp in ipairs(servers) do
-    require('lspconfig')[lsp].setup { on_attach = on_attach, coq.lsp_ensure_capabilities() }
+    require('lspconfig')[lsp].setup { coq.lsp_ensure_capabilities() }
   end
 
   vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
@@ -512,27 +454,61 @@ function LoadLsp()
   LSP_LOADED = true
 end
 
+-- Global mappings.
+-- See `:help vim.diagnostic.*` for documentation on any of the below functions
+vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
+vim.keymap.set('n', '<leader>p', vim.diagnostic.goto_prev)
+vim.keymap.set('n', '<leader>n', vim.diagnostic.goto_next)
+vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
+
+-- Use LspAttach autocommand to only map the following keys
+-- after the language server attaches to the current buffer
+vim.api.nvim_create_autocmd('LspAttach', {
+  group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+  callback = function(ev)
+    -- Enable completion triggered by <c-x><c-o>
+    vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+
+    -- Buffer local mappings.
+    -- See `:help vim.lsp.*` for documentation on any of the below functions
+    local opts = { buffer = ev.buf }
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+    vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, opts)
+    vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, opts)
+    vim.keymap.set('n', '<leader>wl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, opts)
+    vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts)
+    vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
+    vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, opts)
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+    vim.keymap.set('n', '<leader>=', function() vim.lsp.buf.format { async = true } end, opts)
+  end,
+})
+
 -- load lsp after colorscheme is applied on buffer
 -- else messages will show up without colors (white)
 vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufReadPost'}, { callback = LoadLsp })
 
 -- nvim-treesitter
-require'nvim-treesitter.configs'.setup {
-  -- one of "all", or a list of languages
- ensure_installed = {
-   "python", "bash","javascript", "json", "go",
-   "typescript", "c_sharp", "lua", "rust", "vim", "dot",
-   "dockerfile", "html", "scss", "markdown"
- },
- sync_install = false,
- auto_install = true,
- highlight = { enable = true }, ---- false will disable the whole extension
- context_commentstring = {
-   enable = true,
- },
- incremental_selection = { enable = true },
- indent = { enable = true },
-}
+-- require'nvim-treesitter.configs'.setup {
+--   -- one of "all", or a list of languages
+--  ensure_installed = {
+--    "python", "bash","javascript", "json", "go",
+--    "typescript", "c_sharp", "lua", "rust", "vim", "dot",
+--    "dockerfile", "html", "scss", "markdown"
+--  },
+--  sync_install = false,
+--  auto_install = true,
+--  highlight = { enable = true }, ---- false will disable the whole extension
+--  context_commentstring = {
+--    enable = true,
+--  },
+--  incremental_selection = { enable = true },
+--  indent = { enable = true },
+-- }
 -- }}}
 -- => autocmd configs ---------------------- {{{
 local function indentUsing(indent)
