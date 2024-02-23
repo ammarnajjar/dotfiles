@@ -24,3 +24,4 @@ lua-language-server
 local.*
 Session.vim
 powerlevel10k
+zsh-syntax-highlighting

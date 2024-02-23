@@ -48,20 +48,21 @@ function prepare_shell_rc_file() {
     if [ ! -z $BASH_VERSION ]
     then
         echo_blue "=== bash ==="
+        shell="bash"
         [ -f $HOME/.bashrc ] && mv $HOME/.bashrc /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_bashrc
         echo "export dotfiles_dir=$dotfiles_dir" > $HOME/.bashrc
         echo "source $dotfiles_dir/shell/bash/bashrc" >> $HOME/.bashrc
         git clone --depth=1 -b 'ignored-in-history' https://github.com/ammarnajjar/bash-sensible.git shell/bash/bash-sensible
-        shell="bash"
     elif [ ! -z $ZSH_VERSION ]
     then
         echo_blue "=== zsh ==="
+        shell="zsh"
         [ -f $HOME/.zshrc ] && mv $HOME/.zshrc /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_zshrc
         echo "export dotfiles_dir=$dotfiles_dir" > $HOME/.zshrc
         echo "source $dotfiles_dir/shell/zsh/zshrc" >> $HOME/.zshrc
         git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $dotfiles_dir/shell/zsh/powerlevel10k
+        git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting.git $dotfiles_dir/shell/zsh/zsh-syntax-highlighting
         ln -s $dotfiles_dir/shell/zsh/p10k.zsh $HOME/.p10k.zsh
-        shell="zsh"
     fi
 }
 
