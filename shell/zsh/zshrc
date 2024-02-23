@@ -18,8 +18,6 @@ import "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 
 import $dotfiles_dir/shell/common.sh
 
-import $HOME/.fzf.zsh
-
 # ensure compatibility tmux <-> direnv
 if [ -n "$TMUX" ] && [ -n "$DIRENV_DIR" ]; then
     unset -m "DIRENV_*" # unset env vars starting with DIRENV_
@@ -74,6 +72,10 @@ import $dotfiles_dir/shell/zsh/powerlevel10k/powerlevel10k.zsh-theme
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 import $HOME/.p10k.zsh
 import $HOME/.local_bashrc
+
+if [ type atuin &> /dev/null ]; then
+    eval "$(atuin init zsh)"
+fi
 
 if [ type kubectl &> /dev/null ]; then
     source <(kubectl completion zsh)
