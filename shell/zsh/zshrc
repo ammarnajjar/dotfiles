@@ -73,12 +73,10 @@ import $dotfiles_dir/shell/zsh/powerlevel10k/powerlevel10k.zsh-theme
 import $HOME/.p10k.zsh
 import $HOME/.local_bashrc
 
-if [ type atuin &> /dev/null ]; then
-    eval "$(atuin init zsh)"
-fi
+# install atuin => brew install atuin
+eval "$(atuin init zsh)"
 
-if [ type kubectl &> /dev/null ]; then
-    source <(kubectl completion zsh)
-fi
+# install kubectl => brew install kubectl
+source <(kubectl completion zsh)
 
 # vim: set ft=sh ts=4 sw=4 et ai :
