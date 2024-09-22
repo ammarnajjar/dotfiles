@@ -63,23 +63,6 @@ export FZF_DEFAULT_COMMAND="fd --exclude 'venv/*' --exclude 'coverage/*' --exclu
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND="$FZF_DEFAULT_COMMAND --type d"
 
-# asdf
-export ASDF_NPM_DEFAULT_PACKAGES_FILE="$dotfiles_dir/asdf/default-node-packages"
-export ASDF_PYTHON_DEFAULT_PACKAGES_FILE="$dotfiles_dir/asdf/default-python-packages"
-export ASDF_DIR="$dotfiles_dir/asdf/asdf"
-export ASDF_DATA_DIR="$dotfiles_dir/asdf/asdf"
-export ASDF_PLUGINS=(
-    direnv
-    dotnet-core
-    fzf
-    golang
-    git
-    nodejs
-    python
-    ruby
-    rust
-)
-
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 export HISTCONTROL=ignoreboth:erasedups
 export HISTFILESIZE=9999999999
@@ -150,42 +133,5 @@ function bak ()
 function del() {
     mkdir -p /tmp/.trash && mv "$@" /tmp/.trash;
 }
-
-
-# TODO: maybe not needed anymore?
-# # https://github.com/OmniSharp/omnisharp-vscode/issues/2970#issuecomment-541516806
-# function set_dotnet_vars {
-#   DOTNET_BASE=$(dotnet --info | grep "Base Path" | awk '{print $3}')
-#   DOTNET_ROOT=$(echo $DOTNET_BASE | sed -E "s/^(.*)(\/sdk\/[^\/]+\/)$/\1/")
-#   export MSBuildSDKsPath=${DOTNET_BASE}Sdks/
-#   export DOTNET_ROOT=$DOTNET_ROOT
-#   export PATH=$DOTNET_ROOT:$PATH
-# }
-# if command -v dotnet 1>/dev/null 2>&1; then
-#     set_dotnet_vars
-# fi
-
-function asdf_add() {
-    asdf plugin-add $1
-    # for gpg-key issues see: https://github.com/asdf-vm/asdf-nodejs/issues/192#issuecomment-797448073
-    asdf install $1 $2
-    asdf global $1 $2
-}
-
-# update all asdf plugins to latest
-# modified version of https://gist.github.com/ig0rsky/fef7f785b940d13b52eb1b379bd7438d
-function asdf_update() {
-    asdf plugin update --all
-
-    cp ~/.tool-versions ~/.tool-versions.bk
-    cat ~/.tool-versions | awk '{print $1}' | xargs -I {} bash -c 'asdf install {} $(asdf latest {}) && asdf global {} latest'
-
-    echo "Version updates:"
-    paste -d '\t' ~/.tool-versions ~/.tool-versions.bk
-    rm ~/.tool-versions.bk
-}
-
-# https://github.com/asdf-community/asdf-direnv#pro-tips
-PATH="$PATH:$ASDF_DIR/bin"
 
 # vim: set ft=sh ts=4 sw=4 et ai :

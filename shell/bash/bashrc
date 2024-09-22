@@ -17,7 +17,6 @@ import /usr/local/git/contrib/completion/git-completion.bash
 import /usr/share/doc/git/contrib/completion/git-completion.bash
 
 import $HOME/.fzf.bash
-import $ASDF_DIR/completions/asdf.bash
 
 # custom prompt
 RED='\033[0;31m'
@@ -52,15 +51,8 @@ PROMPT_COMMAND=prompt_command
 # After each command, append to the history file and reread it
 PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
 
-# ensure compatibility tmux <-> direnv
-if [ -n "$TMUX" ] && [ -n "$DIRENV_DIR" ]; then
-    unset "${!DIRENV_@}"  # unset env vars starting with DIRENV_
-fi
-# mute direnv output
-export DIRENV_LOG_FORMAT=""
-
-# asdf direnv setup --shell /usr/local/bin/bash --version latest
-import "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/bashrc"
+# mise
+eval "$(mise activate bash)"
 
 import $HOME/.local_bashrc
 
