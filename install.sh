@@ -89,6 +89,7 @@ function mise_setup() {
     echo_blue "** mise setup -- $(pwd)"
     ln -s $dotfiles_dir/mise/default-cargo-crates $HOME/.default-cargo-crates
     ln -s $dotfiles_dir/mise/default-gems $HOME/.default-gems
+    ln -s $dotfiles_dir/mise/default-python-packages $HOME/.default-python-packages
     ln -s $dotfiles_dir/mise/default-node-packages $HOME/.default-node-packages
 }
 
