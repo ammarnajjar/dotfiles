@@ -421,7 +421,7 @@ function LoadLsp()
   -- Use a loop to conveniently both setup defined servers
   -- and map buffer local keybindings when the language server attaches
   local servers = {
-    "tsserver",
+    "ts_ls",
     "cssls",
     "pyright", -- check for compatible nodejs version => tail $(lua vim.lsp.get_log_path())
     "bashls",

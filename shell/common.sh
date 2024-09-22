@@ -85,7 +85,7 @@ export HISTCONTROL=ignoreboth:erasedups
 export HISTFILESIZE=9999999999
 export HISTSIZE=9999999999
 export SAVEHIST=9999999999
-export HISTTIMEFORMAT="[%F %T]: "
+# export HISTTIMEFORMAT="[%F %T]: "
 
 # useful functions stolen from https://github.com/Bash-it/bash-it
 function mkcd() {
