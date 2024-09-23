@@ -85,20 +85,12 @@ function update_tmux_conf() {
 }
 
 function mise_setup() {
-    cd $dotfiles_dir
     echo_blue "** mise setup -- $(pwd)"
     ln -s $dotfiles_dir/mise/default-cargo-crates $HOME/.default-cargo-crates
     ln -s $dotfiles_dir/mise/default-gems $HOME/.default-gems
     ln -s $dotfiles_dir/mise/default-python-packages $HOME/.default-python-packages
     ln -s $dotfiles_dir/mise/default-node-packages $HOME/.default-node-packages
 }
-
-function direnv_symlinks() {
-    echo_blue "** Create direnv Symlinks"
-    mkdir -p $HOME/.config/direnv
-    ln -s $dotfiles_dir/direnv/envrc $HOME/.envrc
-}
-
 
 function nvim_symlinks() {
     [ -L $dotfiles_dir ] && mv $dotfiles_dir /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_dotfiles
@@ -142,7 +134,6 @@ function main(){
 
     mise_setup
     nvim_symlinks
-    direnv_symlinks
     compile_terminfo
 
     update_tmux_conf
