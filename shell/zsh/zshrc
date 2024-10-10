@@ -18,15 +18,6 @@ import "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 
 import $dotfiles_dir/shell/common.sh
 
-# ensure compatibility tmux <-> direnv
-if [ -n "$TMUX" ] && [ -n "$DIRENV_DIR" ]; then
-    unset -m "DIRENV_*" # unset env vars starting with DIRENV_
-fi
-# mute direnv output
-export DIRENV_LOG_FORMAT=""
-
-import "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/zshrc"
-
 # searching through history with up and down arrows
 autoload -U up-line-or-beginning-search
 autoload -U down-line-or-beginning-search
@@ -37,9 +28,6 @@ bindkey "^[[B" down-line-or-beginning-search # Down
 
 # case insensitive auto completion
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
-
-# https://asdf-vm.com/guide/getting-started.html#_3-install-asdf
-fpath=(${ASDF_DIR}/completions $fpath)
 
 # https://unix.stackexchange.com/a/477909/178887
 autoload -Uz compinit
@@ -70,6 +58,10 @@ setopt CDABLE_VARS          # Change directory to a path stored in a variable.
 
 import $dotfiles_dir/shell/zsh/powerlevel10k/powerlevel10k.zsh-theme
 import $dotfiles_dir/shell/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# mise
+eval "$(mise activate zsh)"
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 import $HOME/.p10k.zsh
 import $HOME/.local_bashrc
@@ -79,5 +71,6 @@ eval "$(atuin init zsh)"
 
 # install kubectl => brew install kubectl
 source <(kubectl completion zsh)
+
 
 # vim: set ft=sh ts=4 sw=4 et ai :

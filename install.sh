@@ -84,25 +84,13 @@ function update_tmux_conf() {
     ln -s $dotfiles_dir/tmux $XDG_CONFIG_HOME/tmux
 }
 
-function asdf_setup() {
-    cd $dotfiles_dir
-    echo_blue "** asdf setup -- $(pwd)"
-    git clone --depth=1 https://github.com/asdf-vm/asdf.git asdf/asdf
-    ln -s $dotfiles_dir/asdf/default-cargo-crates $HOME/.default-cargo-crates
-    ln -s $dotfiles_dir/asdf/default-gems $HOME/.default-gems
-
-    if [[ "$OSTYPE" == "darwin"* ]]; then
-        echo "standard-resolver" > $HOME/.gnupg/dirmngr.conf
-        "$SUDO"pkill dirmngr
-    fi
+function mise_setup() {
+    echo_blue "** mise setup -- $(pwd)"
+    ln -s $dotfiles_dir/mise/default-cargo-crates $HOME/.default-cargo-crates
+    ln -s $dotfiles_dir/mise/default-gems $HOME/.default-gems
+    ln -s $dotfiles_dir/mise/default-python-packages $HOME/.default-python-packages
+    ln -s $dotfiles_dir/mise/default-node-packages $HOME/.default-node-packages
 }
-
-function direnv_symlinks() {
-    echo_blue "** Create direnv Symlinks"
-    mkdir -p $HOME/.config/direnv
-    ln -s $dotfiles_dir/direnv/envrc $HOME/.envrc
-}
-
 
 function nvim_symlinks() {
     [ -L $dotfiles_dir ] && mv $dotfiles_dir /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_dotfiles
@@ -139,26 +127,13 @@ function update_git_conf() {
     ln -s $dotfiles_dir/git $XDG_CONFIG_HOME//git
 }
 
-function neovim_nightly() {
-    if [ ! -z $BASH_VERSION ]
-    then
-        bash --rcfile <(echo '. ~/.bashrc; asdf_add neovim nightly; exit')
-        bash --rcfile <(echo '. ~/.bashrc; nvim +PackerCompile +PackerInstall; exit')
-    elif [ ! -z $ZSH_VERSION ]
-    then
-        zsh -c '. ~/.zshrc; asdf_add neovim nightly; exit'
-        zsh -c '. ~/.zshrc; nvim +PackerCompile +PackerInstall; exit'
-    fi
-}
-
 function main(){
     set_sudo
     install_pkgs
     prepare_dotfiles_dir
 
-    asdf_setup
+    mise_setup
     nvim_symlinks
-    direnv_symlinks
     compile_terminfo
 
     update_tmux_conf
@@ -166,7 +141,6 @@ function main(){
 
     prepare_shell_rc_file
     install_lua_language_server
-    neovim_nightly
     cd $current_dir
     echo_blue "** Installation Complete **"
     exec $shell

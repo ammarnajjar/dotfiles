@@ -24,9 +24,7 @@ wget https://raw.githubusercontent.com/ammarnajjar/dotfiles/master/install.sh &&
 
 - [tmux](https://github.com/tmux/tmux)
 
-- [asdf](https://github.com/asdf-vm/asdf)
-
-- [direnv](https://github.com/direnv/direnv)
+- [mise](https://github.com/jdx/mise)
 
 - OS: only tested on fedora, debian unstable, ubuntu and macos.
 
@@ -38,15 +36,13 @@ wget https://raw.githubusercontent.com/ammarnajjar/dotfiles/master/install.sh &&
 .
 ├── LICENSE
 ├── README.md
-├── asdf
+├── mise
 │   ├── default-cargo-crates
 │   ├── default-gems
 │   ├── default-node-packages
 │   └── default-python-packages
 ├── bat
 │   └── config
-├── direnv
-│   └── envrc
 ├── git
 │   ├── config
 │   └── gitmessage
