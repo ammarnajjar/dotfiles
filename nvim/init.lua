@@ -115,9 +115,6 @@ function TabToggle()
     vim.cmd('retab')
   end
 end
--- a manual workaround for syntax highlight problems after retab
--- https://github.com/nvim-treesitter/nvim-treesitter#i-experience-weird-highlighting-issues-similar-to-78
--- vim.api.nvim_set_keymap('n', '<F4>', '<cmd>write | edit | TSBufEnable highlight<cr>', {})
 
 -- Toggle ColumnColor
 vim.api.nvim_create_autocmd('FileType', { pattern = '*', callback = function()
@@ -202,13 +199,7 @@ require('packer').startup(function()
     'nvim-lualine/lualine.nvim',
     requires = { 'nvim-tree/nvim-web-devicons', opt = true }
   }
-  -- use { 'nvim-treesitter/nvim-treesitter' }
-  -- use {
-  --   'nvim-treesitter/nvim-treesitter-angular',
-  --   requires = {
-  --     { 'nvim-treesitter/nvim-treesitter', run = function() require('nvim-treesitter.install').update({ with_sync = true }) end },
-  --   },
-  -- }
+  use { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim" }
   use { 'ms-jpq/coq_nvim', branch = 'coq' }
   use { 'ms-jpq/coq.artifacts', branch= 'artifacts' }
   use { 'junegunn/fzf.vim', requires = {{ 'junegunn/fzf' }}}
@@ -218,6 +209,29 @@ require('packer').startup(function()
   use { 'ammarnajjar/nvcode-color-schemes.vim' }
 end)
 
+require("mason").setup({
+  ui = {
+        icons = {
+            package_installed = "✓",
+            package_pending = "➜",
+            package_uninstalled = "✗"
+        }
+    }
+})
+
+local lsp_servers = {
+  "cssls",
+  "lua_ls",
+  "angularls",
+  "eslint",
+  "pyright", -- check for compatible nodejs version => tail $(lua vim.lsp.get_log_path())
+  "bashls",
+  "dockerls",
+  "yamlls",
+}
+require("mason-lspconfig").setup({
+  ensure_installed = lsp_servers
+})
 require("lsp_signature").setup()
 
 -- hop
@@ -420,19 +434,7 @@ function LoadLsp()
 
   -- Use a loop to conveniently both setup defined servers
   -- and map buffer local keybindings when the language server attaches
-  local servers = {
-    "ts_ls",
-    "cssls",
-    "pyright", -- check for compatible nodejs version => tail $(lua vim.lsp.get_log_path())
-    "bashls",
-    "gopls",
-    "rls",
-    "dockerls",
-    "yamlls",
-    "vimls",
-    "dartls",
-  }
-  for _, lsp in ipairs(servers) do
+  for _, lsp in ipairs(lsp_servers) do
     require('lspconfig')[lsp].setup { coq.lsp_ensure_capabilities() }
   end
 
@@ -456,7 +458,7 @@ end
 
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
-vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
+vim.keymap.set('n', '<leader>f', vim.diagnostic.open_float)
 vim.keymap.set('n', '<leader>p', vim.diagnostic.goto_prev)
 vim.keymap.set('n', '<leader>n', vim.diagnostic.goto_next)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
@@ -492,24 +494,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
 -- else messages will show up without colors (white)
 vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufReadPost'}, { callback = LoadLsp })
 
--- nvim-treesitter
--- require'nvim-treesitter.configs'.setup {
---   -- one of "all", or a list of languages
---  ensure_installed = {
---    "python", "bash","javascript", "json", "go",
---    "typescript", "c_sharp", "lua", "rust", "vim", "dot",
---    "dockerfile", "html", "scss", "markdown"
---  },
---  sync_install = false,
---  auto_install = true,
---  highlight = { enable = true }, ---- false will disable the whole extension
---  context_commentstring = {
---    enable = true,
---  },
---  incremental_selection = { enable = true },
---  indent = { enable = true },
--- }
--- }}}
 -- => autocmd configs ---------------------- {{{
 local function indentUsing(indent)
   vim.bo.shiftwidth = indent
@@ -590,32 +574,6 @@ function GitBranch()
   return git_head ~= '' and '[git:' ..call_shell(get_head_command)..']' or ''
 end
 
--- local status_line = {
---   "[%n]", ------------------------------------------------ buffer number
---   "%<%.99f", --------------------------------------------- file name (F for full-path)
---   "%m%r%h%w", -------------------------------------------- status flags
---   "%#question#", --------------------------------------╮
---   "%{(&fenc!='utf-8'&&&fenc!='')?'['.&fenc.']':''}", --|-- warning for encoding not utf8
---   "%*", -----------------------------------------------╯
---   "%#errormsg#", -----------------------╮
---   "%{luaeval('HasPaste()')}", ---------------------------- warning if paste mode is active
---   "%{luaeval('TabsFound()')}", --------------------------- warning if tabs exist
---   "%*", --------------------------------╯
---   "%#warningmsg#", ---------------------╮
---   GitBranch(), ------------------------------------------- git branch
---   "%*", --------------------------------╯
---   "%=", -------------------------------------------------- right align
---   "%#directory#", ----------------------╮
---   "%y", -------------------------------------------------- buffer file type
---   "%{&ff!='unix'?'['.&ff.']':''}", ----------------------- fileformat not unix
---   "%*", --------------------------------╯
---   "%#warningmsg#", ---------------------╮
---   " %c%V,%l/", ------------------------------------------- column and row number
---   "%*", --------------------------------╯
---   "%L %P", ----------------------------------------------- total lines, position in file
--- }
--- vim.o.statusline = table.concat(status_line)
--- }}}
 -- => local.lua  ---------------------- {{{
 local localFile = editor_root..'local.lua'
 if (file_exists(localFile)) then
