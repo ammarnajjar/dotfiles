@@ -222,6 +222,7 @@ require("mason").setup({
 local lsp_servers = {
   "cssls",
   "lua_ls",
+  "ts_ls",
   "angularls",
   "eslint",
   "pyright", -- check for compatible nodejs version => tail $(lua vim.lsp.get_log_path())
@@ -576,6 +577,8 @@ end
 
 -- => local.lua  ---------------------- {{{
 local localFile = editor_root..'local.lua'
+-- paste from register "rp
+-- vim.fn.setreg({regname}, {value} [, {options}])
 if (file_exists(localFile)) then
   loadfile(localFile)()
 end
