@@ -6,7 +6,7 @@
 	pager = delta || less || "nvim -c '%sm/\\e.\\{-}m//g' -c 'set ft=diff' -c '1' -"
 	excludesFile = ~/.config/git/gitignore
 	abbrev = 8
-    eol = LF
+	eol = LF
 
 [alias]
 	st = status
@@ -14,9 +14,9 @@
 	lg1 = log --graph --pretty=format:'%C(bold yellow)%h%Creset -%C(bold cyan)%aD%C(reset) %C(bold green)%d%Creset %s %C(bold blue)<%an>%Creset' --abbrev-commit --abbrev=8
 	lg2 = log --graph --abbrev-commit --abbrev=8 --decorate --format=format:'%C(bold yellow)%h%C(reset) - %C(bold cyan)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold green)%d%C(reset)' --all
 	lg3 = log --graph --abbrev-commit --abbrev=8 --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''	   %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
-    gco = "!f() { git branch -a | rg -e $1 -m 1 | sed 's/remotes\\/origin\\///' | xargs git checkout; git fetch --prune; git reset --hard origin/$(git rev-parse --abbrev-ref HEAD); }; f"
+	gco = "!f() { git branch -a | rg -e $1 -m 1 | sed 's/remotes\\/origin\\///' | xargs git checkout; git fetch --prune; git reset --hard origin/$(git rev-parse --abbrev-ref HEAD); }; f"
 	staash = stash --all
-    bb = !git for-each-ref --color --sort=-committerdate --format=$'%(color:red)%(ahead-behind:HEAD)\t%(color:blue)%(refname:short)\t%(color:yellow)%(committerdate:relative)\t%(color:default)%(describe)' refs/heads/ --no-merged | sed 's/ /\t/' | column -s=$'\t' -t -c 'Ahead,Behind,Branch Name,Last Commit,Description'
+	bb = !git for-each-ref --color --sort=-committerdate --format=$'%(color:red)%(ahead-behind:HEAD)\t%(color:blue)%(refname:short)\t%(color:yellow)%(committerdate:relative)\t%(color:default)%(describe)' refs/heads/ --no-merged | sed 's/ /\t/' | column -s=$'\t' -t -c 'Ahead,Behind,Branch Name,Last Commit,Description'
 
 [color]
 	ui = true
@@ -53,7 +53,9 @@
 [branch]
 	sort = -committerdate
 [maintenance]
-    auto = false
-    strategy = incremental
+	auto = false
+	strategy = incremental
 [fetch]
 	writeCommitGraph = true
+[gpg]
+	program = gpg

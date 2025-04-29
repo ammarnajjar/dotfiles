@@ -141,73 +141,103 @@ function AppendModeline()
 end
 --}}}
 -- => Plugins ---------------- {{{
-local install_path = vim.fn.stdpath('config')..'/pack/packer/opt/packer.nvim'
-
-if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-  vim.api.nvim_command('!$(which git) clone https://github.com/wbthomason/packer.nvim '..install_path)
-  vim.api.nvim_command 'packadd packer.nvim'
+  --
+-- Bootstrap lazy.nvim
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+  local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+  if vim.v.shell_error ~= 0 then
+    vim.api.nvim_echo({
+      { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+      { out, "WarningMsg" },
+      { "\nPress any key to exit..." },
+    }, true, {})
+    vim.fn.getchar()
+    os.exit(1)
+  end
 end
+vim.opt.rtp:prepend(lazypath)
 
--- Automatically run :PackerCompile whenever this file is updated
-vim.api.nvim_create_autocmd('BufWritePost', { command = 'PackerCompile' })
+-- Make sure to setup `mapleader` and `maplocalleader` before
+-- loading lazy.nvim so that mappings are correct.
+-- This is also a good place to setup other settings (vim.opt)
+vim.g.maplocalleader = "\\"
 
--- load packer
-vim.cmd('packadd packer.nvim')
-
-require('packer').startup(function()
-  -- Packer can manage itself as an optional plugin
-  use { 'wbthomason/packer.nvim', opt = true }
-  use { 'neovim/nvim-lspconfig' }
-  use {
-    'smoka7/hop.nvim',
-    tag = 'v2.3.2', -- optional but strongly recommended
-  }
-  use { "ray-x/lsp_signature.nvim" }
-  use {
-  "nvim-neo-tree/neo-tree.nvim",
-    branch = "v3.x",
-    requires = {
-      "nvim-lua/plenary.nvim",
-      "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-      "MunifTanjim/nui.nvim",
+-- Setup lazy.nvim
+require("lazy").setup({
+  spec = {
+    -- add your plugins here
+    {
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
+      "neovim/nvim-lspconfig",
     },
-    config = function()
-    require("neo-tree").setup({
-      close_if_last_window = true,
-      window = {
-        width = 40,
+    {
+      'smoka7/hop.nvim',
+      version = 'v2.3.2', -- optional but strongly recommended
+    },
+    { "ray-x/lsp_signature.nvim" },
+    {
+    "nvim-neo-tree/neo-tree.nvim",
+      version = 'v3.32',
+      dependencies  = {
+        "nvim-lua/plenary.nvim",
+        "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+        "MunifTanjim/nui.nvim",
       },
-      buffers = {
-        follow_current_file = { enabled = true },
+      keys = {
+        { "<leader>l", "<cmd>Neotree toggle<CR><C-w><C-w>", desc = "NeoTree" },
+        { "<leader>gg", "<cmd>Neotree git_status left<CR><C-w><C-w>'", desc = "NeoTree" },
+        { "<leader>h", "<cmd>DiffviewFileHistory %<CR>", desc = "NeoTree" },
+        { "<leader>xh", "<cmd>DiffviewClose<CR>", desc = "NeoTree" },
       },
-      filesystem = {
-        follow_current_file = { enabled = true },
-        filtered_items = {
-          hide_dotfiles = false,
-          hide_gitignored = false,
-          never_show = {
-            ".DS_Store",
-            "thumbs.db"
+      opts = {
+        close_if_last_window = true,
+        window = {
+          width = 40,
+        },
+        buffers = {
+          follow_current_file = { enabled = true },
+        },
+        filesystem = {
+          follow_current_file = { enabled = true },
+          filtered_items = {
+            hide_dotfiles = false,
+            hide_gitignored = false,
+            never_show = {
+              ".DS_Store",
+              "thumbs.db"
+            },
           },
         },
-      },
-    })
-    end
-  }
-  use { "sindrets/diffview.nvim"  }
-  use {
-    'nvim-lualine/lualine.nvim',
-    requires = { 'nvim-tree/nvim-web-devicons', opt = true }
-  }
-  use { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim" }
-  use { 'ms-jpq/coq_nvim', branch = 'coq' }
-  use { 'ms-jpq/coq.artifacts', branch= 'artifacts' }
-  use { 'junegunn/fzf.vim', requires = {{ 'junegunn/fzf' }}}
-  use { 'f-person/git-blame.nvim' }
-  use { "folke/trouble.nvim", requires = { "nvim-tree/nvim-web-devicons" }}
-  use { 'tpope/vim-commentary' }
-  use { 'ammarnajjar/nvcode-color-schemes.vim' }
-end)
+      }
+    },
+    { "sindrets/diffview.nvim"  },
+    {
+      'nvim-lualine/lualine.nvim',
+      dependencies  = { 'nvim-tree/nvim-web-devicons', lazy = true }
+    },
+    { 'ms-jpq/coq_nvim', version = 'coq' },
+    { 'ms-jpq/coq.artifacts', version= 'artifacts' },
+    { 'junegunn/fzf.vim', dependencies = {{ 'junegunn/fzf' }}},
+    { 'f-person/git-blame.nvim' },
+    { "folke/trouble.nvim", dependencies  = { "nvim-tree/nvim-web-devicons" }},
+    { 'tpope/vim-commentary' },
+    { 'ammarnajjar/nvcode-color-schemes.vim',
+        lazy = false,
+        config = function()
+        vim.cmd([[colorscheme nvcode]])
+      end,
+    },
+  },
+  -- Configure any other settings here. See the documentation for more details.
+  -- colorscheme that will be used when installing plugins.
+  install = { colorscheme = { "nvcode" } },
+  -- automatically check for plugin updates
+  checker = { enabled = true },
+})
+
 
 require("mason").setup({
   ui = {
@@ -272,11 +302,6 @@ require('lualine').setup({
   }
 })
 
--- Neotree
-vim.api.nvim_set_keymap('n', '<leader>l', ':Neotree toggle<CR><C-w><C-w>', {})
-vim.api.nvim_set_keymap('n', '<leader>gg', ':Neotree git_status left<CR><C-w><C-w>', {})
-vim.api.nvim_set_keymap('n', '<leader>h', ':DiffviewFileHistory %<CR>', {})
-vim.api.nvim_set_keymap('n', '<leader>xh', ':DiffviewClose<CR>', {})
 
 -- colorscheme
 vim.wo.cursorline = true
