@@ -141,7 +141,6 @@ function AppendModeline()
 end
 --}}}
 -- => Plugins ---------------- {{{
-  --
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -159,11 +158,6 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- Make sure to setup `mapleader` and `maplocalleader` before
--- loading lazy.nvim so that mappings are correct.
--- This is also a good place to setup other settings (vim.opt)
-vim.g.maplocalleader = "\\"
-
 -- Setup lazy.nvim
 require("lazy").setup({
   spec = {
@@ -171,16 +165,24 @@ require("lazy").setup({
     {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
-      "neovim/nvim-lspconfig",
     },
     {
-      'smoka7/hop.nvim',
-      version = 'v2.3.2', -- optional but strongly recommended
+      "dundalek/lazy-lsp.nvim",
+      dependencies = { "neovim/nvim-lspconfig" },
+      config = function()
+        require("lazy-lsp").setup {}
+      end
+    },
+    {
+    'smoka7/hop.nvim',
+      version = "*",
+      opts = {
+          keys = 'etovxqpdygfblzhckisuran'
+      }
     },
     { "ray-x/lsp_signature.nvim" },
     {
     "nvim-neo-tree/neo-tree.nvim",
-      version = 'v3.32',
       dependencies  = {
         "nvim-lua/plenary.nvim",
         "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
@@ -227,8 +229,8 @@ require("lazy").setup({
     { 'ammarnajjar/nvcode-color-schemes.vim',
         lazy = false,
         config = function()
-        vim.cmd([[colorscheme nvcode]])
-      end,
+          vim.cmd([[colorscheme nvcode]])
+        end,
     },
   },
   -- Configure any other settings here. See the documentation for more details.
@@ -236,17 +238,6 @@ require("lazy").setup({
   install = { colorscheme = { "nvcode" } },
   -- automatically check for plugin updates
   checker = { enabled = true },
-})
-
-
-require("mason").setup({
-  ui = {
-        icons = {
-            package_installed = "✓",
-            package_pending = "➜",
-            package_uninstalled = "✗"
-        }
-    }
 })
 
 local lsp_servers = {
@@ -260,27 +251,22 @@ local lsp_servers = {
   "dockerls",
   "yamlls",
 }
+
+require("mason").setup({
+  ui = {
+        icons = {
+            package_installed = "✓",
+            package_pending = "➜",
+            package_uninstalled = "✗"
+        }
+    }
+})
+
 require("mason-lspconfig").setup({
   ensure_installed = lsp_servers
 })
-require("lsp_signature").setup()
 
--- hop
-local hop = require('hop')
-local directions = require('hop.hint').HintDirection
-vim.keymap.set('', 'f', function()
-  hop.hint_char1({ direction = directions.AFTER_CURSOR })
-end, {remap=true})
-vim.keymap.set('', 'F', function()
-  hop.hint_char1({ direction = directions.BEFORE_CURSOe })
-end, {remap=true})
-vim.keymap.set('', 't', function()
-  hop.hint_char1({ direction = directions.AFTER_CURSOR, hint_offset = -1 })
-end, {remap=true})
-vim.keymap.set('', 'T', function()
-  hop.hint_char1({ direction = directions.BEFORE_CURSOe, hint_offset = 1 })
-end, {remap=true})
-hop.setup()
+require("lsp_signature").setup()
 
 -- trouble
 vim.keymap.set("n", "<leader>xx", function() require("trouble").toggle() end)
@@ -301,7 +287,6 @@ require('lualine').setup({
     }
   }
 })
-
 
 -- colorscheme
 vim.wo.cursorline = true
@@ -390,60 +375,6 @@ vim.g.coq_settings = {
 
 local coq = require('coq')
 
-local function omnisharp_lsp()
-  -- omnisharp c#
-  local pid = vim.fn.getpid()
-  -- omnisharp install path => $HOME/.omnisharp
-  local omnisharp_bin = vim.fn.stdpath('config')..'/../../.omnisharp/run'
-  require('lspconfig')["omnisharp"].setup {
-    cmd = { omnisharp_bin, "--languageserver" , "--hostPID", tostring(pid) };
-  }
-end
-
-local function lua_lsp()
-  -- lsp for lua
-  -- set the path to the lua_ls installation
-  -- lua_lsp_root_path => $HOME/.config/nvim/lsp/lua-language-server
-  local lua_lsp_root_path = vim.fn.stdpath('config')..'/lsp/lua-language-server'
-  local lua_lsp_binary = lua_lsp_root_path.."/bin/lua-language-server"
-
-  if (file_exists(lua_lsp_binary)) then
-    require('lspconfig').lua_ls.setup {
-      cmd = { lua_lsp_binary, "-E", lua_lsp_root_path .. "/main.lua" },
-      settings = {
-        Lua = {
-          runtime = {
-            version = 'LuaJIT',
-            -- Setup your lua path
-            path = vim.split(package.path, ';'),
-          },
-          diagnostics = {
-            -- Get the language server to recognize the `vim` global
-            globals = { 'vim', 'use' },
-          },
-          workspace = {
-            -- Make the server aware of Neovim runtime files
-            library = {
-              [vim.fn.expand('$VIMRUNTIME/lua')] = true,
-              [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
-            },
-          },
-          telemetry = {
-            enable = false,
-          },
-        },
-      },
-    }
-  end
-end
-
-local function angular_ls()
-  local util = require('lspconfig.util')
-  require('lspconfig')["angularls"].setup {
-    root_dir = util.root_pattern("package.json"),
-  }
-end
-
 require('lualine').setup({
   options = { theme  = "auto" }
 })
@@ -454,14 +385,11 @@ function LoadLsp()
     return
   end
 
-  omnisharp_lsp()
-  lua_lsp()
-  angular_ls()
-
   -- Use a loop to conveniently both setup defined servers
   -- and map buffer local keybindings when the language server attaches
   for _, lsp in ipairs(lsp_servers) do
-    require('lspconfig')[lsp].setup { coq.lsp_ensure_capabilities() }
+    -- vim.lsp.enable(lsp)
+    vim.lsp.config(lsp, { coq.lsp_ensure_capabilities() })
   end
 
   vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
