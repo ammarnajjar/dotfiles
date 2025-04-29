@@ -380,7 +380,7 @@ require('lualine').setup({
 })
 
 
-local function lua_lsp()
+local function Lua_lsp()
   vim.lsp.config('lua_ls', {
   on_init = function(client)
     if client.workspace_folders then
@@ -407,35 +407,26 @@ local function lua_lsp()
 })
 end
 
-LSP_LOADED = false
 function LoadLsp()
-  if (LSP_LOADED) then
-    return
-  end
   vim.lsp.enable(lsp_servers)
-  lua_lsp()
+  Lua_lsp()
 
   for _,lsp_server in ipairs(lsp_servers) do
     vim.lsp.config(lsp_server, {})
   end
 
   vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics, {
-    -- underline
-    underline = true,
+    vim.lsp.diagnostic.on_publish_diagnostics, {
+      underline = true,
+      virtual_text = true,
+      signs = true,
 
-    -- virtual text
-    virtual_text = true,
-
-    -- signs
-    signs = true,
-
-    -- delay update diagnostics
-    update_in_insert = false,
-  }
+      -- delay update diagnostics
+      update_in_insert = false,
+    }
   )
-  LSP_LOADED = true
 end
+LoadLsp()
 
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
@@ -470,10 +461,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', '<leader>=', function() vim.lsp.buf.format { async = true } end, opts)
   end,
 })
-
--- load lsp after colorscheme is applied on buffer
--- else messages will show up without colors (white)
-vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufReadPost'}, { callback = LoadLsp })
 
 -- => autocmd configs ---------------------- {{{
 local function indentUsing(indent)
