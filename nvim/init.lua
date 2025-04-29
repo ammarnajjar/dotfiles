@@ -307,10 +307,6 @@ end
 vim.cmd([[set completeopt=menuone,noinsert,noselect]])
 vim.g.completion_matching_strategy_list = { "exact", "substring", "fuzzy" }
 
--- fzf
-vim.g.fzf_layout = { down = "~40%", window = "enew" }
-vim.api.nvim_set_keymap("n", "<C-p>", "<cmd>Files<cr>", {})
-
 -- grep text under cursor
 vim.api.nvim_set_keymap("n", "<leader>rg", ":Rg <C-R><C-W><CR>", {})
 vim.api.nvim_set_keymap("n", "<leader>ag", ":Ag <C-R><C-W><CR>", {})
@@ -325,69 +321,12 @@ vim.g.fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %
 vim.g.fzf_tags_command =
 	'ctags --append=no --recurse --exclude=blib --exclude=dist --exclude=node_modules --exclude=coverage --exclude=.svn --exclude=.get --exclude="@.gitignore" --extra=q'
 
--- show preview with colors using bat if exists
-if vim.fn.executable("bat") ~= 0 then
-	vim.env.FZF_DEFAULT_OPTS = "--ansi --preview-window 'right:60%' --margin=1 --preview 'bat --line-range :150 {}'"
-end
-
--- use ripgrep if exists
-if vim.fn.executable("rg") ~= 0 then
-	vim.env.FZF_DEFAULT_COMMAND =
-		'rg --hidden --files --glob="!.git/*" --glob="!venv/*" --glob="!coverage/*" --glob="!node_modules/*" --glob="!target/*" --glob="!__pycache__/*" --glob="!dist/*" --glob="!build/*" --glob="!*.DS_Store"'
-	vim.api.nvim_set_option_value("grepprg", "rg --vimgrep --smart-case --follow", { scope = "global" })
-elseif vim.fn.executable("ag") ~= 0 then
-	vim.env.FZF_DEFAULT_COMMAND =
-		'ag --hidden --ignore .git --ignore venv/ --ignore coverage/ --ignore node_modules/ --ignore target/  --ignore __pycache__/ --ignore dist/ --ignore build/ --ignore .DS_Store  -g ""'
-	vim.api.nvim_set_option_value("grepprg", "ag", { scope = "global" })
-else
-	-- else fallback to find
-	vim.env.FZF_DEFAULT_COMMAND =
-		[[find * -path '*/\.*' -prune -o -path 'venv/**' -prune -o -path  'coverage/**' -prune -o -path 'node_modules/**' -prune -o -path '__pycache__/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null]]
-end
-
--- use fd if exists
-if vim.fn.executable("fd") ~= 0 then
-	vim.env.FZF_DEFAULT_COMMAND =
-		'fd --type f --follow --hidden --exclude=".git/*" --exclude="venv/*" --exclude="coverage/*" --exclude="node_modules/*" --exclude="target/*" --exclude="__pycache__/*" --exclude="dist/*" --exclude="build/*" --exclude="*.DS_Store"'
-end
-
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 vim.keymap.set("n", "<leader>f", vim.diagnostic.open_float)
 vim.keymap.set("n", "<leader>p", vim.diagnostic.goto_prev)
 vim.keymap.set("n", "<leader>n", vim.diagnostic.goto_next)
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist)
-
--- Use LspAttach autocommand to only map the following keys
--- after the language server attaches to the current buffer
-vim.api.nvim_create_autocmd("LspAttach", {
-	group = vim.api.nvim_create_augroup("UserLspConfig", {}),
-	callback = function(ev)
-		-- Enable completion triggered by <c-x><c-o>
-		vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
-
-		-- Buffer local mappings.
-		-- See `:help vim.lsp.*` for documentation on any of the below functions
-		local opts = { buffer = ev.buf }
-		vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-		vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-		vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-		vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
-		vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts)
-		vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts)
-		vim.keymap.set("n", "<leader>wl", function()
-			print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-		end, opts)
-		vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, opts)
-		vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-		vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
-		vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
-		vim.keymap.set("n", "<leader>=", function()
-			vim.lsp.buf.format({ async = true })
-		end, opts)
-	end,
-})
 
 -- => autocmd configs ---------------------- {{{
 local function indentUsing(indent)
@@ -461,27 +400,6 @@ vim.api.nvim_create_autocmd("BufWritePre", { callback = DeleteTrailingWS })
 -- Return to last edit position when opening files
 vim.api.nvim_create_autocmd("BufReadPost", { pattern = "*", command = "silent! normal! g;" })
 -- }}}
--- => Statusline ---------------------- {{{
-function TabsFound()
-	local curline = vim.api.nvim_buf_get_lines(0, 0, 1000, false)
-	for _, value in ipairs(curline) do
-		if string.find(value, "\t+") then
-			return "[tabs]"
-		end
-	end
-	return ""
-end
-
-function HasPaste()
-	return vim.o.paste and "[paste]" or ""
-end
-
-function GitBranch()
-	local get_head_command = "command -v git >/dev/null 2>&1 && git rev-parse --abbrev-ref HEAD"
-	local git_head = call_shell(get_head_command)
-	return git_head ~= "" and "[git:" .. call_shell(get_head_command) .. "]" or ""
-end
-
 -- => local.lua  ---------------------- {{{
 local localFile = editor_root .. "local.lua"
 -- paste from register "rp
