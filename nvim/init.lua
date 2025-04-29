@@ -168,16 +168,16 @@ require("lazy").setup({
     },
     {
       "dundalek/lazy-lsp.nvim",
-      dependencies = { "neovim/nvim-lspconfig" },
+      dependencies = {"neovim/nvim-lspconfig" },
       config = function()
         require("lazy-lsp").setup {}
       end
     },
     {
-    'smoka7/hop.nvim',
+    "smoka7/hop.nvim",
       version = "*",
       opts = {
-          keys = 'etovxqpdygfblzhckisuran'
+          keys = "etovxqpdygfblzhckisuran"
       }
     },
     { "ray-x/lsp_signature.nvim" },
@@ -256,7 +256,7 @@ require("mason").setup({
   ui = {
         icons = {
             package_installed = "✓",
-            package_pending = "➜",
+            pakage_pending = "➜",
             package_uninstalled = "✗"
         }
     }
@@ -373,23 +373,50 @@ vim.g.coq_settings = {
   }
 }
 
-local coq = require('coq')
+require('coq')
 
 require('lualine').setup({
   options = { theme  = "auto" }
 })
+
+
+local function lua_lsp()
+  vim.lsp.config('lua_ls', {
+  on_init = function(client)
+    if client.workspace_folders then
+      local path = client.workspace_folders[1].name
+      if path ~= vim.fn.stdpath('config') and (vim.uv.fs_stat(path..'/.luarc.json') or vim.uv.fs_stat(path..'/.luarc.jsonc')) then
+        return
+      end
+    end
+
+    client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
+      runtime = {
+        version = 'LuaJIT'
+      },
+      -- Make the server aware of Neovim runtime files
+      workspace = {
+        checkThirdParty = false,
+        library = { vim.env.VIMRUNTIME }
+      }
+    })
+  end,
+  settings = {
+    Lua = {}
+  }
+})
+end
 
 LSP_LOADED = false
 function LoadLsp()
   if (LSP_LOADED) then
     return
   end
+  vim.lsp.enable(lsp_servers)
+  lua_lsp()
 
-  -- Use a loop to conveniently both setup defined servers
-  -- and map buffer local keybindings when the language server attaches
-  for _, lsp in ipairs(lsp_servers) do
-    -- vim.lsp.enable(lsp)
-    vim.lsp.config(lsp, { coq.lsp_ensure_capabilities() })
+  for _,lsp_server in ipairs(lsp_servers) do
+    vim.lsp.config(lsp_server, {})
   end
 
   vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
