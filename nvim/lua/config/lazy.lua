@@ -34,7 +34,20 @@ require("lazy").setup({
 		},
 		{ "f-person/git-blame.nvim" },
 
-		-- disable some default plugins
+		-- change some default plugins
+		{
+			"folke/snacks.nvim",
+			---@type snacks.Config
+			opts = {
+				dashboard = {
+					-- your dashboard configuration comes here
+					sections = {
+						{ section = "keys", gap = 1, padding = 1 },
+						{ section = "startup" },
+					},
+				},
+			},
+		},
 		{ "echasnovski/mini.pairs", enabled = false },
 		{ "folke/flash.nvim", enabled = false },
 		{ "folke/todo-comments.nvim", enabled = false },
