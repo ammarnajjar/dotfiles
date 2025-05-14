@@ -3,11 +3,9 @@
 # Description: install deps/repos and setup config files
 
 function echo_blue() {
-    if [ ! -z $BASH_VERSION ]
-    then
+    if [ ! -z $BASH_VERSION ]; then
         echo -e '\E[37;44m'"\033[1m$1\033[0m"
-    elif [ ! -z $ZSH_VERSION ]
-    then
+    elif [ ! -z $ZSH_VERSION ]; then
         print -P "%F{green}$1%f"
     fi
 }
@@ -15,8 +13,7 @@ function echo_blue() {
 function set_sudo() {
     uid="$(id -u)"
     SUDO="sudo "
-    if [[ $uid -eq 0 ]]
-    then
+    if [[ $uid -eq 0 ]]; then
         SUDO=""
     fi
 }
@@ -26,11 +23,9 @@ function install_pkgs() {
     if [[ "$OSTYPE" == "linux-gnu" ]]; then
         # Linux
         sys_id="$(cat /etc/*release | grep ID=)"
-        if [[ "$sys_id" == *"fedora"* ]]
-        then
+        if [[ "$sys_id" == *"fedora"* ]]; then
             bash -c ""$SUDO"dnf install -y $pkgs findutils g++ ninja-build libstdc++-static"
-        elif [[ "$sys_id" == *"debian"* ]] || [[ "$sys_id" == *"Ubuntu"* ]]
-        then
+        elif [[ "$sys_id" == *"debian"* ]] || [[ "$sys_id" == *"Ubuntu"* ]]; then
             bash -c ""$SUDO"apt update && "$SUDO"apt install -y $pkgs findutils g++ ninja-build"
         fi
     elif [[ "$OSTYPE" == "darwin"* ]]; then
@@ -45,21 +40,19 @@ function install_pkgs() {
 
 function prepare_shell_rc_file() {
     cd $dotfiles_dir
-    if [ ! -z $BASH_VERSION ]
-    then
+    if [ ! -z $BASH_VERSION ]; then
         echo_blue "=== bash ==="
         shell="bash"
         [ -f $HOME/.bashrc ] && mv $HOME/.bashrc /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_bashrc
-        echo "export dotfiles_dir=$dotfiles_dir" > $HOME/.bashrc
-        echo "source $dotfiles_dir/shell/bash/bashrc" >> $HOME/.bashrc
+        echo "export dotfiles_dir=$dotfiles_dir" >$HOME/.bashrc
+        echo "source $dotfiles_dir/shell/bash/bashrc" >>$HOME/.bashrc
         git clone --depth=1 -b 'ignored-in-history' https://github.com/ammarnajjar/bash-sensible.git shell/bash/bash-sensible
-    elif [ ! -z $ZSH_VERSION ]
-    then
+    elif [ ! -z $ZSH_VERSION ]; then
         echo_blue "=== zsh ==="
         shell="zsh"
         [ -f $HOME/.zshrc ] && mv $HOME/.zshrc /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_zshrc
-        echo "export dotfiles_dir=$dotfiles_dir" > $HOME/.zshrc
-        echo "source $dotfiles_dir/shell/zsh/zshrc" >> $HOME/.zshrc
+        echo "export dotfiles_dir=$dotfiles_dir" >$HOME/.zshrc
+        echo "source $dotfiles_dir/shell/zsh/zshrc" >>$HOME/.zshrc
         git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $dotfiles_dir/shell/zsh/powerlevel10k
         git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting.git $dotfiles_dir/shell/zsh/zsh-syntax-highlighting
         ln -s $dotfiles_dir/shell/zsh/p10k.zsh $HOME/.p10k.zsh
@@ -100,20 +93,6 @@ function nvim_symlinks() {
     ln -s $dotfiles_dir/nvim $XDG_CONFIG_HOME/nvim
 }
 
-function install_lua_language_server() {
-    echo_blue "** lua language server "
-    # https://github.com/sumneko/lua-language-server/wiki/Build-and-Run
-    mkdir -p $dotfiles_dir/nvim/lsp
-    cd $dotfiles_dir/nvim/lsp
-    git clone --depth=1 https://github.com/sumneko/lua-language-server
-    cd lua-language-server
-    git submodule update --init --recursive
-    cd 3rd/luamake
-    ./compile/install.sh
-    cd ../..
-    ./3rd/luamake/luamake rebuild || echo "* Faild: installing lua-lsp-server"
-}
-
 function compile_terminfo() {
     # enable italics in terminal
     tic -o $HOME/.terminfo $dotfiles_dir/shell/terminfo
@@ -123,11 +102,11 @@ function update_git_conf() {
     echo_blue "** git config"
     mkdir -p ${XDG_CONFIG_HOME:=$HOME/.config}
     [ -L $XDG_CONFIG_HOME/git ] && mv $HOME/.config/git /tmp/trash/$(date "+%y-%m-%d_%H-%M-%S")_git
-    wget https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash  -O $dotfiles_dir/git/git-completion.bash
+    wget https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -O $dotfiles_dir/git/git-completion.bash
     ln -s $dotfiles_dir/git $XDG_CONFIG_HOME//git
 }
 
-function main(){
+function main() {
     set_sudo
     install_pkgs
     prepare_dotfiles_dir
@@ -140,7 +119,6 @@ function main(){
     update_git_conf
 
     prepare_shell_rc_file
-    install_lua_language_server
     cd $current_dir
     echo_blue "** Installation Complete **"
     exec $shell
