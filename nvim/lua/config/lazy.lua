@@ -37,7 +37,6 @@ require("lazy").setup({
 		-- change some default plugins
 		{
 			"folke/snacks.nvim",
-			---@type snacks.Config
 			opts = {
 				dashboard = {
 					-- your dashboard configuration comes here
