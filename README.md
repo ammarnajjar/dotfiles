@@ -36,32 +36,39 @@ wget https://raw.githubusercontent.com/ammarnajjar/dotfiles/master/install.sh &&
 .
 ├── LICENSE
 ├── README.md
+├── install.sh
+├── bat
+│   └── config
+├── git
+│   ├── config
+│   ├── git-completion.bash
+│   ├── gitignore
+│   └── gitmessage
 ├── mise
 │   ├── default-cargo-crates
 │   ├── default-gems
 │   ├── default-node-packages
 │   └── default-python-packages
-├── bat
-│   └── config
-├── git
-│   ├── config
-│   └── gitmessage
-├── install.sh
 ├── nvim
-│   └── init.lua
+│   ├── init.lua
+│   ├── lua
+│   │   └── config
+│   │       ├── autocmds.lua
+│   │       ├── keymaps.lua
+│   │       ├── lazy.lua
+│   │       └── options.lua
 ├── shell
 │   ├── bash
-│   │   └── bashrc
 │   ├── common.sh
 │   └── zsh
-│       └── zshrc
 ├── tmux
 │   └── tmux.conf
 └── vim
-    ├── README.md
     ├── coc-settings.json
     ├── link.sh
+    ├── README.md
     └── vimrc.vim
+
 ```
 </details>
 
