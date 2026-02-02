@@ -20,55 +20,25 @@ require("lazy").setup({
 		{
 			"ammarnajjar/nvcode-color-schemes.vim",
 			lazy = false,
+			priority = 1000,
 			config = function()
 				vim.cmd([[colorscheme nvcode]])
 			end,
 		},
-		-- add LazyVim and import its plugins
-		{
-			"LazyVim/LazyVim",
-			import = "lazyvim.plugins",
-			opts = {
-				colorscheme = "nvcode",
-			},
-		},
 		{ "f-person/git-blame.nvim" },
-
-		-- change some default plugins
-		{
-			"folke/snacks.nvim",
-			opts = {
-				dashboard = {
-					-- your dashboard configuration comes here
-					sections = {
-						{ section = "keys", gap = 1, padding = 1 },
-						{ section = "startup" },
-					},
-				},
-			},
-		},
-		{ "nvim-mini/mini.pairs", enabled = false },
-		{ "folke/flash.nvim", enabled = false },
-		{ "folke/todo-comments.nvim", enabled = false },
-		-- import/override with your plugins
-		-- { import = "plugins" },
 	},
 	defaults = {
 		lazy = true,
 	},
 	install = { colorscheme = { "nvcode" } },
 	checker = {
-		enabled = true, -- check for plugin updates periodically
-		notify = false, -- notify on update
-	}, -- automatically check for plugin updates
+		enabled = true,
+		notify = false,
+	},
 	performance = {
 		rtp = {
-			-- disable some rtp plugins
 			disabled_plugins = {
 				"gzip",
-				-- "matchit",
-				-- "matchparen",
-				-- "netrwPlugin",
 				"tarPlugin",
 				"tohtml",
 				"tutor",

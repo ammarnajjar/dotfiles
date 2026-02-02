@@ -1,53 +1,38 @@
--- Keymaps are automatically loaded on the VeryLazy event
--- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
--- Add any additional keymaps here
+-- Custom keymaps
 
-vim.api.nvim_set_keymap("v", "<", "<gv", {}) --╮-- visual shifting
-vim.api.nvim_set_keymap("v", ">", ">gv", {}) --╯
+-- Visual shifting (keeps selection after indent)
+vim.keymap.set("v", "<", "<gv", { desc = "Indent left and reselect" })
+vim.keymap.set("v", ">", ">gv", { desc = "Indent right and reselect" })
 
 -- Edit the vimrc file
-vim.api.nvim_set_keymap("n", "<leader>ev", "<cmd>tabe $MYVIMRC<CR>", {})
+vim.keymap.set("n", "<leader>ev", function()
+	vim.cmd("tabedit " .. vim.fn.stdpath("config") .. "/init.lua")
+end, { desc = "Edit vimrc", noremap = true })
 
 -- Opens a new tab with the current buffer's path
-vim.api.nvim_set_keymap("n", "<leader>te", ':tabedit <C-r>=expand("%:p:h")<CR>/', {})
+vim.keymap.set("n", "<leader>te", ':tabedit <C-r>=expand("%:p:h")<CR>/', { desc = "Open tab with buffer path" })
 
 -- Switch CWD to the directory of the open buffer
-vim.api.nvim_set_keymap("", "<leader>cd", "<cmd>cd %:p:h<CR>:pwd<CR>", {})
+vim.keymap.set("n", "<leader>cd", "<cmd>cd %:p:h<CR>:pwd<CR>", { desc = "CD to buffer directory" })
 
 -- Toggle spell checking
-vim.api.nvim_set_keymap("n", "<leader>ss", "<cmd>setlocal spell!<CR>", {})
+vim.keymap.set("n", "<leader>ss", "<cmd>setlocal spell!<CR>", { desc = "Toggle spell check" })
 
--- Terminal mode mappings
-vim.api.nvim_set_keymap("t", "<ESC>", "<C-\\><C-n>", {})
-vim.api.nvim_set_keymap("n", "<leader>s", "<cmd>split term://" .. "$SHELL" .. "<CR><C-w><S-j><S-a>", {})
-vim.api.nvim_set_keymap("n", "<leader>v", "<cmd>vsplit term://" .. "$SHELL" .. "<CR><C-w><S-l><S-a>", {})
-vim.api.nvim_set_keymap("n", "<leader>t", "<cmd>tabedit term://" .. "$SHELL" .. "<CR><S-a>", {})
-vim.api.nvim_create_autocmd("TermOpen", { pattern = "*", command = "setlocal nonumber statusline=%{b:term_title}" })
+-- Terminal mode: ESC to exit terminal mode
+vim.keymap.set("t", "<ESC>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
--- view hidden characters by default
-vim.o.listchars = "tab:>-,space:·,nbsp:␣,trail:•,eol:↲,precedes:«,extends:»,conceal:┊"
-vim.api.nvim_set_keymap("n", "<F2>", "<cmd>setlocal list! list? <CR>", { noremap = true })
+-- View hidden characters
+vim.keymap.set("n", "<F2>", "<cmd>setlocal list!<CR>", { desc = "Toggle hidden characters" })
 
 -- Allow toggling between tabs and spaces
-vim.api.nvim_set_keymap("n", "<F3>", "<cmd>lua TabToggle()<cr>", {})
-function TabToggle()
-	if vim.bo.expandtab then
-		vim.bo.expandtab = false
-		vim.cmd("retab!")
-	else
-		vim.bo.expandtab = true
-		vim.cmd("retab")
-	end
+local function tab_toggle()
+	vim.bo.expandtab = not vim.bo.expandtab
+	print("Using " .. (vim.bo.expandtab and "spaces" or "tabs"))
 end
-
--- vim.api.nvim_set_keymap("n", "<leader>cc", "<cmd>lua ToggleColorColumn()<CR>", { silent = true })
--- function ToggleColorColumn()
---	vim.wo.colorcolumn = vim.wo.colorcolumn ~= "" and "" or "80"
--- end
+vim.keymap.set("n", "<F3>", tab_toggle, { desc = "Toggle tabs/spaces" })
 
 -- Append modeline after last line in buffer
-vim.api.nvim_set_keymap("n", "<Leader>ml", "<cmd>lua AppendModeline()<CR>", { silent = true })
-function AppendModeline()
+local function append_modeline()
 	local mine = string.format(
 		"vim: ft=%s ts=%d sw=%d %set %sai",
 		vim.bo.filetype,
@@ -59,4 +44,5 @@ function AppendModeline()
 	local modeline = { string.format(vim.bo.commentstring, mine) }
 	vim.api.nvim_buf_set_lines(0, -1, -1, true, modeline)
 end
+vim.keymap.set("n", "<Leader>ml", append_modeline, { desc = "Append modeline", silent = true })
 -- vim: ft=lua ts=2 sw=2 et ai
