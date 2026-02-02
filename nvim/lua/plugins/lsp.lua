@@ -11,6 +11,9 @@ require("mason-lspconfig").setup({
 		"lua_ls",
 		"pyright",
 		"ts_ls",
+		"eslint",
+		"angularls",
+		"bashls",
 		"rust_analyzer",
 	},
 	handlers = {
@@ -34,6 +37,25 @@ require("mason-lspconfig").setup({
 					},
 				},
 			})
+		end,
+		["ts_ls"] = function()
+			local config = require("lspconfig").ts_ls
+			config.setup({
+				capabilities = capabilities,
+				filetypes = {
+					"javascript",
+					"javascriptreact",
+					"typescript",
+					"typescriptreact",
+				},
+			})
+			-- Clear deprecated filetypes from the default config
+			config.document_config.default_config.filetypes = {
+				"javascript",
+				"javascriptreact",
+				"typescript",
+				"typescriptreact",
+			}
 		end,
 	},
 })

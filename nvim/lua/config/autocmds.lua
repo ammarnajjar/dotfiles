@@ -27,9 +27,9 @@ function FileTypeSetup()
 
 	local with_two_spaces = {
 		"typescript",
-		"typescript.tsx",
+		"typescriptreact",
 		"javascript",
-		"javascript.jsx",
+		"javascriptreact",
 		"lua",
 		"ruby",
 		"html",
