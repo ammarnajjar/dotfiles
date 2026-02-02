@@ -76,7 +76,7 @@ vim.bo.undofile = true
 local editor_root = vim.fn.expand("~/.config/nvim/")
 vim.fn.execute("set undodir=" .. editor_root .. "/undo/")
 
-vim.cmd("set shada^=%") ------- Remember info about open buffers on close
+vim.opt.shada:prepend("%") ------- Remember info about open buffers on close
 
 vim.g.switchbuf = "useopen,usetab,newtab"
 vim.g.showtabline = 2
@@ -86,45 +86,71 @@ vim.wo.cursorline = true
 
 local function LightTheme()
 	vim.o.background = "light"
-	vim.api.nvim_create_autocmd("BufEnter", { command = "highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=254" })
-	vim.api.nvim_create_autocmd(
-		"BufEnter",
-		{ command = "highlight cursorlinenr term=bold ctermfg=black ctermbg=grey gui=bold guifg=white guibg=grey" }
-	)
-	vim.api.nvim_create_autocmd(
-		"insertenter",
-		{ command = "highlight cursorlinenr term=bold ctermfg=black ctermbg=117 gui=bold guifg=white guibg=skyblue1" }
-	)
-	vim.api.nvim_create_autocmd(
-		"insertenter",
-		{ command = "highlight cursorline cterm=none ctermfg=none ctermbg=none" }
-	)
-	vim.api.nvim_create_autocmd(
-		"insertleave",
-		{ command = "highlight cursorlinenr term=bold ctermfg=black ctermbg=grey gui=bold guifg=white guibg=grey" }
-	)
-	vim.api.nvim_create_autocmd("InsertLeave", { command = "highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=254" })
+	vim.schedule(function()
+		vim.api.nvim_create_autocmd("BufEnter", {
+			callback = function()
+				local cmd = "highlight CursorLine " .. "cterm=NONE ctermfg=NONE ctermbg=254"
+				vim.cmd(cmd)
+			end,
+		})
+		vim.api.nvim_create_autocmd("BufEnter", {
+			callback = function()
+				local cmd = "highlight cursorlinenr " .. "term=bold ctermfg=black ctermbg=grey gui=bold guifg=white guibg=grey"
+				vim.cmd(cmd)
+			end,
+		})
+		vim.api.nvim_create_autocmd("InsertEnter", {
+			callback = function()
+				local cmd = "highlight cursorlinenr " .. "term=bold ctermfg=black ctermbg=117 gui=bold guifg=white guibg=skyblue1"
+				vim.cmd(cmd)
+			end,
+		})
+		vim.api.nvim_create_autocmd("InsertEnter", {
+			callback = function()
+				local cmd = "highlight cursorline " .. "cterm=none ctermfg=none ctermbg=none"
+				vim.cmd(cmd)
+			end,
+		})
+		vim.api.nvim_create_autocmd("InsertLeave", {
+			callback = function()
+				local cmd = "highlight cursorlinenr " .. "term=bold ctermfg=black ctermbg=grey gui=bold guifg=white guibg=grey"
+				vim.cmd(cmd)
+			end,
+		})
+		vim.api.nvim_create_autocmd("InsertLeave", {
+			callback = function()
+				local cmd = "highlight CursorLine " .. "cterm=NONE ctermfg=NONE ctermbg=254"
+				vim.cmd(cmd)
+			end,
+		})
+	end)
 end
+
 local function DarkTheme()
 	vim.o.background = "dark"
 	vim.g.nvcode_termcolors = 256
 	pcall(function()
 		vim.cmd("colorscheme nvcode")
 	end) -- try colorscheme, fallback to default
-
 	vim.api.nvim_set_hl(
 		0,
 		"CursorLineNr",
 		{ background = "black", foreground = "yellow", ctermfg = "yellow", ctermbg = "black", bold = true }
 	)
-	vim.api.nvim_create_autocmd(
-		"InsertEnter",
-		{ command = "highlight CursorLineNr term=bold ctermfg=black ctermbg=74 gui=bold guifg=black guibg=skyblue1" }
-	)
-	vim.api.nvim_create_autocmd(
-		"InsertLeave",
-		{ command = "highlight CursorLineNr term=bold ctermfg=yellow ctermbg=black gui=bold guifg=yellow guibg=black" }
-	)
+	vim.schedule(function()
+		vim.api.nvim_create_autocmd("InsertEnter", {
+			callback = function()
+				local cmd = "highlight CursorLineNr " .. "term=bold ctermfg=black ctermbg=74 gui=bold guifg=black guibg=skyblue1"
+				vim.cmd(cmd)
+			end,
+		})
+		vim.api.nvim_create_autocmd("InsertLeave", {
+			callback = function()
+				local cmd = "highlight CursorLineNr " .. "term=bold ctermfg=yellow ctermbg=black gui=bold guifg=yellow guibg=black"
+				vim.cmd(cmd)
+			end,
+		})
+	end)
 end
 
 if vim.env.KONSOLE_PROFILE_NAME == "light" or vim.env.ITERM_PROFILE == "light" then
@@ -134,8 +160,15 @@ else
 end
 
 -- completion
-vim.cmd([[set completeopt=menuone,noinsert,noselect]])
+vim.opt.completeopt = { "menuone", "noinsert", "noselect" }
 vim.g.completion_matching_strategy_list = { "exact", "substring", "fuzzy" }
+
+-- highlight trailing whitespaces with delay
+vim.schedule(function()
+	vim.api.nvim_set_hl(0, "TrailingWhitespace", { bg = "#DC1B1B" })
+	local pattern = [[\s\+$]]
+	vim.fn.matchadd("TrailingWhitespace", pattern)
+end)
 
 -- => local.lua  ---------------------- {{{
 local editor_root = vim.fn.expand("~/.config/nvim/")

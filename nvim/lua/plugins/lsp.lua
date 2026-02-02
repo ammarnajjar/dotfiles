@@ -1,5 +1,11 @@
 -- LSP Configuration
 require("mason").setup()
+
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+-- Disable Neovim 0.11 auto LSP detection
+-- vim.g.lsp_enable = false
+
 require("mason-lspconfig").setup({
 	ensure_installed = {
 		"lua_ls",
@@ -7,37 +13,29 @@ require("mason-lspconfig").setup({
 		"ts_ls",
 		"rust_analyzer",
 	},
-})
-
--- Setup language servers
-local lspconfig = require("lspconfig")
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
--- Lua
-lspconfig.lua_ls.setup({
-	capabilities = capabilities,
-	settings = {
-		Lua = {
-			diagnostics = {
-				globals = { "vim" },
-			},
-		},
+	handlers = {
+		function(server_name)
+			-- Skip non-LSP tools
+			if server_name == "stylua" then
+				return
+			end
+			require("lspconfig")[server_name].setup({
+				capabilities = capabilities,
+			})
+		end,
+		["lua_ls"] = function()
+			require("lspconfig").lua_ls.setup({
+				capabilities = capabilities,
+				settings = {
+					Lua = {
+						diagnostics = {
+							globals = { "vim" },
+						},
+					},
+				},
+			})
+		end,
 	},
-})
-
--- Python
-lspconfig.pyright.setup({
-	capabilities = capabilities,
-})
-
--- TypeScript/JavaScript
-lspconfig.ts_ls.setup({
-	capabilities = capabilities,
-})
-
--- Rust
-lspconfig.rust_analyzer.setup({
-	capabilities = capabilities,
 })
 
 -- Keymaps for LSP

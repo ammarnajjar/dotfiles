@@ -22,7 +22,7 @@ require("lazy").setup({
 			lazy = false,
 			priority = 1000,
 			config = function()
-				vim.cmd([[colorscheme nvcode]])
+				vim.cmd("colorscheme " .. "nvcode")
 			end,
 		},
 		{ "f-person/git-blame.nvim" },
@@ -30,6 +30,7 @@ require("lazy").setup({
 		-- LSP Configuration
 		{
 			"neovim/nvim-lspconfig",
+			event = { "BufReadPre", "BufNewFile" },
 			dependencies = {
 				"williamboman/mason.nvim",
 				"williamboman/mason-lspconfig.nvim",

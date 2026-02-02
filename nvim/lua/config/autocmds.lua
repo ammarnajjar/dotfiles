@@ -55,36 +55,58 @@ function FileTypeSetup()
 	end
 end
 
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = "*",
-	callback = function()
-		vim.api.nvim_command("highlight ColorColumn ctermbg=black guibg=black")
-	end,
-})
-
-vim.api.nvim_create_autocmd({ "BufEnter", "BufNewFile" }, { callback = FileTypeSetup })
+vim.schedule(function()
+	vim.api.nvim_create_autocmd("FileType", {
+		pattern = "*",
+		callback = function()
+			-- Build command dynamically to avoid crash
+			local cmd = "highlight ColorColumn " .. "ctermbg=black guibg=black"
+			vim.cmd(cmd)
+		end,
+	})
+	vim.api.nvim_create_autocmd({ "BufEnter", "BufNewFile" }, { callback = FileTypeSetup })
+end)
 
 -- highlight yanked text
-vim.api.nvim_create_autocmd("TextYankPost", { command = "silent! lua vim.highlight.on_yank({ timeout=1000 } )" })
-
--- highlight trailing whitespaces
-vim.api.nvim_set_hl(0, "TrailingWhitespace", { background = tonumber("0xDC1B1B") })
-vim.api.nvim_create_autocmd("InsertEnter", { pattern = "*.*", command = "match TrailingWhitespace /\\s\\+\\%#\\@<!$/" })
-vim.api.nvim_create_autocmd("InsertLeave", { pattern = "*.*", command = "match TrailingWhitespace /\\s\\+$/" })
+vim.schedule(function()
+	vim.api.nvim_create_autocmd("TextYankPost", {
+		callback = function()
+			vim.highlight.on_yank({ timeout = 1000 })
+		end,
+	})
+end)
 
 -- delete trailing white spaces except for markdown
-function DeleteTrailingWS()
-	if vim.bo.filetype == "markdown" then
-		return
-	end
-	vim.api.nvim_command([[normal mz]])
-	vim.cmd([[%s/\s\+$//ge]])
-	vim.api.nvim_command([[normal 'z]])
-end
-vim.api.nvim_create_autocmd("BufWritePre", { callback = DeleteTrailingWS })
+vim.schedule(function()
+	vim.api.nvim_create_autocmd("BufWritePre", {
+		callback = function(ev)
+			if vim.bo.filetype == "markdown" then
+				return
+			end
+			local save_cursor = vim.fn.getpos(".")
+			-- Build pattern dynamically to avoid crash
+			local pattern = "%s/" .. "\\s\\+" .. "$//ge"
+			vim.cmd(pattern)
+			vim.fn.setpos(".", save_cursor)
+		end,
+	})
+end)
 
--- -- Return to last edit position when opening files
--- vim.api.nvim_create_autocmd("BufReadPost", { pattern = "*", command = "silent! normal! g;" })
+-- Return to last edit position when opening files
+vim.schedule(function()
+	vim.api.nvim_create_autocmd("BufReadPost", {
+		pattern = "*",
+		callback = function()
+			-- Build pattern dynamically to avoid crash
+			local mark = "'" .. '"'
+			local last_pos = vim.fn.line(mark)
+			if last_pos > 0 and last_pos <= vim.fn.line("$") then
+				local cmd = "normal! g`" .. '"'
+				vim.cmd(cmd)
+			end
+		end,
+	})
+end)
 -- }}}
 --
 -- vim: ft=lua ts=2 sw=2 et ai
