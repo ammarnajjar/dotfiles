@@ -28,7 +28,19 @@ elseif vim.env.MISE_SHELL then
 else
 	which_python = "which python3"
 end
-vim.g.python3_host_prog = call_shell(which_python)
+
+local python_path = call_shell(which_python) or "python3"
+if python_path and python_path ~= "" then
+	if vim.fn.executable(python_path) == 1 then
+		vim.g.python3_host_prog = python_path
+	else
+		vim.g.python3_host_prog = "python3"
+		vim.notify("Warning: Python3 not found at " .. python_path .. ", using default", vim.log.levels.WARN)
+	end
+else
+	vim.g.python3_host_prog = "python3"
+	vim.notify("Warning: Could not determine Python3 path, using default", vim.log.levels.WARN)
+end
 
 vim.o.mouse = "a" -------- Enable mouse usage (all modes)
 vim.o.matchtime = 1 ------ for 1/10th of a second
@@ -39,7 +51,6 @@ vim.o.hidden = true ------ Hide buffers when they are abandoned
 vim.wo.number = true
 vim.o.modelines = 2
 vim.bo.modeline = true
-vim.o.filetype = "on"
 
 -- Ignore compile/build files
 vim.o.wildignore = vim.o.wildignore
@@ -74,7 +85,7 @@ vim.o.inccommand = "nosplit" -- Live substitution
 -- create undo file to keep history after closing the file
 vim.bo.undofile = true
 local editor_root = vim.fn.expand("~/.config/nvim/")
-vim.fn.execute("set undodir=" .. editor_root .. "/undo/")
+vim.opt.undodir = editor_root .. "undo/"
 
 vim.opt.shada:prepend("%") ------- Remember info about open buffers on close
 
@@ -86,44 +97,48 @@ vim.wo.cursorline = true
 
 local function LightTheme()
 	vim.o.background = "light"
-	vim.schedule(function()
-		vim.api.nvim_create_autocmd("BufEnter", {
-			callback = function()
-				local cmd = "highlight CursorLine " .. "cterm=NONE ctermfg=NONE ctermbg=254"
-				vim.cmd(cmd)
-			end,
-		})
-		vim.api.nvim_create_autocmd("BufEnter", {
-			callback = function()
-				local cmd = "highlight cursorlinenr " .. "term=bold ctermfg=black ctermbg=grey gui=bold guifg=white guibg=grey"
-				vim.cmd(cmd)
-			end,
-		})
-		vim.api.nvim_create_autocmd("InsertEnter", {
-			callback = function()
-				local cmd = "highlight cursorlinenr " .. "term=bold ctermfg=black ctermbg=117 gui=bold guifg=white guibg=skyblue1"
-				vim.cmd(cmd)
-			end,
-		})
-		vim.api.nvim_create_autocmd("InsertEnter", {
-			callback = function()
-				local cmd = "highlight cursorline " .. "cterm=none ctermfg=none ctermbg=none"
-				vim.cmd(cmd)
-			end,
-		})
-		vim.api.nvim_create_autocmd("InsertLeave", {
-			callback = function()
-				local cmd = "highlight cursorlinenr " .. "term=bold ctermfg=black ctermbg=grey gui=bold guifg=white guibg=grey"
-				vim.cmd(cmd)
-			end,
-		})
-		vim.api.nvim_create_autocmd("InsertLeave", {
-			callback = function()
-				local cmd = "highlight CursorLine " .. "cterm=NONE ctermfg=NONE ctermbg=254"
-				vim.cmd(cmd)
-			end,
-		})
-	end)
+
+	-- Create augroup to prevent duplicate autocmds
+	local group = vim.api.nvim_create_augroup("LightThemeHighlights", { clear = true })
+
+	-- Set initial highlights
+	vim.api.nvim_set_hl(0, "CursorLine", { cterm = { bold = false }, ctermbg = 254 })
+	vim.api.nvim_set_hl(0, "CursorLineNr", {
+		ctermfg = "black",
+		ctermbg = "grey",
+		fg = "white",
+		bg = "grey",
+		bold = true,
+	})
+
+	-- Update highlights on mode change
+	vim.api.nvim_create_autocmd("InsertEnter", {
+		group = group,
+		callback = function()
+			vim.api.nvim_set_hl(0, "CursorLineNr", {
+				ctermfg = "black",
+				ctermbg = 117,
+				fg = "white",
+				bg = "skyblue1",
+				bold = true,
+			})
+			vim.api.nvim_set_hl(0, "CursorLine", { cterm = {}, ctermbg = "NONE" })
+		end,
+	})
+
+	vim.api.nvim_create_autocmd("InsertLeave", {
+		group = group,
+		callback = function()
+			vim.api.nvim_set_hl(0, "CursorLineNr", {
+				ctermfg = "black",
+				ctermbg = "grey",
+				fg = "white",
+				bg = "grey",
+				bold = true,
+			})
+			vim.api.nvim_set_hl(0, "CursorLine", { cterm = { bold = false }, ctermbg = 254 })
+		end,
+	})
 end
 
 local function DarkTheme()
@@ -131,26 +146,46 @@ local function DarkTheme()
 	vim.g.nvcode_termcolors = 256
 	pcall(function()
 		vim.cmd("colorscheme nvcode")
-	end) -- try colorscheme, fallback to default
-	vim.api.nvim_set_hl(
-		0,
-		"CursorLineNr",
-		{ background = "black", foreground = "yellow", ctermfg = "yellow", ctermbg = "black", bold = true }
-	)
-	vim.schedule(function()
-		vim.api.nvim_create_autocmd("InsertEnter", {
-			callback = function()
-				local cmd = "highlight CursorLineNr " .. "term=bold ctermfg=black ctermbg=74 gui=bold guifg=black guibg=skyblue1"
-				vim.cmd(cmd)
-			end,
-		})
-		vim.api.nvim_create_autocmd("InsertLeave", {
-			callback = function()
-				local cmd = "highlight CursorLineNr " .. "term=bold ctermfg=yellow ctermbg=black gui=bold guifg=yellow guibg=black"
-				vim.cmd(cmd)
-			end,
-		})
 	end)
+
+	-- Create augroup to prevent duplicate autocmds
+	local group = vim.api.nvim_create_augroup("DarkThemeHighlights", { clear = true })
+
+	-- Set initial highlight
+	vim.api.nvim_set_hl(0, "CursorLineNr", {
+		ctermfg = "yellow",
+		ctermbg = "black",
+		fg = "yellow",
+		bg = "black",
+		bold = true,
+	})
+
+	-- Update highlights on mode change
+	vim.api.nvim_create_autocmd("InsertEnter", {
+		group = group,
+		callback = function()
+			vim.api.nvim_set_hl(0, "CursorLineNr", {
+				ctermfg = "black",
+				ctermbg = 74,
+				fg = "black",
+				bg = "skyblue1",
+				bold = true,
+			})
+		end,
+	})
+
+	vim.api.nvim_create_autocmd("InsertLeave", {
+		group = group,
+		callback = function()
+			vim.api.nvim_set_hl(0, "CursorLineNr", {
+				ctermfg = "yellow",
+				ctermbg = "black",
+				fg = "yellow",
+				bg = "black",
+				bold = true,
+			})
+		end,
+	})
 end
 
 if vim.env.KONSOLE_PROFILE_NAME == "light" or vim.env.ITERM_PROFILE == "light" then
@@ -171,7 +206,6 @@ vim.schedule(function()
 end)
 
 -- => local.lua  ---------------------- {{{
-local editor_root = vim.fn.expand("~/.config/nvim/")
 local localFile = editor_root .. "local.lua"
 -- paste from register "rp
 -- vim.fn.setreg({regname}, {value} [, {options}])

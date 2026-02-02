@@ -21,37 +21,41 @@ local function pythonSetup()
 end
 
 function FileTypeSetup()
-	vim.bo.expandtab = true -------╮
-	vim.bo.smartindent = true -----|-- Default 1 tab == 4 spaces
-	indentUsing(4) ----------------╯
+	-- Wrap in pcall for safety
+	local success, err = pcall(function()
+		vim.bo.expandtab = true -------╮
+		vim.bo.smartindent = true -----|-- Default 1 tab == 4 spaces
+		indentUsing(4) ----------------╯
 
-	local with_two_spaces = {
-		"typescript",
-		"typescriptreact",
-		"javascript",
-		"javascriptreact",
-		"lua",
-		"ruby",
-		"html",
-		"xhtml",
-		"htm",
-		"css",
-		"scss",
-		"php",
-		"json",
-		"yml",
-		"yaml",
-		"dart",
-	}
-	if vim.bo.filetype == "python" then
-		pythonSetup()
-	else
-		for _, filetype in pairs(with_two_spaces) do
-			if vim.bo.filetype == filetype then
-				indentUsing(2)
-				break
-			end
+		-- Use hash table for O(1) lookup instead of linear search
+		local with_two_spaces = {
+			typescript = true,
+			typescriptreact = true,
+			javascript = true,
+			javascriptreact = true,
+			lua = true,
+			ruby = true,
+			html = true,
+			xhtml = true,
+			htm = true,
+			css = true,
+			scss = true,
+			php = true,
+			json = true,
+			yml = true,
+			yaml = true,
+			dart = true,
+		}
+
+		if vim.bo.filetype == "python" then
+			pythonSetup()
+		elseif with_two_spaces[vim.bo.filetype] then
+			indentUsing(2)
 		end
+	end)
+
+	if not success then
+		vim.notify("FileTypeSetup error: " .. tostring(err), vim.log.levels.ERROR)
 	end
 end
 
@@ -59,9 +63,7 @@ vim.schedule(function()
 	vim.api.nvim_create_autocmd("FileType", {
 		pattern = "*",
 		callback = function()
-			-- Build command dynamically to avoid crash
-			local cmd = "highlight ColorColumn " .. "ctermbg=black guibg=black"
-			vim.cmd(cmd)
+			vim.api.nvim_set_hl(0, "ColorColumn", { ctermbg = "black", bg = "black" })
 		end,
 	})
 	vim.api.nvim_create_autocmd({ "BufEnter", "BufNewFile" }, { callback = FileTypeSetup })
@@ -97,7 +99,6 @@ vim.schedule(function()
 	vim.api.nvim_create_autocmd("BufReadPost", {
 		pattern = "*",
 		callback = function()
-			-- Build pattern dynamically to avoid crash
 			local mark = "'" .. '"'
 			local last_pos = vim.fn.line(mark)
 			if last_pos > 0 and last_pos <= vim.fn.line("$") then

@@ -7,7 +7,7 @@ vim.keymap.set("v", ">", ">gv", { desc = "Indent right and reselect" })
 -- Edit the vimrc file
 vim.keymap.set("n", "<leader>ev", function()
 	vim.cmd("tabedit " .. vim.fn.stdpath("config") .. "/init.lua")
-end, { desc = "Edit vimrc", noremap = true })
+end, { desc = "Edit vimrc" })
 
 -- Opens a new tab with the current buffer's path
 vim.keymap.set("n", "<leader>te", ':tabedit <C-r>=expand("%:p:h")<CR>/', { desc = "Open tab with buffer path" })
