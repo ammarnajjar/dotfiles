@@ -1,12 +1,12 @@
 [user]
 	name = Ammar Najjar
+	signingkey = 4E358D38135EE7EA
 
 [core]
 	editor = nvim
 	pager = delta || less || "nvim -c '%sm/\\e.\\{-}m//g' -c 'set ft=diff' -c '1' -"
 	excludesFile = ~/.config/git/gitignore
 	abbrev = 8
-	eol = LF
 
 [alias]
 	st = status
@@ -41,6 +41,8 @@
 	file-modified-label = modified:
 	syntax-theme = Sublime Snazzy
 	whitespace-error-style = 22 reverse
+	navigate = true
+	line-numbers = true
 
 [delta "decorations"]
 	commit-decoration-style = bold yellow box ul
@@ -59,3 +61,4 @@
 	writeCommitGraph = true
 [gpg]
 	program = gpg
+	format = openpgp
