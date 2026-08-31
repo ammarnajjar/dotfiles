@@ -4,11 +4,9 @@ neovim
 @angular/language-server
 typescript
 typescript-language-server
-vscode-css-languageserver-bin
+vscode-langservers-extracted
 yaml-language-server
 pyright
 bash-language-server
 dockerfile-language-server-nodejs
 vim-language-server
-ngrx-graph
-

@@ -1,5 +1,2 @@
-pip
-flake8
-pylint
-neovim
 pynvim
+ruff
