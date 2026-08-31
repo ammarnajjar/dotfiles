@@ -1,3 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
 # File: install.sh
 # Author: Ammar Najjar <najjarammar@protonmail.com>
 # Description: install deps/repos and setup config files
@@ -62,8 +65,14 @@ function prepare_shell_rc_file() {
 function prepare_dotfiles_dir() {
     cd "$current_dir" || return
     echo_blue "** Preparing dotfiles dir -- $(pwd)"
-    dotfiles_dir="$current_dir/dotfiles"
 
+    if [ -d "$current_dir/.git" ] && git -C "$current_dir" remote -v 2>/dev/null | grep -q "ammarnajjar/dotfiles"; then
+        dotfiles_dir="$current_dir"
+        echo_blue "** Already inside dotfiles repo, skipping clone"
+        return
+    fi
+
+    dotfiles_dir="$current_dir/dotfiles"
     [ -d "$dotfiles_dir" ] && mkdir -p /tmp/trash && mv "$dotfiles_dir" "/tmp/trash/$(date '+%y-%m-%d_%H-%M-%S')_dotfiles"
     mkdir -p "$dotfiles_dir" && cd "$dotfiles_dir" || return
     git clone --depth=1 https://github.com/ammarnajjar/dotfiles.git .
@@ -73,24 +82,22 @@ function update_tmux_conf() {
     echo_blue "** Tmux config"
     mkdir -p "${XDG_CONFIG_HOME:=$HOME/.config}"
     [ -L "$HOME/.tmux.conf" ] && rm "$HOME/.tmux.conf"
-    [ -L "$XDG_CONFIG_HOME/tmux" ] && rm "$XDG_CONFIG_HOME/tmux"
-    ln -s "$dotfiles_dir/tmux" "$XDG_CONFIG_HOME/tmux"
+    ln -sfn "$dotfiles_dir/tmux" "$XDG_CONFIG_HOME/tmux"
 }
 
 function mise_setup() {
     echo_blue "** mise setup -- $(pwd)"
-    ln -s "$dotfiles_dir/mise/default-cargo-crates" "$HOME/.default-cargo-crates"
-    ln -s "$dotfiles_dir/mise/default-gems" "$HOME/.default-gems"
-    ln -s "$dotfiles_dir/mise/default-python-packages" "$HOME/.default-python-packages"
-    ln -s "$dotfiles_dir/mise/default-node-packages" "$HOME/.default-node-packages"
+    ln -sf "$dotfiles_dir/mise/default-cargo-crates" "$HOME/.default-cargo-crates"
+    ln -sf "$dotfiles_dir/mise/default-gems" "$HOME/.default-gems"
+    ln -sf "$dotfiles_dir/mise/default-python-packages" "$HOME/.default-python-packages"
+    ln -sf "$dotfiles_dir/mise/default-node-packages" "$HOME/.default-node-packages"
 }
 
 function nvim_symlinks() {
     [ -L "$dotfiles_dir" ] && mv "$dotfiles_dir" "/tmp/trash/$(date '+%y-%m-%d_%H-%M-%S')_dotfiles"
     echo_blue "** Create Neovim Symlinks"
     mkdir -p "${XDG_CONFIG_HOME:=$HOME/.config}"
-    [ -L "$HOME/.config/nvim" ] && rm "$HOME/.config/nvim"
-    ln -s "$dotfiles_dir/nvim" "$XDG_CONFIG_HOME/nvim"
+    ln -sfn "$dotfiles_dir/nvim" "$XDG_CONFIG_HOME/nvim"
 }
 
 function compile_terminfo() {
@@ -102,11 +109,12 @@ function update_git_conf() {
     echo_blue "** git config"
     mkdir -p "${XDG_CONFIG_HOME:=$HOME/.config}"
     [ -L "$XDG_CONFIG_HOME/git" ] && mv "$HOME/.config/git" "/tmp/trash/$(date '+%y-%m-%d_%H-%M-%S')_git"
-    wget https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -O "$dotfiles_dir/git/git-completion.bash"
-    ln -s "$dotfiles_dir/git" "$XDG_CONFIG_HOME//git"
+    wget https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -O "$dotfiles_dir/git/git-completion.bash" || echo_blue "Warning: failed to download git-completion.bash"
+    ln -s "$dotfiles_dir/git" "$XDG_CONFIG_HOME/git"
 }
 
 function main() {
+    mkdir -p /tmp/trash
     set_sudo
     install_pkgs
     prepare_dotfiles_dir
