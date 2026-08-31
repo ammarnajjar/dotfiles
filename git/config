@@ -23,6 +23,7 @@
 
 [commit]
 	template = ~/.config/git/gitmessage
+	gpgsign = true
 
 [changelog]
 	format = * %h %B
@@ -32,6 +33,7 @@
 
 [push]
 	default = current
+	autoSetupRemote = true
 
 [interactive]
 	diffFilter = delta --color-only
@@ -48,6 +50,16 @@
 	commit-decoration-style = bold yellow box ul
 	file-style = bold yellow ul
 	file-decoration-style = none
+[rerere]
+	enabled = true
+[rebase]
+	autoStash = true
+[merge]
+	conflictstyle = zdiff3
+[diff]
+	algorithm = histogram
+[transfer]
+	fsckObjects = true
 [pull]
 	rebase = false
 [column]
