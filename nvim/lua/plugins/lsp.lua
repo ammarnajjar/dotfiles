@@ -1,4 +1,12 @@
 -- LSP Configuration
+vim.diagnostic.config({
+	virtual_text = true,
+	signs = true,
+	underline = true,
+	update_in_insert = false,
+	float = { border = "rounded" },
+})
+
 require("mason").setup()
 
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -39,8 +47,7 @@ require("mason-lspconfig").setup({
 			})
 		end,
 		["ts_ls"] = function()
-			local config = require("lspconfig").ts_ls
-			config.setup({
+			require("lspconfig").ts_ls.setup({
 				capabilities = capabilities,
 				filetypes = {
 					"javascript",
@@ -49,13 +56,6 @@ require("mason-lspconfig").setup({
 					"typescriptreact",
 				},
 			})
-			-- Clear deprecated filetypes from the default config
-			config.document_config.default_config.filetypes = {
-				"javascript",
-				"javascriptreact",
-				"typescript",
-				"typescriptreact",
-			}
 		end,
 	},
 })
@@ -94,9 +94,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			pcall(vim.lsp.buf.format, { async = true })
 		end, { buffer = args.buf, desc = "Format buffer" })
 
-		-- Diagnostic navigation
-		vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { buffer = args.buf, desc = "Previous diagnostic" })
-		vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { buffer = args.buf, desc = "Next diagnostic" })
+		-- Diagnostic navigation (jump API for Neovim 0.11+)
+		vim.keymap.set("n", "[d", function()
+			vim.diagnostic.jump({ count = -1 })
+		end, { buffer = args.buf, desc = "Previous diagnostic" })
+		vim.keymap.set("n", "]d", function()
+			vim.diagnostic.jump({ count = 1 })
+		end, { buffer = args.buf, desc = "Next diagnostic" })
 	end,
 })
 

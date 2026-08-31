@@ -1,28 +1,21 @@
-spell
-bundle
-autoload
-plugged
-plugin
-pack
-cache
-fonts
-macros
-session
-sessions
-syntax
-undo
-abbr.*
-**/*.retry
+# OS
 .DS_Store
-liquidprompt*
-bash-git-prompt
-bash-sensible
-ohmyzsh
-.netrwhist
-asdf/asdf
-lua-language-server
-local.*
+
+# Neovim
+nvim/undo/
 Session.vim
-powerlevel10k
-zsh-syntax-highlighting
-lazy*.json
+
+# Shell (cloned at install time)
+shell/bash/bash-sensible
+shell/zsh/powerlevel10k
+shell/zsh/zsh-syntax-highlighting
+
+# Local overrides
+local.*
+
+# Ansible
+**/*.retry
+
+# Claude Code / AI tooling
+.claude/
+.tokensave/

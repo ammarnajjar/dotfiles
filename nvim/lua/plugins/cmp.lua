@@ -33,6 +33,22 @@ cmp.setup({
 			end
 		end, { "i", "s" }),
 	}),
+	window = {
+		completion = cmp.config.window.bordered(),
+		documentation = cmp.config.window.bordered(),
+	},
+	formatting = {
+		format = function(entry, vim_item)
+			local source_map = {
+				nvim_lsp = "[LSP]",
+				luasnip = "[Snip]",
+				buffer = "[Buf]",
+				path = "[Path]",
+			}
+			vim_item.menu = source_map[entry.source.name] or ""
+			return vim_item
+		end,
+	},
 	sources = cmp.config.sources({
 		{ name = "nvim_lsp" },
 		{ name = "luasnip" },

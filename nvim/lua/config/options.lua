@@ -1,46 +1,26 @@
--- Options are automatically loaded before lazy.nvim startup
--- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
--- Add any additional options here
-
 vim.opt.relativenumber = false
 
-local function trim(s)
-	return (s:gsub("^%s*(.-)%s*$", "%1"))
-end
-
-local function call_shell(command)
-	local handle = io.popen(command)
-	if handle ~= nil then
-		local result = handle:read("*a")
-		handle:close()
-		return trim(result)
-	end
-end
-
--- find the python3 binary for neovim
-local which_python
-if vim.env.VIRTUAL_ENV and vim.env.MISE_SHELL then
-	which_python = "which -a python3 | head -n3 | tail -n1"
-elseif vim.env.VIRTUAL_ENV then
-	which_python = "which -a python3 | tail -n2 | head -n1"
-elseif vim.env.MISE_SHELL then
-	which_python = "which -a python3 | head -n1"
-else
-	which_python = "which python3"
-end
-
-local python_path = call_shell(which_python) or "python3"
-if python_path and python_path ~= "" then
-	if vim.fn.executable(python_path) == 1 then
-		vim.g.python3_host_prog = python_path
+local function find_python()
+	local which_python
+	if vim.env.VIRTUAL_ENV and vim.env.MISE_SHELL then
+		which_python = "which -a python3 | head -n3 | tail -n1"
+	elseif vim.env.VIRTUAL_ENV then
+		which_python = "which -a python3 | tail -n2 | head -n1"
+	elseif vim.env.MISE_SHELL then
+		which_python = "which -a python3 | head -n1"
 	else
-		vim.g.python3_host_prog = "python3"
-		vim.notify("Warning: Python3 not found at " .. python_path .. ", using default", vim.log.levels.WARN)
+		which_python = "which python3"
 	end
-else
-	vim.g.python3_host_prog = "python3"
-	vim.notify("Warning: Could not determine Python3 path, using default", vim.log.levels.WARN)
+
+	local result = vim.fn.system(which_python)
+	local python_path = vim.trim(result)
+	if vim.v.shell_error == 0 and python_path ~= "" and vim.fn.executable(python_path) == 1 then
+		return python_path
+	end
+	return "python3"
 end
+
+vim.g.python3_host_prog = find_python()
 
 vim.o.mouse = "a" -------- Enable mouse usage (all modes)
 vim.o.matchtime = 1 ------ for 1/10th of a second
@@ -49,8 +29,11 @@ vim.o.ignorecase = true -- Do case insensitive matching
 vim.o.smartcase = true --- Do smart case matching
 vim.o.hidden = true ------ Hide buffers when they are abandoned
 vim.wo.number = true
+vim.opt.signcolumn = "yes"
+vim.opt.splitright = true
+vim.opt.splitbelow = true
 vim.o.modelines = 2
-vim.bo.modeline = true
+vim.opt.modeline = true
 
 -- Ignore compile/build files
 vim.o.wildignore = vim.o.wildignore
@@ -83,7 +66,7 @@ vim.o.swapfile = false -----╯
 vim.o.inccommand = "nosplit" -- Live substitution
 
 -- create undo file to keep history after closing the file
-vim.bo.undofile = true
+vim.opt.undofile = true
 local editor_root = vim.fn.expand("~/.config/nvim/")
 vim.opt.undodir = editor_root .. "undo/"
 
