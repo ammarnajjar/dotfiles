@@ -1,6 +1,6 @@
 # https://stackoverflow.com/a/42265848/3297680
 export GPG_TTY=$(tty)
-gpgconf --launch gpg-agent
+command -v gpgconf &>/dev/null && gpgconf --launch gpg-agent
 
 # man bash | grep -A1 '\-f file$'
 #        -f file
@@ -34,6 +34,7 @@ autoload -Uz compinit
 compinit
 
 # history options
+export SAVEHIST=9999999999
 setopt INTERACTIVE_COMMENTS      # Accept comments when used in shell interactively.
 setopt BANG_HIST                 # Treat the '!' character specially during expansion.
 setopt EXTENDED_HISTORY          # Write the history file in the ":start:elapsed;command" format.
@@ -67,10 +68,10 @@ import $HOME/.p10k.zsh
 import $HOME/.local_bashrc
 
 # install atuin => brew install atuin
-eval "$(atuin init zsh)"
+command -v atuin &>/dev/null && eval "$(atuin init zsh)"
 
 # install kubectl => brew install kubectl
-source <(kubectl completion zsh)
+command -v kubectl &>/dev/null && source <(kubectl completion zsh)
 
 
 # vim: set ft=sh ts=4 sw=4 et ai :

@@ -8,6 +8,8 @@ import () {
 }
 
 shopt -s histappend
+export HISTCONTROL=ignoreboth:erasedups
+export HISTFILESIZE=9999999999
 
 import $dotfiles_dir/shell/common.sh
 import $dotfiles_dir/shell/bash/bash-sensible/sensible.bash
@@ -34,12 +36,12 @@ function prompt_right() {
 
 function prompt_left() {
     VENV=""
-    if [ ! -z "$VIRTUAL_ENV" ]; then
+    if [ -n "$VIRTUAL_ENV" ]; then
         VENV="(${LIGHT_PURPLE}`basename \"$VIRTUAL_ENV\"`${NORMAL}) "
     fi
     GIT_BRANCH=""
     BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
-    if [ ! -z "$BRANCH" ]; then  GIT_BRANCH=" [${LIGHT_GREEN}${BRANCH}${NORMAL}]"; fi
+    if [ -n "$BRANCH" ]; then  GIT_BRANCH=" [${LIGHT_GREEN}${BRANCH}${NORMAL}]"; fi
     echo -e "${VENV}${YELLOW}\w${NORMAL}${GIT_BRANCH}"
 }
 
