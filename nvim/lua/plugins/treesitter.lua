@@ -1,37 +1,22 @@
--- Treesitter configuration
-require("nvim-treesitter.configs").setup({
-	ensure_installed = {
-		"lua",
-		"vim",
-		"vimdoc",
-		"python",
-		"javascript",
-		"typescript",
-		"rust",
-		"go",
-		"html",
-		"css",
-		"json",
-		"yaml",
-		"markdown",
-		"bash",
-	},
-	highlight = {
-		enable = true,
-		additional_vim_regex_highlighting = false,
-	},
-	indent = {
-		enable = true,
-	},
-	incremental_selection = {
-		enable = true,
-		keymaps = {
-			init_selection = "<CR>",
-			node_incremental = "<CR>",
-			node_decremental = "<BS>",
-			scope_incremental = false,
-		},
-	},
+-- Treesitter configuration for nvim-treesitter (new API, Neovim 0.12+)
+-- highlight and indent are now Neovim builtins, enabled by default
+
+require("nvim-treesitter").setup()
+require("nvim-treesitter").install({
+  "lua",
+  "vim",
+  "vimdoc",
+  "python",
+  "javascript",
+  "typescript",
+  "rust",
+  "go",
+  "html",
+  "css",
+  "json",
+  "yaml",
+  "markdown",
+  "bash",
 })
 
 -- vim: ft=lua ts=2 sw=2 et ai
