@@ -6,9 +6,18 @@ set -euo pipefail
 # Description: Bootstrap a fresh machine with dotfiles
 
 readonly DOTFILES_REPO="https://github.com/ammarnajjar/dotfiles.git"
+STEPS_DONE=()
 
 function echo_blue() {
     echo -e '\E[37;44m'"\033[1m$1\033[0m"
+}
+
+function echo_warn() {
+    echo -e '\033[0;33m'"$1"'\033[0m'
+}
+
+function step_done() {
+    STEPS_DONE+=("$1")
 }
 
 function backup() {
@@ -35,11 +44,12 @@ function detect_os() {
 }
 
 function install_homebrew() {
-    if ! command -v brew &>/dev/null; then
-        echo_blue "** Installing Homebrew"
-        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-        eval "$(/opt/homebrew/bin/brew shellenv 2>/dev/null || /usr/local/bin/brew shellenv 2>/dev/null)"
+    if command -v brew &>/dev/null; then
+        return
     fi
+    echo_blue "** Installing Homebrew"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    eval "$(/opt/homebrew/bin/brew shellenv 2>/dev/null || /usr/local/bin/brew shellenv 2>/dev/null)"
 }
 
 function install_pkgs() {
@@ -47,36 +57,49 @@ function install_pkgs() {
     os=$(detect_os)
     echo_blue "** Installing packages (OS: $os)"
 
-    local common_pkgs=(git curl tmux neovim)
-
     case "$os" in
         macos)
             install_homebrew
-            brew install "${common_pkgs[@]}" ninja tree-sitter-cli
+            # brew doesn't fail on already-installed packages with this pattern
+            local pkgs=(git curl tmux neovim ninja tree-sitter-cli wget atuin)
+            brew install "${pkgs[@]}" 2>/dev/null || true
             ;;
         fedora)
-            local sudo="${SUDO:-}"
-            $sudo dnf install -y "${common_pkgs[@]}" findutils g++ ninja-build libstdc++-static
+            $SUDO dnf install -y git curl tmux neovim findutils g++ ninja-build libstdc++-static wget
             ;;
         debian|ubuntu)
-            local sudo="${SUDO:-}"
-            $sudo apt update && $sudo apt install -y "${common_pkgs[@]}" findutils g++ ninja-build
+            $SUDO apt update
+            $SUDO apt install -y git curl tmux neovim findutils g++ ninja-build wget
             ;;
         *)
             echo "OS ($os) is not supported"
             exit 1
             ;;
     esac
+    step_done "packages"
 }
 
 function install_mise() {
-    if command -v mise &>/dev/null; then
-        echo_blue "** mise already installed"
-        return
+    if ! command -v mise &>/dev/null; then
+        echo_blue "** Installing mise"
+        curl -fsSL https://mise.run | sh
+        export PATH="$HOME/.local/bin:$PATH"
     fi
-    echo_blue "** Installing mise"
-    curl https://mise.run | sh
-    eval "$(~/.local/bin/mise activate bash)"
+    eval "$(mise activate bash)"
+    step_done "mise"
+}
+
+function install_mise_runtimes() {
+    echo_blue "** Installing mise runtimes (python, node, rust, ruby)"
+
+    mise use --global python@latest
+    mise use --global node@lts
+    mise use --global rust@latest
+    mise use --global ruby@latest
+
+    # wait for shims to be available
+    eval "$(mise activate bash)"
+    step_done "runtimes"
 }
 
 function prepare_dotfiles_dir() {
@@ -85,12 +108,12 @@ function prepare_dotfiles_dir() {
     if [ -d "$current_dir/.git" ] && git -C "$current_dir" remote -v 2>/dev/null | grep -q "ammarnajjar/dotfiles"; then
         dotfiles_dir="$current_dir"
         echo_blue "** Already inside dotfiles repo, skipping clone"
-        return
+    else
+        dotfiles_dir="$current_dir/dotfiles"
+        backup "$dotfiles_dir"
+        git clone --depth=1 "$DOTFILES_REPO" "$dotfiles_dir"
     fi
-
-    dotfiles_dir="$current_dir/dotfiles"
-    backup "$dotfiles_dir"
-    git clone --depth=1 "$DOTFILES_REPO" "$dotfiles_dir"
+    step_done "dotfiles"
 }
 
 function setup_xdg() {
@@ -100,26 +123,30 @@ function setup_xdg() {
 function setup_nvim() {
     echo_blue "** Neovim config"
     ln -sfn "$dotfiles_dir/nvim" "$XDG_CONFIG_HOME/nvim"
+    step_done "nvim"
 }
 
 function setup_tmux() {
     echo_blue "** Tmux config"
     [ -L "$HOME/.tmux.conf" ] && rm "$HOME/.tmux.conf"
     ln -sfn "$dotfiles_dir/tmux" "$XDG_CONFIG_HOME/tmux"
+    step_done "tmux"
 }
 
 function setup_git() {
     echo_blue "** Git config"
     backup "$XDG_CONFIG_HOME/git"
-    wget -q https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash \
-        -O "$dotfiles_dir/git/git-completion.bash" || echo_blue "Warning: failed to download git-completion.bash"
+    curl -fsSL https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash \
+        -o "$dotfiles_dir/git/git-completion.bash" || echo_warn "Warning: failed to download git-completion.bash"
     ln -sfn "$dotfiles_dir/git" "$XDG_CONFIG_HOME/git"
+    step_done "git"
 }
 
 function setup_bat() {
     echo_blue "** Bat config"
     mkdir -p "$XDG_CONFIG_HOME/bat"
     ln -sf "$dotfiles_dir/bat/config" "$XDG_CONFIG_HOME/bat/config"
+    step_done "bat"
 }
 
 function setup_mise_defaults() {
@@ -128,11 +155,13 @@ function setup_mise_defaults() {
     ln -sf "$dotfiles_dir/mise/default-gems" "$HOME/.default-gems"
     ln -sf "$dotfiles_dir/mise/default-python-packages" "$HOME/.default-python-packages"
     ln -sf "$dotfiles_dir/mise/default-node-packages" "$HOME/.default-node-packages"
+    step_done "mise-defaults"
 }
 
 function setup_terminfo() {
     echo_blue "** Compiling terminfo"
     tic -o "$HOME/.terminfo" "$dotfiles_dir/shell/terminfo"
+    step_done "terminfo"
 }
 
 function setup_shell() {
@@ -165,18 +194,35 @@ EOF
                 git clone --depth=1 -b 'ignored-in-history' https://github.com/ammarnajjar/bash-sensible.git "$dotfiles_dir/shell/bash/bash-sensible"
             ;;
         *)
-            echo_blue "Warning: unsupported shell ($user_shell), skipping shell setup"
+            echo_warn "Warning: unsupported shell ($user_shell), skipping shell setup"
+            cd "$current_dir" || return
             return
             ;;
     esac
 
     cd "$current_dir" || return
+    step_done "shell ($user_shell)"
+}
+
+function print_summary() {
+    echo ""
+    echo_blue "=============================="
+    echo_blue "  Installation Complete"
+    echo_blue "=============================="
+    echo ""
+    for step in "${STEPS_DONE[@]}"; do
+        echo -e "  \033[0;32m✓\033[0m $step"
+    done
+    echo ""
+    echo_blue "Post-install (manual):"
+    echo "  1. Import GPG key: gpg --import <key-file>"
+    echo "  2. Open nvim to trigger parser installs: nvim"
+    echo "  3. Restart shell: exec $SHELL"
+    echo ""
 }
 
 function main() {
-    local uid
-    uid="$(id -u)"
-    if [[ $uid -ne 0 ]]; then
+    if [[ "$(id -u)" -ne 0 ]]; then
         SUDO="sudo"
     else
         SUDO=""
@@ -187,16 +233,16 @@ function main() {
     prepare_dotfiles_dir
 
     setup_xdg
+    setup_mise_defaults
+    install_mise_runtimes
     setup_nvim
     setup_tmux
     setup_git
     setup_bat
-    setup_mise_defaults
     setup_terminfo
     setup_shell
 
-    echo_blue "** Installation Complete **"
-    echo_blue "** Restart your shell or run: exec $SHELL"
+    print_summary
 }
 
 current_dir=$(pwd)
