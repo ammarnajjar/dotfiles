@@ -6,8 +6,8 @@ alias g="git status"
 
 # Tell grep to highlight matches
 alias grep="grep --color=auto"
-alias fgrep="fgrep --color=auto"
-alias egrep="egrep --color=auto"
+alias fgrep="grep -F --color=auto"
+alias egrep="grep -E --color=auto"
 
 # typo
 alias gti=git
@@ -67,34 +67,33 @@ function mkcd() {
 }
 
 # fetch and reset hard the current branch
-function gr()
-{
+function gr() {
     git fetch --prune
-    git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)
+    git reset --hard "origin/$(git rev-parse --abbrev-ref HEAD)"
 }
 
 # update main and merge current branch to it locally
-function gmm()
-{
- branch="$(git rev-parse --abbrev-ref HEAD)"
- git fetch --prune
- git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)
- git checkout main
- git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)
- git checkout $branch
- git merge -S main
+function gmm() {
+    local branch
+    branch="$(git rev-parse --abbrev-ref HEAD)"
+    git fetch --prune
+    git reset --hard "origin/$branch"
+    git checkout main
+    git reset --hard "origin/main"
+    git checkout "$branch"
+    git merge -S main
 }
 
 # update develop and merge current branch to it locally
-function gmd()
-{
- branch="$(git rev-parse --abbrev-ref HEAD)"
- git fetch --prune
- git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)
- git checkout develop
- git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)
- git checkout $branch
- git merge -S develop
+function gmd() {
+    local branch
+    branch="$(git rev-parse --abbrev-ref HEAD)"
+    git fetch --prune
+    git reset --hard "origin/$branch"
+    git checkout develop
+    git reset --hard "origin/develop"
+    git checkout "$branch"
+    git merge -S develop
 }
 
 # display all ip addresses for this host

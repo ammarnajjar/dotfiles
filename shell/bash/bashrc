@@ -53,8 +53,8 @@ PROMPT_COMMAND=prompt_command
 # After each command, append to the history file and reread it
 PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
 
-# mise
-eval "$(mise activate bash)"
+# mise (shims mode: zero startup cost)
+eval "$(mise activate bash --shims)"
 
 import $HOME/.local_bashrc
 
