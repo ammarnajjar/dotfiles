@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Bootstrap: curl -fsSL https://raw.githubusercontent.com/ammarnajjar/dotfiles/main/install.sh | bash
+# Bootstrap from anywhere (fresh machine, no git needed):
+#   bash <(curl -fsSL https://raw.githubusercontent.com/ammarnajjar/dotfiles/main/install.sh)
 
 readonly DOTFILES_REPO="https://github.com/ammarnajjar/dotfiles.git"
 STEPS_DONE=()
 SKIPPED=()
 OS=""
+SUDO=""
 
 function echo_blue() {
     echo -e '\E[37;44m'"\033[1m$1\033[0m"
@@ -47,11 +49,24 @@ function detect_os() {
     fi
 }
 
-function is_linux() {
-    [[ "$OS" != "macos" ]]
-}
+# --- Prerequisites ---
 
-# --- Package installation ---
+function ensure_xcode_clt() {
+    if [[ "$OS" != "macos" ]]; then
+        return
+    fi
+    if xcode-select -p &>/dev/null; then
+        return
+    fi
+    echo_blue "** Installing Xcode Command Line Tools"
+    xcode-select --install 2>/dev/null || true
+    # wait for installation to complete
+    echo "   Waiting for Xcode CLT installation..."
+    until xcode-select -p &>/dev/null; do
+        sleep 5
+    done
+    step_done "xcode-clt"
+}
 
 function install_homebrew() {
     if command -v brew &>/dev/null; then
@@ -62,18 +77,21 @@ function install_homebrew() {
     eval "$(/opt/homebrew/bin/brew shellenv 2>/dev/null || /usr/local/bin/brew shellenv 2>/dev/null)"
 }
 
+# --- Package installation ---
+
 function install_pkgs() {
     OS=$(detect_os)
     echo_blue "** Installing packages (OS: $OS)"
 
     case "$OS" in
         macos)
+            ensure_xcode_clt
             install_homebrew
-            brew install git curl tmux neovim fzf gnupg tree \
+            brew install git curl tmux fzf gnupg tree \
                 ninja tree-sitter-cli wget atuin kubectl 2>/dev/null || true
             ;;
         fedora)
-            $SUDO dnf install -y git curl tmux neovim fzf gnupg2 tree \
+            $SUDO dnf install -y git curl tmux fzf gnupg2 tree \
                 findutils g++ ninja-build libstdc++-static wget xclip
             command -v atuin &>/dev/null || {
                 curl -fsSL https://setup.atuin.sh | bash
@@ -81,7 +99,7 @@ function install_pkgs() {
             ;;
         debian|ubuntu)
             $SUDO apt update
-            $SUDO apt install -y git curl tmux neovim fzf gnupg tree \
+            $SUDO apt install -y git curl tmux fzf gnupg tree \
                 findutils g++ ninja-build wget xclip
             command -v atuin &>/dev/null || {
                 curl -fsSL https://setup.atuin.sh | bash
@@ -132,20 +150,52 @@ function install_mise_runtimes() {
     step_done "runtimes"
 }
 
+# --- Neovim (install modern version on Linux via mise) ---
+
+function install_neovim() {
+    if [[ "$OS" == "macos" ]]; then
+        brew install neovim 2>/dev/null || true
+    else
+        # distro neovim is often too old (0.7); use mise for 0.12+
+        echo_blue "** Installing Neovim via mise (latest)"
+        mise use --global neovim@latest || {
+            echo_warn "mise neovim failed, falling back to distro package"
+            case "$OS" in
+                fedora) $SUDO dnf install -y neovim ;;
+                debian|ubuntu) $SUDO apt install -y neovim ;;
+            esac
+        }
+    fi
+    eval "$(mise activate bash)"
+    step_done "neovim ($(nvim --version 2>/dev/null | head -1 || echo 'unknown'))"
+}
+
 # --- Dotfiles repo ---
 
 function prepare_dotfiles_dir() {
     echo_blue "** Preparing dotfiles dir"
 
+    # Already inside the dotfiles repo (cloned manually or re-running)
     if [ -d "$current_dir/.git" ] && git -C "$current_dir" remote -v 2>/dev/null | grep -q "ammarnajjar/dotfiles"; then
         dotfiles_dir="$current_dir"
         echo_blue "** Already inside dotfiles repo, skipping clone"
-    else
-        dotfiles_dir="$current_dir/dotfiles"
-        backup "$dotfiles_dir"
-        git clone --depth=1 "$DOTFILES_REPO" "$dotfiles_dir"
+        step_done "dotfiles (existing)"
+        return
     fi
-    step_done "dotfiles"
+
+    # Check if dotfiles already cloned as subdirectory
+    if [ -d "$current_dir/dotfiles/.git" ] && git -C "$current_dir/dotfiles" remote -v 2>/dev/null | grep -q "ammarnajjar/dotfiles"; then
+        dotfiles_dir="$current_dir/dotfiles"
+        echo_blue "** Dotfiles repo found at $dotfiles_dir, skipping clone"
+        step_done "dotfiles (existing)"
+        return
+    fi
+
+    # Fresh clone
+    dotfiles_dir="$HOME/dotfiles"
+    backup "$dotfiles_dir"
+    git clone --depth=1 "$DOTFILES_REPO" "$dotfiles_dir"
+    step_done "dotfiles (cloned to $dotfiles_dir)"
 }
 
 # --- Config symlinks ---
@@ -157,7 +207,7 @@ function setup_xdg() {
 function setup_nvim() {
     echo_blue "** Neovim config"
     ln -sfn "$dotfiles_dir/nvim" "$XDG_CONFIG_HOME/nvim"
-    step_done "nvim"
+    step_done "nvim config"
 }
 
 function setup_tmux() {
@@ -195,7 +245,6 @@ function setup_fzf() {
         user_shell="$(basename "$SHELL")"
         case "$user_shell" in
             bash)
-                # generate fzf bash integration if missing
                 [ -f "$HOME/.fzf.bash" ] || fzf --bash > "$HOME/.fzf.bash" 2>/dev/null || true
                 ;;
         esac
@@ -284,6 +333,7 @@ function main() {
 
     install_pkgs
     install_mise
+    install_neovim
     prepare_dotfiles_dir
 
     setup_xdg
