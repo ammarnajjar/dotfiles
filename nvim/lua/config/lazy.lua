@@ -25,7 +25,7 @@ require("lazy").setup({
 				vim.cmd("colorscheme " .. "nvcode")
 			end,
 		},
-		{ "f-person/git-blame.nvim" },
+		{ "f-person/git-blame.nvim", event = { "BufReadPre", "BufNewFile" } },
 
 		-- LSP Configuration
 		{
@@ -59,6 +59,7 @@ require("lazy").setup({
 		-- Treesitter
 		{
 			"nvim-treesitter/nvim-treesitter",
+			event = { "BufReadPre", "BufNewFile" },
 			build = ":TSUpdate",
 			config = function()
 				require("plugins.treesitter")
@@ -106,6 +107,7 @@ require("lazy").setup({
 		-- Status line
 		{
 			"nvim-lualine/lualine.nvim",
+			event = "VeryLazy",
 			dependencies = { "nvim-tree/nvim-web-devicons" },
 			config = function()
 				require("plugins.lualine")

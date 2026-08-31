@@ -23,6 +23,15 @@ require("nvim-treesitter.configs").setup({
 	indent = {
 		enable = true,
 	},
+	incremental_selection = {
+		enable = true,
+		keymaps = {
+			init_selection = "<CR>",
+			node_incremental = "<CR>",
+			node_decremental = "<BS>",
+			scope_incremental = false,
+		},
+	},
 })
 
 -- vim: ft=lua ts=2 sw=2 et ai

@@ -1,12 +1,3 @@
--- Autocmds are automatically loaded on the VeryLazy event
--- Default autocmds that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/autocmds.lua
---
--- Add any additional autocmds here
--- with `vim.api.nvim_create_autocmd`
---
--- Or remove existing autocmds by their group name (which is prefixed with `lazyvim_` for the defaults)
--- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
-
 -- => autocmd configs ---------------------- {{{
 local function indentUsing(indent)
 	vim.bo.shiftwidth = indent
@@ -20,7 +11,7 @@ local function pythonSetup()
 	vim.bo.cinwords = "if,elif,else,for,while,try,except,finally,def,class,with"
 end
 
-function FileTypeSetup()
+local function FileTypeSetup()
 	-- Wrap in pcall for safety
 	local success, err = pcall(function()
 		vim.bo.expandtab = true -------╮
@@ -66,7 +57,7 @@ vim.schedule(function()
 			vim.api.nvim_set_hl(0, "ColorColumn", { ctermbg = "black", bg = "black" })
 		end,
 	})
-	vim.api.nvim_create_autocmd({ "BufEnter", "BufNewFile" }, { callback = FileTypeSetup })
+	vim.api.nvim_create_autocmd("FileType", { callback = FileTypeSetup })
 end)
 
 -- highlight yanked text
@@ -81,15 +72,13 @@ end)
 -- delete trailing white spaces except for markdown
 vim.schedule(function()
 	vim.api.nvim_create_autocmd("BufWritePre", {
-		callback = function(ev)
+		callback = function()
 			if vim.bo.filetype == "markdown" then
 				return
 			end
-			local save_cursor = vim.fn.getpos(".")
-			-- Build pattern dynamically to avoid crash
-			local pattern = "%s/" .. "\\s\\+" .. "$//ge"
-			vim.cmd(pattern)
-			vim.fn.setpos(".", save_cursor)
+			local view = vim.fn.winsaveview()
+			vim.cmd([[keeppatterns %s/\s\+$//ge]])
+			vim.fn.winrestview(view)
 		end,
 	})
 end)
