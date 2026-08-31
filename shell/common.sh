@@ -68,7 +68,7 @@ function mkcd() {
 
 # fetch and reset hard the current branch
 function gr() {
-    git fetch --prune
+    git fetch
     git reset --hard "origin/$(git rev-parse --abbrev-ref HEAD)"
 }
 
@@ -76,7 +76,7 @@ function gr() {
 function gmm() {
     local branch
     branch="$(git rev-parse --abbrev-ref HEAD)"
-    git fetch --prune
+    git fetch
     git reset --hard "origin/$branch"
     git checkout main
     git reset --hard "origin/main"
@@ -88,7 +88,7 @@ function gmm() {
 function gmd() {
     local branch
     branch="$(git rev-parse --abbrev-ref HEAD)"
-    git fetch --prune
+    git fetch
     git reset --hard "origin/$branch"
     git checkout develop
     git reset --hard "origin/develop"
